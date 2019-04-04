@@ -1,0 +1,25 @@
+<ul>
+  <li>name: {{name}}</li>
+  <li>age: {{age}}</li>
+</ul>
+
+{{#validation-form
+  onSubmit=(action "submitForm")
+  schema=schema
+  values=(hash name=name age=age)
+  as |form|
+}}
+  <div class="">
+    <input type="text" placeholder="name" oninput={{action (mut name) value="target.value"}} value={{name}}>
+    {{#if form.errors.name}}
+      {{form.errors.name}}
+    {{/if}}
+  </div>
+  <div class="">
+    <input type="text" placeholder="age" oninput={{action (mut age) value="target.value"}} value={{age}}>
+    {{#if form.errors.age}}
+      {{form.errors.age}}
+    {{/if}}
+  </div>
+  <button type="submit" name="button">validate</button>
+{{/validation-form}}
