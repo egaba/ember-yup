@@ -74,14 +74,13 @@ export default Component.extend({
   didBlur: false,
   errorMessage: '',
 
-  validate: Ember.observer('value', 'didBlur', function(forceValidation) {
-    console.log(this.get('didBlur'), forceValidation);
-    if (this.get('didBlur') || forceValidation === true) {
+  validate: Ember.observer('value', 'didBlur', function() {
+    if (this.get('didBlur')) {
       const validate = this.get('schema').validate(this.get('value')).then((value) => {
         if (this.onInput) {
           this.onInput(value);
         }
-        if (this.get('name') && forceValidation) {
+        if (this.get('name')) {
           return {
             [this.get('name')]: value
           }

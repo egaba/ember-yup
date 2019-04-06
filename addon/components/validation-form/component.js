@@ -19,7 +19,8 @@ export default Component.extend({
     const fieldValidations = [];
     for (const elementId in fieldMap) {
       const field = fieldMap[elementId];
-      fieldValidations.push(field.validate(true));
+      field.set('didBlur', true);
+      fieldValidations.push(field.validate());
     }
 
     RSVP.allSettled(fieldValidations).then((values) => {
