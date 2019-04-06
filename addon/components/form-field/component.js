@@ -68,7 +68,7 @@ export default Component.extend({
   }),
 
   actions: {
-    onBlur() {
+    enableValidation() {
       if (!this.get('validationEnabled')) {
         this.set('validationEnabled', true);
         this.validate();
