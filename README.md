@@ -1,6 +1,8 @@
 ember-yup
 ==============================================================================
 
+Play with validation demos on the (Github Page)[https://egaba88.github.io/ember-yup/].
+
 This is an Ember port of the [Yup validation library](https://github.com/jquense/yup).
 
 Installation

@@ -5,9 +5,10 @@
   "keywords": [
     "ember-addon"
   ],
+  "homepage": "https://egaba88.github.io/ember-yup/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/egaba88/ember-yup.git"
+    "url": "https://github.com/egaba88/ember-yup.git"
   },
   "license": "MIT",
   "author": "Edward Gaba <egaba88@gmail.com>",
@@ -59,6 +60,7 @@
     "node": "6.* || 8.* || >= 10.*"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "configPath": "tests/dummy/config",
+    "demoURL": "https://egaba88.github.io/ember-yup/"
   }
 }
