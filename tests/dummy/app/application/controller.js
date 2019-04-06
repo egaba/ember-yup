@@ -4,10 +4,10 @@ export default Controller.extend({
   validationFormMessage: '',
   actions: {
     submitValidationForm() {
-      this.set('validationFormMessage', 'success!');
+      console.log('submission success');
     },
-    rejectValidationForm() {
-      this.set('validationFormMessage', `correct the error(s) and re-submit`);
+    rejectValidationForm(errors) {
+      console.log('submission error');
     }
   }
 });

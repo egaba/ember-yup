@@ -8,6 +8,7 @@ export default Component.extend({
   layout,
   tagName: 'form',
   fieldMap: {},
+  errors: [],
 
   onSubmit(formData) { /* override */ },
   onReject(errors) { /* override */ },
@@ -31,9 +32,12 @@ export default Component.extend({
     RSVP.allSettled(fieldValidations).then((values) => {
       const results = Ember.A(values);
       if (results.isAny('state', 'rejected')) {
-        this.onReject(values.mapBy('reason'));
+        const errors = Ember.A(values.mapBy('reason')).compact();
+        this.set('errors', errors);
+        this.onReject(errors);
       } else {
         const formData = values.reduce(mergeFieldData);
+        this.set('errors', []);
         this.onSubmit(formData);
       }
     });
