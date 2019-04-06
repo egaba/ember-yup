@@ -8,7 +8,7 @@ export default Component.extend({
   layout,
   tagName: 'form',
   fieldMap: {},
-  errors: [],
+  errors: Ember.A([]),
 
   onSubmit(formData) { /* override */ },
   onReject(errors) { /* override */ },
@@ -37,7 +37,7 @@ export default Component.extend({
         this.onReject(errors);
       } else {
         const formData = values.reduce(mergeFieldData);
-        this.set('errors', []);
+        this.set('errors', Ember.A([]));
         this.onSubmit(formData);
       }
     });
