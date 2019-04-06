@@ -1,6 +1,6 @@
 {{yield
   (hash
-    onBlur=(action (mut validationEnabled) true)
+    onBlur=(action "onBlur")
     errorMessage=errorMessage
     hasError=(if errorMessage true false)
     value=value

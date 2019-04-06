@@ -55,4 +55,13 @@ export default Component.extend({
       delete form.fieldMap[name];
     }
   }),
+
+  actions: {
+    onBlur() {
+      if (!this.get('validationEnabled')) {
+        this.set('validationEnabled', true);
+        this.validate();
+      }
+    }
+  }
 });
