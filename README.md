@@ -12,14 +12,61 @@ Installation
 ember install ember-yup
 ```
 
-Usage
+Form Validation
 ------------------------------------------------------------------------------
+The `validation-form` component is used in conjunction with field components
+to create a validated form.
 
-Then you're ready to import yup from any file.
+All fields must be valid before `onSubmit` is called. When using validation
+fields with this `validation-form` component, a `name` and `form` must be
+provided on the fields so that their values are correctly defined.
 
-```js
-import * as yup from 'yup';
+In this example, the first field will yield `{ name: <nameValue> }`.
+The second value will yield `{ age: <ageValue> }`. If a valid submission occurs,
+`onSubmit` will be called with a merged form data object:
 ```
+{
+  name: <nameValue>,
+  age: <ageValue>
+}
+```
+
+```hbs
+{{#validation-form
+  onSubmit=(action "submitValidationForm")
+  onReject=(action "rejectValidationForm")
+  as |form|
+}}
+  {{#if form.errors.length}}
+    <ul>
+      {{#each form.errors as |error|}}
+        <li>{{error.message}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  {{#text-field name="name" form=form required=true value=validationFormName as |field|}}
+    <input type="text"
+      placeholder="name"
+      oninput={{action (mut validationFormName) value="target.value"}}
+      onblur={{action field.onBlur}}
+      value={{validationFormName}}
+    > * required
+  {{/text-field}}
+  {{#number-field name="age" form=form integer=true positive=true required=true value=validationFormAge as |field|}}
+    <input
+      type="text"
+      placeholder="age"
+      oninput={{action (mut validationFormAge) value="target.value"}}
+      onblur={{action field.onBlur}}
+      value={{validationFormAge}}
+    > * required
+  {{/number-field}}
+  <button type="submit">validate</button>
+{{/validation-form}}
+```
+
+I highly recommend building your own components to fully utilize the `yup` validation library.
+There are many, MANY more components that could be built from `yup`.
 
 Text Validation
 ------------------------------------------------------------------------------
@@ -169,61 +216,14 @@ Cast the value so it's set as an integer.
 {{/number-field}}
 ```
 
-Form Validation
+Custom usage
 ------------------------------------------------------------------------------
-The `validation-form` component can be used in conjunction with the other
-field components to create a validated form.
 
-All fields must be valid before `onSubmit` is called. When using validation
-fields with this `validation-form` component, a `name` and `form` must be
-provided on the fields so that their values are correctly defined.
+Import the library into your file and use however you'd like.
 
-In this example, the first field will yield `{ name: <nameValue> }`.
-The second value will yield `{ age: <ageValue> }`. If a valid submission occurs,
-`onSubmit` will be called with a merged form data object:
+```js
+import * as yup from 'yup';
 ```
-{
-  name: <nameValue>,
-  age: <ageValue>
-}
-```
-
-```hbs
-{{#validation-form
-  onSubmit=(action "submitValidationForm")
-  onReject=(action "rejectValidationForm")
-  as |form|
-}}
-  {{#if form.errors.length}}
-    <ul>
-      {{#each form.errors as |error|}}
-        <li>{{error.message}}</li>
-      {{/each}}
-    </ul>
-  {{/if}}
-  {{#text-field name="name" form=form required=true value=validationFormName as |field|}}
-    <input type="text"
-      placeholder="name"
-      oninput={{action (mut validationFormName) value="target.value"}}
-      onblur={{action field.onBlur}}
-      value={{validationFormName}}
-    > * required
-  {{/text-field}}
-  {{#number-field name="age" form=form integer=true positive=true required=true value=validationFormAge as |field|}}
-    <input
-      type="text"
-      placeholder="age"
-      oninput={{action (mut validationFormAge) value="target.value"}}
-      onblur={{action field.onBlur}}
-      value={{validationFormAge}}
-    > * required
-  {{/number-field}}
-  <button type="submit">validate</button>
-{{/validation-form}}
-```
-
-I highly recommend building your own components to fully utilize the `yup` validation library.
-There are many, MANY more components that could be built from `yup`.
 
 Contributing
 ------------------------------------------------------------------------------

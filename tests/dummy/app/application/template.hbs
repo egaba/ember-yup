@@ -1,3 +1,38 @@
+<p>The `validation-form` component is used in conjunction with field components to create a validated form.</p>
+{{#validation-form
+  onSubmit=(action "submitValidationForm")
+  onReject=(action "rejectValidationForm")
+  as |form|
+}}
+  {{#if form.errors.length}}
+    <ul>
+      {{#each form.errors as |error|}}
+        <li>{{error.message}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  {{#text-field name="name" form=form required=true value=validationFormName as |field|}}
+    <input type="text"
+      placeholder="name"
+      oninput={{action (mut validationFormName) value="target.value"}}
+      onblur={{action field.onBlur}}
+      value={{validationFormName}}
+    > * required
+  {{/text-field}}
+  {{#number-field name="age" form=form integer=true positive=true required=true value=validationFormAge as |field|}}
+    <input
+      type="text"
+      placeholder="age"
+      oninput={{action (mut validationFormAge) value="target.value"}}
+      onblur={{action field.onBlur}}
+      value={{validationFormAge}}
+    > * required
+  {{/number-field}}
+  <button type="submit">validate</button>
+{{/validation-form}}
+
+<hr>
+
 <p>Validate a required username:</p>
 {{#text-field
   required=true
@@ -113,38 +148,3 @@
     <p>{{field.errorMessage}}</p>
   {{/if}}
 {{/number-field}}
-
-<hr>
-
-<p>The `validation-form` component can be used in conjunction with the other field components to create a validated form.</p>
-{{#validation-form
-  onSubmit=(action "submitValidationForm")
-  onReject=(action "rejectValidationForm")
-  as |form|
-}}
-  {{#if form.errors.length}}
-    <ul>
-      {{#each form.errors as |error|}}
-        <li>{{error.message}}</li>
-      {{/each}}
-    </ul>
-  {{/if}}
-  {{#text-field name="name" form=form required=true value=validationFormName as |field|}}
-    <input type="text"
-      placeholder="name"
-      oninput={{action (mut validationFormName) value="target.value"}}
-      onblur={{action field.onBlur}}
-      value={{validationFormName}}
-    > * required
-  {{/text-field}}
-  {{#number-field name="age" form=form integer=true positive=true required=true value=validationFormAge as |field|}}
-    <input
-      type="text"
-      placeholder="age"
-      oninput={{action (mut validationFormAge) value="target.value"}}
-      onblur={{action field.onBlur}}
-      value={{validationFormAge}}
-    > * required
-  {{/number-field}}
-  <button type="submit">validate</button>
-{{/validation-form}}
