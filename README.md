@@ -65,9 +65,6 @@ The second value will yield `{ age: <ageValue> }`. If a valid submission occurs,
 {{/validation-form}}
 ```
 
-I highly recommend building your own components to fully utilize the `yup` validation library.
-There are many, MANY more components that could be built from `yup`.
-
 Text Validation
 ------------------------------------------------------------------------------
 
@@ -218,6 +215,9 @@ Cast the value so it's set as an integer.
 
 Custom usage
 ------------------------------------------------------------------------------
+
+I highly recommend building your own components to fully utilize the `yup` validation library.
+There are many, MANY more components that could be built from `yup`.
 
 Import the library into your file and use however you'd like.
 
