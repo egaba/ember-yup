@@ -22,7 +22,8 @@
     "lint:js": "eslint .",
     "start": "ember serve",
     "test": "ember test",
-    "test:all": "ember try:each"
+    "test:all": "ember try:each",
+    "deploy": "ember build -prod && mv dist docs && git add . && git commit -am 'deploy gh page'"
   },
   "dependencies": {
     "ember-cli-babel": "^6.16.0",
