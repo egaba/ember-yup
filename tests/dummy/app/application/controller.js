@@ -1,26 +1,13 @@
 import Controller from '@ember/controller';
-import * as yup from 'yup';
 
 export default Controller.extend({
-  schema: Ember.computed(function() {
-    return yup.object().shape({
-      name: yup.string().required(),
-      age: yup
-        .number()
-        .required()
-        .positive()
-        .integer(),
-    });
-  }),
-  name: 'd',
-  age: 4,
+  validationFormMessage: '',
   actions: {
-    submitForm(values) {
-      console.log('success: submit form!', values);
+    submitValidationForm() {
+      this.set('validationFormMessage', 'success!');
     },
-
-    rejectForm(errors) {
-      console.log('error: form rejected', errors);
+    rejectValidationForm() {
+      this.set('validationFormMessage', `correct the error(s) and re-submit`);
     }
   }
 });

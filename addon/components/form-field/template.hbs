@@ -1,0 +1,8 @@
+{{yield
+  (hash
+    onBlur=(action (mut didBlur) true)
+    errorMessage=errorMessage
+    hasError=(if errorMessage true false)
+    value=value
+  )
+}}
