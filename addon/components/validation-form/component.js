@@ -22,11 +22,9 @@ export default Component.extend({
       const field = fieldMap[fieldName];
       const validation = field.get('validation');
       if (!validation) {
-        console.log('requesting validation', field.get('name'));
         field.set('validationEnabled', true);
         fieldValidations.push(field.get('validation'));
       } else {
-        console.log('reusing validation', field.get('name'));
         fieldValidations.push(validation);
       }
     }
