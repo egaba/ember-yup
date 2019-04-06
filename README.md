@@ -44,15 +44,15 @@ The second value will yield `{ age: <ageValue> }`. If a valid submission occurs,
       {{/each}}
     </ul>
   {{/if}}
-  {{#text-field name="name" form=form required=true value=validationFormName as |field|}}
+  {{#text-field requiredMessage="username is required" name="username" form=form required=true value=validationFormName as |field|}}
     <input type="text"
-      placeholder="name"
+      placeholder="username"
       oninput={{action (mut validationFormName) value="target.value"}}
       onblur={{action field.onBlur}}
       value={{validationFormName}}
     > * required
   {{/text-field}}
-  {{#number-field name="age" form=form integer=true positive=true required=true value=validationFormAge as |field|}}
+  {{#number-field requiredMessage="age is required" name="age" form=form integer=true positive=true required=true value=validationFormAge as |field|}}
     <input
       type="text"
       placeholder="age"
