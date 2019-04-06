@@ -1,99 +1,66 @@
 import Component from '@ember/component';
+import { on } from '@ember/object/evented';
 import layout from './template';
 import * as yup from 'yup';
 
+/**
+ * This component encompasses logic common to data fields.
+ */
 export default Component.extend({
   layout,
 
-  value: '',
-  enableValidation: false,
-  integer: false,
-  positive: false,
-  negative: false,
-  min: undefined,
-  max: undefined,
-  required: false,
-  requiredMessage: undefined,
-  numberMessage: undefined,
-  integerMessage: undefined,
-  positiveMessage: undefined,
-  negativeMessage: undefined,
-  minMessage: undefined,
-  maxMessage: undefined,
-  form: null,
+  schema: null,
+  value: null,
+  validationEnabled: false,
 
-  schema: Ember.computed(function() {
-    const messages = this.getProperties(
-      'requiredMessage', 'numberMessage', 'integerMessage', 'positiveMessage',
-      'negativeMessage', 'minMessage', 'maxMessage'
-    );
-    const {
-      requiredMessage, numberMessage, integerMessage, positiveMessage,
-      negativeMessage, minMessage, maxMessage
-    } = messages;
-
-    let schema = yup.number(numberMessage);
-
-    if (this.get('integer')) {
-      schema = schema.integer(integerMessage);
-    }
-
-    if (this.get('positive')) {
-      schema = schema.positive(positiveMessage);
-    } else if (this.get('negative')) {
-      schema = schema.negative(negativeMessage);
-    }
-
-    if (this.get('min')) {
-      schema = schema.min(this.get('min'), minMessage);
-    }
-
-    if (this.get('max')) {
-      schema = schema.max(this.get('max'), maxMessage);
-    }
-
-    if (this.get('required')) {
-      schema = schema.required(requiredMessage);
-    }
-
-    return schema;
-  }),
-
-  registerField: Ember.on('didInsertElement', function() {
-    if (this.get('form')) {
-      this.set(`form.fieldMap.${this.elementId}`, this);
-    }
-  }),
-
-  unregisterField: Ember.on('willDestroyElement', function() {
-    if (this.get('form')) {
-      this.set(`form.fieldMap.${this.elementId}`, undefined);
-    }
-  }),
-
-  // private
   errorMessage: '',
 
-  validate: Ember.observer('value', 'enableValidation', function() {
-    if (this.get('enableValidation')) {
+  isValid: false,
+  validation: null,
+  validate: Ember.observer('value', 'schema', function() {
+    if (this.get('validationEnabled')) {
       const validate = this.get('schema').validate(this.get('value')).then((value) => {
         if (this.onInput) {
           this.onInput(value);
         }
-        if (this.get('name')) {
-          return {
-            [this.get('name')]: value
-          }
-        } else {
-          return value;
-        }
+        return name ? { [name]: value } : value;
       });
-      validate.then(() => {
-        this.set('errorMessage', '');
-      }).catch((err) => {
-        this.set('errorMessage', err.message);
-      });
+
+      this.set('validation', validate);
+
+      validate
+        .then(() => {
+          this.set('isValid', true);
+          this.set('errorMessage', '')
+        })
+        .catch((err) => {
+          this.set('isValid', false);
+          this.set('errorMessage', err.message)
+        });
+
       return validate;
+    }
+  }),
+
+  // form setup
+  form: null,
+  name: null,
+
+  registerFieldToForm: on('didInsertElement', function() {
+    const form = this.get('form');
+    const name = this.get('name');
+    const isPartOfForm = Ember.isPresent(form) && Ember.isPresent(name);
+    if (isPartOfForm) {
+      form.fieldMap[name] = this;
+    }
+  }),
+
+  unregisterFieldFromForm: on('willDestroyElement', function() {
+    const form = this.get('form');
+    const name = this.get('name');
+    const isPartOfForm = Ember.isPresent(form) && Ember.isPresent(name);
+    if (isPartOfForm) {
+      delete form.fieldMap[name];
     }
   }),
 });

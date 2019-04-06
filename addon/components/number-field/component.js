@@ -1,22 +1,31 @@
 import Component from 'ember-yup/components/form-field/component';
 import * as yup from 'yup';
 
+/**
+ * This component is used for validating numbers.
+ */
 export default Component.extend({
-  integer: false,
-  positive: false,
-  negative: false,
-  min: undefined,
-  max: undefined,
+  numberMessage: undefined,
+
   required: false,
   requiredMessage: undefined,
-  numberMessage: undefined,
+
+  integer: false,
   integerMessage: undefined,
+
+  positive: false,
   positiveMessage: undefined,
+  negative: false,
   negativeMessage: undefined,
+
+  min: undefined,
   minMessage: undefined,
+  max: undefined,
   maxMessage: undefined,
 
-  schema: Ember.computed(function() {
+  schema: Ember.computed('required', 'integer', 'positive', 'negative', 'min', 'max',
+    'requiredMessage', 'numberMessage', 'integerMessage', 'positiveMessage',
+    'negativeMessage', 'minMessage', 'maxMessage', function() {
     const messages = this.getProperties(
       'requiredMessage', 'numberMessage', 'integerMessage', 'positiveMessage',
       'negativeMessage', 'minMessage', 'maxMessage'

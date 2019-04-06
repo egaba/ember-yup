@@ -8,9 +8,8 @@ export default Component.extend({
   urlMessage: undefined,
   requiredMessage: undefined,
   stringMessage: undefined,
-  form: null,
 
-  schema: Ember.computed(function() {
+  schema: Ember.computed('type', 'required', 'emailMessage', 'urlMessage', 'requiredMessage', 'stringMessage', function() {
     const messages = this.getProperties('emailMessage', 'urlMessage', 'requiredMessage', 'stringMessage');
     const { emailMessage, urlMessage, requiredMessage, stringMessage } = messages;
     const type = this.get('type');

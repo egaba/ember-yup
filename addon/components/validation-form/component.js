@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import layout from './template';
 import RSVP from 'rsvp';
 
-const mergeFieldData = (accumulator, currentValue) => Object.assign(accumulator, currentValue);
+const mergeFieldData = (accumulator = {}, currentValue) => Object.assign(accumulator, currentValue);
 
 export default Component.extend({
   layout,
@@ -17,10 +17,15 @@ export default Component.extend({
 
     const fieldMap = this.get('fieldMap');
     const fieldValidations = [];
-    for (const elementId in fieldMap) {
-      const field = fieldMap[elementId];
-      field.set('enableValidation', true);
-      fieldValidations.push(field.validate());
+    for (const fieldName in fieldMap) {
+      const field = fieldMap[fieldName];
+      const validation = field.get('validation');
+      if (!validation) {
+        field.set('validationEnabled', true);
+        fieldValidations.push(field.validate());
+      } else {
+        fieldValidations.push(validation);
+      }
     }
 
     RSVP.allSettled(fieldValidations).then((values) => {

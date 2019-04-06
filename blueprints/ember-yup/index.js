@@ -2,7 +2,11 @@
 module.exports = {
   normalizeEntityName() {},
 
-  afterInstall(options) {
+  afterInstall() {
     return this.addPackageToProject('yup');
+  },
+
+  beforeUninstall() {
+    return this.removePackageFromProject('yup');
   }
 };
