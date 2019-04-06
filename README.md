@@ -194,6 +194,13 @@ The second value will yield `{ age: <ageValue> }`. If a valid submission occurs,
   onReject=(action "rejectValidationForm")
   as |form|
 }}
+  {{#if form.errors.length}}
+    <ul>
+      {{#each form.errors as |error|}}
+        <li>{{error.message}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
   {{#text-field name="name" form=form required=true value=validationFormName as |field|}}
     <input type="text"
       placeholder="name"
@@ -201,9 +208,6 @@ The second value will yield `{ age: <ageValue> }`. If a valid submission occurs,
       onblur={{action field.onBlur}}
       value={{validationFormName}}
     > * required
-    {{#if field.hasError}}
-      <p>{{field.errorMessage}}</p>
-    {{/if}}
   {{/text-field}}
   {{#number-field name="age" form=form integer=true positive=true required=true value=validationFormAge as |field|}}
     <input
@@ -213,9 +217,6 @@ The second value will yield `{ age: <ageValue> }`. If a valid submission occurs,
       onblur={{action field.onBlur}}
       value={{validationFormAge}}
     > * required
-    {{#if field.hasError}}
-      <p>{{field.errorMessage}}</p>
-    {{/if}}
   {{/number-field}}
   <button type="submit">validate</button>
 {{/validation-form}}
