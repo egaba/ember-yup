@@ -24,7 +24,7 @@ provided on the fields so that their values are correctly defined.
 In this example, the first field will yield `{ name: <nameValue> }`.
 The second value will yield `{ age: <ageValue> }`. If a valid submission occurs,
 `onSubmit` will be called with a merged form data object:
-```
+```js
 {
   name: <nameValue>,
   age: <ageValue>
