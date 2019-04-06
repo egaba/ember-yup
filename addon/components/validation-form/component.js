@@ -19,7 +19,7 @@ export default Component.extend({
     const fieldValidations = [];
     for (const elementId in fieldMap) {
       const field = fieldMap[elementId];
-      field.set('didBlur', true);
+      field.set('enableValidation', true);
       fieldValidations.push(field.validate());
     }
 

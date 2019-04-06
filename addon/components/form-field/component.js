@@ -6,6 +6,7 @@ export default Component.extend({
   layout,
 
   value: '',
+  enableValidation: false,
   integer: false,
   positive: false,
   negative: false,
@@ -71,11 +72,10 @@ export default Component.extend({
   }),
 
   // private
-  didBlur: false,
   errorMessage: '',
 
-  validate: Ember.observer('value', 'didBlur', function() {
-    if (this.get('didBlur')) {
+  validate: Ember.observer('value', 'enableValidation', function() {
+    if (this.get('enableValidation')) {
       const validate = this.get('schema').validate(this.get('value')).then((value) => {
         if (this.onInput) {
           this.onInput(value);
