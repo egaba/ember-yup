@@ -2,7 +2,7 @@
   (hash
     onBlur=(action (mut validationEnabled) true)
     errorMessage=errorMessage
-    hasError=(if isValid false true)
+    hasError=(if errorMessage true false)
     value=value
   )
 }}

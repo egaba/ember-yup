@@ -14,8 +14,6 @@ export default Component.extend({
   validationEnabled: false,
 
   errorMessage: '',
-
-  isValid: false,
   validation: null,
   validate: Ember.observer('value', 'schema', function() {
     if (this.get('validationEnabled')) {
@@ -30,11 +28,9 @@ export default Component.extend({
 
       validate
         .then(() => {
-          this.set('isValid', true);
           this.set('errorMessage', '')
         })
         .catch((err) => {
-          this.set('isValid', false);
           this.set('errorMessage', err.message)
         });
 
