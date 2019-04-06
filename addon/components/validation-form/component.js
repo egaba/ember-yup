@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import layout from './template';
 import RSVP from 'rsvp';
 
-const mergeValues = (accumulator, currentValue) => Object.assign(accumulator, currentValue);
+const mergeFieldData = (accumulator, currentValue) => Object.assign(accumulator, currentValue);
 
 export default Component.extend({
   layout,
@@ -28,7 +28,7 @@ export default Component.extend({
       if (results.isAny('state', 'rejected')) {
         this.onReject(values.mapBy('reason'));
       } else {
-        const formData = values.reduce(mergeValues);
+        const formData = values.reduce(mergeFieldData);
         this.onSubmit(formData);
       }
     });
