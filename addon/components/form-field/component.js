@@ -27,12 +27,8 @@ export default Component.extend({
       this.set('validation', validate);
 
       validate
-        .then(() => {
-          this.set('errorMessage', '')
-        })
-        .catch((err) => {
-          this.set('errorMessage', err.message)
-        });
+        .then(() => this.set('errorMessage', ''))
+        .catch((err) => this.set('errorMessage', err.message));
 
       return validate;
     }
