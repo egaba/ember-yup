@@ -5,7 +5,10 @@
   "keywords": [
     "ember-addon"
   ],
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/egaba88/ember-yup.git"
+  },
   "license": "MIT",
   "author": "Edward Gaba <egaba88@gmail.com>",
   "directories": {
