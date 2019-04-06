@@ -23,7 +23,7 @@
     "start": "ember serve",
     "test": "ember test",
     "test:all": "ember try:each",
-    "deploy": "ember build -prod && mv dist docs && git add . && git commit -am 'deploy gh page'"
+    "deploy": "ember build -prod && rm -rf tmp && mv docs tmp && mv dist docs && git add . && git commit -am 'deploy gh page' && git push"
   },
   "dependencies": {
     "ember-cli-babel": "^6.16.0",
