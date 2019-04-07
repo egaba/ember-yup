@@ -1,10 +1,13 @@
 import Component from 'ember-yup/components/form-field/component';
+import layout from './template';
 import * as yup from 'yup';
 
 /**
  * This component is used for validating numbers.
  */
 export default Component.extend({
+  layout,
+
   numberMessage: undefined,
 
   required: false,

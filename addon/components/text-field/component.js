@@ -1,7 +1,10 @@
 import Component from 'ember-yup/components/form-field/component';
+import layout from './template';
 import * as yup from 'yup';
 
 export default Component.extend({
+  layout,
+
   type: 'string',
   required: false,
   emailMessage: undefined,
@@ -26,5 +29,22 @@ export default Component.extend({
     }
 
     return schema;
+  }),
+
+  charLimit: 0,
+  charLimitMessage: undefined,
+  charLimitSchema: Ember.computed('charLimit', function() {
+    return yup.number().max(this.get('charLimit'), this.get('charLimitMessage'));
+  }),
+  charRemaining: Ember.computed('value', 'charLimit', function() {
+    const charCount = this.get('value.length') || 0;
+    return this.get('charLimit') ? this.get('charLimit') - charCount : 0;
+  }),
+  charValidate: Ember.observer('charRemaining', function() {
+    const validate = this.get('charLimitSchema').validate(this.get('value.length'));
+    validate
+      .then(() => this.set('errorMessage', ''))
+      .catch((err) => this.set('errorMessage', err.message));
+    return validate;
   }),
 });

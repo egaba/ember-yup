@@ -1,22 +1,20 @@
+import { computed, observer } from '@ember/object';
 import Component from '@ember/component';
 import { on } from '@ember/object/evented';
-import layout from './template';
 import * as yup from 'yup';
 import RSVP from 'rsvp';
 /**
  * This component encompasses logic common to data fields.
  */
 export default Component.extend({
-  layout,
-
   schema: null,
-  value: null,
-  validationEnabled: false,
+  value: '',
+  enabled: false,
 
   errorMessage: '',
 
-  validation: Ember.computed('validationEnabled', 'value', 'schema', function() {
-    if (!this.get('validationEnabled')) {
+  validation: computed('enabled', 'value', 'schema', function() {
+    if (!this.get('enabled')) {
       return null;
     }
 
@@ -31,8 +29,8 @@ export default Component.extend({
     return validate;
   }),
 
-  validate: Ember.observer('validation', function() {
-    if (this.get('validationEnabled')) {
+  validate: on('init', observer('validation', function() {
+    if (this.get('enabled')) {
       const validate = this.get('validation');
 
       validate
@@ -41,9 +39,7 @@ export default Component.extend({
 
       return validate;
     }
-
-    return RSVP.Promise.reject('validation not enabled');
-  }),
+  })),
 
   // form setup
   form: null,
@@ -69,8 +65,8 @@ export default Component.extend({
 
   actions: {
     enableValidation() {
-      if (!this.get('validationEnabled')) {
-        this.set('validationEnabled', true);
+      if (!this.get('enabled')) {
+        this.set('enabled', true);
         this.validate();
       }
     }

@@ -15,7 +15,7 @@
     <input type="text"
       placeholder="username"
       oninput={{action (mut validationFormName) value="target.value"}}
-      onblur={{action field.onBlur}}
+      onblur={{action field.enable}}
       value={{validationFormName}}
     > * required
   {{/text-field}}
@@ -24,7 +24,7 @@
       type="text"
       placeholder="age"
       oninput={{action (mut validationFormAge) value="target.value"}}
-      onblur={{action field.onBlur}}
+      onblur={{action field.enable}}
       value={{validationFormAge}}
     > * required
   {{/number-field}}
@@ -45,7 +45,7 @@
     type="text"
     value={{username}}
     oninput={{action (mut username) value="target.value"}}
-    onblur={{action field.onBlur}}
+    onblur={{action field.enable}}
   > *required
   {{#if field.errorMessage}}
     <p>{{field.errorMessage}}</p>
@@ -68,8 +68,30 @@
     type="text"
     value={{validEmail}}
     oninput={{action (mut validEmail) value="target.value"}}
-    onblur={{action field.onBlur}}
+    onblur={{action field.enable}}
   > *required
+  {{#if field.errorMessage}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/text-field}}
+
+<p>Char limit:</p>
+
+{{#text-field
+  enabled=true
+  charLimit=10
+  type="email"
+  value=charLimit
+  as |field|
+}}
+  <input
+    placeholder="Message"
+    type="text"
+    value={{charLimit}}
+    oninput={{action (mut charLimit) value="target.value"}}
+    onblur={{action field.enable}}
+  >
+  <span>char remaining: {{field.charRemaining}}</span>
   {{#if field.errorMessage}}
     <p>{{field.errorMessage}}</p>
   {{/if}}
@@ -78,12 +100,11 @@
 <hr>
 
 <p>Validate a basic number:</p>
-{{#number-field value=validatedNumberExample as |field|}}
+{{#number-field enabled=true value=validatedNumberExample as |field|}}
   <input
     type="text"
     placeholder="Enter a number"
     oninput={{action (mut validatedNumberExample) value="target.value"}}
-    onblur={{action field.onBlur}}
     value={{validatedNumberExample}}
   >
   {{#if field.hasError}}
@@ -94,12 +115,11 @@
 <hr>
 
 <p>Validate an integer:</p>
-{{#number-field value=validatedIntegerExample integer=true as |field|}}
+{{#number-field enabled=true value=validatedIntegerExample integer=true as |field|}}
   <input
     type="text"
     placeholder="Enter a number"
     oninput={{action (mut validatedIntegerExample) value="target.value"}}
-    onblur={{action field.onBlur}}
     value={{validatedIntegerExample}}
   >
   {{#if field.hasError}}
@@ -111,6 +131,7 @@
 
 <p>Validate a positive integer:</p>
 {{#number-field
+  enabled=true
   value=validatedAgeExample
   positive=true
   integer=true
@@ -120,7 +141,6 @@
     type="text"
     placeholder="Enter your age"
     oninput={{action (mut validatedAgeExample) value="target.value"}}
-    onblur={{action field.onBlur}}
     value={{validatedAgeExample}}
   >
   {{#if field.hasError}}
@@ -132,6 +152,7 @@
 
 <p>Validate a number between 30-50:</p>
 {{#number-field
+  enabled=true
   value=validatedRangeExample
   min=30
   max=50
@@ -141,7 +162,6 @@
     type="text"
     placeholder="number range"
     oninput={{action (mut validatedRangeExample) value="target.value"}}
-    onblur={{action field.onBlur}}
     value={{validatedRangeExample}}
   >
   {{#if field.hasError}}

@@ -1,0 +1,9 @@
+{{yield
+  (hash
+    enable=(action "enableValidation")
+    errorMessage=errorMessage
+    hasError=(if errorMessage true false)
+    value=value
+    charRemaining=charRemaining
+  )
+}}
