@@ -75,7 +75,7 @@ export default Controller.extend({
 
 ## Validation Components
 
-Validate data without having to define schemas.
+Validate data without schemas.
 
 ### Validate text
 The `text-field` component can be used to validate text fields, email addresses,
