@@ -1,6 +1,6 @@
 # ember-yup
 
-Play with the validation demos here: https://egaba88.github.io/ember-yup/
+Demos: https://egaba88.github.io/ember-yup/
 
 This is an Ember port of the [Yup validation library](https://github.com/jquense/yup)
 
@@ -12,13 +12,13 @@ This is an Ember port of the [Yup validation library](https://github.com/jquense
 $ ember install ember-yup
 ```
 
-After you've installed, `import * as yup from 'yup';` in your controllers, components, etc.
+After installing, `import * as yup from 'yup';` in your controllers, components, etc.
 
 ## Using the yup library
 
 Demo: https://egaba88.github.io/ember-yup/#/validate-model
 
-Here's an example where we validate form data before creating a record.
+Here's an example where we validate form data before creating a user.
 
 ```js
 import Controller from '@ember/controller';
@@ -73,13 +73,12 @@ export default Controller.extend({
 </form>
 ```
 
-## Validation Field components
+## Validation Components
 
 Validate data without schemas.
 
-### Validate text
-The `text-field` component can be used to validate text fields, email addresses,
-and URLs.
+### Text validation
+The `text-field` component can be used to validate text fields, email addresses, and URLs.
 
 Validate a required username:
 ```html
@@ -145,7 +144,7 @@ Char limit:
 {{/text-field}}
 ```
 
-### Validate numbers
+### Numeric validation
 The `number-field` component can be used to validate numbers.
 
 Validate a basic number:
@@ -241,7 +240,7 @@ Cast the value so it's set as an integer.
 {{/number-field}}
 ```
 
-### Submit validated form data
+### Form validation
 The `validation-form` component can be used with the field components to create a validated
 form. It will send `onSubmit` and `onReject` actions. `onReject` is optional.
 
@@ -326,6 +325,9 @@ export default Controller.extend({
 
 Contributing
 ------------------------------------------------------------------------------
+
+This is still a major work in progress. **There aren't any tests yet...** but feel
+free to make a PR if you can understand the code enough to help! I would greatly appreciate it :)
 
 ### Installation
 
