@@ -95,10 +95,10 @@ Validate a required username:
     value={{username}}
     oninput={{action (mut username) value="target.value"}}
     onblur={{action field.enable}}
-  > * this field is required
-  {{#if field.errorMessage}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
+  > *required
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
 {{/text-field}}
 ```
 
@@ -117,10 +117,31 @@ Validate a required email:
     value={{validEmail}}
     oninput={{action (mut validEmail) value="target.value"}}
     onblur={{action field.enable}}
-  > * this field is required
-  {{#if field.errorMessage}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
+  > *required
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
+{{/text-field}}
+```
+
+Char limit:
+```html
+{{#text-field
+  enabled=true
+  charLimit=10
+  value=charLimit
+  as |field|
+}}
+  <input
+    placeholder="Short message"
+    type="text"
+    value={{charLimit}}
+    oninput={{action (mut charLimit) value="target.value"}}
+  >
+  <span>char remaining: {{field.charRemaining}}</span>
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
 {{/text-field}}
 ```
 
@@ -129,39 +150,38 @@ The `number-field` component can be used to validate numbers.
 
 Validate a basic number:
 ```html
-{{#number-field value=validatedNumberExample as |field|}}
+{{#number-field enabled=true value=validatedNumberExample as |field|}}
   <input
     type="text"
     placeholder="Enter a number"
     oninput={{action (mut validatedNumberExample) value="target.value"}}
-    onblur={{action field.enable}}
     value={{validatedNumberExample}}
-  > * required
-  {{#if field.hasError}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
+  >
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
 {{/number-field}}
 ```
 
 Validate an integer:
 ```html
-{{#number-field value=validatedIntegerExample integer=true as |field|}}
+{{#number-field enabled=true value=validatedIntegerExample integer=true as |field|}}
   <input
     type="text"
     placeholder="Enter a number"
     oninput={{action (mut validatedIntegerExample) value="target.value"}}
-    onblur={{action field.enable}}
     value={{validatedIntegerExample}}
-  > * required
-  {{#if field.hasError}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
+  >
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
 {{/number-field}}
 ```
 
 Validate a positive integer:
 ```html
 {{#number-field
+  enabled=true
   value=validatedAgeExample
   positive=true
   integer=true
@@ -171,18 +191,18 @@ Validate a positive integer:
     type="text"
     placeholder="Enter your age"
     oninput={{action (mut validatedAgeExample) value="target.value"}}
-    onblur={{action field.enable}}
     value={{validatedAgeExample}}
-  > * required
-  {{#if field.hasError}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
+  >
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
 {{/number-field}}
 ```
 
 Validate a number between 30-50:
 ```html
 {{#number-field
+  enabled=true
   value=validatedRangeExample
   min=30
   max=50
@@ -192,12 +212,11 @@ Validate a number between 30-50:
     type="text"
     placeholder="number range"
     oninput={{action (mut validatedRangeExample) value="target.value"}}
-    onblur={{action field.enable}}
     value={{validatedRangeExample}}
   >
-  {{#if field.hasError}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
 {{/number-field}}
 ```
 
