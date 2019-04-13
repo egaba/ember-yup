@@ -28,7 +28,7 @@
     {{#if form.errors.age.length}}
       <ul>
         {{#each form.errors.age as |errorMessage|}}
-          <li>{{errorMessage}}</li>
+          <li style="color: red;">{{errorMessage}}</li>
         {{/each}}
       </ul>
     {{/if}}
@@ -50,7 +50,7 @@
     {{#if form.errors.validationFormEmail.length}}
       <ul>
         {{#each form.errors.validationFormEmail as |errorMessage|}}
-          <li>{{errorMessage}}</li>
+          <li style="color: red;">{{errorMessage}}</li>
         {{/each}}
       </ul>
     {{/if}}
