@@ -3,10 +3,10 @@ module.exports = {
   normalizeEntityName() {},
 
   afterInstall() {
-    return this.addPackageToProject('yup');
+    return this.addPackagesToProject(['yup', 'ember-cli-cjs-transform']);
   },
 
   beforeUninstall() {
-    return this.removePackageFromProject('yup');
+    return this.removePackagesFromProject(['yup', 'ember-cli-cjs-transform']);
   }
 };
