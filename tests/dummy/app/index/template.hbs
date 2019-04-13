@@ -1,0 +1,174 @@
+
+
+<p>The `validation-form` component is used in conjunction with field components to create a validated form.</p>
+{{#validation-form
+  onSubmit=(action "submitValidationForm")
+  onReject=(action "rejectValidationForm")
+  as |form|
+}}
+  {{#if form.errors.length}}
+    <ul>
+      {{#each form.errors as |error|}}
+        <li>{{error.message}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  {{#text-field requiredMessage="username is required" name="username" form=form required=true value=validationFormName as |field|}}
+    <input type="text"
+      placeholder="username"
+      oninput={{action (mut validationFormName) value="target.value"}}
+      onblur={{action field.enable}}
+      value={{validationFormName}}
+    > * required
+  {{/text-field}}
+  {{#number-field requiredMessage="age is required" name="age" form=form integer=true positive=true required=true value=validationFormAge as |field|}}
+    <input
+      type="text"
+      placeholder="age"
+      oninput={{action (mut validationFormAge) value="target.value"}}
+      onblur={{action field.enable}}
+      value={{validationFormAge}}
+    > * required
+  {{/number-field}}
+  <button type="submit">validate</button>
+{{/validation-form}}
+
+<hr>
+
+<p>Validate a required username:</p>
+{{#text-field
+  required=true
+  requiredMessage="name is required"
+  value=username
+  as |field|
+}}
+  <input
+    placeholder="username"
+    type="text"
+    value={{username}}
+    oninput={{action (mut username) value="target.value"}}
+    onblur={{action field.enable}}
+  > *required
+  {{#if field.errorMessage}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/text-field}}
+
+<hr>
+
+<p>Validate a required email:</p>
+
+{{#text-field
+  type="email"
+  value=validEmail
+  required=true
+  emailMessage="this email address is invalid"
+  as |field|
+}}
+  <input
+    placeholder="Email address"
+    type="text"
+    value={{validEmail}}
+    oninput={{action (mut validEmail) value="target.value"}}
+    onblur={{action field.enable}}
+  > *required
+  {{#if field.errorMessage}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/text-field}}
+
+<hr>
+
+<p>Char limit:</p>
+
+{{#text-field
+  enabled=true
+  charLimit=10
+  type="email"
+  value=charLimit
+  as |field|
+}}
+  <input
+    placeholder="Message"
+    type="text"
+    value={{charLimit}}
+    oninput={{action (mut charLimit) value="target.value"}}
+    onblur={{action field.enable}}
+  >
+  <span>char remaining: {{field.charRemaining}}</span>
+  {{#if field.errorMessage}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/text-field}}
+
+<hr>
+
+<p>Validate a basic number:</p>
+{{#number-field enabled=true value=validatedNumberExample as |field|}}
+  <input
+    type="text"
+    placeholder="Enter a number"
+    oninput={{action (mut validatedNumberExample) value="target.value"}}
+    value={{validatedNumberExample}}
+  >
+  {{#if field.hasError}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/number-field}}
+
+<hr>
+
+<p>Validate an integer:</p>
+{{#number-field enabled=true value=validatedIntegerExample integer=true as |field|}}
+  <input
+    type="text"
+    placeholder="Enter a number"
+    oninput={{action (mut validatedIntegerExample) value="target.value"}}
+    value={{validatedIntegerExample}}
+  >
+  {{#if field.hasError}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/number-field}}
+
+<hr>
+
+<p>Validate a positive integer:</p>
+{{#number-field
+  enabled=true
+  value=validatedAgeExample
+  positive=true
+  integer=true
+  as |field|
+}}
+  <input
+    type="text"
+    placeholder="Enter your age"
+    oninput={{action (mut validatedAgeExample) value="target.value"}}
+    value={{validatedAgeExample}}
+  >
+  {{#if field.hasError}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/number-field}}
+
+<hr>
+
+<p>Validate a number between 30-50:</p>
+{{#number-field
+  enabled=true
+  value=validatedRangeExample
+  min=30
+  max=50
+  as |field|
+}}
+  <input
+    type="text"
+    placeholder="number range"
+    oninput={{action (mut validatedRangeExample) value="target.value"}}
+    value={{validatedRangeExample}}
+  >
+  {{#if field.hasError}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/number-field}}

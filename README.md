@@ -1,19 +1,204 @@
-ember-yup
-==============================================================================
+# ember-yup
 
-Play with validation demos on https://egaba88.github.io/ember-yup/.
+Play with the validation demos here: https://egaba88.github.io/ember-yup/.
 
 This is an Ember port of the [Yup validation library](https://github.com/jquense/yup).
 
-Installation
-------------------------------------------------------------------------------
+**Warning: This is still a major work in progress.**
 
-```
-ember install ember-yup
+## Installation
+
+```sh
+$ ember install ember-yup
 ```
 
-Form Validation
-------------------------------------------------------------------------------
+After you've installed, `import * as yup from 'yup';` in your controllers, components, etc.
+
+## Using the yup library
+
+Here's an example where we validate form data before creating a record.
+
+```js
+import Controller from '@ember/controller';
+import * as yup from 'yup';
+import { computed, observer } from '@ember/object';
+
+export default Controller.extend({
+  userSchema: yup.object().shape({
+    username: yup.string().required(),
+    age: yup
+      .number()
+      .required()
+      .positive()
+      .integer(),
+    email: yup.string().email(),
+  }),
+  formData: {},
+  errorMessages: [],
+  actions: {
+    createUser() {
+      this.get('userSchema').validate(this.get('formData'), { abortEarly: false }).then((data) => {
+        this.set('formData', {});
+        this.set('errorMessages', []);
+        this.store.createRecord('user', data);
+      }).catch((validation) => {
+        this.set('errorMessages', validation.errors);
+      });
+    }
+  }
+});
+```
+
+## Validation Components
+
+Validate data without having to manually define schemas.
+
+### Validate text
+The `text-field` component can be used to validate text fields, email addresses,
+and URLs.
+
+Validate a required username:
+```html
+{{#text-field
+  required=true
+  requiredMessage="name is required"
+  value=username
+  as |field|
+}}
+  <input
+    placeholder="username"
+    type="text"
+    value={{username}}
+    oninput={{action (mut username) value="target.value"}}
+    onblur={{action field.enable}}
+  > * this field is required
+  {{#if field.errorMessage}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/text-field}}
+```
+
+Validate a required email:
+```html
+{{#text-field
+  type="email"
+  value=validEmail
+  required=true
+  emailMessage="this email address is invalid"
+  as |field|
+}}
+  <input
+    placeholder="Email address"
+    type="text"
+    value={{validEmail}}
+    oninput={{action (mut validEmail) value="target.value"}}
+    onblur={{action field.enable}}
+  > * this field is required
+  {{#if field.errorMessage}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/text-field}}
+```
+
+### Validate numbers
+The `number-field` component can be used to validate numbers.
+
+Validate a basic number:
+```html
+{{#number-field value=validatedNumberExample as |field|}}
+  <input
+    type="text"
+    placeholder="Enter a number"
+    oninput={{action (mut validatedNumberExample) value="target.value"}}
+    onblur={{action field.enable}}
+    value={{validatedNumberExample}}
+  > * required
+  {{#if field.hasError}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/number-field}}
+```
+
+Validate an integer:
+```html
+{{#number-field value=validatedIntegerExample integer=true as |field|}}
+  <input
+    type="text"
+    placeholder="Enter a number"
+    oninput={{action (mut validatedIntegerExample) value="target.value"}}
+    onblur={{action field.enable}}
+    value={{validatedIntegerExample}}
+  > * required
+  {{#if field.hasError}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/number-field}}
+```
+
+Validate a positive integer:
+```html
+{{#number-field
+  value=validatedAgeExample
+  positive=true
+  integer=true
+  as |field|
+}}
+  <input
+    type="text"
+    placeholder="Enter your age"
+    oninput={{action (mut validatedAgeExample) value="target.value"}}
+    onblur={{action field.enable}}
+    value={{validatedAgeExample}}
+  > * required
+  {{#if field.hasError}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/number-field}}
+```
+
+Validate a number between 30-50:
+```html
+{{#number-field
+  value=validatedRangeExample
+  min=30
+  max=50
+  as |field|
+}}
+  <input
+    type="text"
+    placeholder="number range"
+    oninput={{action (mut validatedRangeExample) value="target.value"}}
+    onblur={{action field.enable}}
+    value={{validatedRangeExample}}
+  >
+  {{#if field.hasError}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/number-field}}
+```
+
+Cast the value so it's set as an integer.
+```html
+{{#number-field
+  onInput=(action (mut validatedIntegerExample))
+  value=validatedIntegerExample
+  integer=true
+  as |field|
+}}
+  <input
+    type="text"
+    placeholder="Enter a number"
+    oninput={{action (mut field.value) value="target.value"}}
+    onblur={{action field.enable}}
+    value={{validatedIntegerExample}}
+  > * required
+  {{#if field.hasError}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/number-field}}
+```
+
+### Send valid data without
 The `validation-form` component is used in conjunction with field components
 to create a validated form.
 
@@ -31,7 +216,7 @@ The second value will yield `{ age: <ageValue> }`. If a valid submission occurs,
 }
 ```
 
-```hbs
+```html
 {{#validation-form
   onSubmit=(action "submitValidationForm")
   onReject=(action "rejectValidationForm")
@@ -48,7 +233,7 @@ The second value will yield `{ age: <ageValue> }`. If a valid submission occurs,
     <input type="text"
       placeholder="username"
       oninput={{action (mut validationFormName) value="target.value"}}
-      onblur={{action field.onBlur}}
+      onblur={{action field.enable}}
       value={{validationFormName}}
     > * required
   {{/text-field}}
@@ -57,172 +242,12 @@ The second value will yield `{ age: <ageValue> }`. If a valid submission occurs,
       type="text"
       placeholder="age"
       oninput={{action (mut validationFormAge) value="target.value"}}
-      onblur={{action field.onBlur}}
+      onblur={{action field.enable}}
       value={{validationFormAge}}
     > * required
   {{/number-field}}
   <button type="submit">validate</button>
 {{/validation-form}}
-```
-
-Text Validation
-------------------------------------------------------------------------------
-
-The `text-field` component can be used to validate text fields, email addresses,
-and URLs.
-
-Validate a required username:
-```hbs
-{{#text-field
-  required=true
-  requiredMessage="name is required"
-  value=username
-  as |field|
-}}
-  <input
-    placeholder="username"
-    type="text"
-    value={{username}}
-    oninput={{action (mut username) value="target.value"}}
-    onblur={{action field.onBlur}}
-  > * this field is required
-  {{#if field.errorMessage}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
-{{/text-field}}
-```
-
-Validate a required email:
-```hbs
-{{#text-field
-  type="email"
-  value=validEmail
-  required=true
-  emailMessage="this email address is invalid"
-  as |field|
-}}
-  <input
-    placeholder="Email address"
-    type="text"
-    value={{validEmail}}
-    oninput={{action (mut validEmail) value="target.value"}}
-    onblur={{action field.onBlur}}
-  > * this field is required
-  {{#if field.errorMessage}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
-{{/text-field}}
-```
-
-Number Validation
-------------------------------------------------------------------------------
-The `number-field` component can be used to validate numbers.
-
-Validate a basic number:
-```hbs
-{{#number-field value=validatedNumberExample as |field|}}
-  <input
-    type="text"
-    placeholder="Enter a number"
-    oninput={{action (mut validatedNumberExample) value="target.value"}}
-    onblur={{action field.onBlur}}
-    value={{validatedNumberExample}}
-  > * required
-  {{#if field.hasError}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
-{{/number-field}}
-```
-
-Validate an integer:
-```hbs
-{{#number-field value=validatedIntegerExample integer=true as |field|}}
-  <input
-    type="text"
-    placeholder="Enter a number"
-    oninput={{action (mut validatedIntegerExample) value="target.value"}}
-    onblur={{action field.onBlur}}
-    value={{validatedIntegerExample}}
-  > * required
-  {{#if field.hasError}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
-{{/number-field}}
-```
-
-Validate a positive integer:
-```hbs
-{{#number-field
-  value=validatedAgeExample
-  positive=true
-  integer=true
-  as |field|
-}}
-  <input
-    type="text"
-    placeholder="Enter your age"
-    oninput={{action (mut validatedAgeExample) value="target.value"}}
-    onblur={{action field.onBlur}}
-    value={{validatedAgeExample}}
-  > * required
-  {{#if field.hasError}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
-{{/number-field}}
-```
-
-Validate a number between 30-50:
-```hbs
-{{#number-field
-  value=validatedRangeExample
-  min=30
-  max=50
-  as |field|
-}}
-  <input
-    type="text"
-    placeholder="number range"
-    oninput={{action (mut validatedRangeExample) value="target.value"}}
-    onblur={{action field.onBlur}}
-    value={{validatedRangeExample}}
-  >
-  {{#if field.hasError}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
-{{/number-field}}
-```
-
-Cast the value so it's set as an integer.
-```hbs
-{{#number-field
-  onInput=(action (mut validatedIntegerExample))
-  value=validatedIntegerExample
-  integer=true
-  as |field|
-}}
-  <input
-    type="text"
-    placeholder="Enter a number"
-    oninput={{action (mut field.value) value="target.value"}}
-    onblur={{action field.onBlur}}
-    value={{validatedIntegerExample}}
-  > * required
-  {{#if field.hasError}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
-{{/number-field}}
-```
-
-Custom usage
-------------------------------------------------------------------------------
-
-I highly recommend building your own components to fully utilize the `yup` validation library.
-There are many, MANY more components that could be built from `yup`.
-
-Import the library into your file and use however you'd like.
-
-```js
-import * as yup from 'yup';
 ```
 
 Contributing
