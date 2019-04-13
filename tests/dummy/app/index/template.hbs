@@ -79,17 +79,16 @@
 
 <hr>
 
-<p>Char limit:</p>
+<p>Short message:</p>
 
 {{#text-field
   enabled=true
   charLimit=10
-  type="email"
   value=charLimit
   as |field|
 }}
   <input
-    placeholder="Message"
+    placeholder="Short message"
     type="text"
     value={{charLimit}}
     oninput={{action (mut charLimit) value="target.value"}}
