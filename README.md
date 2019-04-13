@@ -235,30 +235,57 @@ in the form's data.
   onReject=(action "rejectValidationForm")
   as |form|
 }}
-  {{#if form.errors.length}}
-    <ul>
-      {{#each form.errors as |error|}}
-        <li>{{error.message}}</li>
-      {{/each}}
-    </ul>
-  {{/if}}
   {{#text-field requiredMessage="username is required" name="username" form=form required=true value=validationFormName as |field|}}
     <input type="text"
       placeholder="username"
       oninput={{action (mut validationFormName) value="target.value"}}
-      onblur={{action field.enable}}
       value={{validationFormName}}
     > * required
+    {{#if form.errors.username.length}}
+      <ul>
+        {{#each form.errors.username as |errorMessage|}}
+          <li>{{errorMessage}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
   {{/text-field}}
   {{#number-field requiredMessage="age is required" name="age" form=form integer=true positive=true required=true value=validationFormAge as |field|}}
     <input
       type="text"
       placeholder="age"
       oninput={{action (mut validationFormAge) value="target.value"}}
-      onblur={{action field.enable}}
       value={{validationFormAge}}
     > * required
+    {{#if form.errors.age.length}}
+      <ul>
+        {{#each form.errors.age as |errorMessage|}}
+          <li>{{errorMessage}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
   {{/number-field}}
+  {{#text-field
+    form=form
+    name="validationFormEmail"
+    value=validationFormEmail
+    type="email"
+    requiredMessage="email is required"
+    as |field|
+  }}
+    <input
+      placeholder="email"
+      type="text"
+      value={{validationFormEmail}}
+      oninput={{action (mut validationFormEmail) value="target.value"}}
+    >
+    {{#if form.errors.validationFormEmail.length}}
+      <ul>
+        {{#each form.errors.validationFormEmail as |errorMessage|}}
+          <li>{{errorMessage}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  {{/text-field}}
   <button type="submit">validate</button>
 {{/validation-form}}
 ```
@@ -271,8 +298,8 @@ export default Controller.extend({
     submitValidationForm(data) {
       console.log('submission success', data);
     },
-    rejectValidationForm(validation) {
-      console.log('submission error', validation);
+    rejectValidationForm(errors) {
+      console.log('submission error', errors);
     }
   }
 });
