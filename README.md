@@ -242,8 +242,8 @@ Cast the value so it's set as an integer.
 ```
 
 ### Submit validated form data
-The `validation-form` component is used in conjunction with validation field components
-to create a validated form. It will send `onSubmit` and `onReject` actions. `onReject` is optional.
+The `validation-form` component can be used with the field components to create a validated
+form. It will send `onSubmit` and `onReject` actions. `onReject` is optional.
 
 Validation Field components should contain a `name` prop so that their values are correctly mapped
 in the form's data.
