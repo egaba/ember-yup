@@ -58,12 +58,6 @@
   <button type="submit">validate</button>
 {{/validation-form}}
 
-{{#each-in validationFormErrors as |fieldName errors|}}
-  <div>{{fieldName}} errors: {{errors.length}}</div>
-{{else if validationFormSuccessData}}
-  <span>{{validationFormSuccessData}}</span>
-{{/each-in}}
-
 <hr>
 
 <p>Validate a required username:</p>
