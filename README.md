@@ -73,7 +73,7 @@ export default Controller.extend({
 </form>
 ```
 
-## Validation Components
+## Validation Field components
 
 Validate data without schemas.
 
@@ -223,22 +223,11 @@ Cast the value so it's set as an integer.
 ```
 
 ### Submit validated form data
-The `validation-form` component is used in conjunction with field components
-to create a validated form.
+The `validation-form` component is used in conjunction with validation field components
+to create a validated form. It will send `onSubmit` and `onReject` actions. `onReject` is optional.
 
-All fields must be valid before `onSubmit` is called. When using validation
-fields with this `validation-form` component, a `name` and `form` must be
-provided on the fields so that their values are correctly defined.
-
-In this example, the first field will yield `{ name: <nameValue> }`.
-The second value will yield `{ age: <ageValue> }`. If a valid submission occurs,
-`onSubmit` will be called with a merged form data object:
-```js
-{
-  name: <nameValue>,
-  age: <ageValue>
-}
-```
+Validation Field components should contain a `name` prop so that their values are correctly mapped
+in the form's data.
 
 ```html
 {{#validation-form

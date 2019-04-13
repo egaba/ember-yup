@@ -2,11 +2,11 @@ import Controller from '@ember/controller';
 
 export default Controller.extend({
   actions: {
-    submitValidationForm() {
-      console.log('submission success');
+    submitValidationForm(data) {
+      console.log('submission success', data);
     },
-    rejectValidationForm(errors) {
-      console.log('submission error');
+    rejectValidationForm(validation) {
+      console.log('submission error', validation);
     }
   }
 });
