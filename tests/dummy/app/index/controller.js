@@ -4,9 +4,12 @@ export default Controller.extend({
   actions: {
     submitValidationForm(data) {
       console.log('submission success', data);
+      this.set('validationFormErrors', {});
+      this.set('validationFormSuccessData', JSON.stringify(data));
     },
-    rejectValidationForm(validation) {
-      console.log('submission error', validation);
+    rejectValidationForm(errors) {
+      this.set('validationFormErrors', errors)
+      console.log('submission error', errors);
     }
   }
 });

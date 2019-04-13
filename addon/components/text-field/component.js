@@ -1,4 +1,6 @@
 import Component from 'ember-yup/components/form-field/component';
+import { observer } from '@ember/object';
+import { on } from '@ember/object/evented';
 import layout from './template';
 import * as yup from 'yup';
 
@@ -43,8 +45,20 @@ export default Component.extend({
   charValidate: Ember.observer('charRemaining', function() {
     const validate = this.get('charLimitSchema').validate(this.get('value.length'));
     validate
-      .then(() => this.set('errorMessage', ''))
-      .catch((err) => this.set('errorMessage', err.message));
+      .then(() => this.set('errors', []))
+      .catch((validation) => {
+        this.set('errors', validation.errors);
+        return validation.errors;
+      });
     return validate;
   }),
+
+  actions: {
+    enableValidation() {
+      if (!this.get('enabled')) {
+        this.set('enabled', true);
+        this.validate();
+      }
+    }
+  }
 });

@@ -1,37 +1,68 @@
-
-
 <p>The `validation-form` component is used in conjunction with field components to create a validated form.</p>
 {{#validation-form
   onSubmit=(action "submitValidationForm")
   onReject=(action "rejectValidationForm")
   as |form|
 }}
-  {{#if form.errors.length}}
-    <ul>
-      {{#each form.errors as |error|}}
-        <li>{{error.message}}</li>
-      {{/each}}
-    </ul>
-  {{/if}}
   {{#text-field requiredMessage="username is required" name="username" form=form required=true value=validationFormName as |field|}}
     <input type="text"
       placeholder="username"
       oninput={{action (mut validationFormName) value="target.value"}}
-      onblur={{action field.enable}}
       value={{validationFormName}}
     > * required
+    {{#if form.errors.username.length}}
+      <ul>
+        {{#each form.errors.username as |errorMessage|}}
+          <li>{{errorMessage}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
   {{/text-field}}
   {{#number-field requiredMessage="age is required" name="age" form=form integer=true positive=true required=true value=validationFormAge as |field|}}
     <input
       type="text"
       placeholder="age"
       oninput={{action (mut validationFormAge) value="target.value"}}
-      onblur={{action field.enable}}
       value={{validationFormAge}}
     > * required
+    {{#if form.errors.age.length}}
+      <ul>
+        {{#each form.errors.age as |errorMessage|}}
+          <li>{{errorMessage}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
   {{/number-field}}
+  {{#text-field
+    form=form
+    name="validationFormEmail"
+    value=validationFormEmail
+    type="email"
+    requiredMessage="email is required"
+    as |field|
+  }}
+    <input
+      placeholder="email"
+      type="text"
+      value={{validationFormEmail}}
+      oninput={{action (mut validationFormEmail) value="target.value"}}
+    >
+    {{#if form.errors.validationFormEmail.length}}
+      <ul>
+        {{#each form.errors.validationFormEmail as |errorMessage|}}
+          <li>{{errorMessage}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  {{/text-field}}
   <button type="submit">validate</button>
 {{/validation-form}}
+
+{{#each-in validationFormErrors as |fieldName errors|}}
+  <div>{{fieldName}} errors: {{errors.length}}</div>
+{{else if validationFormSuccessData}}
+  <span>{{validationFormSuccessData}}</span>
+{{/each-in}}
 
 <hr>
 
@@ -49,9 +80,9 @@
     oninput={{action (mut username) value="target.value"}}
     onblur={{action field.enable}}
   > *required
-  {{#if field.errorMessage}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
 {{/text-field}}
 
 <hr>
@@ -72,9 +103,9 @@
     oninput={{action (mut validEmail) value="target.value"}}
     onblur={{action field.enable}}
   > *required
-  {{#if field.errorMessage}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
 {{/text-field}}
 
 <hr>
@@ -92,12 +123,11 @@
     type="text"
     value={{charLimit}}
     oninput={{action (mut charLimit) value="target.value"}}
-    onblur={{action field.enable}}
   >
   <span>char remaining: {{field.charRemaining}}</span>
-  {{#if field.errorMessage}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
 {{/text-field}}
 
 <hr>
@@ -110,9 +140,9 @@
     oninput={{action (mut validatedNumberExample) value="target.value"}}
     value={{validatedNumberExample}}
   >
-  {{#if field.hasError}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
 {{/number-field}}
 
 <hr>
@@ -125,9 +155,9 @@
     oninput={{action (mut validatedIntegerExample) value="target.value"}}
     value={{validatedIntegerExample}}
   >
-  {{#if field.hasError}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
 {{/number-field}}
 
 <hr>
@@ -146,9 +176,9 @@
     oninput={{action (mut validatedAgeExample) value="target.value"}}
     value={{validatedAgeExample}}
   >
-  {{#if field.hasError}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
 {{/number-field}}
 
 <hr>
@@ -167,7 +197,7 @@
     oninput={{action (mut validatedRangeExample) value="target.value"}}
     value={{validatedRangeExample}}
   >
-  {{#if field.hasError}}
-    <p>{{field.errorMessage}}</p>
-  {{/if}}
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
 {{/number-field}}

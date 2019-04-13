@@ -11,7 +11,7 @@ export default Component.extend({
   value: '',
   enabled: false,
 
-  errorMessage: '',
+  errors: [],
 
   validation: computed('enabled', 'value', 'schema', function() {
     if (!this.get('enabled')) {
@@ -20,10 +20,14 @@ export default Component.extend({
 
     const validate = this.get('schema').validate(this.get('value')).then((value) => {
       const name = this.get('name');
+      this.set('errors', []);
       if (this.onInput) {
         this.onInput(value);
       }
-      return name ? { [name]: value } : value;
+      return value;
+    }).catch((validation) => {
+      this.set('errors', validation.errors);
+      return validation.errors;
     });
 
     return validate;
@@ -31,13 +35,7 @@ export default Component.extend({
 
   validate: on('init', observer('validation', function() {
     if (this.get('enabled')) {
-      const validate = this.get('validation');
-
-      validate
-        .then(() => this.set('errorMessage', ''))
-        .catch((err) => this.set('errorMessage', err.message));
-
-      return validate;
+      return this.get('validation');
     }
   })),
 
@@ -62,13 +60,4 @@ export default Component.extend({
       delete form.fieldMap[name];
     }
   }),
-
-  actions: {
-    enableValidation() {
-      if (!this.get('enabled')) {
-        this.set('enabled', true);
-        this.validate();
-      }
-    }
-  }
 });

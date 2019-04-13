@@ -1,4 +1,6 @@
 import Component from 'ember-yup/components/form-field/component';
+import { observer } from '@ember/object';
+import { on } from '@ember/object/evented';
 import layout from './template';
 import * as yup from 'yup';
 
@@ -64,4 +66,13 @@ export default Component.extend({
 
     return schema;
   }),
+
+  actions: {
+    enableValidation() {
+      if (!this.get('enabled')) {
+        this.set('enabled', true);
+        this.validate();
+      }
+    }
+  }
 });

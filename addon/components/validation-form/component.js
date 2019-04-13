@@ -8,7 +8,7 @@ export default Component.extend({
   layout,
   tagName: 'form',
   fieldMap: {},
-  errors: Ember.A([]),
+  errors: {},
 
   onSubmit(formData) { /* override */ },
   onReject(errors) { /* override */ },
@@ -17,28 +17,33 @@ export default Component.extend({
     e.preventDefault();
 
     const fieldMap = this.get('fieldMap');
-    const fieldValidations = [];
+    const fieldValidations = {};
+
     for (const fieldName in fieldMap) {
       const field = fieldMap[fieldName];
-      const validation = field.get('validation');
-      if (!validation) {
-        field.set('validationEnabled', true);
-        fieldValidations.push(field.get('validation'));
-      } else {
-        fieldValidations.push(validation);
-      }
+      field.set('enabled', true);
+      fieldValidations[fieldName] = field.get('validation');
     }
 
-    RSVP.allSettled(fieldValidations).then((values) => {
-      const results = Ember.A(values);
-      if (results.isAny('state', 'rejected')) {
-        const errors = Ember.A(values.mapBy('reason')).compact();
-        this.set('errors', errors);
+    RSVP.hashSettled(fieldValidations).then((data) => {
+      const values = {}, errors = {};
+
+      for (const fieldName in data) {
+        if (data[fieldName].value instanceof Array) {
+          console.log('error for', fieldName, data[fieldName].value);
+          errors[fieldName] = data[fieldName].value;
+        } else {
+          values[fieldName] = data[fieldName].value;
+        }
+      }
+
+      this.set('errors', errors);
+
+      const hasErrors = Object.keys(errors).length;
+      if (hasErrors) {
         this.onReject(errors);
       } else {
-        const formData = values.reduce(mergeFieldData);
-        this.set('errors', Ember.A([]));
-        this.onSubmit(formData);
+        this.onSubmit(values);
       }
     });
   },

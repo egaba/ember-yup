@@ -1,8 +1,8 @@
 {{yield
   (hash
     enable=(action "enableValidation")
-    errorMessage=errorMessage
-    hasError=(if errorMessage true false)
+    errors=errors
+    hasErrors=(if errors.length true false)
     value=value
   )
 }}
