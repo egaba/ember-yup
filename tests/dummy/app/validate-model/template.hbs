@@ -1,5 +1,5 @@
 <form class="" {{action "createUser" on="submit"}}>
-  <p>fill out the form to create a user</p>
+  <p>create a user record</p>
   <div class="">
     <label for="username">username</label>
     <input id="username" type="text" value={{formData.username}} oninput={{action (mut formData.username) value="target.value"}}> *required
@@ -21,7 +21,6 @@
 {{#if model.length}}
   <h2>users</h2>
   <table>
-    <caption></caption>
     <thead>
       <tr>
         <th>username</th>
@@ -39,4 +38,6 @@
       {{/each}}
     </tbody>
   </table>
+{{else}}
+  <p>fill out the form to create a user.</p>
 {{/if}}
