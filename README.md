@@ -17,6 +17,7 @@ After you've installed, `import * as yup from 'yup';` in your controllers, compo
 ## Using the yup library
 
 Demo: https://egaba88.github.io/ember-yup/#/validate-model
+
 Here's an example where we validate form data before creating a record.
 
 ```js
