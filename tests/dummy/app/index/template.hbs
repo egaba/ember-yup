@@ -13,7 +13,7 @@
     {{#if form.errors.username.length}}
       <ul>
         {{#each form.errors.username as |errorMessage|}}
-          <li>{{errorMessage}}</li>
+          <li style="color: red;">{{errorMessage}}</li>
         {{/each}}
       </ul>
     {{/if}}
