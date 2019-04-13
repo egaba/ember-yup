@@ -222,7 +222,7 @@ Cast the value so it's set as an integer.
 {{/number-field}}
 ```
 
-### Send valid data without
+### Submit validated form data
 The `validation-form` component is used in conjunction with field components
 to create a validated form.
 
