@@ -2,8 +2,6 @@ import Component from '@ember/component';
 import layout from './template';
 import RSVP from 'rsvp';
 
-const mergeFieldData = (accumulator = {}, currentValue) => Object.assign(accumulator, currentValue);
-
 export default Component.extend({
   layout,
   tagName: 'form',
