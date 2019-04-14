@@ -232,7 +232,8 @@ Validate a number between 30-50:
 {{/number-field}}
 ```
 
-Cast the value so it's set as an integer.
+Utilize the built-in transforms so the value set in the component/controller is
+an integer instead of a string.
 ```html
 {{#number-field
   onInput=(action (mut validatedIntegerExample))
