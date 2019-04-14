@@ -1,10 +1,11 @@
 # ember-yup
 
-Demos: https://egaba88.github.io/ember-yup/
+Demo: https://egaba88.github.io/ember-yup/
 
 This is an Ember port of the [Yup validation library](https://github.com/jquense/yup)
 
-**Warning: This is still a major work in progress.**
+**Warning: This is still a major work in progress.** However, I think I've gotten
+this library to a decent starting point for most projects.
 
 ## Installation
 
@@ -12,13 +13,13 @@ This is an Ember port of the [Yup validation library](https://github.com/jquense
 $ ember install ember-yup
 ```
 
-After installing, `import * as yup from 'yup';` in your controllers, components, etc.
-
 ## Using the yup library
 
-Demo: https://egaba88.github.io/ember-yup/#/validate-model
+`import * as yup from 'yup';` in your controllers, components, etc.
 
 Here's an example where we validate form data before creating a user.
+
+Demo: https://egaba88.github.io/ember-yup/#/validate-model
 
 ```js
 import Controller from '@ember/controller';
