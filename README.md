@@ -287,7 +287,7 @@ The `validation-form` component can be used with the field components to validat
 form data. If valid, `onSubmit` will be invoked. Otherwise, `onReject` will be invoked.
 
 **IMPORTANT: Field components should contain a `name` prop so that their values are correctly mapped
-in the form's data.**
+in the form's data. Be sure to also pass the `form` to the fields.**
 
 ```html
 {{#validation-form
