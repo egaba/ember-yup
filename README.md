@@ -93,7 +93,7 @@ Wrap your form controls with these components to display validation errors.
 ### Text validation
 The `text-field` component can be used to validate text fields, email addresses, and URLs.
 
-#### Validate a required username:
+#### Validate a required field (on blur)
 ```html
 {{#text-field
   required=true
@@ -114,7 +114,7 @@ The `text-field` component can be used to validate text fields, email addresses,
 {{/text-field}}
 ```
 
-#### Validate a required email:
+#### Validate a required email (on blur)
 ```html
 {{#text-field
   type="email"
@@ -136,7 +136,7 @@ The `text-field` component can be used to validate text fields, email addresses,
 {{/text-field}}
 ```
 
-#### Char limit:
+#### Validate character limit:
 ```html
 {{#text-field
   enabled=true
@@ -160,7 +160,7 @@ The `text-field` component can be used to validate text fields, email addresses,
 ### Numeric validation
 The `number-field` component can be used to validate numbers.
 
-#### Validate a basic number:
+#### Validate a number
 ```html
 {{#number-field enabled=true value=validatedNumberExample as |field|}}
   <input
@@ -175,7 +175,7 @@ The `number-field` component can be used to validate numbers.
 {{/number-field}}
 ```
 
-#### Validate an integer:
+#### Validate any integer
 ```html
 {{#number-field enabled=true value=validatedIntegerExample integer=true as |field|}}
   <input
@@ -190,7 +190,7 @@ The `number-field` component can be used to validate numbers.
 {{/number-field}}
 ```
 
-#### Validate a positive integer:
+#### Validate a positive integer
 ```html
 {{#number-field
   enabled=true
@@ -211,7 +211,28 @@ The `number-field` component can be used to validate numbers.
 {{/number-field}}
 ```
 
-#### Validate a number between 30-50:
+#### Validate a negative integer
+```html
+{{#number-field
+  enabled=true
+  value=validatedNegativeIntegerExample
+  negative=true
+  integer=true
+  as |field|
+}}
+  <input
+    type="text"
+    placeholder="Enter your age"
+    oninput={{action (mut validatedNegativeIntegerExample) value="target.value"}}
+    value={{validatedNegativeIntegerExample}}
+  >
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
+{{/number-field}}
+```
+
+#### Validate a number between 30-50
 ```html
 {{#number-field
   enabled=true
@@ -232,15 +253,15 @@ The `number-field` component can be used to validate numbers.
 {{/number-field}}
 ```
 
-#### Using built-in transforms
+#### Cast value as integer
 
 Utilize the built-in transforms so the value set in the component/controller is
-an integer instead of a string.
+set as an integer, instead of as a string.
 
 ```html
 {{#number-field
-  onInput=(action (mut validatedIntegerExample))
-  value=validatedIntegerExample
+  onInput=(action (mut castIntegerExample))
+  value=castIntegerExample
   integer=true
   as |field|
 }}
@@ -249,7 +270,7 @@ an integer instead of a string.
     placeholder="Enter a number"
     oninput={{action (mut field.value) value="target.value"}}
     onblur={{action field.enable}}
-    value={{validatedIntegerExample}}
+    value={{castIntegerExample}}
   > * required
   {{#if field.hasError}}
     <p>{{field.errorMessage}}</p>
@@ -259,7 +280,7 @@ an integer instead of a string.
 
 If you inspect this value using the Ember inspector:
 ```js
-typeof $E.get('validatedIntegerExample') // "number"
+typeof $E.get('castIntegerExample') // "number"
 ```
 
 ### Form validation
