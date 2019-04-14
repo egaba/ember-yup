@@ -87,7 +87,7 @@ export default Model.extend({
 
 ## Validation Components
 
-Wrap your form controls with these components to display validation errors.
+Wrap your form controls with these components to validate form data and display validation errors.
 
 ### Text validation
 The `text-field` component can be used to validate text fields, email addresses, and URLs.
