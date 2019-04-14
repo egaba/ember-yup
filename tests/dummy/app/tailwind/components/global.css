@@ -1,0 +1,11 @@
+p {
+  @apply .mb-2;
+}
+
+input[type="text"] {
+  @apply .border .border-black;
+}
+
+button {
+  @apply .border .border-blue .py-3 px-5 .bg-blue .text-white;
+}

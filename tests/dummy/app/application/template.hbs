@@ -1,6 +1,15 @@
-<ul>
-  <li>{{link-to "Component demos" "index"}}</li>
-  <li>{{link-to "Ember Data demo" "validate-model"}}</li>
-</ul>
+<header class="mb-10">
+  <nav class="flex items-center justify-between flex-wrap bg-grey-darkest p-6">
+    <div class="flex items-center flex-no-shrink text-white mr-6">
+      <span class="font-semibold text-xl tracking-tight">{{link-to "Ember Yup" "index" class="text-white no-underline"}}</span>
+    </div>
+    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+      <div class="text-sm lg:flex-grow">
+        {{link-to "Component demos" "index" class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white no-underline mr-4"}}
+        {{link-to "Ember Data demo" "validate-model" class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white no-underline mr-4"}}
+      </div>
+    </div>
+  </nav>
+</header>
 
 {{outlet}}

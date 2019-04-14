@@ -7,7 +7,11 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-  this.route('validate-model');
+  this.route('validate-model', function() {
+    this.route('controller', { path: '/' });
+    this.route('template');
+    this.route('model');
+  });
 });
 
 export default Router;
