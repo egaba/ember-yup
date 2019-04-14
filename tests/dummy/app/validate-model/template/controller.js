@@ -21,29 +21,5 @@ export default Controller.extend({
         <p style="color: red;">{{error}}</p>
       {{/each}}
     </form>
-
-    {{#if model.length}}
-      <h2>users</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>username</th>
-            <th>age</th>
-            <th>email</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each model as |user|}}
-            <tr>
-              <td>{{user.username}}</td>
-              <td>{{user.age}}</td>
-              <td>{{if user.email user.email 'N/A'}}</td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table>
-    {{else}}
-      <p>fill out the form to create a user</p>
-    {{/if}}
   `
 });
