@@ -4914,12 +4914,11 @@ return"email"===a?s=s.email(t):"url"===a&&(s=s.url(r)),this.get("required")&&(s=
 return this.get("charLimit")?this.get("charLimit")-e:0}),charValidate:Ember.observer("charRemaining",function(){var e=this,t=this.get("charLimitSchema").validate(this.get("value.length"))
 return t.then(function(){return e.set("errors",[])}).catch(function(t){return e.set("errors",t.errors),t.errors}),t}),actions:{enableValidation:function(){this.get("enabled")||(this.set("enabled",!0),this.validate())}}})}),define("ember-yup/components/text-field/template",["exports"],function(e){"use strict"
 e.__esModule=!0,e.default=Ember.HTMLBars.template({id:"gCht6p21",block:'{"symbols":["&default"],"statements":[[14,1,[[27,"hash",null,[["enable","errors","errors","value","charRemaining"],[[27,"action",[[22,0,[]],"enableValidation"],null],[23,["errors"]],[27,"if",[[23,["errors","length"]],true,false],null],[23,["value"]],[23,["charRemaining"]]]]]]],[0,"\\n"]],"hasEval":false}',meta:{moduleName:"ember-yup/components/text-field/template.hbs"}})}),define("ember-yup/components/validation-form/component",["exports","ember-yup/components/validation-form/template"],function(e,t){"use strict"
-Object.defineProperty(e,"__esModule",{value:!0})
-e.default=Ember.Component.extend({layout:t.default,tagName:"form",fieldMap:{},errors:{},onSubmit:function(e){},onReject:function(e){},submit:function(e){var t=this
+Object.defineProperty(e,"__esModule",{value:!0}),e.default=Ember.Component.extend({layout:t.default,tagName:"form",fieldMap:{},errors:{},onSubmit:function(e){},onReject:function(e){},submit:function(e){var t=this
 e.preventDefault()
 var r=this.get("fieldMap"),n={}
 for(var i in r){var o=r[i]
 o.set("enabled",!0),n[i]=o.get("validation")}Ember.RSVP.hashSettled(n).then(function(e){var r={},n={}
-for(var i in e)e[i].value instanceof Array?(console.log("error for",i,e[i].value),n[i]=e[i].value):r[i]=e[i].value
+for(var i in e)e[i].value instanceof Array?n[i]=e[i].value:r[i]=e[i].value
 t.set("errors",n),Object.keys(n).length?t.onReject(n):t.onSubmit(r)})}})}),define("ember-yup/components/validation-form/template",["exports"],function(e){"use strict"
 e.__esModule=!0,e.default=Ember.HTMLBars.template({id:"qxObwqfh",block:'{"symbols":["&default"],"statements":[[14,1,[[27,"hash",null,[["fieldMap","errors"],[[23,["fieldMap"]],[23,["errors"]]]]]]],[0,"\\n"]],"hasEval":false}',meta:{moduleName:"ember-yup/components/validation-form/template.hbs"}})})
