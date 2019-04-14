@@ -7,7 +7,6 @@ This is an Ember port of the [Yup validation library](https://github.com/jquense
 **Warning: This is still a major work in progress.**
 
 However, I think I've gotten this library to a decent starting point for most projects.
-Sorry, no tests yet. This library is built with passion and laziness.
 
 ## Installation
 
@@ -394,8 +393,8 @@ export default Controller.extend({
 Contributing
 ------------------------------------------------------------------------------
 
-This is still a major work in progress. **There aren't any tests yet...** but feel
-free to make a PR if you can understand the code enough to help! I would greatly appreciate it :)
+Sorry, no tests yet. This library is built with passion and laziness. Feel free
+to make a PR if you can understand the code enough to help! I would greatly appreciate it :)
 
 ### Installation
 
