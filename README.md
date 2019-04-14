@@ -93,7 +93,7 @@ Wrap your form controls with these components to display validation errors.
 ### Text validation
 The `text-field` component can be used to validate text fields, email addresses, and URLs.
 
-Validate a required username:
+#### Validate a required username:
 ```html
 {{#text-field
   required=true
@@ -114,7 +114,7 @@ Validate a required username:
 {{/text-field}}
 ```
 
-Validate a required email:
+#### Validate a required email:
 ```html
 {{#text-field
   type="email"
@@ -136,7 +136,7 @@ Validate a required email:
 {{/text-field}}
 ```
 
-Char limit:
+#### Char limit:
 ```html
 {{#text-field
   enabled=true
@@ -160,7 +160,7 @@ Char limit:
 ### Numeric validation
 The `number-field` component can be used to validate numbers.
 
-Validate a basic number:
+#### Validate a basic number:
 ```html
 {{#number-field enabled=true value=validatedNumberExample as |field|}}
   <input
@@ -175,7 +175,7 @@ Validate a basic number:
 {{/number-field}}
 ```
 
-Validate an integer:
+#### Validate an integer:
 ```html
 {{#number-field enabled=true value=validatedIntegerExample integer=true as |field|}}
   <input
@@ -190,7 +190,7 @@ Validate an integer:
 {{/number-field}}
 ```
 
-Validate a positive integer:
+#### Validate a positive integer:
 ```html
 {{#number-field
   enabled=true
@@ -211,7 +211,7 @@ Validate a positive integer:
 {{/number-field}}
 ```
 
-Validate a number between 30-50:
+#### Validate a number between 30-50:
 ```html
 {{#number-field
   enabled=true
@@ -232,8 +232,11 @@ Validate a number between 30-50:
 {{/number-field}}
 ```
 
+#### Using built-in transforms
+
 Utilize the built-in transforms so the value set in the component/controller is
 an integer instead of a string.
+
 ```html
 {{#number-field
   onInput=(action (mut validatedIntegerExample))
