@@ -6,8 +6,6 @@ This is an Ember port of the [Yup validation library](https://github.com/jquense
 
 **Warning: This is still a major work in progress.**
 
-However, I think I've gotten this library to a decent starting point for most projects.
-
 ## Installation
 
 ```sh
