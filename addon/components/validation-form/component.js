@@ -28,7 +28,6 @@ export default Component.extend({
 
       for (const fieldName in data) {
         if (data[fieldName].value instanceof Array) {
-          console.log('error for', fieldName, data[fieldName].value);
           errors[fieldName] = data[fieldName].value;
         } else {
           values[fieldName] = data[fieldName].value;
