@@ -136,7 +136,7 @@ The `text-field` component can be used to validate text fields, email addresses,
 {{/text-field}}
 ```
 
-#### Validate character limit:
+#### Validate character limit
 ```html
 {{#text-field
   enabled=true
