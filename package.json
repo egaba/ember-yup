@@ -3,7 +3,12 @@
   "version": "0.0.10",
   "description": "Dead, simple schema validations for Ember",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "validate",
+    "validation",
+    "form",
+    "forms",
+    "schema"
   ],
   "homepage": "https://egaba88.github.io/ember-yup/",
   "repository": {
