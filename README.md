@@ -88,7 +88,7 @@ export default Model.extend({
 
 ## Validation Components
 
-Validate data without schemas.
+Validate data through components.
 
 ### Text validation
 The `text-field` component can be used to validate text fields, email addresses, and URLs.
