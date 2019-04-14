@@ -3,7 +3,6 @@ import Controller from '@ember/controller';
 export default Controller.extend({
   html: `
     <form class="" {{action "createUser" on="submit"}}>
-      <p>create a new user</p>
       <div class="">
         <label for="username">username</label>
         <input id="username" type="text" value={{formData.username}} oninput={{action (mut formData.username) value="target.value"}}> *required
