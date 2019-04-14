@@ -4,8 +4,10 @@ Demo: https://egaba88.github.io/ember-yup/
 
 This is an Ember port of the [Yup validation library](https://github.com/jquense/yup)
 
-**Warning: This is still a major work in progress.** However, I think I've gotten
-this library to a decent starting point for most projects.
+**Warning: This is still a major work in progress.**
+
+However, I think I've gotten this library to a decent starting point for most projects.
+Sorry, no tests yet. This library is built with passion and laziness.
 
 ## Installation
 
