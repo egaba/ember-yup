@@ -1,3 +1,24 @@
+{{#number-field
+  onInput=(action (mut validatedIntegerExample))
+  value=validatedIntegerExample
+  integer=true
+  as |field|
+}}
+  <input
+    type="text"
+    placeholder="Enter a number"
+    oninput={{action (mut field.value) value="target.value"}}
+    onblur={{action field.enable}}
+    value={{validatedIntegerExample}}
+  > * required
+  {{#if field.hasError}}
+    <p>{{field.errorMessage}}</p>
+  {{/if}}
+{{/number-field}}
+
+<hr>
+
+
 <ul>
   <li>{{link-to "Component demos" "index"}}</li>
   <li>{{link-to "Ember Data demo" "validate-model"}}</li>

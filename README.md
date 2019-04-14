@@ -254,6 +254,11 @@ an integer instead of a string.
 {{/number-field}}
 ```
 
+If you inspect this value using the Ember inspector:
+```js
+typeof $E.get('validatedIntegerExample') // "number"
+```
+
 ### Form validation
 The `validation-form` component can be used with the field components to create a validated
 form. It will send `onSubmit` and `onReject` actions. `onReject` is optional.
