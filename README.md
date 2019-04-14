@@ -284,11 +284,11 @@ typeof $E.get('castIntegerExample') // "number"
 ```
 
 ### Form validation
-The `validation-form` component can be used with the field components to create a validated
-form. It will send `onSubmit` and `onReject` actions. `onReject` is optional.
+The `validation-form` component can be used with the field components to validate
+form data. If valid, `onSubmit` will be invoked. Otherwise, `onReject` will be invoked.
 
-Validation Field components should contain a `name` prop so that their values are correctly mapped
-in the form's data.
+**IMPORTANT: Field components should contain a `name` prop so that their values are correctly mapped
+in the form's data.**
 
 ```html
 {{#validation-form
@@ -296,7 +296,13 @@ in the form's data.
   onReject=(action "rejectValidationForm")
   as |form|
 }}
-  {{#text-field requiredMessage="username is required" name="username" form=form required=true value=validationFormName as |field|}}
+  {{#text-field
+    requiredMessage="username is required"
+    name="username"
+    form=form
+    required=true
+    value=validationFormName
+  }}
     <input type="text"
       placeholder="username"
       oninput={{action (mut validationFormName) value="target.value"}}
@@ -305,12 +311,20 @@ in the form's data.
     {{#if form.errors.username.length}}
       <ul>
         {{#each form.errors.username as |errorMessage|}}
-          <li>{{errorMessage}}</li>
+          <li style="color: red;">{{errorMessage}}</li>
         {{/each}}
       </ul>
     {{/if}}
   {{/text-field}}
-  {{#number-field requiredMessage="age is required" name="age" form=form integer=true positive=true required=true value=validationFormAge as |field|}}
+  {{#number-field
+    requiredMessage="age is required"
+    name="age"
+    form=form
+    integer=true
+    positive=true
+    required=true
+    value=validationFormAge
+  }}
     <input
       type="text"
       placeholder="age"
@@ -320,7 +334,7 @@ in the form's data.
     {{#if form.errors.age.length}}
       <ul>
         {{#each form.errors.age as |errorMessage|}}
-          <li>{{errorMessage}}</li>
+          <li style="color: red;">{{errorMessage}}</li>
         {{/each}}
       </ul>
     {{/if}}
@@ -331,7 +345,6 @@ in the form's data.
     value=validationFormEmail
     type="email"
     requiredMessage="email is required"
-    as |field|
   }}
     <input
       placeholder="email"
@@ -342,11 +355,17 @@ in the form's data.
     {{#if form.errors.validationFormEmail.length}}
       <ul>
         {{#each form.errors.validationFormEmail as |errorMessage|}}
-          <li>{{errorMessage}}</li>
+          <li style="color: red;">{{errorMessage}}</li>
         {{/each}}
       </ul>
     {{/if}}
   {{/text-field}}
+
+  {{#if validationFormSuccessData}}
+    <div class="">
+      success! {{validationFormSuccessData}}
+    </div>
+  {{/if}}
   <button type="submit">validate</button>
 {{/validation-form}}
 ```
@@ -358,8 +377,12 @@ export default Controller.extend({
   actions: {
     submitValidationForm(data) {
       console.log('submission success', data);
+      this.set('validationFormErrors', {});
+      this.set('validationFormSuccessData', JSON.stringify(data));
     },
     rejectValidationForm(errors) {
+      this.set('validationFormErrors', errors);
+      this.set('validationFormSuccessData', null);
       console.log('submission error', errors);
     }
   }

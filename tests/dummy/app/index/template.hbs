@@ -4,7 +4,13 @@
   onReject=(action "rejectValidationForm")
   as |form|
 }}
-  {{#text-field requiredMessage="username is required" name="username" form=form required=true value=validationFormName as |field|}}
+  {{#text-field
+    requiredMessage="username is required"
+    name="username"
+    form=form
+    required=true
+    value=validationFormName
+  }}
     <input type="text"
       placeholder="username"
       oninput={{action (mut validationFormName) value="target.value"}}
@@ -18,7 +24,15 @@
       </ul>
     {{/if}}
   {{/text-field}}
-  {{#number-field requiredMessage="age is required" name="age" form=form integer=true positive=true required=true value=validationFormAge as |field|}}
+  {{#number-field
+    requiredMessage="age is required"
+    name="age"
+    form=form
+    integer=true
+    positive=true
+    required=true
+    value=validationFormAge
+  }}
     <input
       type="text"
       placeholder="age"
@@ -39,7 +53,6 @@
     value=validationFormEmail
     type="email"
     requiredMessage="email is required"
-    as |field|
   }}
     <input
       placeholder="email"
@@ -55,6 +68,12 @@
       </ul>
     {{/if}}
   {{/text-field}}
+
+  {{#if validationFormSuccessData}}
+    <div class="">
+      success! {{validationFormSuccessData}}
+    </div>
+  {{/if}}
   <button type="submit">validate</button>
 {{/validation-form}}
 

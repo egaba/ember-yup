@@ -8,7 +8,8 @@ export default Controller.extend({
       this.set('validationFormSuccessData', JSON.stringify(data));
     },
     rejectValidationForm(errors) {
-      this.set('validationFormErrors', errors)
+      this.set('validationFormErrors', errors);
+      this.set('validationFormSuccessData', null);
       console.log('submission error', errors);
     }
   }
