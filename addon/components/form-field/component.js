@@ -21,23 +21,21 @@ export default Component.extend({
   validation: computed('value', 'schema', function() {
     const schema = this.get('schema');
 
-    if (!schema) {
-      return null;
+    if (schema) {
+      return schema.validate(this.get('value')).then((value) => {
+        const name = this.get('name');
+        this.set('schemaErrors', []);
+        if (this.onInput) {
+          this.onInput(value);
+        }
+        return value;
+      }).catch((validation) => {
+        this.set('schemaErrors', validation.errors);
+        return validation.errors;
+      });
     }
 
-    const validate = schema.validate(this.get('value')).then((value) => {
-      const name = this.get('name');
-      this.set('schemaErrors', []);
-      if (this.onInput) {
-        this.onInput(value);
-      }
-      return value;
-    }).catch((validation) => {
-      this.set('schemaErrors', validation.errors);
-      return validation.errors;
-    });
-
-    return validate;
+    return null;
   }),
 
   validate: on('init', observer('validation', 'enabled', function() {

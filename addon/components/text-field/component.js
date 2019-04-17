@@ -71,20 +71,18 @@ export default FormField.extend({
   charLimitValidation: Ember.computed('value', 'charLimitSchema', function() {
     const schema = this.get('charLimitSchema');
 
-    if (!schema) {
-      return null;
+    if (schema) {
+      return schema.validate(this.get('value.length')).then((value) => {
+        const name = this.get('name');
+        this.set('charLimitErrors', []);
+        return value;
+      }).catch((validation) => {
+        this.set('charLimitErrors', validation.errors);
+        return validation.errors;
+      });
     }
 
-    const validate = schema.validate(this.get('value.length')).then((value) => {
-      const name = this.get('name');
-      this.set('charLimitErrors', []);
-      return value;
-    }).catch((validation) => {
-      this.set('charLimitErrors', validation.errors);
-      return validation.errors;
-    });
-
-    return validate;
+    return null;
   }),
   validateCharLimit: Ember.on('init', Ember.observer('charLimitValidation', 'enabled', function() {
     if (this.get('enabled')) {
