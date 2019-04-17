@@ -179,8 +179,8 @@ Fields will aggregate their error messages in an `errors` array that is passed d
 {{/text-field}}
 ```
 
-If the form field is used within a the `validation-form`, the form will collect errors
-in an `errors` hash passed down with the form.
+If the form field is used within a `validation-form`, the form will also collect errors
+in an `errors` hash passed down with the form (resolving from the same promises that passed from the fields).
 
 ```html
 {{#validation-form
