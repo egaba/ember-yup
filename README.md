@@ -188,7 +188,7 @@ For number fields, it follows the same suit. Here are the validation message key
 
 ### Validating a form
 
-Form fields can be combined within a `validation-form` to validate (and reject) data before it is sent.
+Form fields can be combined within a `validation-form` to validate data before it is sent.
 
 In order for form fields to operate within a `validation-form`, **form fields must be passed `name` and `form` props.**
 This allows the form to assign a key to each field that it collects for its data.
