@@ -97,7 +97,7 @@ Currently, there are three validation components:
 
 ### Component API
 
-#### Options and Handlers
+#### Input props: Options and Handlers
 
 ##### Text Field
   * `value` any
@@ -122,7 +122,7 @@ Currently, there are three validation components:
   * `onSubmit` action -> hash/object of valid form data
   * `onReject` action -> hash/object of array of strings (error messages)
 
-#### Yielded props
+#### Output props
 
 ##### Text Field
   * `errors` array of strings
