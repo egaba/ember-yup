@@ -229,7 +229,6 @@ Validation message keys to override:
 ```
 
 For number fields, it follows the same suit. Validation message keys to override:
-
 ```js
   // number field
   validationMessages: {
