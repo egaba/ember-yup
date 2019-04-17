@@ -215,9 +215,23 @@ Similarly, if `type='url'`, override the message via `url` or `type`. For exampl
 
 If `charLimit > 0`, override the message via `charLimit`: `validationMessages=(hash charLimit='this string is too long')`.
 
-For number fields, it follows the same suit. Here are the validation message keys you can override:
+Validation message keys to override:
+```js
+  // text field
+  validationMessages: {
+    dataType: undefined,
+    email: undefined,
+    url: undefined,
+    type: undefined,
+    required: undefined,
+    charLimit: 'this exceeds the character limit',
+  }
+```
+
+For number fields, it follows the same suit. Validation message keys to override:
 
 ```js
+  // number field
   validationMessages: {
     dataType: undefined,
     required: undefined,
