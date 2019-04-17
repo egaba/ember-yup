@@ -154,7 +154,7 @@ Otherwise, to enable the form field, there are two options:
 2. Or, send the `enable` action that is passed down with the field
 
 ```html
-  {{#text-field enabled=true value=myTextValue as |field|}}
+  {{#text-field value=myTextValue as |field|}}
     <input
       type="text"
       value={{myTextValue}}
