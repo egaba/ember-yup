@@ -95,6 +95,46 @@ Currently, there are three validation components:
 * `number-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/number-field)
 * `validation-form` (demos https://egaba88.github.io/ember-yup/#/validation-components/validation-form)
 
+### Component API
+
+#### Options and Handlers
+
+##### Text Field
+  * `value` any
+  * `required=true|false` boolean
+  * `type=string|email|url` string
+  * `charLimit >= 0` number
+  * `validationMessages` hash/object
+  * `onInput` action -> string
+
+##### Number Field
+  * `value` any
+  * `required=true|false` boolean
+  * `integer=true|false` boolean
+  * `positive=true|false` boolean
+  * `negative=true|false` boolean
+  * `min` number or undefined
+  * `max` number or undefined
+  * `validationMessages` hash/object
+  * `onInput` action -> number
+
+##### Validation Form
+  * `onSubmit` action -> hash/object of valid form data
+  * `onReject` action -> hash/object of array of strings (error messages)
+
+#### Yielded props
+
+##### Text Field
+  * `errors` array of strings
+  * `enable` action to set field `enabled`
+
+##### Number Field
+  * `errors` array of strings
+  * `enable` action to set field `enabled`
+
+##### Validation Form
+  * `errors` hash/object of array of strings
+
 ### Enabling form fields
 
 By default, form fields will not begin validating until they are `enabled`.
