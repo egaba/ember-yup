@@ -7,7 +7,7 @@ import * as yup from 'yup';
 /**
  * This component is used for validating text values.
  */
-const TextField = FormField.extend({
+export default FormField.extend({
   layout,
 
   validationMessages: {
@@ -83,5 +83,3 @@ const TextField = FormField.extend({
     }
   }))
 });
-
-export default TextField;
