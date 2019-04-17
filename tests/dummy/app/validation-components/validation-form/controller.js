@@ -60,9 +60,6 @@ export default Controller.extend({
         name="validationFormEmail"
         value=validationFormEmail
         type="email"
-        validationMessages=(hash
-          required="email is required"
-        )
       }}
         <input
           placeholder="email"

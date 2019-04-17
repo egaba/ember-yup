@@ -48,14 +48,14 @@ export default Controller.extend({
     {{#text-field
       enabled=true
       charLimit=10
-      value=charLimit
+      value=charLimitText
       as |field|
     }}
       <input
         placeholder="Short message"
         type="text"
-        value={{charLimit}}
-        oninput={{action (mut charLimit) value="target.value"}}
+        value={{charLimitText}}
+        oninput={{action (mut charLimitText) value="target.value"}}
       >
       <span>char remaining: {{field.charRemaining}}</span>
       {{#each field.errors as |errorMessage|}}
