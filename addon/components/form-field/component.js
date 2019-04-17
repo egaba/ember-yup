@@ -14,7 +14,7 @@ export default Component.extend({
 
   schemaErrors: [],
 
-  errors: Ember.computed('schemaErrors.[]', function() {
+  errors: computed('schemaErrors.[]', function() {
     return this.get('schemaErrors');
   }),
 

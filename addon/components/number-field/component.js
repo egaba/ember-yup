@@ -1,5 +1,5 @@
 import FormField from 'ember-yup/components/form-field/component';
-import { observer } from '@ember/object';
+import { computed, observer } from '@ember/object';
 import { on } from '@ember/object/evented';
 import layout from './template';
 import * as yup from 'yup';
@@ -28,7 +28,7 @@ export default FormField.extend({
   min: undefined,
   max: undefined,
 
-  schema: Ember.computed(
+  schema: computed(
     'validationMessages.dataType',
     'required', 'validationMessages.required',
     'integer', 'validationMessages.integer',

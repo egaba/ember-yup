@@ -1,5 +1,5 @@
 import FormField from 'ember-yup/components/form-field/component';
-import { observer } from '@ember/object';
+import { computed, observer } from '@ember/object';
 import { on } from '@ember/object/evented';
 import layout from './template';
 import * as yup from 'yup';
@@ -19,7 +19,7 @@ export default FormField.extend({
     charLimit: 'this exceeds the character limit',
   },
 
-  errors: Ember.computed('schemaErrors.[]', 'charLimitErrors.[]', function() {
+  errors: computed('schemaErrors.[]', 'charLimitErrors.[]', function() {
     return this.get('schemaErrors').concat(this.get('charLimitErrors'));
   }),
 
@@ -27,7 +27,7 @@ export default FormField.extend({
   type: 'string',
   required: false,
 
-  schema: Ember.computed(
+  schema: computed(
     'validationMessages.dataType',
     'type', 'validationMessages.email', 'validationMessages.url', 'validationMessages.type',
     'required', 'validationMessages.required',
@@ -50,7 +50,7 @@ export default FormField.extend({
 
   charLimit: 0,
   charLimitErrors: [],
-  charLimitSchema: Ember.computed('charLimit', 'validationMessages.charLimit', function() {
+  charLimitSchema: computed('charLimit', 'validationMessages.charLimit', function() {
     const charLimit = this.get('charLimit');
 
     if (charLimit > 0) {
@@ -59,7 +59,7 @@ export default FormField.extend({
 
     return null;
   }),
-  charRemaining: Ember.computed('value', 'charLimit', function() {
+  charRemaining: computed('value', 'charLimit', function() {
     const charLimit = this.get('charLimit');
 
     if (charLimit > 0) {
@@ -69,7 +69,7 @@ export default FormField.extend({
 
     return 0;
   }),
-  charLimitValidation: Ember.computed('value', 'charLimitSchema', function() {
+  charLimitValidation: computed('value', 'charLimitSchema', function() {
     const schema = this.get('charLimitSchema');
 
     if (schema) {
@@ -85,7 +85,7 @@ export default FormField.extend({
 
     return null;
   }),
-  validateCharLimit: Ember.on('init', Ember.observer('charLimitValidation', 'enabled', function() {
+  validateCharLimit: on('init', observer('charLimitValidation', 'enabled', function() {
     if (this.get('enabled')) {
       return this.get('charLimitValidation');
     }
