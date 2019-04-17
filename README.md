@@ -10,9 +10,11 @@ This is an Ember port of the [Yup validation library](https://github.com/jquense
 $ ember install ember-yup
 ```
 
-## Using the yup library
+## Validating schemas
 
-`import * as yup from 'yup';` in your controllers, components, etc.
+Schema validation is the most flexible way to use this library. Yup supports
+validating nested objects, data transforms, localization, and much more.
+See [Yup docs here](https://github.com/jquense/yup).
 
 Here's an example where we validate form data before creating a user.
 
@@ -95,7 +97,7 @@ Currently, there are only three validation components:
 ### Enabling form fields
 
 By default, form fields will not begin validating until they are `enabled`.
-When used within a `validation-form`, all child form fields of that form will be enabled the first time the form submits.
+When used within a `validation-form`, all **child form fields of that form will be enabled the first time the form submits.**
 
 Otherwise, to enable the form field, there are two options:
 1. Pass `enabled=true` to the form field
@@ -184,8 +186,12 @@ Fields will aggregate their error messages in an `errors` array that is passed d
 {{/text-field}}
 ```
 
-If the form field is used within a `validation-form`, the form will also collect errors
-in an `errors` hash passed down with the form (resolving from the same promises that passed from the fields).
+### Validating a form
+
+Form fields can be combined within a `validation-form` to validate (and reject) data before it is sent.
+
+In order for form fields to operate within a `validation-form`, **form fields must be passed `name` and `form` props.**
+This allows the form to assign a key to each field that it collects for its data.
 
 ```html
 {{#validation-form
