@@ -135,7 +135,7 @@ Currently, there are three validation components:
   * `enable` action to set field `enabled`
 
 ##### Validation Form
-  * `errors` hash/object of array of strings
+  * `errors` hash/object of array of strings (error messages)
 
 ### Enabling form fields
 
