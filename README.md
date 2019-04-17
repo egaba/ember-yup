@@ -87,6 +87,7 @@ export default Model.extend({
 
 ## Validation Components
 
+You can validate data using these handy validation components as well.
 Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
 
 Currently, there are three validation components:
