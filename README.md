@@ -146,22 +146,22 @@ Otherwise, to enable the form field, there are two options:
 1. Pass `enabled=true` to the form field
 
 ```html
-  {{#text-field enabled=true value=myTextValue as |field|}}
-    <input type="text" value={{myTextValue}} oninput={{action (mut myTextValue) value="target.value"}} />
-  {{/text-field}}
+{{#text-field enabled=true value=myTextValue as |field|}}
+  <input type="text" value={{myTextValue}} oninput={{action (mut myTextValue) value="target.value"}} />
+{{/text-field}}
 ```
 
 2. Or, send the `enable` action that is passed down with the field
 
 ```html
-  {{#text-field value=myTextValue as |field|}}
-    <input
-      type="text"
-      value={{myTextValue}}
-      oninput={{action (mut myTextValue) value="target.value"}}
-      onblur={{action field.enable}}
-    />
-  {{/text-field}}
+{{#text-field value=myTextValue as |field|}}
+  <input
+    type="text"
+    value={{myTextValue}}
+    oninput={{action (mut myTextValue) value="target.value"}}
+    onblur={{action field.enable}}
+  />
+{{/text-field}}
 ```
 
 Note: Sending `enable` essentially calls `{{action (mut field.enabled) true}}`
@@ -203,43 +203,43 @@ If `required=true`, override the message via `validationMessages=(hash required=
 For text fields:
 If `type='email'`, override the message via `email` or `type`. For example, both are valid, but `email` takes precedence:
 ```html
-  validationMessages=(hash email='this field should be a valid email address')
-  validationMessages=(hash type='this field should be a valid email address')
+validationMessages=(hash email='this field should be a valid email address')
+validationMessages=(hash type='this field should be a valid email address')
 ```
 
 Similarly, if `type='url'`, override the message via `url` or `type`. For example, both are valid, but `url` takes precedence:
 ```html
-  validationMessages=(hash url='this field should be a valid url')
-  validationMessages=(hash type='this field should be a valid url')
+validationMessages=(hash url='this field should be a valid url')
+validationMessages=(hash type='this field should be a valid url')
 ```
 
 If `charLimit > 0`, override the message via `charLimit`: `validationMessages=(hash charLimit='this string is too long')`.
 
 Text field validation message keys:
 ```js
-  // text field
-  validationMessages: {
-    dataType: undefined,
-    email: undefined,
-    url: undefined,
-    type: undefined,
-    required: undefined,
-    charLimit: 'this exceeds the character limit',
-  }
+// text field
+validationMessages: {
+  dataType: undefined,
+  email: undefined,
+  url: undefined,
+  type: undefined,
+  required: undefined,
+  charLimit: 'this exceeds the character limit',
+}
 ```
 
 For number fields, it follows the same suit. Number field validation message keys:
 ```js
-  // number field
-  validationMessages: {
-    dataType: undefined,
-    required: undefined,
-    integer: undefined,
-    positive: undefined,
-    negative: undefined,
-    min: undefined,
-    max: undefined,
-  }
+// number field
+validationMessages: {
+  dataType: undefined,
+  required: undefined,
+  integer: undefined,
+  positive: undefined,
+  negative: undefined,
+  min: undefined,
+  max: undefined,
+}
 ```
 
 ### Validating a form
