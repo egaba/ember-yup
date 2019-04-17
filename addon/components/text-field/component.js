@@ -15,7 +15,7 @@ const TextField = FormField.extend({
     email: undefined,
     url: undefined,
     required: undefined,
-    charLimit: 'this field exceeds the character limit',
+    charLimit: 'this exceeds the character limit',
   },
 
   errors: Ember.computed('schemaErrors.[]', 'charLimitErrors.[]', function() {
