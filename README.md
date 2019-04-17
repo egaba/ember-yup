@@ -124,7 +124,7 @@ Otherwise, to enable the form field, there are two options:
 Note: Sending `enable` essentially calls `{{action (mut field.enabled) true}}`
 
 ### Displaying error messages
-Fields will aggregate their error messages in an `errors` array that is passed down with the field.
+Fields will aggregate its error messages in an `errors` array that is passed down with the field.
 
 ```html
 {{#text-field
