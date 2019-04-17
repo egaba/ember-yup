@@ -87,6 +87,11 @@ export default Model.extend({
 
 Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
 
+Currently, there are only three validation components:
+* `text-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/text-field)
+* `number-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/number-field)
+* `validation-form` (demos https://egaba88.github.io/ember-yup/#/validation-components/validation-form)
+
 ### Enabling form fields
 
 By default, form fields will not begin validating until they are `enabled`.
