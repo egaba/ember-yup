@@ -85,7 +85,7 @@ export default Model.extend({
 
 ## Validation Components
 
-See examples here https://egaba88.github.io/ember-yup/
+See examples here https://egaba88.github.io/ember-yup/#/validation-components/text-field
 
 Contributing
 ------------------------------------------------------------------------------
