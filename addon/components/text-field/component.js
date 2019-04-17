@@ -66,9 +66,6 @@ export default FormField.extend({
     const validate = schema.validate(this.get('value.length')).then((value) => {
       const name = this.get('name');
       this.set('charLimitErrors', []);
-      if (this.onInput) {
-        this.onInput(value);
-      }
       return value;
     }).catch((validation) => {
       this.set('charLimitErrors', validation.errors);
