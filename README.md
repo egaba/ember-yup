@@ -16,7 +16,7 @@ $ ember install ember-yup
 
 Here's an example where we validate form data before creating a user.
 
-Demo: https://egaba88.github.io/ember-yup/#/validate-model
+Demo: https://egaba88.github.io/ember-yup/#/validate-schema
 
 ```js
 import Controller from '@ember/controller';
