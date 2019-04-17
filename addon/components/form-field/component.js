@@ -18,10 +18,10 @@ export default Component.extend({
     return this.get('schemaErrors');
   }),
 
-  validation: computed('enabled', 'value', 'schema', function() {
+  validation: computed('value', 'schema', function() {
     const schema = this.get('schema');
 
-    if (!this.get('enabled') || !schema) {
+    if (!schema) {
       return null;
     }
 
@@ -40,7 +40,7 @@ export default Component.extend({
     return validate;
   }),
 
-  validate: on('init', observer('validation', function() {
+  validate: on('init', observer('validation', 'enabled', function() {
     if (this.get('enabled')) {
       return this.get('validation');
     }

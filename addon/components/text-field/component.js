@@ -50,11 +50,23 @@ export default FormField.extend({
   charLimit: 0,
   charLimitErrors: [],
   charLimitSchema: Ember.computed('charLimit', 'validationMessages.charLimit', function() {
-    return yup.number().max(this.get('charLimit'), this.get('validationMessages.charLimit'));
+    const charLimit = this.get('charLimit');
+
+    if (charLimit > 0) {
+      return yup.number().max(charLimit, this.get('validationMessages.charLimit'));
+    }
+
+    return null;
   }),
   charRemaining: Ember.computed('value', 'charLimit', function() {
-    const charCount = this.get('value.length') || 0;
-    return this.get('charLimit') ? this.get('charLimit') - charCount : 0;
+    const charLimit = this.get('charLimit');
+
+    if (charLimit > 0) {
+      const charCount = this.get('value.length') || 0;
+      return charLimit - charCount;
+    }
+
+    return 0;
   }),
   charLimitValidation: Ember.computed('value', 'charLimitSchema', function() {
     const schema = this.get('charLimitSchema');
@@ -74,7 +86,7 @@ export default FormField.extend({
 
     return validate;
   }),
-  validateCharLimit: Ember.on('init', Ember.observer('charLimitValidation', function() {
+  validateCharLimit: Ember.on('init', Ember.observer('charLimitValidation', 'enabled', function() {
     if (this.get('enabled')) {
       return this.get('charLimitValidation');
     }
