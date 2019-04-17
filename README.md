@@ -12,8 +12,8 @@ $ ember install ember-yup
 
 ## Validating schemas
 
-Schema validation is the most flexible way to use this library. Yup supports
-validating nested objects, data transforms, localization, and much more.
+Schema validation is the most flexible way to use this library. Yup can
+validate nested objects, transform data, localize error messages, and much more.
 See [Yup docs here](https://github.com/jquense/yup).
 
 Here's an example where we validate form data before creating a user.
