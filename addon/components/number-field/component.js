@@ -28,7 +28,7 @@ export default FormField.extend({
   min: undefined,
   max: undefined,
 
-  schema: computed(
+  dataSchema: computed(
     'validationMessages.dataType',
     'required', 'validationMessages.required',
     'integer', 'validationMessages.integer',
@@ -37,30 +37,30 @@ export default FormField.extend({
     'min', 'validationMessages.min',
     'max','validationMessages.max',
   function() {
-    let schema = yup.number(this.get('validationMessages.dataType'));
+    let dataSchema = yup.number(this.get('validationMessages.dataType'));
 
     if (this.get('integer')) {
-      schema = schema.integer(this.get('validationMessages.integer'));
+      dataSchema = dataSchema.integer(this.get('validationMessages.integer'));
     }
 
     if (this.get('positive')) {
-      schema = schema.positive(this.get('validationMessages.positive'));
+      dataSchema = dataSchema.positive(this.get('validationMessages.positive'));
     } else if (this.get('negative')) {
-      schema = schema.negative(this.get('validationMessages.negative'));
+      dataSchema = dataSchema.negative(this.get('validationMessages.negative'));
     }
 
     if (this.get('min')) {
-      schema = schema.min(this.get('min'), this.get('validationMessages.min'));
+      dataSchema = dataSchema.min(this.get('min'), this.get('validationMessages.min'));
     }
 
     if (this.get('max')) {
-      schema = schema.max(this.get('max'), this.get('validationMessages.max'));
+      dataSchema = dataSchema.max(this.get('max'), this.get('validationMessages.max'));
     }
 
     if (this.get('required')) {
-      schema = schema.required(this.get('validationMessages.required'));
+      dataSchema = dataSchema.required(this.get('validationMessages.required'));
     }
 
-    return schema;
+    return dataSchema;
   }),
 });

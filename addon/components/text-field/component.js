@@ -19,33 +19,33 @@ export default FormField.extend({
     charLimit: 'this exceeds the character limit',
   },
 
-  errors: computed('schemaErrors.[]', 'charLimitErrors.[]', function() {
-    return this.get('schemaErrors').concat(this.get('charLimitErrors'));
+  errors: computed('dataErrors.[]', 'charLimitErrors.[]', function() {
+    return this.get('dataErrors').concat(this.get('charLimitErrors'));
   }),
 
   // options
   type: 'string',
   required: false,
 
-  schema: computed(
+  dataSchema: computed(
     'validationMessages.dataType',
     'type', 'validationMessages.email', 'validationMessages.url', 'validationMessages.type',
     'required', 'validationMessages.required',
   function() {
     const type = this.get('type');
 
-    let schema = yup.string(this.get('validationMessages.dataType'));
+    let dataSchema = yup.string(this.get('validationMessages.dataType'));
     if (type === 'email') {
-      schema = schema.email(this.get('validationMessages.email') || this.get('validationMessages.type'));
+      dataSchema = dataSchema.email(this.get('validationMessages.email') || this.get('validationMessages.type'));
     } else if (type === 'url') {
-      schema = schema.url(this.get('validationMessages.url') || this.get('validationMessages.type'));
+      dataSchema = dataSchema.url(this.get('validationMessages.url') || this.get('validationMessages.type'));
     }
 
     if (this.get('required')) {
-      schema = schema.required(this.get('validationMessages.required'));
+      dataSchema = dataSchema.required(this.get('validationMessages.required'));
     }
 
-    return schema;
+    return dataSchema;
   }),
 
   charLimit: 0,
@@ -54,7 +54,7 @@ export default FormField.extend({
     const charLimit = this.get('charLimit');
 
     if (charLimit > 0) {
-      return yup.number().positive().integer().max(charLimit, this.get('validationMessages.charLimit'));
+      return yup.number().max(charLimit, this.get('validationMessages.charLimit'));
     }
 
     return null;

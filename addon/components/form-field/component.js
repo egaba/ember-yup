@@ -8,29 +8,29 @@ import RSVP from 'rsvp';
  * This is the base component for form fields.
  */
 export default Component.extend({
-  schema: null,
+  dataSchema: null,
   value: '',
   enabled: false,
 
-  schemaErrors: [],
+  dataErrors: [],
 
-  errors: computed('schemaErrors.[]', function() {
-    return this.get('schemaErrors');
+  errors: computed('dataErrors.[]', function() {
+    return this.get('dataErrors');
   }),
 
-  validation: computed('value', 'schema', function() {
-    const schema = this.get('schema');
+  validation: computed('value', 'dataSchema', function() {
+    const dataSchema = this.get('dataSchema');
 
-    if (schema) {
-      return schema.validate(this.get('value')).then((value) => {
+    if (dataSchema) {
+      return dataSchema.validate(this.get('value')).then((value) => {
         const name = this.get('name');
-        this.set('schemaErrors', []);
+        this.set('dataErrors', []);
         if (this.onInput) {
           this.onInput(value);
         }
         return value;
       }).catch((validation) => {
-        this.set('schemaErrors', validation.errors);
+        this.set('dataErrors', validation.errors);
         return validation.errors;
       });
     }
