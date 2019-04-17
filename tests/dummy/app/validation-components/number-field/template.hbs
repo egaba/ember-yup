@@ -1,0 +1,88 @@
+<section class="flex mb-8">
+  <div class="w-1/3">
+    <p>Validate a basic number:</p>
+    {{#number-field enabled=true value=validatedNumberExample as |field|}}
+      <input
+        type="text"
+        placeholder="Enter a number"
+        oninput={{action (mut validatedNumberExample) value="target.value"}}
+        value={{validatedNumberExample}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  </div>
+  <div class="w-2/3 text-xs">
+    {{markdown-to-html basicNumberExample}}
+  </div>
+</section>
+<section class="flex mb-8">
+  <div class="w-1/3">
+    <p>Validate an integer:</p>
+    {{#number-field enabled=true value=validatedIntegerExample integer=true as |field|}}
+      <input
+        type="text"
+        placeholder="Enter a number"
+        oninput={{action (mut validatedIntegerExample) value="target.value"}}
+        value={{validatedIntegerExample}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  </div>
+  <div class="w-2/3 text-xs">
+    {{markdown-to-html integerExample}}
+  </div>
+</section>
+<section class="flex mb-8">
+  <div class="w-1/3">
+    <p>Validate a positive integer:</p>
+    {{#number-field
+      enabled=true
+      value=validatedAgeExample
+      positive=true
+      integer=true
+      as |field|
+    }}
+      <input
+        type="text"
+        placeholder="Enter your age"
+        oninput={{action (mut validatedAgeExample) value="target.value"}}
+        value={{validatedAgeExample}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  </div>
+  <div class="w-2/3 text-xs">
+    {{markdown-to-html positiveIntegerExample}}
+  </div>
+</section>
+<section class="flex mb-8">
+  <div class="w-1/3">
+    <p>Validate a number between 30-50:</p>
+    {{#number-field
+      enabled=true
+      value=validatedRangeExample
+      min=30
+      max=50
+      as |field|
+    }}
+      <input
+        type="text"
+        placeholder="number range"
+        oninput={{action (mut validatedRangeExample) value="target.value"}}
+        value={{validatedRangeExample}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  </div>
+  <div class="w-2/3 text-xs">
+    {{markdown-to-html numberRangeExample}}
+  </div>
+</section>

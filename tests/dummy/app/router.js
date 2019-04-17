@@ -7,10 +7,15 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-  this.route('validate-model', function() {
+  this.route('validate-schema', function() {
     this.route('controller', { path: '/' });
     this.route('template');
     this.route('model');
+  });
+  this.route('validation-components', function() {
+    this.route('validation-form');
+    this.route('text-field');
+    this.route('number-field');
   });
 });
 

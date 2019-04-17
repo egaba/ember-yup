@@ -1,78 +1,66 @@
-import Component from 'ember-yup/components/form-field/component';
+import FormField from 'ember-yup/components/form-field/component';
 import { observer } from '@ember/object';
 import { on } from '@ember/object/evented';
 import layout from './template';
 import * as yup from 'yup';
 
 /**
- * This component is used for validating numbers.
+ * This component is used for validating numeric values.
  */
-export default Component.extend({
+export default FormField.extend({
   layout,
 
-  numberMessage: undefined,
+  validationMessages: {
+    dataType: undefined,
+    required: undefined,
+    integer: undefined,
+    positive: undefined,
+    negative: undefined,
+    min: undefined,
+    max: undefined,
+  },
 
+  // options
   required: false,
-  requiredMessage: undefined,
-
   integer: false,
-  integerMessage: undefined,
-
   positive: false,
-  positiveMessage: undefined,
   negative: false,
-  negativeMessage: undefined,
-
   min: undefined,
-  minMessage: undefined,
   max: undefined,
-  maxMessage: undefined,
 
-  schema: Ember.computed('required', 'integer', 'positive', 'negative', 'min', 'max',
-    'requiredMessage', 'numberMessage', 'integerMessage', 'positiveMessage',
-    'negativeMessage', 'minMessage', 'maxMessage', function() {
-    const messages = this.getProperties(
-      'requiredMessage', 'numberMessage', 'integerMessage', 'positiveMessage',
-      'negativeMessage', 'minMessage', 'maxMessage'
-    );
-    const {
-      requiredMessage, numberMessage, integerMessage, positiveMessage,
-      negativeMessage, minMessage, maxMessage
-    } = messages;
-
-    let schema = yup.number(numberMessage);
+  schema: Ember.computed(
+    'validationMessages.dataType',
+    'required', 'validationMessages.required',
+    'integer', 'validationMessages.integer',
+    'positive', 'validationMessages.positive',
+    'negative', 'validationMessages.negative',
+    'min', 'validationMessages.min',
+    'max','validationMessages.max',
+  function() {
+    let schema = yup.number(this.get('validationMessages.dataType'));
 
     if (this.get('integer')) {
-      schema = schema.integer(integerMessage);
+      schema = schema.integer(this.get('validationMessages.integer'));
     }
 
     if (this.get('positive')) {
-      schema = schema.positive(positiveMessage);
+      schema = schema.positive(this.get('validationMessages.positive'));
     } else if (this.get('negative')) {
-      schema = schema.negative(negativeMessage);
+      schema = schema.negative(this.get('validationMessages.negative'));
     }
 
     if (this.get('min')) {
-      schema = schema.min(this.get('min'), minMessage);
+      schema = schema.min(this.get('min'), this.get('validationMessages.min'));
     }
 
     if (this.get('max')) {
-      schema = schema.max(this.get('max'), maxMessage);
+      schema = schema.max(this.get('max'), this.get('validationMessages.max'));
     }
 
     if (this.get('required')) {
-      schema = schema.required(requiredMessage);
+      schema = schema.required(this.get('validationMessages.required'));
     }
 
     return schema;
   }),
-
-  actions: {
-    enableValidation() {
-      if (!this.get('enabled')) {
-        this.set('enabled', true);
-        this.validate();
-      }
-    }
-  }
 });

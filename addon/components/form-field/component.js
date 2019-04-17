@@ -3,30 +3,37 @@ import Component from '@ember/component';
 import { on } from '@ember/object/evented';
 import * as yup from 'yup';
 import RSVP from 'rsvp';
+
 /**
- * This component encompasses logic common to data fields.
+ * This is the base component for form fields.
  */
 export default Component.extend({
   schema: null,
   value: '',
   enabled: false,
 
-  errors: [],
+  schemaErrors: [],
+
+  errors: Ember.computed('schemaErrors.[]', function() {
+    return this.get('schemaErrors');
+  }),
 
   validation: computed('enabled', 'value', 'schema', function() {
-    if (!this.get('enabled')) {
+    const schema = this.get('schema');
+
+    if (!this.get('enabled') || !schema) {
       return null;
     }
 
-    const validate = this.get('schema').validate(this.get('value')).then((value) => {
+    const validate = schema.validate(this.get('value')).then((value) => {
       const name = this.get('name');
-      this.set('errors', []);
+      this.set('schemaErrors', []);
       if (this.onInput) {
         this.onInput(value);
       }
       return value;
     }).catch((validation) => {
-      this.set('errors', validation.errors);
+      this.set('schemaErrors', validation.errors);
       return validation.errors;
     });
 
@@ -39,15 +46,14 @@ export default Component.extend({
     }
   })),
 
-  // form setup
   form: null,
   name: null,
 
   registerFieldToForm: on('didInsertElement', function() {
     const form = this.get('form');
     const name = this.get('name');
-    const isPartOfForm = Ember.isPresent(form) && Ember.isPresent(name);
-    if (isPartOfForm) {
+    const isChildOfForm = Ember.isPresent(form) && Ember.isPresent(name);
+    if (isChildOfForm) {
       form.fieldMap[name] = this;
     }
   }),
@@ -55,9 +61,18 @@ export default Component.extend({
   unregisterFieldFromForm: on('willDestroyElement', function() {
     const form = this.get('form');
     const name = this.get('name');
-    const isPartOfForm = Ember.isPresent(form) && Ember.isPresent(name);
-    if (isPartOfForm) {
+    const isChildOfForm = Ember.isPresent(form) && Ember.isPresent(name);
+    if (isChildOfForm) {
       delete form.fieldMap[name];
     }
   }),
+
+  actions: {
+    enableValidation() {
+      if (!this.get('enabled')) {
+        this.set('enabled', true);
+        this.validate();
+      }
+    }
+  }
 });
