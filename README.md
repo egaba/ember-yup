@@ -123,6 +123,32 @@ Otherwise, to enable the form field, there are two options:
 
 Note: Sending `enable` essentially calls `{{action (mut field.enabled) true}}`
 
+### Displaying error messages
+Fields will aggregate their error messages in an `errors` array that is passed down with the field.
+
+```html
+{{#text-field
+  type="email"
+  value=validEmail
+  required=true
+  validationMessages=(hash
+    required="email address is required"
+  )
+  as |field|
+}}
+  <input
+    placeholder="Email address"
+    type="text"
+    value={{validEmail}}
+    oninput={{action (mut validEmail) value="target.value"}}
+    onblur={{action field.enable}}
+  > *required
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
+{{/text-field}}
+```
+
 ### Overriding validation messages
 To override default validation messages, there's a `validationMessages` hash that you can override.
 Every option has its own message.
@@ -158,32 +184,6 @@ For number fields, it follows the same suit. Here are the validation message key
     min: undefined,
     max: undefined,
   }
-```
-
-### Displaying error messages
-Fields will aggregate their error messages in an `errors` array that is passed down with the field.
-
-```html
-{{#text-field
-  type="email"
-  value=validEmail
-  required=true
-  validationMessages=(hash
-    required="email address is required"
-  )
-  as |field|
-}}
-  <input
-    placeholder="Email address"
-    type="text"
-    value={{validEmail}}
-    oninput={{action (mut validEmail) value="target.value"}}
-    onblur={{action field.enable}}
-  > *required
-  {{#each field.errors as |errorMessage|}}
-    <p style="color: red;">{{errorMessage}}</p>
-  {{/each}}
-{{/text-field}}
 ```
 
 ### Validating a form
