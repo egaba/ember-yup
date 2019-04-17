@@ -85,7 +85,188 @@ export default Model.extend({
 
 ## Validation Components
 
-See examples here https://egaba88.github.io/ember-yup/#/validation-components/text-field
+Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
+
+### Enabling form fields
+
+By default, form fields will not begin validating until they are `enabled`.
+When used within a `validation-form`, all child form fields of that form will be enabled the first time the form submits.
+
+Otherwise, to enable the form field, there are two options:
+1. Pass `enabled=true` to the form field
+
+```html
+  {{#text-field enabled=true value=myTextValue as |field|}}
+    <input type="text" value={{myTextValue}} oninput={{action (mut myTextValue) value="target.value"}} />
+  {{/text-field}}
+```
+
+2. Or, send the `enable` action that is passed down with the field
+
+```html
+  {{#text-field enabled=true value=myTextValue as |field|}}
+    <input
+      type="text"
+      value={{myTextValue}}
+      oninput={{action (mut myTextValue) value="target.value"}}
+      onblur={{action field.enable}}
+    />
+  {{/text-field}}
+```
+
+Note: Sending `enable` essentially calls `{{action (mut field.enabled) true}}`
+
+### Overriding validation messages
+To override default validation messages, there's a `validationMessages` hash that you can override.
+Every option has its own message.
+
+For all form fields:
+The default data type message can be overridden via `validationMessages=(hash dataType='this field data type is incorrect')`.
+If `required=true`, override the message via `validationMessages=(hash required='this field is required')`.
+
+For text fields:
+If `type='email'`, override the message via `email` or `type`. For example, both are valid, but `email` takes precedence:
+```html
+  validationMessages=(hash email='this field should be a valid email address')
+  validationMessages=(hash type='this field should be a valid email address')
+```
+
+Similarly, if `type='url'`, override the message via `url` or `type`. For example, both are valid, but `url` takes precedence:
+```html
+  validationMessages=(hash url='this field should be a valid url')
+  validationMessages=(hash type='this field should be a valid url')
+```
+
+If `charLimit > 0`, override the message via `charLimit`: `validationMessages=(hash charLimit='this string is too long')`.
+
+For number fields, it follows the same suit. Here are the validation message keys you can override:
+
+```js
+  validationMessages: {
+    dataType: undefined,
+    required: undefined,
+    integer: undefined,
+    positive: undefined,
+    negative: undefined,
+    min: undefined,
+    max: undefined,
+  }
+```
+
+### Displaying error messages
+Fields will aggregate their error messages in an `errors` array that is passed down with the field.
+
+```html
+{{#text-field
+  type="email"
+  value=validEmail
+  required=true
+  validationMessages=(hash
+    required="email address is required"
+  )
+  as |field|
+}}
+  <input
+    placeholder="Email address"
+    type="text"
+    value={{validEmail}}
+    oninput={{action (mut validEmail) value="target.value"}}
+    onblur={{action field.enable}}
+  > *required
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
+{{/text-field}}
+```
+
+If the form field is used within a the `validation-form`, the form will collect errors
+in an `errors` hash passed down with the form.
+
+```html
+{{#validation-form
+  onSubmit=(action "submitValidationForm")
+  onReject=(action "rejectValidationForm")
+  as |form|
+}}
+  {{#text-field
+    validationMessages=(hash
+      required="username is required"
+    )
+    name="username"
+    form=form
+    required=true
+    value=validationFormName
+  }}
+    <input
+      type="text"
+      placeholder="username"
+      oninput={{action (mut validationFormName) value="target.value"}}
+      value={{validationFormName}}
+    > * required
+    {{#if form.errors.username.length}}
+      <ul>
+        {{#each form.errors.username as |errorMessage|}}
+          <li style="color: red;">{{errorMessage}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  {{/text-field}}
+  {{#number-field
+    validationMessages=(hash
+      required="age is required"
+    )
+    name="age"
+    form=form
+    integer=true
+    positive=true
+    required=true
+    value=validationFormAge
+  }}
+    <input
+      type="text"
+      placeholder="age"
+      oninput={{action (mut validationFormAge) value="target.value"}}
+      value={{validationFormAge}}
+    > * required
+    {{#if form.errors.age.length}}
+      <ul>
+        {{#each form.errors.age as |errorMessage|}}
+          <li style="color: red;">{{errorMessage}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  {{/number-field}}
+  {{#text-field
+    form=form
+    name="validationFormEmail"
+    value=validationFormEmail
+    type="email"
+  }}
+    <input
+      placeholder="email"
+      type="text"
+      value={{validationFormEmail}}
+      oninput={{action (mut validationFormEmail) value="target.value"}}
+    >
+    {{#if form.errors.validationFormEmail.length}}
+      <ul>
+        {{#each form.errors.validationFormEmail as |errorMessage|}}
+          <li style="color: red;">{{errorMessage}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  {{/text-field}}
+
+  {{#if validationFormSuccessData}}
+    <div class="my-4">
+      success! {{validationFormSuccessData}}
+    </div>
+  {{/if}}
+  <button type="submit">validate</button>
+{{/validation-form}}
+```
+
+See examples here https://egaba88.github.io/ember-yup/#/validation-components/
 
 Contributing
 ------------------------------------------------------------------------------

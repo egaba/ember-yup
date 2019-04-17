@@ -14,6 +14,7 @@ export default FormField.extend({
     dataType: undefined,
     email: undefined,
     url: undefined,
+    type: undefined,
     required: undefined,
     charLimit: 'this exceeds the character limit',
   },
@@ -28,16 +29,16 @@ export default FormField.extend({
 
   schema: Ember.computed(
     'validationMessages.dataType',
-    'type', 'validationMessages.email', 'validationMessages.url',
+    'type', 'validationMessages.email', 'validationMessages.url', 'validationMessages.type',
     'required', 'validationMessages.required',
   function() {
     const type = this.get('type');
 
     let schema = yup.string(this.get('validationMessages.dataType'));
     if (type === 'email') {
-      schema = schema.email(this.get('validationMessages.email'));
+      schema = schema.email(this.get('validationMessages.email') || this.get('validationMessages.type'));
     } else if (type === 'url') {
-      schema = schema.url(this.get('validationMessages.url'));
+      schema = schema.url(this.get('validationMessages.url') || this.get('validationMessages.type'));
     }
 
     if (this.get('required')) {
