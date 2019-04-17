@@ -54,7 +54,7 @@ export default FormField.extend({
     const charLimit = this.get('charLimit');
 
     if (charLimit > 0) {
-      return yup.number().max(charLimit, this.get('validationMessages.charLimit'));
+      return yup.number().positive().integer().max(charLimit, this.get('validationMessages.charLimit'));
     }
 
     return null;

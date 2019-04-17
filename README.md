@@ -101,20 +101,22 @@ Currently, there are three validation components:
 
 ##### Text Field
   * `value` any
-  * `required=true|false` boolean
-  * `type=string|email|url` string
-  * `charLimit >= 0` number
+  * `enabled=true|false` boolean (default: false)
+  * `required=true|false` boolean (default: false)
+  * `type=string|email|url` string (default: string)
+  * `charLimit >= 0` integer (default: 0)
   * `validationMessages` hash/object
   * `onInput` action -> string
 
 ##### Number Field
   * `value` any
-  * `required=true|false` boolean
-  * `integer=true|false` boolean
-  * `positive=true|false` boolean
-  * `negative=true|false` boolean
-  * `min` number or undefined
-  * `max` number or undefined
+  * `enabled=true|false` boolean (default: false)
+  * `required=true|false` boolean (default: false)
+  * `integer=true|false` boolean (default: false)
+  * `positive=true|false` boolean (default: false)
+  * `negative=true|false` boolean (default: false)
+  * `min` number or undefined (default: undefined)
+  * `max` number or undefined (default: undefined)
   * `validationMessages` hash/object
   * `onInput` action -> number
 
