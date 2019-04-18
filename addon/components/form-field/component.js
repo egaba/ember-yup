@@ -22,7 +22,7 @@ export default Component.extend({
     const dataSchema = this.get('dataSchema');
 
     if (dataSchema) {
-      return dataSchema.validate(this.get('value')).then((value) => {
+      return dataSchema.validate(this.get('value'), { abortEarly: false }).then((value) => {
         const name = this.get('name');
         this.set('dataErrors', []);
         if (this.onInput) {
