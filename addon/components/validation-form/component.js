@@ -20,15 +20,14 @@ export default Component.extend({
     for (const fieldName in fieldMap) {
       const field = fieldMap[fieldName];
       field.set('enabled', true);
-      fieldValidations[fieldName] = field.get('validation'); // update this
+      fieldValidations[fieldName] = field.get('validation');
     }
 
     RSVP.hashSettled(fieldValidations).then((data) => {
       const values = {}, errors = {};
-
       for (const fieldName in data) {
-        if (data[fieldName].value instanceof Array) {
-          errors[fieldName] = data[fieldName].value;
+        if (data[fieldName].state === 'rejected') {
+          errors[fieldName] = data[fieldName].reason;
         } else {
           values[fieldName] = data[fieldName].value;
         }

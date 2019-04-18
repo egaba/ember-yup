@@ -12,35 +12,19 @@ export default Component.extend({
   value: '',
   enabled: false,
 
-  dataErrors: [],
+  errors: [],
 
-  errors: computed('dataErrors.[]', function() {
-    return this.get('dataErrors');
-  }),
-
-  validation: computed('value', 'dataSchema', function() {
-    const dataSchema = this.get('dataSchema');
-
-    if (dataSchema) {
-      return dataSchema.validate(this.get('value')).then((value) => {
-        const name = this.get('name');
-        this.set('dataErrors', []);
-        if (this.onInput) {
-          this.onInput(value);
-        }
-        return value;
-      }).catch((validation) => {
-        this.set('dataErrors', validation.errors);
-        return validation.errors;
-      });
-    }
-
-    return null;
-  }),
-
-  validate: on('init', observer('validation', 'enabled', function() {
+  validate: on('init', observer('value', 'enabled', function() {
+    console.log('enabled?', this.get('enabled'));
     if (this.get('enabled')) {
-      return this.get('validation');
+      console.log('validate');
+      return this.get('validation').then((val) => {
+        if (this.onInput) {
+          this.onInput(val);
+        }
+      }).catch((errors) => {
+        this.set('errors', errors)
+      });
     }
   })),
 
