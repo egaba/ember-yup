@@ -8,7 +8,6 @@ import RSVP from 'rsvp';
  * This is the base component for form fields.
  */
 export default Component.extend({
-  dataSchema: null,
   value: '',
   enabled: false,
 
