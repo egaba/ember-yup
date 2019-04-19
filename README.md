@@ -263,6 +263,7 @@ This allows the form to assign a key to each field that it collects for its data
     form=form
     required=true
     value=validationFormName
+    as |field|
   }}
     <input
       type="text"
@@ -270,9 +271,9 @@ This allows the form to assign a key to each field that it collects for its data
       oninput={{action (mut validationFormName) value="target.value"}}
       value={{validationFormName}}
     > * required
-    {{#if form.errors.username.length}}
+    {{#if field.errors.length}}
       <ul>
-        {{#each form.errors.username as |errorMessage|}}
+        {{#each field.errors as |errorMessage|}}
           <li style="color: red;">{{errorMessage}}</li>
         {{/each}}
       </ul>
@@ -288,6 +289,7 @@ This allows the form to assign a key to each field that it collects for its data
     positive=true
     required=true
     value=validationFormAge
+    as |field|
   }}
     <input
       type="text"
@@ -295,9 +297,9 @@ This allows the form to assign a key to each field that it collects for its data
       oninput={{action (mut validationFormAge) value="target.value"}}
       value={{validationFormAge}}
     > * required
-    {{#if form.errors.age.length}}
+    {{#if field.errors.length}}
       <ul>
-        {{#each form.errors.age as |errorMessage|}}
+        {{#each field.errors as |errorMessage|}}
           <li style="color: red;">{{errorMessage}}</li>
         {{/each}}
       </ul>
@@ -308,6 +310,7 @@ This allows the form to assign a key to each field that it collects for its data
     name="validationFormEmail"
     value=validationFormEmail
     type="email"
+    as |field|
   }}
     <input
       placeholder="email"
@@ -315,9 +318,9 @@ This allows the form to assign a key to each field that it collects for its data
       value={{validationFormEmail}}
       oninput={{action (mut validationFormEmail) value="target.value"}}
     >
-    {{#if form.errors.validationFormEmail.length}}
+    {{#if field.errors.length}}
       <ul>
-        {{#each form.errors.validationFormEmail as |errorMessage|}}
+        {{#each field.errors as |errorMessage|}}
           <li style="color: red;">{{errorMessage}}</li>
         {{/each}}
       </ul>

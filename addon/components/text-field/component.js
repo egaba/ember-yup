@@ -3,6 +3,7 @@ import { computed, observer } from '@ember/object';
 import { on } from '@ember/object/evented';
 import layout from './template';
 import * as yup from 'yup';
+import RSVP from 'rsvp';
 
 /**
  * This component is used for validating text values.
@@ -18,10 +19,6 @@ export default FormField.extend({
     required: undefined,
     charLimit: 'this exceeds the character limit',
   },
-
-  errors: computed('dataErrors.[]', 'charLimitErrors.[]', function() {
-    return this.get('dataErrors').concat(this.get('charLimitErrors'));
-  }),
 
   // options
   type: 'string',
@@ -49,15 +46,10 @@ export default FormField.extend({
   }),
 
   charLimit: 0,
-  charLimitErrors: [],
   charLimitSchema: computed('charLimit', 'validationMessages.charLimit', function() {
     const charLimit = this.get('charLimit');
 
-    if (charLimit > 0) {
-      return yup.number().max(charLimit, this.get('validationMessages.charLimit'));
-    }
-
-    return null;
+    return charLimit > 0 ? yup.number().max(charLimit, this.get('validationMessages.charLimit')) : null;
   }),
   charRemaining: computed('value', 'charLimit', function() {
     const charLimit = this.get('charLimit');
@@ -69,25 +61,56 @@ export default FormField.extend({
 
     return 0;
   }),
-  charLimitValidation: computed('value', 'charLimitSchema', function() {
-    const schema = this.get('charLimitSchema');
 
-    if (schema) {
-      return schema.validate(this.get('value.length')).then((value) => {
-        const name = this.get('name');
-        this.set('charLimitErrors', []);
-        return value;
-      }).catch((validation) => {
-        this.set('charLimitErrors', validation.errors);
-        return validation.errors;
+  charLimitValidation: computed('value', 'charLimitSchema', function() {
+    const charLimitSchema = this.get('charLimitSchema');
+
+    return charLimitSchema ? charLimitSchema.validate(this.get('value.length'), { abortEarly: false }) : null;
+  }),
+
+  dataValidation: computed('value', 'dataSchema', function() {
+    const dataSchema = this.get('dataSchema');
+
+    return dataSchema ? dataSchema.validate(this.get('value'), { abortEarly: false }) : null;
+  }),
+
+  validation: computed('charLimitValidation', 'dataValidation', function() {
+    const dataValidation = this.get('dataValidation');
+    const charLimitValidation = this.get('charLimitValidation');
+    const validations = {};
+
+    if (dataValidation) {
+      validations.data = dataValidation;
+    }
+
+    if (charLimitValidation) {
+      validations.charLimit = charLimitValidation;
+    }
+
+    if (Object.keys(validations).length) {
+      const validate = RSVP.hashSettled(validations);
+
+      return new RSVP.Promise(function(resolve, reject) {
+        validate.then(function(validations) {
+          let errors = [];
+
+          if (validations.data && validations.data.state === 'rejected') {
+            errors = errors.concat(validations.data.reason.errors);
+          }
+
+          if (validations.charLimit && validations.charLimit.state === 'rejected') {
+            errors = errors.concat(validations.charLimit.reason.errors);
+          }
+
+          if (errors.length) {
+            reject(errors);
+          } else {
+            resolve(validations.data.value)
+          }
+        });
       });
     }
 
     return null;
-  }),
-  validateCharLimit: on('init', observer('charLimitValidation', 'enabled', function() {
-    if (this.get('enabled')) {
-      return this.get('charLimitValidation');
-    }
-  }))
+  })
 });
