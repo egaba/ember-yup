@@ -31,19 +31,15 @@ export default Component.extend({
   name: null,
 
   registerFieldToForm: on('didInsertElement', function() {
-    const form = this.get('form');
-    const name = this.get('name');
-    const isChildOfForm = Ember.isPresent(form) && Ember.isPresent(name);
-    if (isChildOfForm) {
+    const form = this.get('form'), name = this.get('name');
+    if (form && name) {
       form.fieldMap[name] = this;
     }
   }),
 
   unregisterFieldFromForm: on('willDestroyElement', function() {
-    const form = this.get('form');
-    const name = this.get('name');
-    const isChildOfForm = Ember.isPresent(form) && Ember.isPresent(name);
-    if (isChildOfForm) {
+    const form = this.get('form'), name = this.get('name');
+    if (form && name) {
       delete form.fieldMap[name];
     }
   }),
