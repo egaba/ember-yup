@@ -52,7 +52,6 @@ export default Component.extend({
     enableValidation() {
       if (!this.get('enabled')) {
         this.set('enabled', true);
-        this.validate();
       }
     }
   }
