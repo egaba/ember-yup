@@ -2,7 +2,7 @@
   (hash
     enable=(action "enableValidation")
     errors=errors
-    errors=(if errors.length true false)
+    hasErrors=(if errors.length true false)
     value=value
     charRemaining=charRemaining
   )
