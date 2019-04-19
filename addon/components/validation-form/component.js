@@ -6,7 +6,7 @@ export default Component.extend({
   layout,
   tagName: 'form',
   fieldMap: {},
-  errors: {},
+  errors: {}, // submission errors
 
   onSubmit(formData) { /* override */ },
   onReject(errors) { /* override */ },

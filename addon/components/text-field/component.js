@@ -46,15 +46,10 @@ export default FormField.extend({
   }),
 
   charLimit: 0,
-  charLimitErrors: [],
   charLimitSchema: computed('charLimit', 'validationMessages.charLimit', function() {
     const charLimit = this.get('charLimit');
 
-    if (charLimit > 0) {
-      return yup.number().max(charLimit, this.get('validationMessages.charLimit'));
-    }
-
-    return null;
+    return charLimit > 0 ? yup.number().max(charLimit, this.get('validationMessages.charLimit')) : null;
   }),
   charRemaining: computed('value', 'charLimit', function() {
     const charLimit = this.get('charLimit');
@@ -69,11 +64,13 @@ export default FormField.extend({
 
   charLimitValidation: computed('value', 'charLimitSchema', function() {
     const charLimitSchema = this.get('charLimitSchema');
+
     return charLimitSchema ? charLimitSchema.validate(this.get('value.length'), { abortEarly: false }) : null;
   }),
 
   dataValidation: computed('value', 'dataSchema', function() {
     const dataSchema = this.get('dataSchema');
+
     return dataSchema ? dataSchema.validate(this.get('value'), { abortEarly: false }) : null;
   }),
 

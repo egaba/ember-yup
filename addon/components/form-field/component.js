@@ -14,19 +14,18 @@ export default Component.extend({
 
   errors: [],
 
-  validate: on('init', observer('value', 'enabled', function() {
-    console.log('enabled?', this.get('enabled'));
+  validate: observer('value', 'enabled', function() {
     if (this.get('enabled')) {
-      console.log('validate');
       return this.get('validation').then((val) => {
         if (this.onInput) {
           this.onInput(val);
         }
+        this.set('errors', []);
       }).catch((errors) => {
-        this.set('errors', errors)
+        this.set('errors', errors);
       });
     }
-  })),
+  }),
 
   form: null,
   name: null,
