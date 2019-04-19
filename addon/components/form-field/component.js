@@ -14,7 +14,7 @@ export default Component.extend({
 
   errors: [],
 
-  validate: observer('validation', 'enabled', function() {
+  validate: observer('value', 'enabled', function() {
     if (this.get('enabled')) {
       return this.get('validation').then((val) => {
         if (this.onInput) {
