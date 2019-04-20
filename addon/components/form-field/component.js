@@ -1,8 +1,6 @@
 import { observer } from '@ember/object';
 import Component from '@ember/component';
 import { on } from '@ember/object/evented';
-import * as yup from 'yup';
-import RSVP from 'rsvp';
 
 /**
  * This is the base component for form fields.
@@ -29,19 +27,19 @@ export default Component.extend({
   form: null,
   name: null,
 
-  registerFieldToForm: on('didInsertElement', function() {
+  didInsertElement() {
     const form = this.get('form'), name = this.get('name');
     if (form && name) {
       form.fieldMap[name] = this;
     }
-  }),
+  },
 
-  unregisterFieldFromForm: on('willDestroyElement', function() {
+  willDestroyElement() {
     const form = this.get('form'), name = this.get('name');
     if (form && name) {
       delete form.fieldMap[name];
     }
-  }),
+  },
 
   actions: {
     enableValidation() {
