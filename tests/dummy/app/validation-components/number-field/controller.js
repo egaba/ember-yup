@@ -65,6 +65,42 @@ export default Controller.extend({
       {{/each}}
     {{/number-field}}
   `,
+  ltExample: `
+    {{#number-field
+      enabled=true
+      value=validatedLessThanExample
+      lt=20
+      as |field|
+    }}
+      <input
+        type="text"
+        placeholder="less than 20 example"
+        oninput={{action (mut validatedLessThanExample) value="target.value"}}
+        value={{validatedLessThanExample}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  `,
+  gtExample: `
+    {{#number-field
+      enabled=true
+      value=validatedGreaterThanExample
+      gt=20
+      as |field|
+    }}
+      <input
+        type="text"
+        placeholder="greater than 20 example"
+        oninput={{action (mut validatedGreaterThanExample) value="target.value"}}
+        value={{validatedGreaterThanExample}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  `,
   actions: {
     submitValidationForm(data) {
       console.log('submission success', data);

@@ -80,3 +80,31 @@
     {{markdown-to-html charLimitExample}}
   </div>
 </section>
+<section class="flex mb-8">
+  <div class="w-1/3">
+    <p>Validate regexp. Valid US zip code.</p>
+
+    {{#text-field
+      enabled=true
+      matches="^\d{5}(-\d{4})?$"
+      validationMessages=(hash
+        matches="must be valid 5-digit or 9-digit zip code xxxxx-xxxx or xxxxx. regex: ${regex}"
+      )
+      value=validateMatchesValue
+      as |field|
+    }}
+      <input
+        placeholder="Short message"
+        type="text"
+        value={{validateMatchesValue}}
+        oninput={{action (mut validateMatchesValue) value="target.value"}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/text-field}}
+  </div>
+  <div class="w-2/3 text-xs">
+    {{markdown-to-html matchesRegexExample}}
+  </div>
+</section>

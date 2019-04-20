@@ -18,6 +18,7 @@ export default FormField.extend({
     type: undefined,
     required: undefined,
     charLimit: 'this exceeds the character limit',
+    matches: undefined,
   },
 
   // options
@@ -27,6 +28,7 @@ export default FormField.extend({
   dataSchema: computed(
     'validationMessages.dataType',
     'type', 'validationMessages.email', 'validationMessages.url', 'validationMessages.type',
+    'matches', 'validationMessages.matches',
     'required', 'validationMessages.required',
   function() {
     const type = this.get('type');
@@ -36,6 +38,11 @@ export default FormField.extend({
       dataSchema = dataSchema.email(this.get('validationMessages.email') || this.get('validationMessages.type'));
     } else if (type === 'url') {
       dataSchema = dataSchema.url(this.get('validationMessages.url') || this.get('validationMessages.type'));
+    }
+
+    if (this.get('matches')) {
+      const matchesRegex = new RegExp(this.get('matches'));
+      dataSchema = dataSchema.matches(matchesRegex, this.get('validationMessages.matches'));
     }
 
     if (this.get('required')) {

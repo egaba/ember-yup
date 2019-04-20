@@ -63,4 +63,25 @@ export default Controller.extend({
       {{/each}}
     {{/text-field}}
   `,
+  matchesRegexExample: `
+    {{#text-field
+      enabled=true
+      matches="^\\d{5}(-\\d{4})?$"
+      validationMessages=(hash
+        matches="must be valid 5-digit or 9-digit zip code xxxxx-xxxx or xxxxx. \${regex}"
+      )
+      value=validateMatchesValue
+      as |field|
+    }}
+      <input
+        placeholder="Short message"
+        type="text"
+        value={{validateMatchesValue}}
+        oninput={{action (mut validateMatchesValue) value="target.value"}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/text-field}}
+  `
 });

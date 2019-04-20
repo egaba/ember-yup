@@ -86,3 +86,51 @@
     {{markdown-to-html numberRangeExample}}
   </div>
 </section>
+<section class="flex mb-8">
+  <div class="w-1/3">
+    <p>Validate a number less than 20</p>
+    {{#number-field
+      enabled=true
+      value=validatedLessThanExample
+      lt=20
+      as |field|
+    }}
+      <input
+        type="text"
+        placeholder="less than 20 example"
+        oninput={{action (mut validatedLessThanExample) value="target.value"}}
+        value={{validatedLessThanExample}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  </div>
+  <div class="w-2/3 text-xs">
+    {{markdown-to-html numberRangeExample}}
+  </div>
+</section>
+<section class="flex mb-8">
+  <div class="w-1/3">
+    <p>Validate a number greater than 20</p>
+    {{#number-field
+      enabled=true
+      value=validatedGreaterThanExample
+      gt=20
+      as |field|
+    }}
+      <input
+        type="text"
+        placeholder="greater than 20 example"
+        oninput={{action (mut validatedGreaterThanExample) value="target.value"}}
+        value={{validatedGreaterThanExample}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  </div>
+  <div class="w-2/3 text-xs">
+    {{markdown-to-html numberRangeExample}}
+  </div>
+</section>

@@ -19,6 +19,8 @@ export default FormField.extend({
     negative: undefined,
     min: undefined,
     max: undefined,
+    lt: undefined,
+    gt: undefined,
   },
 
   // options
@@ -28,6 +30,8 @@ export default FormField.extend({
   negative: false,
   min: undefined,
   max: undefined,
+  lt: undefined,
+  gt: undefined,
 
   dataSchema: computed(
     'validationMessages.dataType',
@@ -56,6 +60,14 @@ export default FormField.extend({
 
     if (this.get('max')) {
       dataSchema = dataSchema.max(this.get('max'), this.get('validationMessages.max'));
+    }
+
+    if (this.get('lt')) {
+      dataSchema = dataSchema.lessThan(this.get('lt'), this.get('validationMessages.lt'));
+    }
+
+    if (this.get('gt')) {
+      dataSchema = dataSchema.moreThan(this.get('gt'), this.get('validationMessages.gt'));
     }
 
     if (this.get('required')) {
