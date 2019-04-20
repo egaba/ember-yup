@@ -1,6 +1,5 @@
 import FormField from 'ember-yup/components/form-field/component';
-import { computed, observer } from '@ember/object';
-import { on } from '@ember/object/evented';
+import { computed } from '@ember/object';
 import layout from './template';
 import * as yup from 'yup';
 import RSVP from 'rsvp';

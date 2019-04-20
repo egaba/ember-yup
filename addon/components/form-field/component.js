@@ -1,4 +1,4 @@
-import { computed, observer } from '@ember/object';
+import { observer } from '@ember/object';
 import Component from '@ember/component';
 import { on } from '@ember/object/evented';
 import * as yup from 'yup';
