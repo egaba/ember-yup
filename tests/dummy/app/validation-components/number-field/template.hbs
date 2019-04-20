@@ -63,6 +63,30 @@
 </section>
 <section class="flex mb-8">
   <div class="w-1/3">
+    <p>Validate a negative number:</p>
+    {{#number-field
+      enabled=true
+      value=validateNegativeExample
+      negative=true
+      as |field|
+    }}
+      <input
+        type="text"
+        placeholder="Enter a negative number"
+        oninput={{action (mut validateNegativeExample) value="target.value"}}
+        value={{validateNegativeExample}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  </div>
+  <div class="w-2/3 text-xs">
+    {{markdown-to-html negativeNumberExample}}
+  </div>
+</section>
+<section class="flex mb-8">
+  <div class="w-1/3">
     <p>Validate a number between 30-50:</p>
     {{#number-field
       enabled=true
@@ -132,5 +156,53 @@
   </div>
   <div class="w-2/3 text-xs">
     {{markdown-to-html gtExample}}
+  </div>
+</section>
+<section class="flex mb-8">
+  <div class="w-1/3">
+    <p>Validate min 20</p>
+    {{#number-field
+      enabled=true
+      value=validateMinValue
+      min=20
+      as |field|
+    }}
+      <input
+        type="text"
+        placeholder="min number 20"
+        oninput={{action (mut validateMinValue) value="target.value"}}
+        value={{validateMinValue}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  </div>
+  <div class="w-2/3 text-xs">
+    {{markdown-to-html minExample}}
+  </div>
+</section>
+<section class="flex mb-8">
+  <div class="w-1/3">
+    <p>Validate max 20</p>
+    {{#number-field
+      enabled=true
+      value=validateMaxValue
+      max=20
+      as |field|
+    }}
+      <input
+        type="text"
+        placeholder="max number 20"
+        oninput={{action (mut validateMaxValue) value="target.value"}}
+        value={{validateMaxValue}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  </div>
+  <div class="w-2/3 text-xs">
+    {{markdown-to-html maxExample}}
   </div>
 </section>

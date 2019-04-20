@@ -46,6 +46,24 @@ export default Controller.extend({
       {{/each}}
     {{/number-field}}
   `,
+  negativeNumberExample: `
+    {{#number-field
+      enabled=true
+      value=validateNegativeExample
+      negative=true
+      as |field|
+    }}
+      <input
+        type="text"
+        placeholder="Enter a negative number"
+        oninput={{action (mut validateNegativeExample) value="target.value"}}
+        value={{validateNegativeExample}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  `,
   numberRangeExample: `
     {{#number-field
       enabled=true
@@ -95,6 +113,42 @@ export default Controller.extend({
         placeholder="greater than 20 example"
         oninput={{action (mut validatedGreaterThanExample) value="target.value"}}
         value={{validatedGreaterThanExample}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  `,
+  minExample: `
+    {{#number-field
+      enabled=true
+      value=validateMinValue
+      min=20
+      as |field|
+    }}
+      <input
+        type="text"
+        placeholder="min number 20"
+        oninput={{action (mut validateMinValue) value="target.value"}}
+        value={{validateMinValue}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  `,
+  maxExample: `
+    {{#number-field
+      enabled=true
+      value=validateMaxValue
+      max=20
+      as |field|
+    }}
+      <input
+        type="text"
+        placeholder="max number 20"
+        oninput={{action (mut validateMaxValue) value="target.value"}}
+        value={{validateMaxValue}}
       >
       {{#each field.errors as |errorMessage|}}
         <p style="color: red;">{{errorMessage}}</p>
