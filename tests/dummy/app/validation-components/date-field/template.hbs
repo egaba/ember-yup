@@ -1,0 +1,39 @@
+<section class="flex mb-8">
+  <div class="w-1/3">
+    <p>Validate a date</p>
+    {{#date-field enabled=true value=validateSimpleDate as |field|}}
+      <input
+        type="text"
+        placeholder="Enter a date"
+        oninput={{action (mut validateSimpleDate) value="target.value"}}
+        value={{validateSimpleDate}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/date-field}}
+  </div>
+  <div class="w-2/3 text-xs">
+    {{markdown-to-html validateSimpleDateExample}}
+  </div>
+</section>
+
+<section class="flex mb-8">
+  <div class="w-1/3">
+    <p>Specify any date in 2019</p>
+    {{#date-field enabled=true value=validate2019Date min="January 1, 2019" max="December 31, 2019" as |field|}}
+      <input
+        type="text"
+        placeholder="ex. April 20, 2019"
+        oninput={{action (mut validate2019Date) value="target.value"}}
+        value={{validate2019Date}}
+      >
+      {{#each field.errors as |errorMessage|}}
+        <p style="color: red;">{{errorMessage}}</p>
+      {{/each}}
+    {{/date-field}}
+  </div>
+  <div class="w-2/3 text-xs">
+    {{markdown-to-html validate2019DateExample}}
+  </div>
+</section>

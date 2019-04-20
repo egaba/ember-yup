@@ -16,6 +16,7 @@ Router.map(function() {
     this.route('validation-form');
     this.route('text-field');
     this.route('number-field');
+    this.route('date-field');
   });
 });
 
