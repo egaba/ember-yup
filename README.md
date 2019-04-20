@@ -311,17 +311,22 @@ See examples here https://egaba88.github.io/ember-yup/#/validation-components/
   * `validationMessages` hash/object
   * `onInput` action -> number
 
+##### Number Field
+  * `value` any
+  * `enabled=true|false` boolean (default: false)
+  * `required=true|false` boolean (default: false)
+  * `min` date or undefined (default: undefined)
+  * `max` date or undefined (default: undefined)
+  * `validationMessages` hash/object
+  * `onInput` action -> date
+
 ##### Validation Form
   * `onSubmit` action -> hash/object of valid form data
   * `onReject` action -> hash/object of array of strings (error messages)
 
 #### Output/Yielded props
 
-##### Text Field
-  * `errors` array of strings
-  * `enable` action to set field `enabled`
-
-##### Number Field
+##### Text, Number, Date Fields
   * `errors` array of strings
   * `enable` action to set field `enabled`
 
@@ -335,7 +340,8 @@ Validation libraries have a similar goal in mind: to ensure that only valid data
 `ember-changeset` was developed to circumvent with issues caused by components using 2-way binding (such as `{{input}}`).
 By having the application interface with a `changeset` layer, only valid data could be set on the underlying object. With `ember-changeset-validations`, Changesets could read ValidationMaps to determine whether changes were valid for a given set of data.
 
-Unlike `ember-changeset`, this library embraces usage of observers and computed properties. It also promotes usage of one-way controls. Since this library can take advantage of using one-way controls, applications can interface with the underlying data object, while still being able to read data validity.
+Unlike `ember-changeset`, this library embraces usage of observers and computed properties. Validations occur after values
+have been updated in the underlying object, allowing applications to interface directly with the underlying data object, while still being able to read data validity.
 
 ## Contributing
 
