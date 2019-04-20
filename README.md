@@ -140,19 +140,21 @@ Currently, there are three validation components:
 ### Enabling form fields
 
 By default, form fields will not begin validating until they are `enabled`.
-When used within a `validation-form`, all **child form fields of that form will be enabled the first time the form submits.**
+Fields aggregate error messages in an `errors` array that is passed down with the field.
 
-Otherwise, to enable the form field, there are two options:
+To enable the form field, there are two options:
+
 1. Pass `enabled=true` to the form field
-
 ```html
 {{#text-field enabled=true value=myTextValue as |field|}}
   <input type="text" value={{myTextValue}} oninput={{action (mut myTextValue) value="target.value"}} />
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
 {{/text-field}}
 ```
 
 2. Or, send the `enable` action that is passed down with the field
-
 ```html
 {{#text-field value=myTextValue as |field|}}
   <input
@@ -161,31 +163,6 @@ Otherwise, to enable the form field, there are two options:
     oninput={{action (mut myTextValue) value="target.value"}}
     onblur={{action field.enable}}
   />
-{{/text-field}}
-```
-
-Note: Sending `enable` essentially calls `{{action (mut field.enabled) true}}`
-
-### Displaying error messages
-Fields will aggregate its error messages in an `errors` array that is passed down with the field.
-
-```html
-{{#text-field
-  type="email"
-  value=validEmail
-  required=true
-  validationMessages=(hash
-    required="email address is required"
-  )
-  as |field|
-}}
-  <input
-    placeholder="Email address"
-    type="text"
-    value={{validEmail}}
-    oninput={{action (mut validEmail) value="target.value"}}
-    onblur={{action field.enable}}
-  > *required
   {{#each field.errors as |errorMessage|}}
     <p style="color: red;">{{errorMessage}}</p>
   {{/each}}
@@ -193,6 +170,7 @@ Fields will aggregate its error messages in an `errors` array that is passed dow
 ```
 
 ### Overriding validation messages
+
 To override default validation messages, there's a `validationMessages` hash that you can override.
 Every option has its own message.
 
