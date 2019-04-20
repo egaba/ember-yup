@@ -87,55 +87,13 @@ export default Model.extend({
 
 ## Validation Components
 
-You can validate data using these handy validation components as well.
+Validating data can be done in the template, using form field components included with this library.
 Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
 
 Currently, there are three validation components:
 * `text-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/text-field)
 * `number-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/number-field)
 * `validation-form` (demos https://egaba88.github.io/ember-yup/#/validation-components/validation-form)
-
-### Component API
-
-#### Input props: Options/Handlers
-
-##### Text Field
-  * `value` any
-  * `enabled=true|false` boolean (default: false)
-  * `required=true|false` boolean (default: false)
-  * `type=string|email|url` string (default: string)
-  * `charLimit >= 0` integer (default: 0)
-  * `validationMessages` hash/object
-  * `onInput` action -> string
-
-##### Number Field
-  * `value` any
-  * `enabled=true|false` boolean (default: false)
-  * `required=true|false` boolean (default: false)
-  * `integer=true|false` boolean (default: false)
-  * `positive=true|false` boolean (default: false)
-  * `negative=true|false` boolean (default: false)
-  * `min` number or undefined (default: undefined)
-  * `max` number or undefined (default: undefined)
-  * `validationMessages` hash/object
-  * `onInput` action -> number
-
-##### Validation Form
-  * `onSubmit` action -> hash/object of valid form data
-  * `onReject` action -> hash/object of array of strings (error messages)
-
-#### Output/Yielded props
-
-##### Text Field
-  * `errors` array of strings
-  * `enable` action to set field `enabled`
-
-##### Number Field
-  * `errors` array of strings
-  * `enable` action to set field `enabled`
-
-##### Validation Form
-  * `errors` hash/object of array of strings (error messages)
 
 ### Validating form field values
 
@@ -316,11 +274,64 @@ This allows the form to assign a key to each field that it collects for its data
 
 See examples here https://egaba88.github.io/ember-yup/#/validation-components/
 
-Contributing
-------------------------------------------------------------------------------
+### Component API
 
-Sorry, no tests yet. This library is built with passion and laziness. Feel free
-to make a PR if you can understand the code enough to help! I would greatly appreciate it :)
+#### Input props: Options/Handlers
+
+##### Text Field
+  * `value` any
+  * `enabled=true|false` boolean (default: false)
+  * `required=true|false` boolean (default: false)
+  * `type=string|email|url` string (default: string)
+  * `charLimit >= 0` integer (default: 0)
+  * `validationMessages` hash/object
+  * `onInput` action -> string
+
+##### Number Field
+  * `value` any
+  * `enabled=true|false` boolean (default: false)
+  * `required=true|false` boolean (default: false)
+  * `integer=true|false` boolean (default: false)
+  * `positive=true|false` boolean (default: false)
+  * `negative=true|false` boolean (default: false)
+  * `min` number or undefined (default: undefined)
+  * `max` number or undefined (default: undefined)
+  * `validationMessages` hash/object
+  * `onInput` action -> number
+
+##### Validation Form
+  * `onSubmit` action -> hash/object of valid form data
+  * `onReject` action -> hash/object of array of strings (error messages)
+
+#### Output/Yielded props
+
+##### Text Field
+  * `errors` array of strings
+  * `enable` action to set field `enabled`
+
+##### Number Field
+  * `errors` array of strings
+  * `enable` action to set field `enabled`
+
+##### Validation Form
+  * `errors` hash/object of array of strings (error messages)
+
+## In comparison to other validation libraries
+
+Validation libraries have a similar goal in mind: to ensure that only valid data makes its way to the database.
+
+`ember-changeset` was developed to circumvent with issues caused by components using 2-way binding (such as `{{input}}`).
+By having the application interface with a `changeset` layer, only valid data could be set on the underlying object. With `ember-changeset-validations`, Changesets could read ValidationMaps to determine whether changes were valid for a given set of data.
+
+Unlike `ember-changeset`, this library embraces usage of observers and computed properties. It also promotes usage of one-way controls. Since this library can take advantage of using one-way controls, applications can interface with the underlying data object, while still being able to read data validity.
+
+## Contributing
+
+Sorry, no tests yet. This library is built with passion and laziness. ;)
+
+Base implementation for form field components is still under development.
+Tests will come once I've settled on the base implementation for the form field components.
+Until then, components in this library are still actively evolving.
 
 ### Installation
 
