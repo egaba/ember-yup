@@ -19,6 +19,7 @@ export default FormField.extend({
   },
 
   // options
+  required: false,
   min: undefined,
   max: undefined,
 

@@ -154,7 +154,6 @@ If `charLimit > 0`, override the message via `charLimit`: `validationMessages=(h
 
 Text field validation message keys:
 ```js
-// text field
 validationMessages: {
   dataType: undefined,
   email: undefined,
@@ -165,15 +164,24 @@ validationMessages: {
 }
 ```
 
-For number fields, it follows the same suit. Number field validation message keys:
+Number field validation message keys:
 ```js
-// number field
 validationMessages: {
   dataType: undefined,
   required: undefined,
   integer: undefined,
   positive: undefined,
   negative: undefined,
+  min: undefined,
+  max: undefined,
+}
+```
+
+Date field validation message keys:
+```js
+validationMessages: {
+  dataType: undefined,
+  required: undefined,
   min: undefined,
   max: undefined,
 }
