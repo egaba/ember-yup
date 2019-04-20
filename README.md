@@ -311,7 +311,7 @@ See examples here https://egaba88.github.io/ember-yup/#/validation-components/
   * `validationMessages` hash/object
   * `onInput` action -> number
 
-##### Number Field
+##### Date Field
   * `value` any
   * `enabled=true|false` boolean (default: false)
   * `required=true|false` boolean (default: false)
