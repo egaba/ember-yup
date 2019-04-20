@@ -90,9 +90,10 @@ export default Model.extend({
 Validating data can be done in the template, using form field components included with this library.
 Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
 
-Currently, there are three validation components:
+Available validation components:
 * `text-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/text-field)
 * `number-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/number-field)
+* `date-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/date-field)
 * `validation-form` (demos https://egaba88.github.io/ember-yup/#/validation-components/validation-form)
 
 ### Validating form field values
