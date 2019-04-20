@@ -161,6 +161,7 @@ validationMessages: {
   type: undefined,
   required: undefined,
   charLimit: 'this exceeds the character limit',
+  matches: undefined,
 }
 ```
 
@@ -174,6 +175,8 @@ validationMessages: {
   negative: undefined,
   min: undefined,
   max: undefined,
+  lt: undefined,
+  gt: undefined,
 }
 ```
 
