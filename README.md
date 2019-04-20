@@ -137,7 +137,7 @@ Currently, there are three validation components:
 ##### Validation Form
   * `errors` hash/object of array of strings (error messages)
 
-### Enabling form fields
+### Validating form field values
 
 By default, form fields will not begin validating until they are `enabled`.
 Fields aggregate error messages in an `errors` array that is passed down with the field.
@@ -169,7 +169,7 @@ To enable the form field, there are two options:
 {{/text-field}}
 ```
 
-### Overriding validation messages
+### Customize validation messages
 
 To override default validation messages, there's a `validationMessages` hash that you can override.
 Every option has its own message.
@@ -220,7 +220,7 @@ validationMessages: {
 }
 ```
 
-### Validating a form
+### Validating forms
 
 Form fields can be combined within a `validation-form` to validate data before it is sent.
 
