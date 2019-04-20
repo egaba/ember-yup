@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import RSVP from 'rsvp';
 
 /**
- * This component is used for validating numeric values.
+ * This component is used for validating date values.
  */
 export default FormField.extend({
   layout,
