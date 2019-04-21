@@ -13,12 +13,7 @@ export default Component.extend({
   errors: [],
 
   validate: on('init', observer('value', 'enabled', function() {
-    if (this.get('enabled')) {
-      if (this.get('value') === undefined) {
-        this.set('errors', []);
-        return yup.mixed().notRequired().validate();
-      }
-
+    if (this.get('enabled') && this.get('value') !== undefined) {
       return this.get('validation').then((val) => {
         if (this.onInput) {
           this.onInput(val);
@@ -27,6 +22,8 @@ export default Component.extend({
       }).catch((errors) => {
         this.set('errors', errors);
       });
+    } else {
+      this.set('errors', []);
     }
   })),
 
