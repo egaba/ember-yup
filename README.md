@@ -1,8 +1,8 @@
 # ember-yup
 
-Dead, simple object schema validations. This is an Ember port of the [Yup validation library](https://github.com/jquense/yup)
+Yup is a JavaScript object schema validator and object parser. This is an Ember port of the [Yup validation library](https://github.com/jquense/yup)
 
-Yup is a JavaScript object schema validator and object parser.
+This library enables Ember apps to import Yup and includes components that can aid with validating data.
 
 Demos: https://egaba88.github.io/ember-yup/
 
