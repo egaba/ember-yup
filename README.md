@@ -117,7 +117,7 @@ To enable the form field, there are two options:
 {{/text-field}}
 ```
 
-2. Or, send the `enable` action that is passed down with the field
+2. Or, send the `field.enable` action that is passed down with the field
 ```html
 {{#text-field required=true value=myTextValue as |field|}}
   <input
