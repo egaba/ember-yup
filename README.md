@@ -133,6 +133,9 @@ To enable the form field, there are two options:
 {{/text-field}}
 ```
 
+Once values are defined and fields are enabled, validation will occur. If you would like validation to occur
+even if values are `undefined`, pass the `presence=false` option to the field.
+
 ### Customizing validation messages
 
 To override default validation messages, there's a `validationMessages` hash that you can override.
@@ -381,6 +384,7 @@ See examples here https://egaba88.github.io/ember-yup/#/validation-components/
 ##### Text Field
   * `value` any
   * `enabled=true|false` boolean (default: false)
+  * `presence=true|false` boolean (default: true)
   * `required=true|false` boolean (default: false)
   * `type=string|email|url` string (default: string)
   * `charLimit >= 0` integer (default: 0)
@@ -390,6 +394,7 @@ See examples here https://egaba88.github.io/ember-yup/#/validation-components/
 ##### Number Field
   * `value` any
   * `enabled=true|false` boolean (default: false)
+  * `presence=true|false` boolean (default: true)
   * `required=true|false` boolean (default: false)
   * `integer=true|false` boolean (default: false)
   * `positive=true|false` boolean (default: false)
@@ -402,6 +407,7 @@ See examples here https://egaba88.github.io/ember-yup/#/validation-components/
 ##### Date Field
   * `value` any
   * `enabled=true|false` boolean (default: false)
+  * `presence=true|false` boolean (default: true)
   * `required=true|false` boolean (default: false)
   * `min` date or undefined (default: undefined)
   * `max` date or undefined (default: undefined)
