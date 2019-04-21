@@ -342,7 +342,7 @@ called a Changeset. `ember-changeset` was developed to circumvent issues caused 
 
 Unfortunately, the Changeset architecture doesn't work well with validating deeply nested data sets or relationships.
 
-`ember-yup` doesn't have an opinion on how data is organized in your app. Unlike `ember-changeset`, this library validates **after** values have been updated in the underlying object. Setting invalid data in the local store is okay, just as long as we can get the user to correct it before the request is sent. This library to embraces usage of observers and computed properties and allows applications to interface directly with the underlying objects/models.
+`ember-yup` doesn't have an opinion on how data is organized in your app. Unlike `ember-changeset`, this library validates **after** values have been updated in the underlying object. Setting invalid data in the local store is okay, just as long as we can get the user to correct it before the request is sent. This library embraces usage of observers and computed properties and allows applications to interface directly with the underlying objects/models.
 
 ## Contributing
 
