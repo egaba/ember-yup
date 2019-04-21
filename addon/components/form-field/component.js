@@ -13,7 +13,9 @@ export default Component.extend({
   errors: [],
 
   validate: on('init', observer('value', 'enabled', function() {
-    if (this.get('enabled') && this.get('value') !== undefined) {
+    if (this.get('value') === undefined) {
+      this.set('errors', []);
+    } else if (this.get('enabled')) {
       return this.get('validation').then((val) => {
         if (this.onInput) {
           this.onInput(val);
@@ -22,8 +24,6 @@ export default Component.extend({
       }).catch((errors) => {
         this.set('errors', errors);
       });
-    } else {
-      this.set('errors', []);
     }
   })),
 
