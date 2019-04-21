@@ -471,3 +471,8 @@ This project is licensed under the [MIT License](LICENSE.md).
 
 ### v0.2.0
   * added `date-field` component
+
+### v0.1.0
+  * added `validation-form` component
+  * added `text-field` component
+  * added `number-field` component
