@@ -1,13 +1,10 @@
 # ember-yup
 
-Validations on a per-route basis is the recommended approach for validating data. Form data should be local,
-and validations (on the frontend) should not necessarily be tied to an entire model. Where a database may want to validate an entire set
-of data before entering it into the database, user interfaces often break down model data into separate forms, validating
-data as the user fills out a form that may span multiple pages. With that said, validation on your model can still be useful, say if you want to validate the record before it is saved; but you may find that forms aren't necessarily mapped 1-1 to your application models. In any case, this library provides the flexibility to validate data in any layer, so do whatever makes the most sense for your application.
+Dead, simple object schema validations. This is an Ember port of the [Yup validation library](https://github.com/jquense/yup)
+
+Yup is a JavaScript object schema validator and object parser.
 
 Demos: https://egaba88.github.io/ember-yup/
-
-This is an Ember port of the [Yup validation library](https://github.com/jquense/yup)
 
 ## Installation
 
@@ -435,6 +432,11 @@ Validation libraries have a similar goal in mind: to ensure that only valid data
 called a Changeset. `ember-changeset` was developed to circumvent issues caused by components using 2-way binding (such as `{{input}}`). By having the application interface this Changeset layer, it guarantees that only valid data could be set on the underlying object. With `ember-changeset-validations`, Changesets can read ValidationMaps to determine whether changes are valid for a given set of data.
 
 `ember-yup` encourages use of one-way controls and doesn't have an opinion on how data flows in your app. Unlike `ember-changeset`, this library validates **after** values have been updated in the underlying object. Setting invalid data in the local store is okay, just as long as we can get the user to correct it so that valid data is sent with the request. This library embraces usage of observers and computed properties and allows applications to interface directly with the underlying objects/models.
+
+Validations on a per-route basis is the recommended approach for validating data. Form data should be local,
+and validations (on the frontend) should not necessarily be tied to an entire model. Where a database may want to validate an entire set
+of data before entering it into the database, user interfaces often break down model data into separate forms, validating
+data as the user fills out a form that may span multiple pages. With that said, validation on your model can still be useful, say if you want to validate the record before it is saved; but you may find that forms aren't necessarily mapped 1-1 to your application models. In any case, this library provides the flexibility to validate data in any layer, so do whatever makes the most sense for your application.
 
 ## Contributing
 
