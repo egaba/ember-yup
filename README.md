@@ -428,7 +428,7 @@ Validation libraries have a similar goal in mind: to ensure that only valid data
 `ember-changeset` ensures that the underlying object always contains valid data and adds a layer between the object and the application,
 called a Changeset. `ember-changeset` was developed to circumvent issues caused by components using 2-way binding (such as `{{input}}`). By having the application interface this Changeset layer, it guarantees that only valid data could be set on the underlying object. With `ember-changeset-validations`, Changesets can read ValidationMaps to determine whether changes are valid for a given set of data.
 
-`ember-yup` encourages use of one-way controls. `ember-yup` doesn't have an opinion on how data is organized in your app. Unlike `ember-changeset`, this library validates **after** values have been updated in the underlying object. Setting invalid data in the local store is okay, just as long as we can get the user to correct it before the request is sent. This library embraces usage of observers and computed properties and allows applications to interface directly with the underlying objects/models.
+`ember-yup` encourages use of one-way controls and doesn't have an opinion on how data flows in your app. Unlike `ember-changeset`, this library validates **after** values have been updated in the underlying object. Setting invalid data in the local store is okay, just as long as we can get the user to correct it so that valid data is sent with the request. This library embraces usage of observers and computed properties and allows applications to interface directly with the underlying objects/models.
 
 ## Contributing
 
