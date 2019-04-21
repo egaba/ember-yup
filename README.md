@@ -1,6 +1,6 @@
 # ember-yup
 
-Validating data on a per-route basis is the recommended approach for validating forms. Form data should be local,
+Validations on a per-route basis is the recommended approach for validating data. Form data should be local,
 and validations (on the frontend) should not necessarily be tied to an entire model. Where a database may want to validate an entire set
 of data before entering it into the database, user interfaces often break down model data into separate forms, validating
 data as the user fills out the form that may exist on multiple pages. With that said, validation on your model can still be useful, say if you want to validate the record before it is saved; but you may find that forms aren't necessarily mapped 1-1 to your application models. In any case, this library provides the flexibility to validate data in any layer, so do whatever makes the most sense for your application.
