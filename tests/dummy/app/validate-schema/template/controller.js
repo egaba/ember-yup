@@ -17,7 +17,7 @@ export default Controller.extend({
       </div>
       <button type="submit" name="button">create user</button>
       {{#each errorMessages as |error|}}
-        <p style="color: red;">{{error}}</p>
+        <p class="text-red">{{error}}</p>
       {{/each}}
     </form>
   `

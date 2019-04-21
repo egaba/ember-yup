@@ -10,7 +10,7 @@ export default Controller.extend({
         value={{validateSimpleDate}}
       >
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/date-field}}
   `,
@@ -23,7 +23,7 @@ export default Controller.extend({
         value={{validate2019Date}}
       >
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/date-field}}
   `,

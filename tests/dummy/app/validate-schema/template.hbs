@@ -16,7 +16,7 @@
         </div>
         <button type="submit" class="my-4">create user</button>
         {{#each errorMessages as |error|}}
-          <p style="color: red;">{{error}}</p>
+          <p class="text-red">{{error}}</p>
         {{/each}}
       </form>
 
@@ -35,7 +35,7 @@
               <tr>
                 <td>{{user.username}}</td>
                 <td>{{user.age}}</td>
-                <td>{{if user.email user.email 'N/A'}}</td>
+                <td>{{if user.email user.email "N/A"}}</td>
               </tr>
             {{/each}}
           </tbody>

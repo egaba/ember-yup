@@ -9,7 +9,7 @@
         value={{validateSimpleDate}}
       >
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/date-field}}
   </div>
@@ -29,7 +29,7 @@
         value={{validate2019Date}}
       >
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/date-field}}
   </div>

@@ -89,14 +89,14 @@ export default Controller.extend({
   `,
   actions: {
     submitValidationForm(data) {
-      console.log('submission success', data);
+      console.log('submission success', data); // eslint-disable-line
       this.set('validationFormErrors', {});
       this.set('validationFormSuccessData', JSON.stringify(data));
     },
     rejectValidationForm(errors) {
       this.set('validationFormErrors', errors);
       this.set('validationFormSuccessData', null);
-      console.log('submission error', errors);
+      console.log('submission error', errors); // eslint-disable-line
     }
   }
 });

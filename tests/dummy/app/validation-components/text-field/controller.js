@@ -18,7 +18,7 @@ export default Controller.extend({
         onblur={{action field.enable}}
       > *required
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/text-field}}
   `,
@@ -40,7 +40,7 @@ export default Controller.extend({
         onblur={{action field.enable}}
       > *required
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/text-field}}
   `,
@@ -59,7 +59,7 @@ export default Controller.extend({
       >
       <span>char remaining: {{field.charRemaining}}</span>
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/text-field}}
   `,
@@ -80,7 +80,7 @@ export default Controller.extend({
         oninput={{action (mut validateMatchesValue) value="target.value"}}
       >
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/text-field}}
   `

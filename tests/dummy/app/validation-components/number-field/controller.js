@@ -10,7 +10,7 @@ export default Controller.extend({
         value={{validatedNumberExample}}
       >
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
   `,
@@ -23,7 +23,7 @@ export default Controller.extend({
         value={{validatedIntegerExample}}
       >
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
   `,
@@ -42,7 +42,7 @@ export default Controller.extend({
         value={{validatedAgeExample}}
       >
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
   `,
@@ -60,7 +60,7 @@ export default Controller.extend({
         value={{validateNegativeExample}}
       >
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
   `,
@@ -79,7 +79,7 @@ export default Controller.extend({
         value={{validatedRangeExample}}
       >
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
   `,
@@ -97,7 +97,7 @@ export default Controller.extend({
         value={{validatedLessThanExample}}
       >
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
   `,
@@ -115,7 +115,7 @@ export default Controller.extend({
         value={{validatedGreaterThanExample}}
       >
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
   `,
@@ -133,7 +133,7 @@ export default Controller.extend({
         value={{validateMinValue}}
       >
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
   `,
@@ -151,20 +151,8 @@ export default Controller.extend({
         value={{validateMaxValue}}
       >
       {{#each field.errors as |errorMessage|}}
-        <p style="color: red;">{{errorMessage}}</p>
+        <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
   `,
-  actions: {
-    submitValidationForm(data) {
-      console.log('submission success', data);
-      this.set('validationFormErrors', {});
-      this.set('validationFormSuccessData', JSON.stringify(data));
-    },
-    rejectValidationForm(errors) {
-      this.set('validationFormErrors', errors);
-      this.set('validationFormSuccessData', null);
-      console.log('submission error', errors);
-    }
-  }
 });

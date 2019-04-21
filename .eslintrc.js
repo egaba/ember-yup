@@ -15,6 +15,7 @@ module.exports = {
     browser: true
   },
   rules: {
+    'ember/avoid-leaking-state-in-ember-objects': 'off'
   },
   overrides: [
     // node files
@@ -33,7 +34,12 @@ module.exports = {
         'addon/**',
         'addon-test-support/**',
         'app/**',
-        'tests/dummy/app/**'
+        'tests/**',
+        'node_modules/**',
+        'tmp/**',
+        'docs/**',
+        'dist/**',
+        'assets/**'
       ],
       parserOptions: {
         sourceType: 'script',

@@ -4,7 +4,6 @@ export default Controller.extend({
   html: `
     import Controller from '@ember/controller';
     import * as yup from 'yup';
-    import { computed, observer } from '@ember/object';
 
     export default Controller.extend({
       userSchema: yup.object().shape({
