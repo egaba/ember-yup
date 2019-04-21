@@ -87,8 +87,12 @@ export default Model.extend({
 
 ## Validation Components
 
-Validating data can be done in the template, using form field components included with this library.
-Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
+Validating data on a per-route basis is the recommended approach for validating forms. Form data should be local,
+and validations (on the frontend) should not necessarily be tied to an entire model. Where a database may want to validate an entire set
+of data before entering it into the database, user interfaces often break down model data into separate forms, validating
+data as the user fills out the form.
+
+In this library, "Form Fields" are components that validate a type of data. Yup can validate `strings`, `numbers`, `booleans`, `dates`, `objects` (including deeply nested), and `arrays`. Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
 
 Available validation components:
 * `text-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/text-field)
@@ -105,8 +109,8 @@ To enable the form field, there are two options:
 
 1. Pass `enabled=true` to the form field
 ```html
-{{#text-field enabled=true value=myTextValue as |field|}}
-  <input type="text" value={{myTextValue}} oninput={{action (mut myTextValue) value="target.value"}} />
+{{#text-field type="email" enabled=true value=myEmailValue as |field|}}
+  <input placeholder="Email address" type="text" value={{myEmailValue}} oninput={{action (mut myEmailValue) value="target.value"}} />
   {{#each field.errors as |errorMessage|}}
     <p style="color: red;">{{errorMessage}}</p>
   {{/each}}
@@ -115,7 +119,7 @@ To enable the form field, there are two options:
 
 2. Or, send the `enable` action that is passed down with the field
 ```html
-{{#text-field value=myTextValue as |field|}}
+{{#text-field required=true value=myTextValue as |field|}}
   <input
     type="text"
     value={{myTextValue}}
@@ -190,9 +194,69 @@ validationMessages: {
 }
 ```
 
+### Transforming data
+
+If you want Yup to cast your data, you'll need to do two things:
+
+1. Update the mutation action to update the `field.value`
+2. Add an `onInput` action on the form field component to mutate the original value
+
+Before:
+```html
+{{#number-field
+  enabled=true
+  value=myAgeValue
+  positive=true
+  integer=true
+  as |field|
+}}
+  <input
+    type="text"
+    placeholder="Enter your age"
+    oninput={{action (mut myAgeValue) value="target.value"}}
+    value={{myAgeValue}}
+  >
+  {{#each field.errors as |errorMessage|}}
+    <p class="text-red">{{errorMessage}}</p>
+  {{/each}}
+{{/number-field}}
+```
+
+```js
+$E.get('myAgeValue'); // "23"
+typeof $E.get('myAgeValue'); // "string"
+```
+
+After:
+```html
+{{#number-field
+  enabled=true
+  value=myAgeValue
+  positive=true
+  integer=true
+  onInput=(action (mut myAgeValue))
+  as |field|
+}}
+  <input
+    type="text"
+    placeholder="Enter your age"
+    oninput={{action (mut field.value) value="target.value"}}
+    value={{myAgeValue}}
+  >
+  {{#each field.errors as |errorMessage|}}
+    <p class="text-red">{{errorMessage}}</p>
+  {{/each}}
+{{/number-field}}
+```
+
+```js
+$E.get('myAgeValue'); // 23
+typeof $E.get('myAgeValue'); // "number"
+```
+
 ### Validating forms
 
-Form fields can be combined within a `validation-form` to validate data before it is sent.
+Form fields can be combined within a `validation-form` to validate data before it is submitted.
 
 In order for form fields to operate within a `validation-form`, **form fields must be passed `name` and `form` props.**
 This allows the form to assign a key to each field that it collects for its data.
