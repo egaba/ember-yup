@@ -338,10 +338,10 @@ See examples here https://egaba88.github.io/ember-yup/#/validation-components/
 Validation libraries have a similar goal in mind: to ensure that only valid data makes its way to the database.
 
 `ember-changeset` was developed to circumvent issues caused by components using 2-way binding (such as `{{input}}`).
-To ensure that the underlying object never becomes invalid, this library adds a layer inbetween the object and the application,
+To ensure that the underlying object never becomes invalid, this library adds a layer between the object and the application,
 called a `changeset`. By having the application interface this `changeset` layer, it guarantees that only valid data could be set on the underlying object. With `ember-changeset-validations`, Changesets could read ValidationMaps to determine whether changes are valid for a given set of data.
 
-This library doesn't have an opinion on how data is set in your app. Having invalid data in the local store is okay, just as long as we can get the user to correct it before the request is sent. Unlike `ember-changeset`, this library validates **after** values have been updated in the underlying object. It allows this library to embrace usage of observers and computed properties and allows applications to interface directly with the underlying objects/models.
+This library doesn't have an opinion on how data is organized in your app. Setting invalid data in the local store is okay, just as long as we can get the user to correct it before the request is sent. Unlike `ember-changeset`, this library validates **after** values have been updated in the underlying object. It allows this library to embrace usage of observers and computed properties and allows applications to interface directly with the underlying objects/models.
 
 ## Contributing
 
