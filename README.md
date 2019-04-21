@@ -92,7 +92,7 @@ export default Model.extend({
 
 ## Validation Components
 
-In this library, "Form Fields" are components that validate a type of data. Yup can validate `strings`, `numbers`, `booleans`, `dates`, `objects` (including deeply nested), and `arrays`. However, we don't have components for all of these types, yet. Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
+In this library, "Form Fields" are components that validate a type of data. Yup can validate `strings`, `numbers`, `booleans`, `dates`, `objects` (including deeply nested), and `arrays`. However, we don't have components for all of these data types, yet. Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
 
 Available validation components:
 * `text-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/text-field)
