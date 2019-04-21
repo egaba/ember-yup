@@ -100,7 +100,7 @@ Available validation components:
 * `date-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/date-field)
 * `validation-form` (demos https://egaba88.github.io/ember-yup/#/validation-components/validation-form)
 
-### Validating form field values
+### Validating data values
 
 By default, form fields will not begin validating until they are `enabled`.
 Fields aggregate error messages in an `errors` array that is passed down with the field.
