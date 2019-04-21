@@ -337,7 +337,7 @@ See examples here https://egaba88.github.io/ember-yup/#/validation-components/
 
 Validation libraries have a similar goal in mind: to ensure that only valid data makes its way to the database.
 
-To ensure that the underlying object always contains valid data, `ember-changeset` adds a layer between the object and the application,
+`ember-changeset` ensures that the underlying object always contains valid data and adds a layer between the object and the application,
 called a Changeset. `ember-changeset` was developed to circumvent issues caused by components using 2-way binding (such as `{{input}}`). By having the application interface this Changeset layer, it guarantees that only valid data could be set on the underlying object. With `ember-changeset-validations`, Changesets could read ValidationMaps to determine whether changes are valid for a given set of data.
 
 Unfortunately, the Changeset architecture doesn't work well with validating deeply nested data sets or relationships.
