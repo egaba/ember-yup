@@ -19,12 +19,6 @@ export default Component.extend({
   enabled: false,
 
   /**
-   * If `true`, this blocks validation until `value` is defined.
-   * If `false`, validation will occur regardless of what `value` is set to.
-   */
-  presence: true,
-
-  /**
    * Collection of error messages.
    */
   errors: [],
@@ -33,10 +27,8 @@ export default Component.extend({
    * Drives the form field functionality by observing the field's `value`.
    * Sets up the error messages, propagates transform values, and obtains the fields validation.
    */
-  validate: on('init', observer('value', 'enabled', 'presence', function() {
-    if (this.get('presence') && this.get('value') === undefined) {
-      this.set('errors', []);
-    } else if (this.get('enabled')) {
+  validate: on('init', observer('value', 'enabled', function() {
+    if (this.get('enabled')) {
       return this.get('validation').then((val) => {
         if (this.onInput) {
           this.onInput(val);
@@ -82,10 +74,6 @@ export default Component.extend({
     enableValidation() {
       if (!this.get('enabled')) {
         this.set('enabled', true);
-
-        if (this.get('presence') && this.get('value') === undefined) {
-          this.set('value', '');
-        }
       }
     }
   }

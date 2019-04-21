@@ -381,7 +381,6 @@ See examples here https://egaba88.github.io/ember-yup/#/validation-components/
 ##### Text Field
   * `value` any
   * `enabled=true|false` boolean (default: false)
-  * `presence=true|false` boolean (default: true)
   * `required=true|false` boolean (default: false)
   * `type=string|email|url` string (default: string)
   * `charLimit >= 0` integer (default: 0)
@@ -391,7 +390,6 @@ See examples here https://egaba88.github.io/ember-yup/#/validation-components/
 ##### Number Field
   * `value` any
   * `enabled=true|false` boolean (default: false)
-  * `presence=true|false` boolean (default: true)
   * `required=true|false` boolean (default: false)
   * `integer=true|false` boolean (default: false)
   * `positive=true|false` boolean (default: false)
@@ -404,7 +402,6 @@ See examples here https://egaba88.github.io/ember-yup/#/validation-components/
 ##### Date Field
   * `value` any
   * `enabled=true|false` boolean (default: false)
-  * `presence=true|false` boolean (default: true)
   * `required=true|false` boolean (default: false)
   * `min` date or undefined (default: undefined)
   * `max` date or undefined (default: undefined)
