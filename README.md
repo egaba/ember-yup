@@ -1,6 +1,11 @@
 # ember-yup
 
-Demo: https://egaba88.github.io/ember-yup/
+Validating data on a per-route basis is the recommended approach for validating forms. Form data should be local,
+and validations (on the frontend) should not necessarily be tied to an entire model. Where a database may want to validate an entire set
+of data before entering it into the database, user interfaces often break down model data into separate forms, validating
+data as the user fills out the form that may exist on multiple pages. With that said, validation on your model can still be useful, say if you want to validate the record before it is saved; but you may find that forms aren't necessarily mapped 1-1 to your application models. In any case, this library provides the flexibility to validate data in any layer, so do whatever makes the most sense for your application.
+
+Demos: https://egaba88.github.io/ember-yup/
 
 This is an Ember port of the [Yup validation library](https://github.com/jquense/yup)
 
@@ -86,11 +91,6 @@ export default Model.extend({
 ```
 
 ## Validation Components
-
-Validating data on a per-route basis is the recommended approach for validating forms. Form data should be local,
-and validations (on the frontend) should not necessarily be tied to an entire model. Where a database may want to validate an entire set
-of data before entering it into the database, user interfaces often break down model data into separate forms, validating
-data as the user fills out the form that may exist on multiple pages. With that said, validation on your model can still be useful, say if you want to validate the record before it is saved; but you may find that forms aren't necessarily mapped 1-1 to your application models. In any case, this library provides the flexibility to validate data in any layer, so do whatever makes the most sense for your application.
 
 In this library, "Form Fields" are components that validate a type of data. Yup can validate `strings`, `numbers`, `booleans`, `dates`, `objects` (including deeply nested), and `arrays`. Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
 
