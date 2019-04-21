@@ -15,6 +15,7 @@ export default Component.extend({
   validate: on('init', observer('value', 'enabled', function() {
     if (this.get('enabled')) {
       if (this.get('value') === undefined) {
+        this.set('errors', []);
         return yup.mixed().notRequired().validate();
       }
 
