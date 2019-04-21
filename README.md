@@ -90,7 +90,7 @@ export default Model.extend({
 Validating data on a per-route basis is the recommended approach for validating forms. Form data should be local,
 and validations (on the frontend) should not necessarily be tied to an entire model. Where a database may want to validate an entire set
 of data before entering it into the database, user interfaces often break down model data into separate forms, validating
-data as the user fills out the form.
+data as the user fills out the form that may exist on multiple pages. With that said, validation on your model can still be useful, say if you want to validate the record before it is saved; but you may find that forms aren't necessarily mapped 1-1 to your application models. In any case, this library doesn't have an opinion on how you want to set up validation, so do whatever makes the most sense for your application.
 
 In this library, "Form Fields" are components that validate a type of data. Yup can validate `strings`, `numbers`, `booleans`, `dates`, `objects` (including deeply nested), and `arrays`. Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
 
@@ -121,11 +121,12 @@ To enable the form field, there are two options:
 ```html
 {{#text-field required=true value=myTextValue as |field|}}
   <input
+    placeholder="Name"
     type="text"
     value={{myTextValue}}
     oninput={{action (mut myTextValue) value="target.value"}}
     onblur={{action field.enable}}
-  />
+  /> * required
   {{#each field.errors as |errorMessage|}}
     <p style="color: red;">{{errorMessage}}</p>
   {{/each}}
@@ -192,6 +193,29 @@ validationMessages: {
   min: undefined,
   max: undefined,
 }
+```
+
+Example:
+```html
+{{#text-field
+  validationMessages=(hash
+    required="username is required"
+  )
+  required=true
+  value=requiredUsernameValue
+  as |field|
+}}
+  <input
+    type="text"
+    placeholder="username"
+    oninput={{action (mut requiredUsernameValue) value="target.value"}}
+    value={{requiredUsernameValue}}
+    onblur={{action field.enable}}
+  > * required
+  {{#each field.errors as |errorMessage|}}
+    <p style="color: red;">{{errorMessage}}</p>
+  {{/each}}
+{{/text-field}}
 ```
 
 ### Transforming data
