@@ -441,9 +441,7 @@ of data before entering it into the database, user interfaces often break down m
 
 Sorry, no tests yet. This library is built with passion and laziness. ;)
 
-But seriously, tests are on the way. I'm getting closer and closer to how I would like Form Fields to operate.
-
-There are a couple things I'd like to test and iron out, such as how we will validate `arrays`, deeply nested `objects`, and relationships with Form Field components. Until then, components in this library are still actively growing and evolving.
+But seriously, tests are on the way. There are a couple things I'd like to test and iron out, such as how we will validate `arrays`, deeply nested `objects`, and relationships with Form Field components. Until then, components in this library are still actively growing and evolving.
 
 ### Installation
 
