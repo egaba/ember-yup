@@ -463,7 +463,11 @@ There are a couple things I'd like to test and iron out, such as how we will val
 
 For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
 
-License
-------------------------------------------------------------------------------
+## License
 
 This project is licensed under the [MIT License](LICENSE.md).
+
+## Release notes
+
+### v0.2.0
+  * added `date-field` component
