@@ -78,6 +78,7 @@ export default FormField.extend({
 
   dataValidation: computed('value', 'dataSchema', function() {
     const dataSchema = this.get('dataSchema');
+
     return dataSchema ? dataSchema.validate(this.get('value'), { abortEarly: false }) : null;
   }),
 

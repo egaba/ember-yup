@@ -1,18 +1,23 @@
 import { observer } from '@ember/object';
 import Component from '@ember/component';
 import { on } from '@ember/object/evented';
+import * as yup from 'yup';
 
 /**
  * This is the base component for form fields.
  */
 export default Component.extend({
-  value: '',
+  value: undefined,
   enabled: false,
 
   errors: [],
 
-  validate: observer('value', 'enabled', function() {
+  validate: on('init', observer('value', 'enabled', function() {
     if (this.get('enabled')) {
+      if (this.get('value') === undefined) {
+        return yup.mixed().notRequired().validate();
+      }
+
       return this.get('validation').then((val) => {
         if (this.onInput) {
           this.onInput(val);
@@ -22,7 +27,7 @@ export default Component.extend({
         this.set('errors', errors);
       });
     }
-  }),
+  })),
 
   form: null,
   name: null,
@@ -45,6 +50,10 @@ export default Component.extend({
     enableValidation() {
       if (!this.get('enabled')) {
         this.set('enabled', true);
+
+        if (this.get('value') === undefined) {
+          this.set('value', '');
+        }
       }
     }
   }

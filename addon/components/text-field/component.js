@@ -46,6 +46,8 @@ export default FormField.extend({
 
     if (this.get('required')) {
       dataSchema = dataSchema.required(this.get('validationMessages.required'));
+    } else if (this.get('required') === false) {
+      dataSchema = dataSchema.notRequired(this.get('validationMessages.required'));
     }
 
     return dataSchema;
