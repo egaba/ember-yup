@@ -133,7 +133,7 @@ To enable the form field, there are two options:
 {{/text-field}}
 ```
 
-### Customize validation messages
+### Customizing validation messages
 
 To override default validation messages, there's a `validationMessages` hash that you can override.
 Every option has its own message.
