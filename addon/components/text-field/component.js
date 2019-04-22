@@ -83,7 +83,7 @@ export default FormField.extend({
     if (this.get('charLimit') > 0) {
       validation.charLimit = this.get('charLimitSchema').validate(value.length);
     }
-    const name = this.get('name');
+
     return new RSVP.Promise(function(resolve, reject) {
       if (abortEarly) {
         RSVP.hash(validation).then(function(hash) {
@@ -97,7 +97,6 @@ export default FormField.extend({
 
           for (const validationType in hash) {
             const state = hash[validationType].state;
-            console.log('state', state);
             if (hash[validationType].state === 'rejected') {
               errors = errors.concat(hash[validationType].reason.errors);
             } else if (validationType === 'data' && hash[validationType].state === 'fulfilled') {
