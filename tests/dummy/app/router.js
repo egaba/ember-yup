@@ -17,6 +17,8 @@ Router.map(function() {
     this.route('text-field');
     this.route('number-field');
     this.route('date-field');
+    this.route('array-field');
+    this.route('object-field');
   });
 });
 

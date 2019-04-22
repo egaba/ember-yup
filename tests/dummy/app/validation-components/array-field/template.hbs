@@ -1,0 +1,21 @@
+{{#array-field required=true value=usernames as |array|}}
+  {{#each usernames as |name index|}}
+    {{#text-field required=true value=(get usernames index) enabled=true as |field|}}
+      <input
+        type="text"
+        value={{name}}
+        oninput={{action (mut (get usernames index)) value="target.value"}}
+      >
+      {{#each field.errors as |error|}}
+        <p class="text-red">{{error}}</p>
+      {{/each}}
+    {{/text-field}}
+  {{/each}}
+  {{#if array.errors.length}}
+    {{#each array.errors as |err|}}
+      <ul>
+        <li>{{err}}</li>
+      </ul>
+    {{/each}}
+  {{/if}}
+{{/array-field}}
