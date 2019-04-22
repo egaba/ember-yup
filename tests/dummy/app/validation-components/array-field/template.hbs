@@ -1,6 +1,6 @@
 {{#array-field required=true value=usernames as |array|}}
   {{#each usernames as |name index|}}
-    {{#text-field required=true value=(get usernames index) enabled=true as |field|}}
+    {{#text-field form=array required=true value=(get usernames index) enabled=true as |field|}}
       <input
         type="text"
         value={{name}}
@@ -19,3 +19,5 @@
     {{/each}}
   {{/if}}
 {{/array-field}}
+
+<button type="button" name="button" {{action "addUsername"}}>add username</button>

@@ -21,29 +21,29 @@ export default Component.extend({
   /**
    * Collection of error messages.
    */
-  errors: [],
+  // errors: [],
 
   /**
    * Drives the form field functionality by observing the field's `value`.
    * Sets up the error messages, propagates transform values, and obtains the fields validation.
    */
-  validate: on('init', observer('value', 'enabled', function() {
-    if (this.get('enabled')) {
-      return this.get('validation').then((val) => {
-        if (this.onInput) {
-          this.onInput(val);
-        }
-        this.set('errors', []);
-      }).catch((errors) => {
-        this.set('errors', errors);
-      });
-    }
-  })),
+  // validate: on('init', observer('value', 'enabled', function() {
+  //   if (this.get('enabled')) {
+  //     return this.get('validation').then((val) => {
+  //       if (this.onInput) {
+  //         this.onInput(val);
+  //       }
+  //       this.set('errors', []);
+  //     }).catch((errors) => {
+  //       this.set('errors', errors);
+  //     });
+  //   }
+  // })),
 
   /**
-   * Parent form.
+   * Parent field or form.
    */
-  form: null,
+  parent: null,
 
   /**
    * Used as key for mapping data in parent form.
@@ -54,10 +54,14 @@ export default Component.extend({
    * Form setup.
    */
   didInsertElement() {
-    const form = this.get('form'), name = this.get('name');
-    if (form && name) {
-      form.fieldMap[name] = this;
+    const parent = this.get('parent'), name = this.get('name');
+
+    if (parent && name) {
+      parent.formFields.add(this);
     }
+    // if (form && name) {
+    //   form.fieldMap[name] = this;
+    // }
   },
 
   /**

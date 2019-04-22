@@ -1,46 +1,46 @@
 import Component from '@ember/component';
 import layout from './template';
 import RSVP from 'rsvp';
+import EmberObject from '@ember/object';
 
 export default Component.extend({
   layout,
-  tagName: 'form',
-  fieldMap: {},
-  errors: {}, // submission errors
 
-  onSubmit(formData) { /* override */ },
-  onReject(errors) { /* override */ },
+  tagName: 'form',
+  formFields: new Set(),
+  async: true,
 
   submit(e) {
     e.preventDefault();
 
-    const fieldMap = this.get('fieldMap');
-    const fieldValidations = {};
+    const validations = {};
 
-    for (const fieldName in fieldMap) {
-      const field = fieldMap[fieldName];
-      field.set('enabled', true);
-      fieldValidations[fieldName] = field.get('validation');
-    }
-
-    RSVP.hashSettled(fieldValidations).then((data) => {
-      const values = {}, errors = {};
-      for (const fieldName in data) {
-        if (data[fieldName].state === 'rejected') {
-          errors[fieldName] = data[fieldName].reason;
-        } else {
-          values[fieldName] = data[fieldName].value;
-        }
-      }
-
-      this.set('errors', errors);
-
-      const hasErrors = Object.keys(errors).length;
-      if (hasErrors) {
-        this.onReject(errors);
-      } else {
-        this.onSubmit(values);
-      }
+    this.get('formFields').forEach(function(field) {
+      validations[field.get('name')] = field.get('validation');
     });
+
+    if (this.get('async')) {
+      this.onSubmit(validations);
+    } else {
+      RSVP.hashSettled(validations).then((fieldValidations) => {
+        const data = {};
+        let hasErrors = false;
+
+        for (const fieldName in fieldValidations) {
+          const result = fieldValidations[fieldName];
+
+          if (result.state === 'fulfilled') {
+            data[fieldName] = result.value;
+          }
+
+          if (result.state === 'rejected') {
+            hasErrors = true;
+            data[fieldName] = result.reason;
+          }
+        }
+
+        this.onSubmit(hasErrors ? RSVP.reject(data) : RSVP.resolve(data));
+      });
+    }
   },
 });

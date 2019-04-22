@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-
+import RSVP from 'rsvp';
 export default Controller.extend({
   validationFormExample: `
     {{#validation-form
@@ -88,15 +88,24 @@ export default Controller.extend({
     {{/validation-form}}
   `,
   actions: {
-    submitValidationForm(data) {
-      console.log('submission success', data); // eslint-disable-line
-      this.set('validationFormErrors', {});
-      this.set('validationFormSuccessData', JSON.stringify(data));
+    submitValidationForm(result) {
+      result.then(function(data) {
+        debugger;
+      }).catch(function(errors) {
+        debugger;
+      });
     },
-    rejectValidationForm(errors) {
-      this.set('validationFormErrors', errors);
-      this.set('validationFormSuccessData', null);
-      console.log('submission error', errors); // eslint-disable-line
-    }
+    // submitValidationForm(validations) {
+    //   // async, abort early
+    //   RSVP.hash(validations).then(function() {
+    //     debugger;
+    //   }).catch(function(e) {
+    //     debugger;
+    //   })
+    //
+    //   // console.log('submission success', data); // eslint-disable-line
+    //   // this.set('validationFormErrors', {});
+    //   // this.set('validationFormSuccessData', JSON.stringify(data));
+    // },
   }
 });
