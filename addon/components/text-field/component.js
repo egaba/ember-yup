@@ -54,11 +54,6 @@ export default FormField.extend({
   }),
 
   charLimit: 0,
-  // charLimitSchema: computed('charLimit', 'validationMessages.charLimit', function() {
-  //   const charLimit = this.get('charLimit');
-  //
-  //   return charLimit > 0 ? yup.number().max(charLimit, this.get('validationMessages.charLimit')) : null;
-  // }),
   charLimitSchema: computed('charLimit', 'validationMessages.charLimit', function() {
     const charLimit = this.get('charLimit');
     return yup.number().max(charLimit, this.get('validationMessages.charLimit'));
@@ -74,78 +69,49 @@ export default FormField.extend({
     return 0;
   }),
 
-  // charLimitValidation: computed('value', 'charLimitSchema', function() {
-  //   const charLimitSchema = this.get('charLimitSchema');
-  //
-  //   return charLimitSchema ? charLimitSchema.validate(this.get('value.length'), { abortEarly: false }) : null;
-  // }),
-  //
-  // dataValidation: computed('value', 'dataSchema', function() {
-  //   const dataSchema = this.get('dataSchema');
-  //
-  //   return dataSchema ? dataSchema.validate(this.get('value'), { abortEarly: false }) : null;
-  // }),
+  validation: computed('value', 'enabled', 'dataSchema', 'charLimitSchema', 'abortEarly', function() {
+    if (!this.get('enabled')) {
+      return RSVP.resolve();
+    }
 
-  validation: computed('value', 'dataSchema', 'charLimitSchema', function() {
+    const abortEarly = this.get('abortEarly');
     const value = this.get('value');
     const validation = {
-      data: this.get('dataSchema').validate(value)
+      data: this.get('dataSchema').validate(value, { abortEarly: abortEarly })
     };
 
     if (this.get('charLimit') > 0) {
       validation.charLimit = this.get('charLimitSchema').validate(value.length);
     }
-
+    const name = this.get('name');
     return new RSVP.Promise(function(resolve, reject) {
-      RSVP.hash(validation).then(function(hash) {
-        resolve(hash.data);
-      }).catch(function(e) {
-        reject(e.errors);
-      });
+      if (abortEarly) {
+        RSVP.hash(validation).then(function(hash) {
+          resolve(hash.data);
+        }).catch((e) => {
+          reject(e.errors);
+        });
+      } else {
+        RSVP.hashSettled(validation).then(function(hash) {
+          let errors = [], value;
+
+          for (const validationType in hash) {
+            const state = hash[validationType].state;
+            console.log('state', state);
+            if (hash[validationType].state === 'rejected') {
+              errors = errors.concat(hash[validationType].reason.errors);
+            } else if (validationType === 'data' && hash[validationType].state === 'fulfilled') {
+              value = hash[validationType].value;
+            }
+          }
+
+          if (errors.length) {
+            reject(errors);
+          } else {
+            resolve(value);
+          }
+        });
+      }
     });
   }),
-
-  errors: observer('validation', function() {
-    debugger;
-  })
-
-  // validation: computed('charLimitValidation', 'dataValidation', function() {
-  //   const dataValidation = this.get('dataValidation');
-  //   const charLimitValidation = this.get('charLimitValidation');
-  //   const validations = {};
-  //
-  //   if (dataValidation) {
-  //     validations.data = dataValidation;
-  //   }
-  //
-  //   if (charLimitValidation) {
-  //     validations.charLimit = charLimitValidation;
-  //   }
-  //
-  //   if (Object.keys(validations).length) {
-  //     const validate = RSVP.hashSettled(validations);
-  //
-  //     return new RSVP.Promise(function(resolve, reject) {
-  //       validate.then(function(validations) {
-  //         let errors = [];
-  //
-  //         if (validations.data && validations.data.state === 'rejected') {
-  //           errors = errors.concat(validations.data.reason.errors);
-  //         }
-  //
-  //         if (validations.charLimit && validations.charLimit.state === 'rejected') {
-  //           errors = errors.concat(validations.charLimit.reason.errors);
-  //         }
-  //
-  //         if (errors.length) {
-  //           reject(errors);
-  //         } else {
-  //           resolve(validations.data.value)
-  //         }
-  //       });
-  //     });
-  //   }
-  //
-  //   return null;
-  // })
 });

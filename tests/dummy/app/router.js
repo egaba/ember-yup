@@ -13,7 +13,10 @@ Router.map(function() {
     this.route('model');
   });
   this.route('validation-components', function() {
-    this.route('validation-form');
+    this.route('validation-form', function() {
+      this.route('async');
+      this.route('sync');
+    });
     this.route('text-field');
     this.route('number-field');
     this.route('date-field');

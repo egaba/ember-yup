@@ -11,7 +11,7 @@ export default Component.extend({
    * The value to evaluate against the schema.
    */
   value: undefined,
-
+  abortEarly: false,
   /**
    * If `true`, allows validation to occur.
    * If `false`, validation will not occur.
@@ -21,24 +21,18 @@ export default Component.extend({
   /**
    * Collection of error messages.
    */
-  // errors: [],
+  errors: [],
 
-  /**
-   * Drives the form field functionality by observing the field's `value`.
-   * Sets up the error messages, propagates transform values, and obtains the fields validation.
-   */
-  // validate: on('init', observer('value', 'enabled', function() {
-  //   if (this.get('enabled')) {
-  //     return this.get('validation').then((val) => {
-  //       if (this.onInput) {
-  //         this.onInput(val);
-  //       }
-  //       this.set('errors', []);
-  //     }).catch((errors) => {
-  //       this.set('errors', errors);
-  //     });
-  //   }
-  // })),
+  readErrors: observer('enabled', 'value', function() {
+    const name = this.get('name');
+    this.get('validation')
+      .then((val) => {
+        this.set('errors', [])
+      })
+      .catch((errors) => {
+        this.set('errors', errors)
+      });
+  }),
 
   /**
    * Parent field or form.
@@ -59,18 +53,16 @@ export default Component.extend({
     if (parent && name) {
       parent.formFields.add(this);
     }
-    // if (form && name) {
-    //   form.fieldMap[name] = this;
-    // }
   },
 
   /**
    * Form teardown.
    */
   willDestroyElement() {
-    const form = this.get('form'), name = this.get('name');
-    if (form && name) {
-      delete form.fieldMap[name];
+    const parent = this.get('parent'), name = this.get('name');
+
+    if (parent && name) {
+      parent.formFields.delete(this);
     }
   },
 
@@ -78,6 +70,10 @@ export default Component.extend({
     enableValidation() {
       if (!this.get('enabled')) {
         this.set('enabled', true);
+
+        if (this.get('required') && this.get('value') === undefined) {
+          this.set('value', '');
+        }
       }
     }
   }

@@ -16,6 +16,11 @@ export default Component.extend({
     const validations = {};
 
     this.get('formFields').forEach(function(field) {
+      field.set('enabled', true);
+      // hack.. send `enableValidation` action instead?
+      if (field.get('required') && field.get('value') === undefined) {
+        field.set('value', '');
+      }
       validations[field.get('name')] = field.get('validation');
     });
 
@@ -23,7 +28,7 @@ export default Component.extend({
       this.onSubmit(validations);
     } else {
       RSVP.hashSettled(validations).then((fieldValidations) => {
-        const data = {};
+        const data = {}, errors = {};
         let hasErrors = false;
 
         for (const fieldName in fieldValidations) {
@@ -31,15 +36,16 @@ export default Component.extend({
 
           if (result.state === 'fulfilled') {
             data[fieldName] = result.value;
+            errors[fieldName] = [];
           }
 
           if (result.state === 'rejected') {
             hasErrors = true;
-            data[fieldName] = result.reason;
+            errors[fieldName] = result.reason;
           }
         }
 
-        this.onSubmit(hasErrors ? RSVP.reject(data) : RSVP.resolve(data));
+        this.onSubmit(hasErrors ? RSVP.reject(errors) : RSVP.resolve(data));
       });
     }
   },

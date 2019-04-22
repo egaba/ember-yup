@@ -88,27 +88,12 @@ export default Controller.extend({
     {{/validation-form}}
   `,
   actions: {
-    // sync submit
-    // submitValidationForm(result) {
-    //   result.then(function(data) {
-    //     debugger;
-    //   }).catch(function(errors) {
-    //     debugger;
-    //   });
-    // },
-
-    // async submit
-    submitValidationForm(validations) {
-      debugger;
-      RSVP.hash(validations).then(function() {
+    submitValidationForm(result) {
+      result.then(function(data) {
         debugger;
-      }).catch(function(e) {
+      }).catch(function(errors) {
         debugger;
-      })
-
-      // console.log('submission success', data); // eslint-disable-line
-      // this.set('validationFormErrors', {});
-      // this.set('validationFormSuccessData', JSON.stringify(data));
+      });
     },
   }
 });

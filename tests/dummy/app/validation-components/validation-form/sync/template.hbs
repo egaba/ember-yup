@@ -1,10 +1,9 @@
-import Controller from '@ember/controller';
-import RSVP from 'rsvp';
-export default Controller.extend({
-  validationFormExample: `
+<section class="flex mb-8">
+  <div class="w-1/3">
+    <p>Validate form data.</p>
     {{#validation-form
+      async=false
       onSubmit=(action "submitValidationForm")
-      onReject=(action "rejectValidationForm")
       as |form|
     }}
       {{#text-field
@@ -12,7 +11,7 @@ export default Controller.extend({
           required="username is required"
         )
         name="username"
-        form=form
+        parent=form
         required=true
         value=validationFormName
         as |field|
@@ -26,7 +25,7 @@ export default Controller.extend({
         {{#if field.errors.length}}
           <ul>
             {{#each field.errors as |errorMessage|}}
-              <li style="color: red;">{{errorMessage}}</li>
+              <li class="text-red">{{errorMessage}}</li>
             {{/each}}
           </ul>
         {{/if}}
@@ -36,7 +35,7 @@ export default Controller.extend({
           required="age is required"
         )
         name="age"
-        form=form
+        parent=form
         integer=true
         positive=true
         required=true
@@ -52,13 +51,13 @@ export default Controller.extend({
         {{#if field.errors.length}}
           <ul>
             {{#each field.errors as |errorMessage|}}
-              <li style="color: red;">{{errorMessage}}</li>
+              <li class="text-red">{{errorMessage}}</li>
             {{/each}}
           </ul>
         {{/if}}
       {{/number-field}}
       {{#text-field
-        form=form
+        parent=form
         name="validationFormEmail"
         value=validationFormEmail
         type="email"
@@ -73,7 +72,7 @@ export default Controller.extend({
         {{#if field.errors.length}}
           <ul>
             {{#each field.errors as |errorMessage|}}
-              <li style="color: red;">{{errorMessage}}</li>
+              <li class="text-red">{{errorMessage}}</li>
             {{/each}}
           </ul>
         {{/if}}
@@ -86,29 +85,8 @@ export default Controller.extend({
       {{/if}}
       <button type="submit">validate</button>
     {{/validation-form}}
-  `,
-  actions: {
-    // sync submit
-    // submitValidationForm(result) {
-    //   result.then(function(data) {
-    //     debugger;
-    //   }).catch(function(errors) {
-    //     debugger;
-    //   });
-    // },
-
-    // async submit
-    submitValidationForm(validations) {
-      debugger;
-      RSVP.hash(validations).then(function() {
-        debugger;
-      }).catch(function(e) {
-        debugger;
-      })
-
-      // console.log('submission success', data); // eslint-disable-line
-      // this.set('validationFormErrors', {});
-      // this.set('validationFormSuccessData', JSON.stringify(data));
-    },
-  }
-});
+  </div>
+  <div class="w-2/3 text-xs">
+    {{markdown-to-html validationFormExample}}
+  </div>
+</section>

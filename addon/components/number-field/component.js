@@ -78,10 +78,10 @@ export default FormField.extend({
     return dataSchema;
   }),
 
-  validation: computed('value', 'dataSchema', function() {
+  validation: computed('value', 'dataSchema', 'abortEarly', function() {
     const value = this.get('value');
     const validation = {
-      data: this.get('dataSchema').validate(value)
+      data: this.get('dataSchema').validate(value, { abortEarly: this.get('abortEarly') })
     };
 
     return new RSVP.Promise(function(resolve, reject) {
