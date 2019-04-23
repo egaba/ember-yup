@@ -69,7 +69,7 @@ export default FormField.extend({
     return 0;
   }),
 
-  validation: computed('value', 'enabled', 'dataSchema', 'charLimitSchema', 'abortEarly', function() {
+  validation: computed('value', 'enabled', 'dataSchema', 'charLimit', 'charLimitSchema', 'abortEarly', function() {
     if (!this.get('enabled')) {
       return RSVP.resolve();
     }

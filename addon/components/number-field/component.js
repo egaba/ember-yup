@@ -78,55 +78,44 @@ export default FormField.extend({
     return dataSchema;
   }),
 
-  validation: computed('value', 'dataSchema', 'abortEarly', function() {
+  validation: computed('value', 'enabled', 'dataSchema', 'abortEarly', function() {
+    if (!this.get('enabled')) {
+      return RSVP.resolve();
+    }
+
+    const abortEarly = this.get('abortEarly');
     const value = this.get('value');
     const validation = {
-      data: this.get('dataSchema').validate(value, { abortEarly: this.get('abortEarly') })
+      data: this.get('dataSchema').validate(value, { abortEarly: abortEarly })
     };
 
     return new RSVP.Promise(function(resolve, reject) {
-      RSVP.hash(validation).then(function(hash) {
-        resolve(hash.data);
-      }).catch(function(e) {
-        reject(e.errors);
-      });
+      if (abortEarly) {
+        RSVP.hash(validation).then(function(hash) {
+          resolve(hash.data);
+        }).catch((e) => {
+          reject(e.errors);
+        });
+      } else {
+        RSVP.hashSettled(validation).then(function(hash) {
+          let errors = [], value;
+
+          for (const validationType in hash) {
+            const state = hash[validationType].state;
+            if (hash[validationType].state === 'rejected') {
+              errors = errors.concat(hash[validationType].reason.errors);
+            } else if (validationType === 'data' && hash[validationType].state === 'fulfilled') {
+              value = hash[validationType].value;
+            }
+          }
+
+          if (errors.length) {
+            reject(errors);
+          } else {
+            resolve(value);
+          }
+        });
+      }
     });
   }),
-
-  // dataValidation: computed('value', 'dataSchema', function() {
-  //   const dataSchema = this.get('dataSchema');
-  //
-  //   return dataSchema ? dataSchema.validate(this.get('value'), { abortEarly: false }) : null;
-  // }),
-  //
-  // validation: computed('dataValidation', function() {
-  //   const dataValidation = this.get('dataValidation');
-  //   const validations = {};
-  //
-  //   if (dataValidation) {
-  //     validations.data = dataValidation;
-  //   }
-  //
-  //   if (Object.keys(validations).length) {
-  //     const validate = RSVP.hashSettled(validations);
-  //
-  //     return new RSVP.Promise(function(resolve, reject) {
-  //       validate.then(function(validations) {
-  //         let errors = [];
-  //
-  //         if (validations.data && validations.data.state === 'rejected') {
-  //           errors = errors.concat(validations.data.reason.errors);
-  //         }
-  //
-  //         if (errors.length) {
-  //           reject(errors);
-  //         } else {
-  //           resolve(validations.data.value)
-  //         }
-  //       });
-  //     });
-  //   }
-  //
-  //   return null;
-  // }),
 });

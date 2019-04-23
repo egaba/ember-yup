@@ -89,10 +89,12 @@ export default Controller.extend({
   `,
   actions: {
     submitValidationForm(validations) {
-      RSVP.hash(validations).then(function(data) {
-        debugger;
-      }).catch(function(errors) {
-        debugger;
+      const t0 = performance.now();
+      console.log('async', validations);
+      RSVP.hashSettled(validations).then(function(data) {
+        const t1 = performance.now();
+        console.log('async results', data);
+        console.log('time', t1 - t0);
       });
     },
   }

@@ -1,5 +1,5 @@
 import FormField from 'ember-yup/components/form-field/component';
-import { computed } from '@ember/object';
+import { computed, observer } from '@ember/object';
 import layout from './template';
 import * as yup from 'yup';
 import RSVP from 'rsvp';
@@ -10,12 +10,22 @@ import RSVP from 'rsvp';
 export default FormField.extend({
   layout,
 
-  fieldMap: {},
+  formFields: Ember.A(),
 
   validationMessages: {
     dataType: undefined,
     required: undefined,
   },
+
+  readErrors: observer('enabled', 'validation', function() {
+    this.get('validation')
+      .then((val) => {
+        this.set('errors', [])
+      })
+      .catch((errors) => {
+        this.set('errors', errors)
+      });
+  }),
 
   // options
   required: false,
@@ -35,40 +45,35 @@ export default FormField.extend({
     return dataSchema;
   }),
 
-  dataValidation: computed('value', 'dataSchema', function() {
-    const dataSchema = this.get('dataSchema');
-
-    return dataSchema ? dataSchema.validate(this.get('value'), { abortEarly: false }) : null;
-  }),
-
-  validation: computed('dataValidation', function() {
-    const dataValidation = this.get('dataValidation');
-    const validations = {};
-
-    if (dataValidation) {
-      validations.data = dataValidation;
+  validation: computed('formFields.@each.value', 'enabled', 'dataSchema', 'abortEarly', function() {
+    if (!this.get('enabled')) {
+      return RSVP.resolve();
     }
 
-    if (Object.keys(validations).length) {
-      const validate = RSVP.hashSettled(validations);
+    return new RSVP.Promise((resolve, reject) => {
+      const validations = [];
 
-      return new RSVP.Promise(function(resolve, reject) {
-        validate.then(function(validations) {
-          let errors = [];
+      this.get('formFields').forEach(function(field) {
+        field.send('enableValidation');
+        validations.push(field.get('validation'));
+      });
 
-          if (validations.data && validations.data.state === 'rejected') {
-            errors = errors.concat(validations.data.reason.errors);
-          }
+      // !abortEarly
+      RSVP.allSettled(validations).then(function(validations) {
+        let errors = [];
 
-          if (errors.length) {
-            reject(errors);
-          } else {
-            resolve(validations.data.value)
+        validations.forEach(function(validation) {
+          if (validation.state === 'rejected') {
+            errors = errors.concat(validation.reason);
           }
         });
-      });
-    }
 
-    return null;
+        if (errors.length) {
+          reject(errors);
+        } else {
+          resolve(Ember.A(validations).mapBy('value'));
+        }
+      });
+    });
   }),
 });

@@ -88,11 +88,17 @@ export default Controller.extend({
     {{/validation-form}}
   `,
   actions: {
-    submitValidationForm(result) {
-      result.then(function(data) {
-        debugger;
+    submitValidationForm(validation) {
+      const t0 = performance.now();
+      console.log('sync', validation);
+      validation.then(function(data) {
+        const t1 = performance.now();
+        console.log('success', data);
+        console.log('sync timing', t1 - t0);
       }).catch(function(errors) {
-        debugger;
+        const t1 = performance.now();
+        console.log('errors', errors);
+        console.log('sync timing', t1 - t0);
       });
     },
   }

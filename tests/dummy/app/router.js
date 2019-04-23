@@ -16,6 +16,7 @@ Router.map(function() {
     this.route('validation-form', function() {
       this.route('async');
       this.route('sync');
+      this.route('nested-data');
     });
     this.route('text-field');
     this.route('number-field');

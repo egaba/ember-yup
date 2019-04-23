@@ -24,7 +24,6 @@ export default Component.extend({
   errors: [],
 
   readErrors: observer('enabled', 'value', function() {
-    const name = this.get('name');
     this.get('validation')
       .then((val) => {
         this.set('errors', [])
@@ -48,10 +47,10 @@ export default Component.extend({
    * Form setup.
    */
   didInsertElement() {
-    const parent = this.get('parent'), name = this.get('name');
+    const parent = this.get('parent');
 
-    if (parent && name) {
-      parent.formFields.add(this);
+    if (parent) {
+      parent.formFields.addObject(this);
     }
   },
 
@@ -59,10 +58,10 @@ export default Component.extend({
    * Form teardown.
    */
   willDestroyElement() {
-    const parent = this.get('parent'), name = this.get('name');
+    const parent = this.get('parent');
 
-    if (parent && name) {
-      parent.formFields.delete(this);
+    if (parent) {
+      parent.formFields.removeObject(this);
     }
   },
 

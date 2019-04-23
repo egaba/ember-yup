@@ -7,20 +7,20 @@ export default Component.extend({
   layout,
 
   tagName: 'form',
-  formFields: new Set(),
+  formFields: Ember.A(),
   async: true,
 
   submit(e) {
     e.preventDefault();
 
+    if (this.preSubmit) {
+      this.preSubmit();
+    }
+
     const validations = {};
 
     this.get('formFields').forEach(function(field) {
-      field.set('enabled', true);
-      // hack.. send `enableValidation` action instead?
-      if (field.get('required') && field.get('value') === undefined) {
-        field.set('value', '');
-      }
+      field.send('enableValidation');
       validations[field.get('name')] = field.get('validation');
     });
 
