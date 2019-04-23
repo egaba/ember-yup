@@ -1,9 +1,9 @@
 <section class="flex mb-8">
   <div class="w-1/3">
-    <p>Validate form data.</p>
+    <p>Sync form validation</p>
     {{#validation-form
-      async=false
-      onSubmit=(action "submitValidationForm")
+      onSuccess=(action "submitForm")
+      onReject=(action "rejectForm")
       as |form|
     }}
       {{#text-field
@@ -13,22 +13,18 @@
         name="username"
         parent=form
         required=true
-        value=validationFormName
+        value=formData.username
         as |field|
       }}
         <input
           type="text"
           placeholder="username"
-          oninput={{action (mut validationFormName) value="target.value"}}
-          value={{validationFormName}}
+          oninput={{action (mut formData.username) value="target.value"}}
+          value={{formData.username}}
         > * required
-        {{#if field.errors.length}}
-          <ul>
-            {{#each field.errors as |errorMessage|}}
-              <li class="text-red">{{errorMessage}}</li>
-            {{/each}}
-          </ul>
-        {{/if}}
+        {{#each field.errorMessages as |error|}}
+          <p class="text-red">{{error}}</p>
+        {{/each}}
       {{/text-field}}
       {{#number-field
         validationMessages=(hash
@@ -39,43 +35,35 @@
         integer=true
         positive=true
         required=true
-        value=validationFormAge
+        value=formData.age
         as |field|
       }}
         <input
           type="text"
           placeholder="age"
-          oninput={{action (mut validationFormAge) value="target.value"}}
-          value={{validationFormAge}}
+          oninput={{action (mut formData.age) value="target.value"}}
+          value={{formData.age}}
         > * required
-        {{#if field.errors.length}}
-          <ul>
-            {{#each field.errors as |errorMessage|}}
-              <li class="text-red">{{errorMessage}}</li>
-            {{/each}}
-          </ul>
-        {{/if}}
+        {{#each field.errorMessages as |error|}}
+          <p class="text-red">{{error}}</p>
+        {{/each}}
       {{/number-field}}
       {{#text-field
         parent=form
         name="validationFormEmail"
-        value=validationFormEmail
+        value=formData.email
         type="email"
         as |field|
       }}
         <input
           placeholder="email"
           type="text"
-          value={{validationFormEmail}}
-          oninput={{action (mut validationFormEmail) value="target.value"}}
+          value={{formData.email}}
+          oninput={{action (mut formData.email) value="target.value"}}
         >
-        {{#if field.errors.length}}
-          <ul>
-            {{#each field.errors as |errorMessage|}}
-              <li class="text-red">{{errorMessage}}</li>
-            {{/each}}
-          </ul>
-        {{/if}}
+        {{#each field.errorMessages as |error|}}
+          <p class="text-red">{{error}}</p>
+        {{/each}}
       {{/text-field}}
 
       {{#if validationFormSuccessData}}

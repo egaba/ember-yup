@@ -8,7 +8,7 @@ export default Component.extend({
 
   tagName: 'form',
   formFields: Ember.A(),
-  async: true,
+  async: false,
 
   submit(e) {
     e.preventDefault();
@@ -24,9 +24,11 @@ export default Component.extend({
       validations[field.get('name')] = field.get('validation');
     });
 
-    if (this.get('async')) {
+    if (this.onSubmit) {
       this.onSubmit(validations);
-    } else {
+    }
+
+    if (!this.get('async')) {
       RSVP.hashSettled(validations).then((fieldValidations) => {
         const data = {}, errors = {};
         let hasErrors = false;
@@ -45,7 +47,11 @@ export default Component.extend({
           }
         }
 
-        this.onSubmit(hasErrors ? RSVP.reject(errors) : RSVP.resolve(data));
+        if (hasErrors) {
+          this.onReject(errors)
+        } else {
+          this.onSuccess(data);
+        }
       });
     }
   },

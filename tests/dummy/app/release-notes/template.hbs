@@ -1,0 +1,30 @@
+<div class="container">
+  <section class="release-notes-section">
+    <h2>v0.3.0</h2>
+    <ul>
+      <li>major form field refactor to support async form submission</li>
+      <li>validation-form now new async option; async=true|false (default: false)</li>
+      <li>validation-form sync submission should use onSuccess and onReject hooks</li>
+      <li>validation-form async should use onSubmit hook (although this hook is also available for sync forms)</li>
+      <li>validation-form has new preSubmit (optional) hook</li>
+      <li>renamed prop for all form fields: form is now parent</li>
+      <li>added errorMessages array to form fields; errors array still available, but contains yup ValidationErrors</li>
+      <li>form fields form prop has been renamed to parent</li>
+    </ul>
+  </section>
+  <section class="release-notes-section">
+    <h2>v0.2.0</h2>
+    <ul>
+      <li>new component: date-field</li>
+    </ul>
+  </section>
+  <section class="release-notes-section">
+    <h2>v0.1.0</h2>
+    <ul>
+      <li>added support to import yup into Ember apps</li>
+      <li>new component: validation-form</li>
+      <li>new component: text-field</li>
+      <li>new component: number-field</li>
+    </ul>
+  </section>
+</div>

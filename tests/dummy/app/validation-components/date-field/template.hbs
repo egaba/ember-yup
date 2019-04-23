@@ -8,8 +8,8 @@
         oninput={{action (mut validateSimpleDate) value="target.value"}}
         value={{validateSimpleDate}}
       >
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/date-field}}
   </div>
@@ -28,8 +28,8 @@
         oninput={{action (mut validate2019Date) value="target.value"}}
         value={{validate2019Date}}
       >
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/date-field}}
   </div>

@@ -24,6 +24,8 @@ Router.map(function() {
     this.route('array-field');
     this.route('object-field');
   });
+  this.route('release-notes');
+  this.route('getting-started');
 });
 
 export default Router;

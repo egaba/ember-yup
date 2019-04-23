@@ -16,8 +16,8 @@
         oninput={{action (mut username) value="target.value"}}
         onblur={{action field.enable}}
       > *required
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/text-field}}
   </div>
@@ -45,8 +45,8 @@
         oninput={{action (mut validEmail) value="target.value"}}
         onblur={{action field.enable}}
       > *required
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/text-field}}
   </div>
@@ -71,8 +71,8 @@
         oninput={{action (mut charLimitText) value="target.value"}}
       >
       <span>char remaining: {{field.charRemaining}}</span>
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/text-field}}
   </div>
@@ -99,8 +99,8 @@
         value={{validateMatchesValue}}
         oninput={{action (mut validateMatchesValue) value="target.value"}}
       >
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/text-field}}
   </div>

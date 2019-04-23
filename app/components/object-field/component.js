@@ -1,1 +1,0 @@
-export { default } from 'ember-yup/components/object-field/component';

@@ -3,8 +3,8 @@ import RSVP from 'rsvp';
 export default Controller.extend({
   validationFormExample: `
     {{#validation-form
+      async=true
       onSubmit=(action "submitValidationForm")
-      onReject=(action "rejectValidationForm")
       as |form|
     }}
       {{#text-field
@@ -12,7 +12,7 @@ export default Controller.extend({
           required="username is required"
         )
         name="username"
-        form=form
+        parent=form
         required=true
         value=validationFormName
         as |field|
@@ -23,20 +23,16 @@ export default Controller.extend({
           oninput={{action (mut validationFormName) value="target.value"}}
           value={{validationFormName}}
         > * required
-        {{#if field.errors.length}}
-          <ul>
-            {{#each field.errors as |errorMessage|}}
-              <li style="color: red;">{{errorMessage}}</li>
-            {{/each}}
-          </ul>
-        {{/if}}
+        {{#each field.errorMessages as |error|}}
+          <p class="text-red">{{error}}</p>
+        {{/each}}
       {{/text-field}}
       {{#number-field
         validationMessages=(hash
           required="age is required"
         )
         name="age"
-        form=form
+        parent=form
         integer=true
         positive=true
         required=true
@@ -49,16 +45,12 @@ export default Controller.extend({
           oninput={{action (mut validationFormAge) value="target.value"}}
           value={{validationFormAge}}
         > * required
-        {{#if field.errors.length}}
-          <ul>
-            {{#each field.errors as |errorMessage|}}
-              <li style="color: red;">{{errorMessage}}</li>
-            {{/each}}
-          </ul>
-        {{/if}}
+        {{#each field.errorMessages as |error|}}
+          <p class="text-red">{{error}}</p>
+        {{/each}}
       {{/number-field}}
       {{#text-field
-        form=form
+        parent=form
         name="validationFormEmail"
         value=validationFormEmail
         type="email"
@@ -70,13 +62,9 @@ export default Controller.extend({
           value={{validationFormEmail}}
           oninput={{action (mut validationFormEmail) value="target.value"}}
         >
-        {{#if field.errors.length}}
-          <ul>
-            {{#each field.errors as |errorMessage|}}
-              <li style="color: red;">{{errorMessage}}</li>
-            {{/each}}
-          </ul>
-        {{/if}}
+        {{#each field.errorMessages as |error|}}
+          <p class="text-red">{{error}}</p>
+        {{/each}}
       {{/text-field}}
 
       {{#if validationFormSuccessData}}

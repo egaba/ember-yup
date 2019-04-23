@@ -9,3 +9,7 @@ input[type="text"] {
 button {
   @apply .border .border-blue .py-3 px-5 .bg-blue .text-white;
 }
+
+a[href] {
+  @apply .cursor-pointer;
+}

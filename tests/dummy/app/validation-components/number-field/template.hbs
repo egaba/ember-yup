@@ -8,8 +8,8 @@
         oninput={{action (mut validatedNumberExample) value="target.value"}}
         value={{validatedNumberExample}}
       >
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/number-field}}
   </div>
@@ -27,8 +27,8 @@
         oninput={{action (mut validatedIntegerExample) value="target.value"}}
         value={{validatedIntegerExample}}
       >
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/number-field}}
   </div>
@@ -53,8 +53,8 @@
         oninput={{action (mut field.value) value="target.value"}}
         value={{myAgeValue}}
       >
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/number-field}}
   </div>
@@ -77,8 +77,8 @@
         oninput={{action (mut validateNegativeExample) value="target.value"}}
         value={{validateNegativeExample}}
       >
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/number-field}}
   </div>
@@ -102,8 +102,8 @@
         oninput={{action (mut validatedRangeExample) value="target.value"}}
         value={{validatedRangeExample}}
       >
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/number-field}}
   </div>
@@ -126,8 +126,8 @@
         oninput={{action (mut validatedLessThanExample) value="target.value"}}
         value={{validatedLessThanExample}}
       >
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/number-field}}
   </div>
@@ -150,8 +150,8 @@
         oninput={{action (mut validatedGreaterThanExample) value="target.value"}}
         value={{validatedGreaterThanExample}}
       >
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/number-field}}
   </div>
@@ -174,8 +174,8 @@
         oninput={{action (mut validateMinValue) value="target.value"}}
         value={{validateMinValue}}
       >
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/number-field}}
   </div>
@@ -198,8 +198,8 @@
         oninput={{action (mut validateMaxValue) value="target.value"}}
         value={{validateMaxValue}}
       >
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/number-field}}
   </div>

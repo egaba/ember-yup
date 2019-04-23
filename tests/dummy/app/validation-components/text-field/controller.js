@@ -5,7 +5,7 @@ export default Controller.extend({
     {{#text-field
       required=true
       validationMessages=(hash
-        required="name is required"
+        required="username is required"
       )
       value=username
       as |field|
@@ -17,8 +17,8 @@ export default Controller.extend({
         oninput={{action (mut username) value="target.value"}}
         onblur={{action field.enable}}
       > *required
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/text-field}}
   `,
@@ -39,8 +39,8 @@ export default Controller.extend({
         oninput={{action (mut validEmail) value="target.value"}}
         onblur={{action field.enable}}
       > *required
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/text-field}}
   `,
@@ -58,8 +58,8 @@ export default Controller.extend({
         oninput={{action (mut charLimitText) value="target.value"}}
       >
       <span>char remaining: {{field.charRemaining}}</span>
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/text-field}}
   `,
@@ -68,7 +68,7 @@ export default Controller.extend({
       enabled=true
       matches="^\\d{5}(-\\d{4})?$"
       validationMessages=(hash
-        matches="must be valid 5-digit or 9-digit zip code xxxxx-xxxx or xxxxx. \${regex}"
+        matches="must be valid 5-digit or 9-digit zip code xxxxx-xxxx or xxxxx. regex: \${regex}"
       )
       value=validateMatchesValue
       as |field|
@@ -79,8 +79,8 @@ export default Controller.extend({
         value={{validateMatchesValue}}
         oninput={{action (mut validateMatchesValue) value="target.value"}}
       >
-      {{#each field.errors as |errorMessage|}}
-        <p class="text-red">{{errorMessage}}</p>
+      {{#each field.errorMessages as |error|}}
+        <p class="text-red">{{error}}</p>
       {{/each}}
     {{/text-field}}
   `

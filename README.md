@@ -87,7 +87,9 @@ export default Model.extend({
 });
 ```
 
-## Validation Components
+## Validation Components (beta)
+
+**WARNING** these components are experimental until v1.0.0! I highly recommend you create your own custom components for validation for the time being.
 
 In this library, "Form Fields" are components that validate a type of data. Yup can validate `strings`, `numbers`, `booleans`, `dates`, `objects` (including deeply nested), and `arrays`. (However, we don't have components for all of these data types, yet.) Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
 
@@ -108,8 +110,8 @@ To enable the form field, there are two options:
 ```html
 {{#text-field type="email" enabled=true value=myEmailValue as |field|}}
   <input placeholder="Email address" type="text" value={{myEmailValue}} oninput={{action (mut myEmailValue) value="target.value"}} />
-  {{#each field.errors as |errorMessage|}}
-    <p style="color: red;">{{errorMessage}}</p>
+  {{#each field.errorMessages as |error|}}
+    <p class="text-red">{{error}}</p>
   {{/each}}
 {{/text-field}}
 ```
@@ -124,14 +126,13 @@ To enable the form field, there are two options:
     oninput={{action (mut myTextValue) value="target.value"}}
     onblur={{action field.enable}}
   /> * required
-  {{#each field.errors as |errorMessage|}}
-    <p style="color: red;">{{errorMessage}}</p>
+  {{#each field.errorMessages as |error|}}
+    <p class="text-red">{{error}}</p>
   {{/each}}
 {{/text-field}}
 ```
 
-Once values are defined and fields are enabled, validation will occur. If you would like validation to occur
-even if values are `undefined`, pass the `presence=false` option to the field.
+Once values are defined and fields are enabled, validation will occur.
 
 ### Customizing validation messages
 
@@ -165,8 +166,9 @@ validationMessages: {
   url: undefined,
   type: undefined,
   required: undefined,
-  charLimit: 'this exceeds the character limit',
+  charLimit: 'character limit has been exceeded',
   matches: undefined,
+  nullable: undefined,
 }
 ```
 
@@ -182,6 +184,7 @@ validationMessages: {
   max: undefined,
   lt: undefined,
   gt: undefined,
+  nullable: undefined,
 }
 ```
 
@@ -192,6 +195,7 @@ validationMessages: {
   required: undefined,
   min: undefined,
   max: undefined,
+  nullable: undefined,
 }
 ```
 
@@ -212,8 +216,8 @@ Example:
     value={{requiredUsernameValue}}
     onblur={{action field.enable}}
   > * required
-  {{#each field.errors as |errorMessage|}}
-    <p style="color: red;">{{errorMessage}}</p>
+  {{#each field.errorMessages as |error|}}
+    <p class="text-red">{{error}}</p>
   {{/each}}
 {{/text-field}}
 ```
@@ -240,8 +244,8 @@ Before:
     oninput={{action (mut myAgeValue) value="target.value"}}
     value={{myAgeValue}}
   >
-  {{#each field.errors as |errorMessage|}}
-    <p class="text-red">{{errorMessage}}</p>
+  {{#each field.errorMessages as |error|}}
+    <p class="text-red">{{error}}</p>
   {{/each}}
 {{/number-field}}
 ```
@@ -267,8 +271,8 @@ After:
     oninput={{action (mut field.value) value="target.value"}}
     value={{myAgeValue}}
   >
-  {{#each field.errors as |errorMessage|}}
-    <p class="text-red">{{errorMessage}}</p>
+  {{#each field.errorMessages as |error|}}
+    <p class="text-red">{{error}}</p>
   {{/each}}
 {{/number-field}}
 ```
@@ -282,13 +286,15 @@ typeof $E.get('myAgeValue'); // "number"
 
 Form fields can be combined within a `validation-form` to validate data before it is submitted.
 
-In order for form fields to operate within a `validation-form`, **form fields must be passed `name` and `form` props.**
+In order for form fields to operate within a `validation-form`, **form fields must be passed `name` and `parent` props.**
 This allows the form to assign a key to each field that it collects for its data.
+
+### Sync form example
 
 ```html
 {{#validation-form
-  onSubmit=(action "submitValidationForm")
-  onReject=(action "rejectValidationForm")
+  onSuccess=(action "submitForm")
+  onReject=(action "rejectForm")
   as |form|
 }}
   {{#text-field
@@ -296,7 +302,84 @@ This allows the form to assign a key to each field that it collects for its data
       required="username is required"
     )
     name="username"
-    form=form
+    parent=form
+    required=true
+    value=formData.username
+    as |field|
+  }}
+    <input
+      type="text"
+      placeholder="username"
+      oninput={{action (mut formData.username) value="target.value"}}
+      value={{formData.username}}
+    > * required
+    {{#each field.errorMessages as |error|}}
+      <p class="text-red">{{error}}</p>
+    {{/each}}
+  {{/text-field}}
+  {{#number-field
+    validationMessages=(hash
+      required="age is required"
+    )
+    name="age"
+    parent=form
+    integer=true
+    positive=true
+    required=true
+    value=formData.age
+    as |field|
+  }}
+    <input
+      type="text"
+      placeholder="age"
+      oninput={{action (mut formData.age) value="target.value"}}
+      value={{formData.age}}
+    > * required
+    {{#each field.errorMessages as |error|}}
+      <p class="text-red">{{error}}</p>
+    {{/each}}
+  {{/number-field}}
+  {{#text-field
+    parent=form
+    name="validationFormEmail"
+    value=formData.email
+    type="email"
+    as |field|
+  }}
+    <input
+      placeholder="email"
+      type="text"
+      value={{formData.email}}
+      oninput={{action (mut formData.email) value="target.value"}}
+    >
+    {{#each field.errorMessages as |error|}}
+      <p class="text-red">{{error}}</p>
+    {{/each}}
+  {{/text-field}}
+
+  {{#if validationFormSuccessData}}
+    <div class="my-4">
+      success! {{validationFormSuccessData}}
+    </div>
+  {{/if}}
+  <button type="submit">validate</button>
+{{/validation-form}}
+```
+
+### Async form example
+
+```html
+{{#validation-form
+  async=true
+  onSubmit=(action "submitValidationForm")
+  as |form|
+}}
+  {{#text-field
+    validationMessages=(hash
+      required="username is required"
+    )
+    name="username"
+    parent=form
     required=true
     value=validationFormName
     as |field|
@@ -307,20 +390,16 @@ This allows the form to assign a key to each field that it collects for its data
       oninput={{action (mut validationFormName) value="target.value"}}
       value={{validationFormName}}
     > * required
-    {{#if field.errors.length}}
-      <ul>
-        {{#each field.errors as |errorMessage|}}
-          <li style="color: red;">{{errorMessage}}</li>
-        {{/each}}
-      </ul>
-    {{/if}}
+    {{#each field.errorMessages as |error|}}
+      <p class="text-red">{{error}}</p>
+    {{/each}}
   {{/text-field}}
   {{#number-field
     validationMessages=(hash
       required="age is required"
     )
     name="age"
-    form=form
+    parent=form
     integer=true
     positive=true
     required=true
@@ -333,16 +412,12 @@ This allows the form to assign a key to each field that it collects for its data
       oninput={{action (mut validationFormAge) value="target.value"}}
       value={{validationFormAge}}
     > * required
-    {{#if field.errors.length}}
-      <ul>
-        {{#each field.errors as |errorMessage|}}
-          <li style="color: red;">{{errorMessage}}</li>
-        {{/each}}
-      </ul>
-    {{/if}}
+    {{#each field.errorMessages as |error|}}
+      <p class="text-red">{{error}}</p>
+    {{/each}}
   {{/number-field}}
   {{#text-field
-    form=form
+    parent=form
     name="validationFormEmail"
     value=validationFormEmail
     type="email"
@@ -354,13 +429,9 @@ This allows the form to assign a key to each field that it collects for its data
       value={{validationFormEmail}}
       oninput={{action (mut validationFormEmail) value="target.value"}}
     >
-    {{#if field.errors.length}}
-      <ul>
-        {{#each field.errors as |errorMessage|}}
-          <li style="color: red;">{{errorMessage}}</li>
-        {{/each}}
-      </ul>
-    {{/if}}
+    {{#each field.errorMessages as |error|}}
+      <p class="text-red">{{error}}</p>
+    {{/each}}
   {{/text-field}}
 
   {{#if validationFormSuccessData}}
@@ -409,17 +480,18 @@ See examples here https://egaba88.github.io/ember-yup/#/validation-components/
   * `onInput` action -> date
 
 ##### Validation Form
-  * `onSubmit` action -> hash/object of valid form data
+  * `async=true|false` boolean (default: false)
+  * `onSubmit` action -> hash/object of valid form data (use this for async submission)
+
+Sync submission:
+  * `onSuccess` action -> hash/object of valid form data
   * `onReject` action -> hash/object of array of strings (error messages)
 
 #### Output/Yielded props
 
 ##### All Form Fields
-  * `errors` array of strings
+  * `errorMessages` array of strings
   * `enable` action to set field `enabled`
-
-##### Validation Form
-  * `errors` hash/object of array of strings (error messages)
 
 ## In comparison with `ember-changeset`
 
@@ -438,7 +510,7 @@ of data before entering it into the database, user interfaces often break down m
 
 Sorry, no tests yet. This library is built with passion and laziness. ;)
 
-But seriously, tests are on the way. There are a couple things I'd like to test and iron out, such as how we will validate `arrays`, deeply nested `objects`, and relationships with Form Field components. Until then, components in this library are still actively growing and evolving.
+Tests will come once I finish developing the base set of validation components with v1.0.0. Until then, this library is in beta.
 
 ### Installation
 
