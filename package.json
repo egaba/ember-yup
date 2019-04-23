@@ -28,7 +28,7 @@
     "start": "ember serve",
     "test": "ember test",
     "test:all": "ember try:each",
-    "deploy": "rm -rf docs && ember build -prod --output-path docs && git add . && git commit -am 'deploy gh page' && git push"
+    "deploy": "rm -rf docs && ember build -prod --output-path docs && git add . && git commit -am 'deploy gh page' && git push --follow-tags"
   },
   "dependencies": {
     "ember-cli-babel": "^6.16.0",
