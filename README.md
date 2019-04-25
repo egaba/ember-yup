@@ -14,8 +14,7 @@ $ ember install ember-yup
 
 ## Validating schemas
 
-Schema validation is the most flexible way to use this library. Yup can
-validate nested objects, transform data, localize error messages, and much more.
+Schema validation is the most flexible way to use this library.
 See [Yup docs here](https://github.com/jquense/yup).
 
 Here's an example where we validate form data before creating a user.
@@ -91,7 +90,7 @@ export default Model.extend({
 
 **WARNING** these components are experimental until v1.0.0! I highly recommend you create your own custom components for validation for the time being.
 
-In this library, "Form Fields" are components that validate a type of data. Yup can validate `strings`, `numbers`, `booleans`, `dates`, `objects` (including deeply nested), and `arrays`. (However, we don't have components for all of these data types, yet.) Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
+In this library, "Form Fields" are components that validate a type of data. Yup can validate `strings`, `numbers`, `booleans`, `dates`, `objects`, and `arrays`. Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
 
 Available validation components:
 * `text-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/text-field)
@@ -102,14 +101,19 @@ Available validation components:
 ### Validating data values
 
 By default, form fields will not begin validating until they are `enabled`.
-Fields aggregate error messages in an `errors` array that is passed down with the field.
+Fields aggregate error messages in an `errorMessages` array that is passed down with the field.
 
 To enable the form field, there are two options:
 
-1. Pass `enabled=true` to the form field
+1. Set `enabled=true` on the form field
 ```html
-{{#text-field type="email" enabled=true value=myEmailValue as |field|}}
-  <input placeholder="Email address" type="text" value={{myEmailValue}} oninput={{action (mut myEmailValue) value="target.value"}} />
+{{#text-field enabled=true type="email" value=myEmailValue as |field|}}
+  <input
+    placeholder="Email address"
+    type="text"
+    value={{myEmailValue}}
+    oninput={{action (mut myEmailValue) value="target.value"}}
+  />
   {{#each field.errorMessages as |error|}}
     <p class="text-red">{{error}}</p>
   {{/each}}
