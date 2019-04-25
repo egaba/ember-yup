@@ -136,8 +136,6 @@ To enable the form field, there are two options:
 {{/text-field}}
 ```
 
-Once values are defined and fields are enabled, validation will occur.
-
 ### Customizing validation messages
 
 To override default validation messages, there's a `validationMessages` hash that you can override.
