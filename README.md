@@ -138,10 +138,9 @@ To enable the form field, there are two options:
 
 ### Customizing validation messages
 
-To override default validation messages, there's a `validationMessages` hash that you can override.
+To override default validation messages, set messages on the `validationMessages` prop as a hash.
 Every option has its own message.
 
-For all form fields:
 The default data type message can be overridden via `validationMessages=(hash dataType='this field data type is incorrect')`.
 If `required=true`, override the message via `validationMessages=(hash required='this field is required')`.
 
@@ -160,7 +159,7 @@ validationMessages=(hash type='this field should be a valid url')
 
 If `charLimit > 0`, override the message via `charLimit`: `validationMessages=(hash charLimit='this string is too long')`.
 
-Text field validation message keys:
+Default text field validation messages:
 ```js
 validationMessages: {
   dataType: undefined,
@@ -170,11 +169,10 @@ validationMessages: {
   required: undefined,
   charLimit: 'character limit has been exceeded',
   matches: undefined,
-  nullable: undefined,
 }
 ```
 
-Number field validation message keys:
+Default number field validation messages:
 ```js
 validationMessages: {
   dataType: undefined,
@@ -186,18 +184,16 @@ validationMessages: {
   max: undefined,
   lt: undefined,
   gt: undefined,
-  nullable: undefined,
 }
 ```
 
-Date field validation message keys:
+Default date field validation messages:
 ```js
 validationMessages: {
   dataType: undefined,
   required: undefined,
   min: undefined,
   max: undefined,
-  nullable: undefined,
 }
 ```
 
