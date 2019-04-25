@@ -224,8 +224,8 @@ Example:
 
 Say you want your controls to set numeric values instead of strings. If you want Yup to cast your data, you'll need to do two things:
 
-1. Update the mutation action to update the `field.value`
-2. Add an `onInput` action on the form field component to mutate the original value
+1. Add an `onInput` action on the form field component to mutate the field's value
+2. Mutate `field.value` on the control instead of the original value
 
 Before:
 ```html
