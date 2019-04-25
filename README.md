@@ -501,8 +501,8 @@ called a Changeset. `ember-changeset` was developed to circumvent issues caused 
 `ember-yup` encourages use of one-way controls and doesn't have an opinion on how data flows in your app. Unlike `ember-changeset`, this library validates **after** values have been updated in the underlying object. Setting invalid data in the local store is okay, just as long as we can get the user to correct it so that valid data is sent with the request. This library embraces usage of observers and computed properties and allows applications to interface directly with the underlying objects/models.
 
 Validations on a per-route basis is the recommended approach for validating data. Form data should be local,
-and validations (on the frontend) should not necessarily be tied to an entire model. Where a database may want to validate an entire set
-of data before entering it into the database, user interfaces often break down model data into separate forms which may span multiple pages. With that said, validation on your model can still be useful, say if you want to validate the record before it is saved; but you may find that forms aren't necessarily mapped 1-1 to your application models. In any case, this library provides the flexibility to validate data in any layer, so do whatever makes the most sense for your application.
+and form validations (on the frontend) should not necessarily be tied to an entire model. Where a database may want to validate an entire set
+of data before entering it into the database, user interfaces often break down model data into separate forms which may span multiple pages. With that said, validation on your model is still useful (i.e. you want to validate the record before saving) and recommended.
 
 ## Contributing
 
