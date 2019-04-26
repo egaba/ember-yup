@@ -14,6 +14,13 @@ export default Component.extend({
   value: undefined,
   abortEarly: false,
 
+  defaultValidationMessages: Ember.computed(function() {
+    return {
+      dataType: undefined,
+      required: undefined,
+    };
+  }).readOnly(),
+
   validationMessages: Ember.computed({
     get() {
       return this.get('defaultValidationMessages');

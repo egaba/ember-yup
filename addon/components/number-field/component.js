@@ -21,7 +21,6 @@ export default FormField.extend({
       max: undefined,
       lt: undefined,
       gt: undefined,
-      nullable: undefined,
     };
   }).readOnly(),
 
@@ -34,7 +33,6 @@ export default FormField.extend({
   max: undefined,
   lt: undefined,
   gt: undefined,
-  nullable: false,
 
   dataSchema: computed(
     'validationMessages.dataType',
@@ -77,10 +75,6 @@ export default FormField.extend({
       dataSchema = dataSchema.required(this.get('validationMessages.required'));
     } else {
       dataSchema = dataSchema.notRequired(this.get('validationMessages.required'));
-    }
-
-    if (this.get('nullable')) {
-      dataSchema = dataSchema.nullable(this.get('validationMessages.nullable'));
     }
 
     return dataSchema;

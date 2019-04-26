@@ -51,7 +51,7 @@ export default Controller.extend({
       {{/number-field}}
       {{#text-field
         parent=form
-        name="validationFormEmail"
+        name="email"
         value=validationFormEmail
         type="email"
         as |field|

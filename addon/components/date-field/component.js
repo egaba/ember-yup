@@ -16,7 +16,6 @@ export default FormField.extend({
       required: undefined,
       min: undefined,
       max: undefined,
-      nullable: undefined,
     };
   }).readOnly(),
 
@@ -24,7 +23,6 @@ export default FormField.extend({
   required: false,
   min: undefined,
   max: undefined,
-  nullable: false,
 
   dataSchema: computed(
     'validationMessages.dataType',

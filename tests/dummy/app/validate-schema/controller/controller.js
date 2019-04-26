@@ -6,14 +6,16 @@ export default Controller.extend({
     import * as yup from 'yup';
 
     export default Controller.extend({
-      userSchema: yup.object().shape({
-        username: yup.string().required(),
-        age: yup
-          .number()
-          .required()
-          .positive()
-          .integer(),
-        email: yup.string().email(),
+      userSchema: Ember.computed(function() {
+        return yup.object().shape({
+          username: yup.string().required(),
+          age: yup
+            .number()
+            .required()
+            .positive()
+            .integer(),
+          email: yup.string().email(),
+        });
       }),
       formData: {},
       errorMessages: [],

@@ -87,7 +87,6 @@ export default FormField.extend({
 
   // options
   required: false,
-  default: true,
 
   dataSchema: computed(
     'validationMessages.dataType',
@@ -99,10 +98,6 @@ export default FormField.extend({
       dataSchema = dataSchema.required(this.get('validationMessages.required'));
     } else {
       dataSchema = dataSchema.notRequired(this.get('validationMessages.required'));
-    }
-
-    if (this.get('default')) {
-      dataSchema = dataSchema.default(function() { return []; });
     }
 
     return dataSchema;

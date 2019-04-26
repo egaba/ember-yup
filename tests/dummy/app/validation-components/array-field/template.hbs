@@ -1,25 +1,21 @@
-<h2>under development</h2>
+<button type="button" {{action "validate"}}>validate</button>
 
-{{#array-field required=true value=usernames as |array|}}
-  {{#each usernames as |name index|}}
-    {{#text-field parent=array required=true value=(get usernames index) as |field|}}
-      <input
-        type="text"
-        value={{name}}
-        oninput={{action (mut (get usernames index)) value="target.value"}}
-      >
-      {{#each field.errors as |error|}}
-        <p class="text-red">{{error}}</p>
-      {{/each}}
-    {{/text-field}}
+
+<form class="" {{action "createUser" on="submit"}}>
+  <div class="">
+    <label for="username">username</label>
+    <input id="username" type="text" value={{formData.username}} oninput={{action (mut formData.username) value="target.value"}}> *required
+  </div>
+  <div class="">
+    <label for="age">age</label>
+    <input id="age" type="text" value={{formData.age}} oninput={{action (mut formData.age) value="target.value"}}> *required
+  </div>
+  <div class="">
+    <label for="email">email</label>
+    <input id="email" type="text" value={{formData.email}} oninput={{action (mut formData.email) value="target.value"}}>
+  </div>
+  <button type="submit" class="my-4">create user</button>
+  {{#each errorMessages as |error|}}
+    <p class="text-red">{{error}}</p>
   {{/each}}
-  {{#if array.errors.length}}
-    {{#each array.errors as |err|}}
-      <ul>
-        <li>{{err}}</li>
-      </ul>
-    {{/each}}
-  {{/if}}
-{{/array-field}}
-
-<button type="button" name="button" {{action "addUsername"}}>add username</button>
+</form>
