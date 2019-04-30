@@ -88,7 +88,7 @@ export default Model.extend({
 
 ## Validation Components (beta)
 
-**WARNING** these components are experimental! I highly recommend you create your own custom components for validation for the time being.
+**WARNING** these components are still in development. Just keep in mind that the API for these may change.
 
 In this library, "Form Fields" are components that validate a type of data. Yup can validate `strings`, `numbers`, `booleans`, `dates`, `objects`, and `arrays`. Form fields can operate both standalone or in combination with other form fields within a `validation-form`.
 
