@@ -84,7 +84,8 @@ export default FormField.extend({
     };
 
     if (this.get('charLimit') > 0) {
-      validation.charLimit = this.get('charLimitSchema').validate(value.length);
+      const numChars = value ? value.length : 0;
+      validation.charLimit = this.get('charLimitSchema').validate(numChars);
     }
 
     const name = this.get('name');

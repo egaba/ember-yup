@@ -96,7 +96,7 @@ export default Component.extend({
     return errors;
   }),
 
-  readValidation: observer('enabled', 'value', function() {
+  readValidation: on('init', observer('enabled', 'value', function() {
     if (this.get('enabled')) {
       const value = this.get('value');
 
@@ -118,7 +118,7 @@ export default Component.extend({
     } else {
       this.get('errors').clear();
     }
-  }),
+  })),
 
   /**
    * Parent field or form.
