@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 
 export default Controller.extend({
-  agreedToTerms: true,
+  agreedToTerms: false,
 
   simpleBoolExample: `
     {{#boolean-field enabled=true required=true value=agreedToTerms as |field|}}

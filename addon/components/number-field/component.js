@@ -42,7 +42,11 @@ export default FormField.extend({
     'min', 'validationMessages.min',
     'max','validationMessages.max',
   function() {
-    let dataSchema = yup.number(this.get('validationMessages.dataType'));
+    let dataSchema = yup.number();
+
+    if (this.get('validationMessages.dataType')) {
+      dataSchema = dataSchema.typeError(this.get('validationMessages.dataType'));
+    }
 
     if (this.get('integer')) {
       dataSchema = dataSchema.integer(this.get('validationMessages.integer'));

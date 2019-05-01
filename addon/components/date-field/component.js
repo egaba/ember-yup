@@ -29,7 +29,11 @@ export default FormField.extend({
     'min', 'validationMessages.min',
     'max','validationMessages.max',
   function() {
-    let dataSchema = yup.date(this.get('validationMessages.dataType'));
+    let dataSchema = yup.date();
+
+    if (this.get('validationMessages.dataType')) {
+      dataSchema = dataSchema.typeError(this.get('validationMessages.dataType'));
+    }
 
     if (this.get('min')) {
       dataSchema = dataSchema.min(this.get('min'), this.get('validationMessages.min'));

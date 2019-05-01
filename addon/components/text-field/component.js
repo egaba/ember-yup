@@ -34,7 +34,12 @@ export default FormField.extend({
   function() {
     const type = this.get('type');
 
-    let dataSchema = yup.string(this.get('validationMessages.dataType'));
+    let dataSchema = yup.string();
+
+    if (this.get('validationMessages.dataType')) {
+      dataSchema = dataSchema.typeError(this.get('validationMessages.dataType'));
+    }
+
     if (type === 'email') {
       dataSchema = dataSchema.email(this.get('validationMessages.email') || this.get('validationMessages.type'));
     } else if (type === 'url') {

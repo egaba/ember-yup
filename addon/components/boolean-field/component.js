@@ -20,7 +20,11 @@ export default FormField.extend({
   required: false,
 
   dataSchema: computed('validationMessages.dataType', 'required', 'validationMessages.required', function() {
-    let dataSchema = yup.bool(this.get('validationMessages.dataType'));
+    let dataSchema = yup.bool();
+
+    if (this.get('validationMessages.dataType')) {
+      dataSchema = dataSchema.typeError(this.get('validationMessages.dataType'));
+    }
 
     if (this.get('required')) {
       dataSchema = dataSchema.required(this.get('validationMessages.required')).equals([true], this.get('validationMessages.required'));

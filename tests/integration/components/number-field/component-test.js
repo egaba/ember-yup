@@ -3,53 +3,56 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | text-field', function(hooks) {
+module('Integration | Component | number-field', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`{{text-field}}`);
+    await render(hbs`{{number-field}}`);
 
     assert.equal(this.element.textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`
-      {{#text-field}}
+      {{#number-field}}
         template block text
-      {{/text-field}}
+      {{/number-field}}
     `);
 
     assert.equal(this.element.textContent.trim(), 'template block text');
   });
 
   test('error message should display for required field with empty string value', async function(assert) {
-    this.set('username', '');
+    this.set('age', '');
 
     // Template block usage:
     await render(hbs`
-      {{#text-field
+      {{#number-field
         enabled=true
         required=true
         validationMessages=(hash
-          required="username is required"
+          dataType="age is required"
+          required="age is required"
         )
-        value=username
+        integer=true
+        positive=true
+        value=age
         as |field|
       }}
         <input
-          placeholder="username"
+          placeholder="age"
           type="text"
-          value={{username}}
-          oninput={{action (mut username) value="target.value"}}
+          value={{age}}
+          oninput={{action (mut age) value="target.value"}}
         >
         {{#each field.errorMessages as |error|}}
           <p class="text-red">{{error}}</p>
         {{/each}}
-      {{/text-field}}
+      {{/number-field}}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'username is required');
+    assert.equal(this.element.textContent.trim(), 'age is required');
   });
 });
