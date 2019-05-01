@@ -1,32 +1,36 @@
+import { A } from '@ember/array';
+import { assign } from '@ember/polyfills';
 import { computed, observer } from '@ember/object';
 import Component from '@ember/component';
-import { on } from '@ember/object/evented';
-import * as yup from 'yup';
 import RSVP from 'rsvp';
 
 /**
  * This is the base component for form fields.
  */
 export default Component.extend({
+  init() {
+    this._super(...arguments);
+    this.readValidation();
+  },
   /**
    * The value to evaluate against the schema.
    */
   value: undefined,
   abortEarly: false,
 
-  defaultValidationMessages: Ember.computed(function() {
+  defaultValidationMessages: computed(function() {
     return {
       dataType: undefined,
       required: undefined,
     };
   }).readOnly(),
 
-  validationMessages: Ember.computed('defaultValidationMessages', {
-    get(key, value) {
+  validationMessages: computed('defaultValidationMessages', {
+    get() {
       return this.get('defaultValidationMessages');
     },
     set(key, value) {
-      return Ember.assign({}, this.get('defaultValidationMessages'), value);
+      return assign({}, this.get('defaultValidationMessages'), value);
     },
   }),
 
@@ -54,11 +58,11 @@ export default Component.extend({
 
           for (const validationType in hash) {
             const state = hash[validationType].state;
-            if (hash[validationType].state === 'rejected') {
+            if (state === 'rejected') {
               const error = hash[validationType].reason;
               error.type = validationType;
               errors = errors.concat(error);
-            } else if (validationType === 'data' && hash[validationType].state === 'fulfilled') {
+            } else if (validationType === 'data' && state === 'fulfilled') {
               returnValue = hash[validationType].value;
             }
           }
@@ -82,11 +86,11 @@ export default Component.extend({
   /**
    * Collection of error messages.
    */
-  errors: Ember.computed(function() {
-    return Ember.A();
+  errors: computed(function() {
+    return A();
   }),
 
-  errorMessages: Ember.computed('errors.@each.errors', function() {
+  errorMessages: computed('errors.@each.errors', function() {
     let errors = [];
 
     this.get('errors').forEach(function(err) {
@@ -96,7 +100,8 @@ export default Component.extend({
     return errors;
   }),
 
-  readValidation: on('init', observer('enabled', 'value', function() {
+
+  readValidation: observer('enabled', 'value', function() {
     if (this.get('enabled')) {
       const value = this.get('value');
 
@@ -118,7 +123,7 @@ export default Component.extend({
     } else {
       this.get('errors').clear();
     }
-  })),
+  }),
 
   /**
    * Parent field or form.

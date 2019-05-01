@@ -15,7 +15,8 @@ module.exports = {
     browser: true
   },
   rules: {
-    'ember/avoid-leaking-state-in-ember-objects': 'off'
+    'ember/avoid-leaking-state-in-ember-objects': 'off',
+    'ember/use-brace-expansion': 'off'
   },
   overrides: [
     // node files
@@ -39,7 +40,8 @@ module.exports = {
         'tmp/**',
         'docs/**',
         'dist/**',
-        'assets/**'
+        'assets/**',
+        'tmp/**'
       ],
       parserOptions: {
         sourceType: 'script',

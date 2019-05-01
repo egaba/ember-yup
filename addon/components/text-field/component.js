@@ -1,5 +1,5 @@
 import FormField from 'ember-yup/components/form-field/component';
-import { computed, observer } from '@ember/object';
+import { computed } from '@ember/object';
 import layout from './template';
 import * as yup from 'yup';
 import RSVP from 'rsvp';
@@ -10,7 +10,7 @@ import RSVP from 'rsvp';
 export default FormField.extend({
   layout,
 
-  defaultValidationMessages: Ember.computed(function() {
+  defaultValidationMessages: computed(function() {
     return {
       dataType: undefined,
       email: undefined,
@@ -58,7 +58,6 @@ export default FormField.extend({
   charLimit: 0,
   charLimitSchema: computed('charLimit', 'validationMessages.charLimit', function() {
     const charLimit = this.get('charLimit');
-    console.log('char limit schema message:', this.get('validationMessages.charLimit'));
     return yup.number().max(charLimit, this.get('validationMessages.charLimit'));
   }),
   charRemaining: computed('value', 'charLimit', function() {
@@ -88,8 +87,6 @@ export default FormField.extend({
       validation.charLimit = this.get('charLimitSchema').validate(numChars);
     }
 
-    const name = this.get('name');
-
     return new RSVP.Promise(function(resolve, reject) {
       if (abortEarly) {
         RSVP.hash(validation).then(function(hash) {
@@ -97,15 +94,15 @@ export default FormField.extend({
         }).catch((e) => reject([e]));
       } else {
         RSVP.hashSettled(validation).then(function(hash) {
-          let errors = [], returnValue = value, errorMessages = [];
+          let errors = [], returnValue = value;
 
           for (const validationType in hash) {
             const state = hash[validationType].state;
-            if (hash[validationType].state === 'rejected') {
+            if (state === 'rejected') {
               const error = hash[validationType].reason;
               error.type = validationType;
               errors = errors.concat(error);
-            } else if (validationType === 'data' && hash[validationType].state === 'fulfilled') {
+            } else if (validationType === 'data' && state === 'fulfilled') {
               returnValue = hash[validationType].value;
             }
           }

@@ -1,13 +1,13 @@
+import { A } from '@ember/array';
 import Component from '@ember/component';
 import layout from './template';
 import RSVP from 'rsvp';
-import EmberObject from '@ember/object';
 
 export default Component.extend({
   layout,
 
   tagName: 'form',
-  formFields: Ember.A(),
+  formFields: A(),
   async: false,
 
   submit(e) {

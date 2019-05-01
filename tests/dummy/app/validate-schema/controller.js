@@ -1,8 +1,9 @@
 import Controller from '@ember/controller';
 import * as yup from 'yup';
+import { computed } from '@ember/object';
 
 export default Controller.extend({
-  userSchema: Ember.computed(function() {
+  userSchema: computed(function() {
     return yup.object().shape({
       username: yup.string().required(),
       age: yup

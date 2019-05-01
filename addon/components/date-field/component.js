@@ -2,7 +2,6 @@ import FormField from 'ember-yup/components/form-field/component';
 import { computed } from '@ember/object';
 import layout from './template';
 import * as yup from 'yup';
-import RSVP from 'rsvp';
 
 /**
  * This component is used for validating date values.
@@ -10,7 +9,7 @@ import RSVP from 'rsvp';
 export default FormField.extend({
   layout,
 
-  defaultValidationMessages: Ember.computed(function() {
+  defaultValidationMessages: computed(function() {
     return {
       dataType: undefined,
       required: undefined,
