@@ -1,0 +1,17 @@
+.app-bar-link {
+  @apply .block .mt-4 .text-grey .no-underline .mr-4 .font-medium;
+}
+
+.app-bar-link:hover {
+  @apply .text-grey-darker;
+}
+
+.app-bar-link.active {
+  @apply .text-blue-dark;
+}
+
+@media screen and (min-width: 992px) {
+  .app-bar-link {
+    @apply .inline-block .mt-0;
+  }
+}

@@ -1,23 +1,44 @@
-<header class="mb-10">
-  <nav class="flex items-center justify-between flex-wrap bg-grey-darkest p-6">
-    <div class="flex items-center flex-no-shrink text-white mr-6">
-      <span class="font-semibold text-xl tracking-tight">
-        <a href="https://github.com/egaba88/ember-yup" class="text-white no-underline">Ember Yup</a>
-      </span>
-    </div>
-    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-      <div class="text-sm lg:flex-grow">
-        {{link-to "Getting Started" "getting-started" class="block mt-4 lg:inline-block lg:mt-0 text-grey hover:text-white no-underline mr-4"}}
-        {{link-to "Basic Example" "validate-schema" class="block mt-4 lg:inline-block lg:mt-0 text-grey hover:text-white no-underline mr-4"}}
-        {{link-to "Components" "validation-components.text-field" class="block mt-4 lg:inline-block lg:mt-0 text-grey hover:text-white no-underline mr-4"}}
-        {{link-to "Release Notes" "release-notes" class="block mt-4 lg:inline-block lg:mt-0 text-grey hover:text-white no-underline mr-4"}}
+<div class="min-h-screen">
+  <header class="mb-2 border-t-4 border-blue-dark">
+    <nav class="flex items-center justify-between flex-wrap text-grey-darkest p-6">
+      <div class="flex items-center flex-no-shrink text-blue-dark mr-6">
+        <span class="font-semibold text-xl tracking-tight">
+          {{link-to "Ember Yup" "index" class="text-black no-underline"}}
+        </span>
       </div>
-      <div class="text-sm">
-        <a href="https://github.com/egaba88/ember-yup" class="block mt-4 lg:inline-block lg:mt-0 text-grey hover:text-white no-underline mr-4">Github</a>
-        <a href="https://github.com/jquense/yup" class="block mt-4 lg:inline-block lg:mt-0 text-grey hover:text-white no-underline mr-4">API Documentation</a>
+      <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+        <div class="text-sm lg:flex-grow text-right">
+          {{link-to "Release Notes" "release-notes" class="app-bar-link"}}
+          <a href="https://github.com/egaba88/ember-yup" class="app-bar-link">Github</a>
+          <a href="https://github.com/jquense/yup" class="app-bar-link">API Documentation</a>
+        </div>
       </div>
-    </div>
-  </nav>
-</header>
-
-{{outlet}}
+    </nav>
+  </header>
+  <div class="flex">
+    <nav class="app-side-nav">
+      <ul>
+        <li>
+          <p>Getting Started</p>
+          <ul>
+            <li>{{link-to "Installation" "getting-started"}}</li>
+            <li>{{link-to "Tutorial" "validate-schema"}}</li>
+          </ul>
+        </li>
+        <li>
+          <p>API Reference</p>
+          <ul>
+            <li>{{link-to "Text Field" "validation-components.text-field"}}</li>
+            <li>{{link-to "Number Field" "validation-components.number-field"}}</li>
+            <li>{{link-to "Date Field" "validation-components.date-field"}}</li>
+            <li>{{link-to "Boolean Field" "validation-components.boolean-field"}}</li>
+            <li>{{link-to "Validation Form" "validation-components.validation-form.sync"}}</li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <main>
+      {{outlet}}
+    </main>
+  </div>
+</div>

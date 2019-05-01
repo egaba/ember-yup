@@ -4,7 +4,8 @@ Yup is a JavaScript object schema validator and object parser. This is an Ember 
 
 This library enables Ember apps to import Yup and includes components that can aid with validating data.
 
-Demos: https://egaba88.github.io/ember-yup/
+Docs: https://egaba88.github.io/ember-yup/
+Yup library playground: https://runkit.com/jquense/yup
 
 ## Installation
 

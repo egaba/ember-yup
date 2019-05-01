@@ -1,0 +1,27 @@
+.app-side-nav {
+  @apply .bg-grey-lightest .p-5;
+  min-width: 268px;
+}
+.app-side-nav ul {
+  @apply .list-reset .leading-loose .mb-5;
+}
+
+.app-side-nav li > ul {
+  padding-inline-start: 24px;
+}
+
+.app-side-nav li > p {
+  @apply .text-base .mb-1 .font-medium;
+}
+
+.app-side-nav a {
+  @apply .text-grey .no-underline;
+}
+
+.app-side-nav a:hover {
+  @apply .text-grey-dark .underline;
+}
+
+.app-side-nav a.active {
+  @apply .text-primary .font-medium;
+}

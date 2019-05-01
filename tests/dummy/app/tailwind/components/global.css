@@ -1,5 +1,15 @@
+body {
+  @apply .antialiased;
+  @apply .font-sans;
+  @apply .text-grey-darkest;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply .mb-6;
+}
+
 p {
-  @apply .mb-2;
+  @apply .mb-4 .leading-normal;
 }
 
 input[type="text"] {
@@ -12,4 +22,18 @@ button {
 
 a[href] {
   @apply .cursor-pointer;
+}
+
+main {
+  @apply .py-5 px-8;
+  min-height: 90vh;
+}
+
+pre {
+  @apply .bg-black;
+  border-radius: 2px;
+}
+
+code {
+  @apply .text-grey-light;
 }
