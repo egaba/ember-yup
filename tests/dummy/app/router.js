@@ -7,7 +7,7 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-  this.route('validate-schema', function() {
+  this.route('validate-schema', { path: '/validation-example' }, function() {
     this.route('controller', { path: '/' });
     this.route('template');
     this.route('model');
