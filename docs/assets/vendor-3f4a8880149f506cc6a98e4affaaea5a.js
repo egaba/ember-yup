@@ -5696,9 +5696,9 @@ return new Ember.RSVP.Promise(function(n,i){e?Ember.RSVP.hash(r).then(function(e
 for(var a in e){e[a].state
 if("rejected"===e[a].state){var s=e[a].reason
 s.type=a,r=r.concat(s)}else"data"===a&&"fulfilled"===e[a].state&&(o=e[a].value)}r.length?i(r):n(o)})})}),enabled:!1,errors:Ember.computed(function(){return Ember.A()}),errorMessages:Ember.computed("errors.@each.errors",function(){var e=[]
-return this.get("errors").forEach(function(t){e=e.concat(t.errors)}),e}),readValidation:Ember.observer("enabled","value",function(){var e=this
+return this.get("errors").forEach(function(t){e=e.concat(t.errors)}),e}),readValidation:Ember.on("init",Ember.observer("enabled","value",function(){var e=this
 if(this.get("enabled")){var t=this.get("value")
-this.get("validation").then(function(t){e.onInput&&e.onInput(t),e.get("errors").clear()}).catch(function(r){e.onInput&&e.onInput(t),e.get("errors").clear(),e.get("errors").addObjects(r)})}else this.get("errors").clear()}),parent:null,name:null,didInsertElement:function(){var e=this.get("parent")
+this.get("validation").then(function(t){e.onInput&&e.onInput(t),e.get("errors").clear()}).catch(function(r){e.onInput&&e.onInput(t),e.get("errors").clear(),e.get("errors").addObjects(r)})}else this.get("errors").clear()})),parent:null,name:null,didInsertElement:function(){var e=this.get("parent")
 e&&e.formFields.addObject(this)},willDestroyElement:function(){var e=this.get("parent")
 e&&e.formFields.removeObject(this)},actions:{enableValidation:function(){this.get("enabled")||(this.set("enabled",!0),this.get("required")&&void 0===this.get("value")&&this.set("value",""))}}})}),define("ember-yup/components/number-field/component",["exports","ember-yup/components/form-field/component","ember-yup/components/number-field/template","yup"],function(e,t,r,n){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=t.default.extend({layout:r.default,defaultValidationMessages:Ember.computed(function(){return{dataType:void 0,required:void 0,integer:void 0,positive:void 0,negative:void 0,min:void 0,max:void 0,lt:void 0,gt:void 0}}).readOnly(),required:!1,integer:!1,positive:!1,negative:!1,min:void 0,max:void 0,lt:void 0,gt:void 0,dataSchema:Ember.computed("validationMessages.dataType","required","validationMessages.required","integer","validationMessages.integer","positive","validationMessages.positive","negative","validationMessages.negative","min","validationMessages.min","max","validationMessages.max",function(){var e=n.number(this.get("validationMessages.dataType"))
@@ -5710,8 +5710,8 @@ t=t.matches(r,this.get("validationMessages.matches"))}return t=this.get("require
 return console.log("char limit schema message:",this.get("validationMessages.charLimit")),n.number().max(e,this.get("validationMessages.charLimit"))}),charRemaining:Ember.computed("value","charLimit",function(){var e=this.get("charLimit")
 return e>0?e-(this.get("value.length")||0):0}),validation:Ember.computed("value","enabled","dataSchema","charLimit","charLimitSchema","abortEarly",function(){if(!this.get("enabled"))return Ember.RSVP.resolve()
 var e=this.get("abortEarly"),t=this.get("value"),r={data:this.get("dataSchema").validate(t,{abortEarly:e})}
-this.get("charLimit")>0&&(r.charLimit=this.get("charLimitSchema").validate(t.length))
-this.get("name")
+if(this.get("charLimit")>0){var n=t?t.length:0
+r.charLimit=this.get("charLimitSchema").validate(n)}this.get("name")
 return new Ember.RSVP.Promise(function(n,i){e?Ember.RSVP.hash(r).then(function(e){n(e.data)}).catch(function(e){return i([e])}):Ember.RSVP.hashSettled(r).then(function(e){var r=[],o=t
 for(var a in e){e[a].state
 if("rejected"===e[a].state){var s=e[a].reason
