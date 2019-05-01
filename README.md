@@ -504,10 +504,6 @@ Form validation is not the only place this library can be used. Adding validatio
 
 ## Contributing
 
-Sorry, no tests yet. This library is built with passion and laziness. ;)
-
-Tests will come once I finish developing the base set of validation components with v1.0.0. Until then, this library is in beta.
-
 ### Installation
 
 * `git clone <repository-url>`
