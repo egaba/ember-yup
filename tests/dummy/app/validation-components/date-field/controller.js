@@ -9,7 +9,7 @@ export default Controller.extend({
         oninput={{action (mut validateSimpleDate) value="target.value"}}
         value={{validateSimpleDate}}
       >
-      {{#each field.errors as |errorMessage|}}
+      {{#each field.errorMessages as |errorMessage|}}
         <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/date-field}}
@@ -22,7 +22,7 @@ export default Controller.extend({
         oninput={{action (mut validate2019Date) value="target.value"}}
         value={{validate2019Date}}
       >
-      {{#each field.errors as |errorMessage|}}
+      {{#each field.errorMessages as |errorMessage|}}
         <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/date-field}}

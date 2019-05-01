@@ -9,7 +9,7 @@ export default Controller.extend({
         oninput={{action (mut validatedNumberExample) value="target.value"}}
         value={{validatedNumberExample}}
       >
-      {{#each field.errors as |errorMessage|}}
+      {{#each field.errorMessages as |errorMessage|}}
         <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
@@ -22,7 +22,7 @@ export default Controller.extend({
         oninput={{action (mut validatedIntegerExample) value="target.value"}}
         value={{validatedIntegerExample}}
       >
-      {{#each field.errors as |errorMessage|}}
+      {{#each field.errorMessages as |errorMessage|}}
         <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
@@ -41,7 +41,7 @@ export default Controller.extend({
         oninput={{action (mut validatedAgeExample) value="target.value"}}
         value={{validatedAgeExample}}
       >
-      {{#each field.errors as |errorMessage|}}
+      {{#each field.errorMessages as |errorMessage|}}
         <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
@@ -59,7 +59,7 @@ export default Controller.extend({
         oninput={{action (mut validateNegativeExample) value="target.value"}}
         value={{validateNegativeExample}}
       >
-      {{#each field.errors as |errorMessage|}}
+      {{#each field.errorMessages as |errorMessage|}}
         <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
@@ -78,7 +78,7 @@ export default Controller.extend({
         oninput={{action (mut validatedRangeExample) value="target.value"}}
         value={{validatedRangeExample}}
       >
-      {{#each field.errors as |errorMessage|}}
+      {{#each field.errorMessages as |errorMessage|}}
         <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
@@ -96,7 +96,7 @@ export default Controller.extend({
         oninput={{action (mut validatedLessThanExample) value="target.value"}}
         value={{validatedLessThanExample}}
       >
-      {{#each field.errors as |errorMessage|}}
+      {{#each field.errorMessages as |errorMessage|}}
         <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
@@ -114,7 +114,7 @@ export default Controller.extend({
         oninput={{action (mut validatedGreaterThanExample) value="target.value"}}
         value={{validatedGreaterThanExample}}
       >
-      {{#each field.errors as |errorMessage|}}
+      {{#each field.errorMessages as |errorMessage|}}
         <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
@@ -132,7 +132,7 @@ export default Controller.extend({
         oninput={{action (mut validateMinValue) value="target.value"}}
         value={{validateMinValue}}
       >
-      {{#each field.errors as |errorMessage|}}
+      {{#each field.errorMessages as |errorMessage|}}
         <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
@@ -150,7 +150,7 @@ export default Controller.extend({
         oninput={{action (mut validateMaxValue) value="target.value"}}
         value={{validateMaxValue}}
       >
-      {{#each field.errors as |errorMessage|}}
+      {{#each field.errorMessages as |errorMessage|}}
         <p class="text-red">{{errorMessage}}</p>
       {{/each}}
     {{/number-field}}
