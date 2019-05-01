@@ -79,7 +79,7 @@ export default Controller.extend({
   `,
   actions: {
     submitForm(data) {
-      console.log('sync submit', data);
+      console.log('sync success submit', data);
     },
 
     rejectForm(errors) {

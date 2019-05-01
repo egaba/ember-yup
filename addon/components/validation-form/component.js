@@ -20,7 +20,10 @@ export default Component.extend({
     const validations = {};
 
     this.get('formFields').forEach(function(field) {
-      field.send('enableValidation');
+      if (!field.get('enabled')) {
+        field.set('enabled', true);
+      }
+
       validations[field.get('name')] = field.get('validation');
     });
 
