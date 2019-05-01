@@ -96,6 +96,7 @@ Available validation components:
 * `text-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/text-field)
 * `number-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/number-field)
 * `date-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/date-field)
+* `boolean-field` (demos https://egaba88.github.io/ember-yup/#/validation-components/boolean-field)
 * `validation-form` (demos https://egaba88.github.io/ember-yup/#/validation-components/validation-form)
 
 ### Validating data values
@@ -194,6 +195,14 @@ validationMessages: {
   required: undefined,
   min: undefined,
   max: undefined,
+}
+```
+
+Default boolean field validation messages:
+```js
+validationMessages: {
+  dataType: undefined,
+  required: undefined,
 }
 ```
 
@@ -476,6 +485,13 @@ See examples here https://egaba88.github.io/ember-yup/#/validation-components/
   * `max` date or undefined (default: undefined)
   * `validationMessages` hash/object
   * `onInput` action -> date
+
+##### Boolean Field
+  * `value` any
+  * `enabled=true|false` boolean (default: false)
+  * `required=true|false` boolean (default: false)
+  * `validationMessages` hash/object
+  * `onInput` action -> boolean
 
 ##### Validation Form
   * `async=true|false` boolean (default: false)

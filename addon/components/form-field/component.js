@@ -21,8 +21,8 @@ export default Component.extend({
     };
   }).readOnly(),
 
-  validationMessages: Ember.computed({
-    get() {
+  validationMessages: Ember.computed('defaultValidationMessages', {
+    get(key, value) {
       return this.get('defaultValidationMessages');
     },
     set(key, value) {

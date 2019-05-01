@@ -23,6 +23,7 @@ Router.map(function() {
     this.route('date-field');
     this.route('array-field');
     this.route('object-field');
+    this.route('boolean-field');
   });
   this.route('release-notes');
   this.route('getting-started');
