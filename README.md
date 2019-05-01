@@ -24,17 +24,18 @@ Demo: https://egaba88.github.io/ember-yup/#/validation-example
 ```js
 import Controller from '@ember/controller';
 import * as yup from 'yup';
-import { computed, observer } from '@ember/object';
 
 export default Controller.extend({
-  userSchema: yup.object().shape({
-    username: yup.string().required(),
-    age: yup
-      .number()
-      .required()
-      .positive()
-      .integer(),
-    email: yup.string().email(),
+  userSchema: Ember.computed(function() {
+    return yup.object().shape({
+      username: yup.string().required(),
+      age: yup
+        .number()
+        .required()
+        .positive()
+        .integer(),
+      email: yup.string().email(),
+    });
   }),
   formData: {},
   errorMessages: [],
@@ -104,9 +105,7 @@ Available validation components:
 By default, form fields will not begin validating until they are `enabled`.
 Fields aggregate error messages in an `errorMessages` array that is passed down with the field.
 
-To enable the form field, there are two options:
-
-1. Set `enabled=true` on the form field
+Pass the `enabled=true` prop to the form field to enable the field.
 ```html
 {{#text-field enabled=true type="email" value=myEmailValue as |field|}}
   <input
@@ -115,22 +114,6 @@ To enable the form field, there are two options:
     value={{myEmailValue}}
     oninput={{action (mut myEmailValue) value="target.value"}}
   />
-  {{#each field.errorMessages as |error|}}
-    <p class="text-red">{{error}}</p>
-  {{/each}}
-{{/text-field}}
-```
-
-2. Or, send the `field.enable` action that is passed down with the field
-```html
-{{#text-field required=true value=myTextValue as |field|}}
-  <input
-    placeholder="Name"
-    type="text"
-    value={{myTextValue}}
-    oninput={{action (mut myTextValue) value="target.value"}}
-    onblur={{action field.enable}}
-  /> * required
   {{#each field.errorMessages as |error|}}
     <p class="text-red">{{error}}</p>
   {{/each}}
@@ -221,7 +204,7 @@ Example:
     placeholder="username"
     oninput={{action (mut requiredUsernameValue) value="target.value"}}
     value={{requiredUsernameValue}}
-    onblur={{action field.enable}}
+    onblur={{action (mut usernameFieldEnabled) true}}
   > * required
   {{#each field.errorMessages as |error|}}
     <p class="text-red">{{error}}</p>

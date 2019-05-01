@@ -151,16 +151,4 @@ export default Component.extend({
       parent.formFields.removeObject(this);
     }
   },
-
-  actions: {
-    enableValidation() {
-      if (!this.get('enabled')) {
-        this.set('enabled', true);
-
-        if (this.get('required') && this.get('value') === undefined) {
-          this.set('value', '');
-        }
-      }
-    }
-  }
 });

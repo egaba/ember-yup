@@ -3,6 +3,7 @@ import Controller from '@ember/controller';
 export default Controller.extend({
   validUsernameExample: `
     {{#text-field
+      enabled=usernameFieldEnabled
       required=true
       validationMessages=(hash
         required="username is required"
@@ -15,7 +16,7 @@ export default Controller.extend({
         type="text"
         value={{username}}
         oninput={{action (mut username) value="target.value"}}
-        onblur={{action field.enable}}
+        onblur={{action (mut usernameFieldEnabled) true}}
       > *required
       {{#each field.errorMessages as |error|}}
         <p class="text-red">{{error}}</p>
@@ -26,6 +27,7 @@ export default Controller.extend({
     {{#text-field
       type="email"
       value=validEmail
+      enabled=emailFieldEnabled
       required=true
       validationMessages=(hash
         required="email address is required"
@@ -37,7 +39,7 @@ export default Controller.extend({
         type="text"
         value={{validEmail}}
         oninput={{action (mut validEmail) value="target.value"}}
-        onblur={{action field.enable}}
+        onblur={{action (mut emailFieldEnabled) true}}
       > *required
       {{#each field.errorMessages as |error|}}
         <p class="text-red">{{error}}</p>
