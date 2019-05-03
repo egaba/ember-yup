@@ -16,25 +16,23 @@ export default Component.extend({
 
   /**
    * @function onInput
-   * @input
+   * @action
    */
   onInput: undefined,
 
   /**
    * @function onClick
-   * @input
+   * @action
    */
   onClick: undefined,
 
   /**
     * @property {any} value
-    * @input
     */
   value: undefined,
 
   /**
     * @property {Boolean} abortEarly
-    * @input
     */
   abortEarly: false,
 
@@ -50,8 +48,12 @@ export default Component.extend({
   }).readOnly(),
 
   /**
+    * @property {Boolean} required
+    */
+  required: false,
+
+  /**
     * @property {Object} validationMessages
-    * @input
     */
   validationMessages: computed('defaultValidationMessages', {
     get() {
@@ -111,7 +113,6 @@ export default Component.extend({
 
   /**
     * @property {Boolean} enabled
-    * @input
     */
   enabled: false,
 
@@ -125,7 +126,6 @@ export default Component.extend({
 
   /**
     * @property {Array} errorMessages
-    * @output
     */
   errorMessages: computed('errors.@each.errors', function() {
     let errors = [];
@@ -171,13 +171,11 @@ export default Component.extend({
 
   /**
    * @property {component} parent
-   * @input
    */
   parent: null,
 
   /**
    * @property {string} name
-   * @input
    */
   name: null,
 

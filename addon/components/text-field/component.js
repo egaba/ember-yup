@@ -24,7 +24,6 @@ export default FormField.extend({
 
   // options
   type: 'string',
-  required: false,
 
   dataSchema: computed(
     'validationMessages.dataType',

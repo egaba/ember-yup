@@ -23,12 +23,6 @@ export default FormField.extend({
   }).readOnly(),
 
   /**
-    * @property {Boolean} required
-    * @input
-    */
-  required: false,
-
-  /**
     * @property {Object} dataSchema
     * @private
     */

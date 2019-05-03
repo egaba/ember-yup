@@ -2,21 +2,27 @@ const fs = require('fs');
 const doctrine = require('doctrine');
 
 try {
+  const data = {};
   const parsedComments = [];
-  const data = fs.readFileSync('./addon/components/form-field/component.js');
-  const comments = data.toString().match(/\/\*\*[.\s\*\w@=\(\);{}\]\[\-]*\*\//g);
+  const componentNames = fs.readdirSync('./addon/components');
 
-  comments.forEach(function(jsDocComment) {
-    const parsedComment = doctrine.parse(jsDocComment, { unwrap: true });
-    parsedComments.push(parsedComment);
+  componentNames.forEach(function(componentName) {
+    const contents = fs.readFileSync(`./addon/components/${componentName}/component.js`);
+    const comments = contents.toString().match(/\/\*\*[.\s\*\w@=\(\);{}\]\[\-]*\*\//g);
+
+    if (comments) {
+      comments.forEach(function(jsDocComment) {
+        const parsedComment = doctrine.parse(jsDocComment, { unwrap: true });
+        parsedComments.push(parsedComment);
+      });
+
+      data[componentName] = parsedComments;
+    } else {
+      data[componentName] = [];
+    }
   });
 
-  parsedComments.forEach(function(comment) {
-    console.log(comment);
-    comment.tags.forEach(function(tag) {
-      console.log(tag);
-    });
-  });
+  console.log(data);
 } catch(e) {
   console.error(e);
 }

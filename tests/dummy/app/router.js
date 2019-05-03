@@ -28,7 +28,7 @@ Router.map(function() {
     });
   });
   this.route('blog', function() {
-    this.route('v1-release');
+    this.route('beta-release');
 
     this.route('post', {
       path: '/:slug'

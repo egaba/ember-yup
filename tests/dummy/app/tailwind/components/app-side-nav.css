@@ -1,5 +1,6 @@
 .app-side-nav {
   @apply .bg-grey-lightest .p-5 .w-1/5;
+  min-width: 192px;
 }
 
 .app-side-nav ul {
@@ -27,7 +28,7 @@
 }
 
 .app-side-nav a:hover {
-  @apply .text-grey-dark .no-underline;
+  @apply .text-grey-dark .no-underline .font-medium;
 }
 
 .app-side-nav a.active {
