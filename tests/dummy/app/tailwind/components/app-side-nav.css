@@ -22,8 +22,8 @@
   @apply .text-base .mb-1 .font-medium;
 }
 
-.app-side-nav a[href] {
-  @apply .text-grey .no-underline;
+.app-side-nav a {
+  @apply .text-grey .no-underline .font-normal;
 }
 
 .app-side-nav a:hover {
