@@ -20,7 +20,7 @@ See [Yup docs here](https://github.com/jquense/yup).
 
 Here's an example where we validate form data before creating a user.
 
-Demo: https://egaba88.github.io/ember-yup/#/validation-example
+Demo: https://egaba88.github.io/ember-yup/#/getting-started/quick-start/demo
 
 ```js
 import Controller from '@ember/controller';
