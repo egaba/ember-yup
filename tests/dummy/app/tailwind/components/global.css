@@ -20,12 +20,12 @@ button {
   @apply .border .border-blue .py-3 px-5 .bg-blue .text-white;
 }
 
-a[href] {
+a[href]:not(.ember-view) {
   @apply .cursor-pointer .no-underline .font-medium;
   color: #0070BF;
 }
 
-a[href]:hover {
+a[href]:hover:not(.ember-view) {
   @apply .underline;
 }
 
