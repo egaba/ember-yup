@@ -18,13 +18,20 @@ Router.map(function() {
     this.route('date-field');
     this.route('boolean-field');
   });
-  this.route('release-notes');
+  this.route('changelog');
   this.route('getting-started', function() {
     this.route('installation', { path: '/' });
     this.route('quick-start', function() {
       this.route('setup-properties');
       this.route('build-template');
       this.route('demo');
+    });
+  });
+  this.route('blog', function() {
+    this.route('v1-release');
+
+    this.route('post', {
+      path: '/:slug'
     });
   });
 });

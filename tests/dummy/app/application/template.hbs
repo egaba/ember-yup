@@ -8,7 +8,8 @@
       </div>
       <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div class="text-sm lg:flex-grow text-right">
-          {{link-to "Release Notes" "release-notes" class="app-bar-link"}}
+          {{link-to "Blog" "blog" class="app-bar-link"}}
+          {{link-to "Changelog" "changelog" class="app-bar-link"}}
           <a href="https://github.com/egaba88/ember-yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Github</a>
           <a href="https://github.com/jquense/yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Yup API Documentation</a>
         </div>
@@ -16,7 +17,7 @@
     </nav>
   </header>
   <div class="flex">
-    <nav class="app-side-nav">
+    <nav class="app-side-nav hidden sm:hidden md:block">
       <ul>
         <li>
           <p>Getting Started</p>

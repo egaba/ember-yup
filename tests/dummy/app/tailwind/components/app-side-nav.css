@@ -27,7 +27,7 @@
 }
 
 .app-side-nav a:hover {
-  @apply .text-grey-dark .underline;
+  @apply .text-grey-dark .no-underline;
 }
 
 .app-side-nav a.active {
