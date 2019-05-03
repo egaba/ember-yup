@@ -1,7 +1,9 @@
 import Controller from '@ember/controller';
+import * as yup from 'yup';
+import { computed } from '@ember/object';
 
 export default Controller.extend({
-  html: `
+  controllerCode: `
     import Controller from '@ember/controller';
     import * as yup from 'yup';
 
@@ -14,7 +16,7 @@ export default Controller.extend({
             .required()
             .positive()
             .integer(),
-          email: yup.string().email(),
+          email: yup.string().email()
         });
       }),
       formData: {},

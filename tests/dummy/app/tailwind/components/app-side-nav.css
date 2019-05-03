@@ -1,9 +1,17 @@
 .app-side-nav {
-  @apply .bg-grey-lightest .p-5;
-  min-width: 268px;
+  @apply .bg-grey-lightest .p-5 .w-1/5;
 }
+
 .app-side-nav ul {
-  @apply .list-reset .leading-loose .mb-5;
+  @apply .list-reset .mb-5;
+}
+.app-side-nav > ul {
+  @apply .leading-loose;
+}
+
+.app-side-nav > ul > li > ul > li > ul {
+  @apply .text-sm;
+  line-height: 1.8;
 }
 
 .app-side-nav li > ul {

@@ -58,6 +58,7 @@ export default {
   'green-light': '#51d88a',
   'green-lighter': '#a2f5bf',
   'green-lightest': '#e3fcec',
+  'code': '#abb2bf',
 
   'blue': '#0070BF',
   'blue-dark': '#0a5282',

@@ -7,11 +7,6 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-  this.route('validate-schema', { path: '/validation-example' }, function() {
-    this.route('controller', { path: '/' });
-    this.route('template');
-    this.route('model');
-  });
   this.route('validation-components', function() {
     this.route('validation-form', function() {
       this.route('async');
@@ -24,7 +19,14 @@ Router.map(function() {
     this.route('boolean-field');
   });
   this.route('release-notes');
-  this.route('getting-started');
+  this.route('getting-started', function() {
+    this.route('installation', { path: '/' });
+    this.route('quick-start', function() {
+      this.route('setup-properties');
+      this.route('build-template');
+      this.route('demo');
+    });
+  });
 });
 
 export default Router;

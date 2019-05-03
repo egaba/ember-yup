@@ -1,0 +1,65 @@
+<section>
+  <h1>Demo</h1>
+  <div class="flex">
+    <div class="flex-1">
+      <form {{action "createUser" on="submit"}}>
+        {{#each errorMessages as |error|}}
+          <p class="text-red mb-0">{{error}}</p>
+        {{/each}}
+        <div class="mt-4">
+          <label for="username">username</label>
+          <input
+            id="username"
+            type="text"
+            value={{formData.username}}
+            oninput={{action (mut formData.username) value="target.value"}}
+          > *required
+        </div>
+        <div>
+          <label for="age">age</label>
+          <input
+            id="age"
+            type="text"
+            value={{formData.age}}
+            oninput={{action (mut formData.age) value="target.value"}}
+          > *required
+        </div>
+        <div>
+          <label for="email">email</label>
+          <input
+            id="email"
+            type="text"
+            value={{formData.email}}
+            oninput={{action (mut formData.email) value="target.value"}}
+          >
+        </div>
+        <button type="submit" class="my-4">create user</button>
+      </form>
+    </div>
+    <div class="flex-1">
+      <table class="text-left">
+        <thead>
+          <tr>
+            <th style="min-width: 80px;">username</th>
+            <th style="min-width: 80px;">age</th>
+            <th style="min-width: 80px;">email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each model as |user|}}
+            <tr>
+              <td>{{user.username}}</td>
+              <td>{{user.age}}</td>
+              <td>{{user.email}}</td>
+            </tr>
+          {{else}}
+          <p class="mt-3 text-grey">No users to display</p>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<footer class="mt-8 mb-16">
+  {{link-to "← Previous: Build template" "getting-started.quick-start.build-template" class="float-left"}}
+</footer>

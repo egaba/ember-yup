@@ -5,19 +5,43 @@ import Component from '@ember/component';
 import RSVP from 'rsvp';
 
 /**
- * This is the base component for form fields.
+ * This is the base component for all form fields.
+ * @class FormField
  */
 export default Component.extend({
   init() {
     this._super(...arguments);
     this.readValidation();
   },
+
   /**
-   * The value to evaluate against the schema.
+   * @function onInput
+   * @input
    */
+  onInput: undefined,
+
+  /**
+   * @function onClick
+   * @input
+   */
+  onClick: undefined,
+
+  /**
+    * @property {any} value
+    * @input
+    */
   value: undefined,
+
+  /**
+    * @property {Boolean} abortEarly
+    * @input
+    */
   abortEarly: false,
 
+  /**
+    * @property {Object} defaultValidationMessages
+    * @private
+    */
   defaultValidationMessages: computed(function() {
     return {
       dataType: undefined,
@@ -25,6 +49,10 @@ export default Component.extend({
     };
   }).readOnly(),
 
+  /**
+    * @property {Object} validationMessages
+    * @input
+    */
   validationMessages: computed('defaultValidationMessages', {
     get() {
       return this.get('defaultValidationMessages');
@@ -34,6 +62,10 @@ export default Component.extend({
     },
   }),
 
+  /**
+    * @property {Promise} validation
+    * @private
+    */
   validation: computed('value', 'enabled', 'dataSchema', 'abortEarly', function() {
     if (!this.get('enabled')) {
       return RSVP.resolve();
@@ -78,18 +110,23 @@ export default Component.extend({
   }),
 
   /**
-   * If `true`, allows validation to occur.
-   * If `false`, validation will not occur.
-   */
+    * @property {Boolean} enabled
+    * @input
+    */
   enabled: false,
 
   /**
-   * Collection of error messages.
-   */
+    * @property {Array} errors
+    * @private
+    */
   errors: computed(function() {
     return A();
   }),
 
+  /**
+    * @property {Array} errorMessages
+    * @output
+    */
   errorMessages: computed('errors.@each.errors', function() {
     let errors = [];
 
@@ -100,7 +137,10 @@ export default Component.extend({
     return errors;
   }),
 
-
+  /**
+   * @function readValidation
+   * @private
+   */
   readValidation: observer('enabled', 'value', function() {
     if (this.get('enabled')) {
       const value = this.get('value');
@@ -109,6 +149,8 @@ export default Component.extend({
         .then((val) => {
           if (this.onInput) {
             this.onInput(val);
+          } else if (this.onClick) {
+            this.onClick(val);
           }
 
           this.get('errors').clear();
@@ -116,6 +158,8 @@ export default Component.extend({
         .catch((errors) => {
           if (this.onInput) {
             this.onInput(value);
+          } else if (this.onClick) {
+            this.onClick(val);
           }
           this.get('errors').clear();
           this.get('errors').addObjects(errors);
@@ -126,18 +170,17 @@ export default Component.extend({
   }),
 
   /**
-   * Parent field or form.
+   * @property {component} parent
+   * @input
    */
   parent: null,
 
   /**
-   * Used as key for mapping data in parent form.
+   * @property {string} name
+   * @input
    */
   name: null,
 
-  /**
-   * Form setup.
-   */
   didInsertElement() {
     const parent = this.get('parent');
 
@@ -146,9 +189,6 @@ export default Component.extend({
     }
   },
 
-  /**
-   * Form teardown.
-   */
   willDestroyElement() {
     const parent = this.get('parent');
 

@@ -5,10 +5,16 @@ import * as yup from 'yup';
 
 /**
  * This component is used for validating boolean values.
+ * @class BooleanField
+ * @extends FormField
  */
 export default FormField.extend({
   layout,
 
+  /**
+    * @property {Object} defaultValidationMessages
+    * @private
+    */
   defaultValidationMessages: computed(function() {
     return {
       dataType: undefined,
@@ -16,9 +22,16 @@ export default FormField.extend({
     };
   }).readOnly(),
 
-  // options
+  /**
+    * @property {Boolean} required
+    * @input
+    */
   required: false,
 
+  /**
+    * @property {Object} dataSchema
+    * @private
+    */
   dataSchema: computed('validationMessages.dataType', 'required', 'validationMessages.required', function() {
     let dataSchema = yup.bool();
 

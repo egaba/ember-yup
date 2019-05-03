@@ -18,7 +18,9 @@ export default Controller.extend({
   errorMessages: [],
   actions: {
     createUser() {
+      console.log('a', this.get('formData'));
       this.get('userSchema').validate(this.get('formData'), { abortEarly: false }).then((data) => {
+        console.log('b', data);
         this.set('formData', {});
         this.set('errorMessages', []);
         this.store.createRecord('user', data);

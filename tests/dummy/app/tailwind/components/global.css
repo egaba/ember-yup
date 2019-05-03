@@ -21,19 +21,25 @@ button {
 }
 
 a[href] {
-  @apply .cursor-pointer;
+  @apply .cursor-pointer .no-underline;
+  color: '#0070BF';
+}
+
+a[href]:hover {
+  @apply .underline;
 }
 
 main {
-  @apply .py-5 px-8;
+  @apply .py-5 .px-8 .w-4/5;
   min-height: 90vh;
 }
 
 pre {
-  @apply .bg-black;
+  @apply .bg-black .mb-4 .mt-6 .flex overflow-x-scroll;
   border-radius: 2px;
+  padding: 16px;
 }
 
 code {
-  @apply .text-grey-light;
+  @apply .text-code;
 }

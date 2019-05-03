@@ -9,8 +9,8 @@
       <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div class="text-sm lg:flex-grow text-right">
           {{link-to "Release Notes" "release-notes" class="app-bar-link"}}
-          <a href="https://github.com/egaba88/ember-yup" class="app-bar-link">Github</a>
-          <a href="https://github.com/jquense/yup" class="app-bar-link">API Documentation</a>
+          <a href="https://github.com/egaba88/ember-yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Github</a>
+          <a href="https://github.com/jquense/yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Yup API Documentation</a>
         </div>
       </div>
     </nav>
@@ -21,8 +21,16 @@
         <li>
           <p>Getting Started</p>
           <ul>
-            <li>{{link-to "Installation" "getting-started"}}</li>
-            <li>{{link-to "Tutorial" "validate-schema"}}</li>
+            <li>{{link-to "Installation" "getting-started.installation"}}</li>
+            <li>
+              {{link-to "Quick Start" "getting-started.quick-start"}}
+              <ul>
+                <li>{{link-to "Define schema" "getting-started.quick-start.index"}}</li>
+                <li>{{link-to "Setup controller" "getting-started.quick-start.setup-properties"}}</li>
+                <li>{{link-to "Build template" "getting-started.quick-start.build-template"}}</li>
+                <li>{{link-to "Demo" "getting-started.quick-start.demo"}}</li>
+              </ul>
+            </li>
           </ul>
         </li>
         <li>
