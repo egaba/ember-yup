@@ -21,8 +21,8 @@ button {
 }
 
 a[href] {
-  @apply .cursor-pointer .no-underline;
-  color: '#0070BF';
+  @apply .cursor-pointer .no-underline .font-medium;
+  color: #0070BF;
 }
 
 a[href]:hover {

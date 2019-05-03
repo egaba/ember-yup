@@ -22,7 +22,7 @@
   @apply .text-base .mb-1 .font-medium;
 }
 
-.app-side-nav a {
+.app-side-nav a[href] {
   @apply .text-grey .no-underline;
 }
 
