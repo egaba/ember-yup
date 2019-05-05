@@ -1,10 +1,16 @@
 'use strict';
 
+const fs = require('fs');
+const path = require('path');
+const parseJsDocs = require('./parse-comments.js');
+
 module.exports = {
   name: require('./package').name,
 
   included(app) {
     this._super.included.apply(this, arguments);
+
+    fs.writeFileSync('./tests/dummy/public/components-api.json', parseJsDocs());
 
     app.import('node_modules/yup/lib/index.js', {
       using: [

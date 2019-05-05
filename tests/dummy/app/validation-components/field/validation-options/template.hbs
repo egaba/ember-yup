@@ -1,0 +1,65 @@
+<h1>Properties</h1>
+
+{{#each properties as |prop|}}
+  <section class="mb-10">
+    <h3>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h3>
+    <p>{{prop.description}}</p>
+
+    {{#if prop.enums.length}}
+      <div class="">
+        One of:
+        {{#each option.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if prop.defaultValue}}
+      <p>defaultValue: {{prop.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}
+
+<h2>Validation Options</h2>
+
+{{#each validationOptions as |option|}}
+  <section class="mb-10">
+    <h3>{{option.name}} <small class="font-normal text-sm">{{option.type}}</small></h3>
+    <p>{{option.description}}</p>
+
+    {{#if option.enums.length}}
+      <div class="">
+        One of:
+        {{#each option.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if option.defaultValue}}
+      <p>defaultValue: {{option.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}
+
+<h2>Private properties</h2>
+
+{{#each privateProps as |prop|}}
+  <section class="mb-10">
+    <h3>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h3>
+    <p>{{prop.description}}</p>
+
+    {{#if prop.enums.length}}
+      <div class="">
+        One of:
+        {{#each prop.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if prop.defaultValue}}
+      <p>defaultValue: {{prop.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}

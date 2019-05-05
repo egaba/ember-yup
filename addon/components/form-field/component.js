@@ -5,38 +5,46 @@ import Component from '@ember/component';
 import RSVP from 'rsvp';
 
 /**
- * This is the base component for all form fields.
+ * The base component for all form fields.
+ *
  * @class FormField
  */
 export default Component.extend({
   init() {
     this._super(...arguments);
-    this.readValidation();
+
+    if (this.get('validateOnInit')) {
+      this.readValidation();
+    }
   },
 
   /**
-   * @function onInput
+   * Called when the field's value is changed. Returns the transformed data value if valid;
+   * otherwise returns the input value.
+   * @function onChange
    * @action
    */
-  onInput: undefined,
+  onChange: undefined,
 
   /**
-   * @function onClick
-   * @action
-   */
-  onClick: undefined,
-
-  /**
-    * @property {any} value
-    */
-  value: undefined,
-
-  /**
+    * This is a Yup option that gets passed to the schema's validate method, which will fail validation
+    * on its first invalid check.
+    *
     * @property {Boolean} abortEarly
     */
   abortEarly: false,
 
   /**
+    * Flag to validate the field when the component initializes, as long as the field is `enabled`.
+    *
+    * @property {Boolean} validateOnInit
+    */
+  validateOnInit: true,
+
+  /**
+    * These are the default validation messages set by the Ember Yup library.
+    * Leave the properties `undefined` to allow defaults to be set by Yup.
+    *
     * @property {Object} defaultValidationMessages
     * @private
     */
@@ -48,11 +56,17 @@ export default Component.extend({
   }).readOnly(),
 
   /**
+    * Mark the schema as required. All field values apart from `undefined` and `null` meet this requirement.
+    *
     * @property {Boolean} required
+    * @validationOption
+    * @defaultValue false
     */
   required: false,
 
   /**
+    * Set properties on this hash to override the default validation messages.
+    *
     * @property {Object} validationMessages
     */
   validationMessages: computed('defaultValidationMessages', {
@@ -65,6 +79,8 @@ export default Component.extend({
   }),
 
   /**
+    * The validation result of the latest computed `value`.
+    *
     * @property {Promise} validation
     * @private
     */
@@ -112,11 +128,15 @@ export default Component.extend({
   }),
 
   /**
+    * Enables validation to occur on the field.
+    *
     * @property {Boolean} enabled
     */
   enabled: false,
 
   /**
+    * Array that holds the ValidationErrors emitted by the schema.
+    *
     * @property {Array} errors
     * @private
     */
@@ -125,7 +145,10 @@ export default Component.extend({
   }),
 
   /**
+    * Array that proxies the messages from field's `errors`.
+    *
     * @property {Array} errorMessages
+    * @yielded
     */
   errorMessages: computed('errors.@each.errors', function() {
     let errors = [];
@@ -138,6 +161,11 @@ export default Component.extend({
   }),
 
   /**
+   * If the field is `enabled`, the field will validate its `value`. If the validation passes,
+   * the transformed value will be passed to its `onInput` or `onClick` handlers, if defined.
+   * If the validation fails, errors will get added to the `errors` property, which populates
+   * the fields `errorMessages`.
+   *
    * @function readValidation
    * @private
    */
@@ -147,19 +175,15 @@ export default Component.extend({
 
       this.get('validation')
         .then((val) => {
-          if (this.onInput) {
-            this.onInput(val);
-          } else if (this.onClick) {
-            this.onClick(val);
+          if (this.onChange) {
+            this.onChange(val);
           }
 
           this.get('errors').clear();
         })
         .catch((errors) => {
-          if (this.onInput) {
-            this.onInput(value);
-          } else if (this.onClick) {
-            this.onClick(val);
+          if (this.onChange) {
+            this.onChange(value);
           }
           this.get('errors').clear();
           this.get('errors').addObjects(errors);
@@ -170,12 +194,17 @@ export default Component.extend({
   }),
 
   /**
-   * @property {component} parent
+   * The immediate parent form component that houses this field. For now, the
+   * `validation-form` component is the only component that can house form fields.
+   *
+   * @property {Component} parent
    */
   parent: null,
 
   /**
-   * @property {string} name
+   * The key that's used to serialize the data value.
+   *
+   * @property {String} name
    */
   name: null,
 

@@ -11,7 +11,16 @@ import * as yup from 'yup';
 export default FormField.extend({
   layout,
 
+   /**
+     * @property {String|Boolean} value The value of the field.
+     * @yielded
+     */
+   value: undefined,
+
   /**
+    * These are the default validation messages set by the Ember Yup library.
+    * Leave the properties `undefined` to allow defaults to be set by Yup.
+    *
     * @property {Object} defaultValidationMessages
     * @private
     */
@@ -23,6 +32,7 @@ export default FormField.extend({
   }).readOnly(),
 
   /**
+    * The primary schema that determines the fields validity.
     * @property {Object} dataSchema
     * @private
     */

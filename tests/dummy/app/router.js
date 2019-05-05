@@ -13,10 +13,21 @@ Router.map(function() {
       this.route('sync');
       this.route('nested-data');
     });
-    this.route('text-field');
-    this.route('number-field');
-    this.route('date-field');
-    this.route('boolean-field');
+    // this.route('text-field');
+    // this.route('number-field');
+    // this.route('date-field');
+    // this.route('boolean-field');
+
+    this.route('field', {
+      path: '/:fieldName'
+    }, function() {
+      this.route('overview', {
+        path: '/'
+      });
+      this.route('validation-options');
+      this.route('actions');
+      this.route('api-reference');
+    });
   });
   this.route('changelog');
   this.route('getting-started', function() {

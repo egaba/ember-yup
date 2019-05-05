@@ -5,10 +5,25 @@ import * as yup from 'yup';
 
 /**
  * This component is used for validating numeric values.
+ * @class NumberField
+ * @extends FormField
  */
 export default FormField.extend({
   layout,
 
+  /**
+    * @property {String|Number} value The value of the field.
+    * @yielded
+    */
+  value: undefined,
+
+  /**
+    * These are the default validation messages set by the Ember Yup library.
+    * Leave the properties `undefined` to allow defaults to be set by Yup.
+    *
+    * @property {Object} defaultValidationMessages
+    * @private
+    */
   defaultValidationMessages: computed(function() {
     return {
       dataType: undefined,
@@ -23,16 +38,53 @@ export default FormField.extend({
     };
   }).readOnly(),
 
-  // options
-  required: false,
+  /**
+    * @property {Boolean} integer
+    * @validationOption
+    */
   integer: false,
+
+  /**
+    * @property {Boolean} positive
+    * @validationOption
+    */
   positive: false,
+
+  /**
+    * @property {Boolean} negative
+    * @validationOption
+    */
   negative: false,
+
+  /**
+    * @property {Number|undefined} min
+    * @validationOption
+    */
   min: undefined,
+
+  /**
+    * @property {Number|undefined} max
+    * @validationOption
+    */
   max: undefined,
+
+  /**
+    * @property {Number|undefined} lt
+    * @validationOption
+    */
   lt: undefined,
+
+  /**
+    * @property {Number|undefined} gt
+    * @validationOption
+    */
   gt: undefined,
 
+  /**
+    * The primary schema that determines the fields validity.
+    * @property {Object} dataSchema
+    * @private
+    */
   dataSchema: computed(
     'validationMessages.dataType',
     'required', 'validationMessages.required',

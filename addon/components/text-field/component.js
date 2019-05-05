@@ -6,10 +6,35 @@ import RSVP from 'rsvp';
 
 /**
  * This component is used for validating text values.
+ * @class TextField
+ * @extends FormField
  */
 export default FormField.extend({
   layout,
 
+  /**
+    * The value of the field.
+    * @property {String} value
+    * @yielded
+    */
+  value: undefined,
+
+  /**
+    * Specify a regex to match the field. Since this is within a template, only
+    * the String form of the regex is permitted. ex. "^\d{5}$"
+    *
+    * @property {String} matches
+    * @validationOption
+    */
+  matches: undefined,
+
+  /**
+    * These are the default validation messages set by the Ember Yup library.
+    * Leave the properties `undefined` to allow defaults to be set by Yup.
+    *
+    * @property {Object} defaultValidationMessages
+    * @private
+    */
   defaultValidationMessages: computed(function() {
     return {
       dataType: undefined,
@@ -22,9 +47,21 @@ export default FormField.extend({
     };
   }).readOnly(),
 
-  // options
+  /**
+    * The validation subtype.
+    *
+    * @property {Enum} type string|email|url
+    * @validationOption
+    * @defaultValue string
+    */
   type: 'string',
 
+  /**
+    * The primary schema that determines the fields validity.
+    *
+    * @property {Object} dataSchema
+    * @private
+    */
   dataSchema: computed(
     'validationMessages.dataType',
     'type', 'validationMessages.email', 'validationMessages.url', 'validationMessages.type',
@@ -59,11 +96,30 @@ export default FormField.extend({
     return dataSchema;
   }),
 
+  /**
+    * The maximum number of characters allowed for the `value`.
+    * @property {Number} charLimit
+    * @validationOption
+    * @defaultValue 0
+    */
   charLimit: 0,
+
+  /**
+    * Determines validity by measuring the length of the `value`.
+    * @property {Object} charLimitSchema
+    * @private
+    */
   charLimitSchema: computed('charLimit', 'validationMessages.charLimit', function() {
     const charLimit = this.get('charLimit');
     return yup.number().max(charLimit, this.get('validationMessages.charLimit'));
   }),
+
+  /**
+    * A yielded property the contains the number of allowable characters for the
+    * length of the `value`.
+    * @property {Number} charRemaining
+    * @yielded
+    */
   charRemaining: computed('value', 'charLimit', function() {
     const charLimit = this.get('charLimit');
 
@@ -75,6 +131,11 @@ export default FormField.extend({
     return 0;
   }),
 
+  /**
+    * The validation result of the latest computed `value`.
+    * @property {Promise} validation
+    * @private
+    */
   validation: computed('value', 'enabled', 'dataSchema', 'charLimit', 'charLimitSchema', 'abortEarly', function() {
     if (!this.get('enabled')) {
       return RSVP.resolve(); // TODO: should we reject?

@@ -1,28 +1,34 @@
 const fs = require('fs');
 const doctrine = require('doctrine');
 
-try {
-  const data = {};
-  const parsedComments = [];
-  const componentNames = fs.readdirSync('./addon/components');
+function parseJsDocs() {
+  let data = {};
 
-  componentNames.forEach(function(componentName) {
-    const contents = fs.readFileSync(`./addon/components/${componentName}/component.js`);
-    const comments = contents.toString().match(/\/\*\*[.\s\*\w@=\(\);{}\]\[\-]*\*\//g);
+  try {
+    const componentNames = fs.readdirSync('./addon/components');
 
-    if (comments) {
-      comments.forEach(function(jsDocComment) {
-        const parsedComment = doctrine.parse(jsDocComment, { unwrap: true });
-        parsedComments.push(parsedComment);
-      });
+    componentNames.forEach(function(componentName) {
+      const contents = fs.readFileSync(`./addon/components/${componentName}/component.js`);
+      const comments = contents.toString().match(/\/\*\*[\\\d\?\,\.\`'\'"\"_:!@#\$%\^&.\s\*\w@=\(\);{\|}\]\[\-\s]*\*\//ig);
+      const parsedComments = [];
 
-      data[componentName] = parsedComments;
-    } else {
-      data[componentName] = [];
-    }
-  });
+      if (comments) {
+        comments.forEach(function(jsDocComment) {
+          const parsedComment = doctrine.parse(jsDocComment, { unwrap: true });
+          parsedComments.push(parsedComment);
+        });
 
-  console.log(data);
-} catch(e) {
-  console.error(e);
+        data[componentName] = parsedComments;
+      } else {
+        data[componentName] = [];
+      }
+    });
+
+  } catch(e) {
+    console.error(e);
+  }
+
+  return JSON.stringify(data);
 }
+
+module.exports = parseJsDocs;

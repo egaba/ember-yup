@@ -5,10 +5,26 @@ import * as yup from 'yup';
 
 /**
  * This component is used for validating date values.
+ * @class DateField
+ * @extends FormField
  */
 export default FormField.extend({
   layout,
 
+  /**
+    * The value of the field.
+    * @property {String|Date} value
+    * @yielded
+    */
+  value: undefined,
+
+  /**
+    * These are the default validation messages set by the Ember Yup library.
+    * Leave the properties `undefined` to allow defaults to be set by Yup.
+    *
+    * @property {Object} defaultValidationMessages
+    * @private
+    */
   defaultValidationMessages: computed(function() {
     return {
       dataType: undefined,
@@ -18,11 +34,23 @@ export default FormField.extend({
     };
   }).readOnly(),
 
-  // options
-  required: false,
+  /**
+    * @property {Date|undefined} min
+    * @validationOption
+    */
   min: undefined,
+
+  /**
+    * @property {Date|undefined} max
+    * @validationOption
+    */
   max: undefined,
 
+  /**
+    * The primary schema that determines the fields validity.
+    * @property {Object} dataSchema
+    * @private
+    */
   dataSchema: computed(
     'validationMessages.dataType',
     'required', 'validationMessages.required',
