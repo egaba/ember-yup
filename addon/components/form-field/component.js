@@ -12,10 +12,7 @@ import RSVP from 'rsvp';
 export default Component.extend({
   init() {
     this._super(...arguments);
-
-    if (this.get('validateOnInit')) {
-      this.readValidation();
-    }
+    this.readValidation();
   },
 
   /**
@@ -33,14 +30,6 @@ export default Component.extend({
     * @property {Boolean} abortEarly
     */
   abortEarly: false,
-
-  /**
-    * DELETE ME
-    * Flag to validate the field when the component initializes, as long as the field is `enabled`.
-    *
-    * @property {Boolean} validateOnInit
-    */
-  validateOnInit: true,
 
   /**
     * These are the default validation messages set by the Ember Yup library.
