@@ -1,0 +1,69 @@
+<div class="flex pb-20">
+  <div class="w-4/5">
+    <section>
+      <h1>Validation Components</h1>
+      <p>This library provides components that perform field-level validations. Form fields can operate both standalone or in combination with other form fields within a ValidationForm.</p>
+    </section>
+    <section>
+      <h2 id="basics">Enabling fields and displaying messages</h2>
+      <p>By default, form fields will not validate until they are <kbd>enabled</kbd>. Fields aggregate error messages in an <kbd>errorMessages</kbd> array that is passed down with the field.</p>
+      <p>Pass <kbd>enabled=true</kbd> to the form field to enable the field.</p>
+      {{markdown-to-html formFieldBasicsSnippet class="codeblock"}}
+      <p>When form fields initialize, they will validate but won't display error messages until their value first changes. To show error messages immediately, set <kbd>showErrorMessages=true</kbd> (and <kbd>enabled=true</kbd>). To disable validation when the component initializes, set <kbd>validateOnInit=false</kbd>.</p>
+    </section>
+    <section>
+      <h2 id="customize-messages">Customize validation messages</h2>
+      <p class="mb-10">To override default validation messages, set messages on the <kbd>validationMessages</kbd> prop as a hash. Every option has its own message.</p>
+      {{#code-demo markup=overrideMessagesSnippet}}
+        {{#text-field
+          required=true
+          enabled=true
+          type="email"
+          value=customMessagesValue
+          validationMessages=(hash
+            email="❌ this is an invalid email"
+            required="❌ this field is required"
+          )
+          as |field|
+        }}
+          <wired-input
+            placeholder="Email address"
+            type="text"
+            value={{customMessagesValue}}
+            oninput={{action (mut customMessagesValue) value="target.value"}}
+          ></wired-input>
+          {{#each field.errorMessages as |error|}}
+            <p class="text-red">{{error}}</p>
+          {{/each}}
+        {{/text-field}}
+      {{/code-demo}}
+      <p>Default text field validation messages:</p>
+      {{markdown-to-html textValidationMessages class="codeblock"}}
+      <p>Default number field validation messages:</p>
+      {{markdown-to-html numberValidationMessages class="codeblock"}}
+      <p>Default date field validation messages:</p>
+      {{markdown-to-html dateValidationMessages class="codeblock"}}
+      <p>Default boolean field validation messages:</p>
+      {{markdown-to-html boolValidationMessages class="codeblock"}}
+    </section>
+
+    <section>
+      <h2 id="transform-data">Transforming data</h2>
+      <p>Say you want your controls to set numeric values instead of strings. If you want Yup to cast your data, you'll need to do two things:</p>
+      <ol class="mb-4">
+        <li>Add an <kbd>onChange</kbd> action on the form field component to mutate the field's value.</li>
+        <li>Mutate <kbd>field.value</kbd> on the control instead of the original value.</li>
+      </ol>
+      <p><strong>Transform example:</strong></p>
+      {{markdown-to-html afterTransformExample class="codeblock"}}
+      {{markdown-to-html afterTransformConsole class="codeblock"}}
+    </section>
+  </div>
+  <nav class="w-1/5 page-side-nav">
+    <ul class="list-reset flex flex-col">
+      <li><a href="#basics">Enabling fields and displaying messages</a></li>
+      <li><a href="#customize-messages">Customize validation messages</a></li>
+      <li><a href="#transform-data">Transform data</a></li>
+    </ul>
+  </nav>
+</div>

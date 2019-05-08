@@ -23,8 +23,15 @@ export default Controller.extend({
       errorMessages: [],
       actions: {
         createUser() {
-          this.get('userSchema').validate(this.get('formData'), { abortEarly: false }).then((data) => {
-            this.set('formData', {});
+          const data = this.get('formData');
+          const validate = this.get('userSchema').validate(data, { abortEarly: false });
+
+          validate.then((data) => {
+            this.set('formData', {
+              username: '',
+              age: '',
+              email: ''
+            });
             this.set('errorMessages', []);
             this.store.createRecord('user', data);
           }).catch((validation) => {

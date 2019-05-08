@@ -1,0 +1,218 @@
+<h1>Date Field</h1>
+<p>DateFields are components that wrap <kbd>Yup.date()</kbd> schemas.</p>
+<h2>Examples</h2>
+<wired-listbox horizontal selected={{example}} style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;">
+  <wired-item value="date" onclick={{action (mut example) "date"}}>basic</wired-item>
+  <wired-item value="required" onclick={{action (mut example) "required"}}>required</wired-item>
+  <wired-item value="future" onclick={{action (mut example) "future"}}>future date</wired-item>
+  <wired-item value="past" onclick={{action (mut example) "past"}}>past date</wired-item>
+  <wired-item value="inclusive" onclick={{action (mut example) "inclusive"}}>inclusive range</wired-item>
+</wired-listbox>
+
+{{#if (eq example "date")}}
+  {{#code-demo markup=dateDemo}}
+    {{#date-field
+      enabled=true
+      value=date
+      as |field|
+    }}
+      <wired-input
+        type="text"
+        placeholder="Enter a date"
+        oninput={{action (mut date) value="target.value"}}
+        value={{date}}
+      ></wired-input>*ex. january 31, 1988
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/date-field}}
+  {{/code-demo}}
+{{else if (eq example "required")}}
+  {{#code-demo markup=requiredDemo}}
+    {{#date-field
+      showErrorMessages=true
+      enabled=true
+      value=requiredDate
+      required=true
+      as |field|
+    }}
+      <wired-input
+        type="text"
+        placeholder="Enter a date"
+        oninput={{action (mut requiredDate) value="target.value"}}
+        value={{requiredDate}}
+      ></wired-input>*required
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/date-field}}
+  {{/code-demo}}
+{{else if (eq example "future")}}
+  {{#code-demo markup=futureDateDemo}}
+    {{#date-field
+      enabled=true
+      value=minDate
+      min=todaysDate
+      required=true
+      as |field|
+    }}
+      <wired-input
+        type="text"
+        placeholder="Future date"
+        oninput={{action (mut minDate) value="target.value"}}
+        value={{minDate}}
+      ></wired-input>*ex. april 6, 2050
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/date-field}}
+  {{/code-demo}}
+{{else if (eq example "past")}}
+  {{#code-demo markup=pastDateDemo}}
+    {{#date-field
+      enabled=true
+      value=maxDate
+      required=true
+      max=todaysDate
+      as |field|
+    }}
+      <wired-input
+        type="text"
+        placeholder="Past date"
+        oninput={{action (mut maxDate) value="target.value"}}
+        value={{maxDate}}
+      ></wired-input>*ex. december 12, 1984
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/date-field}}
+  {{/code-demo}}
+{{else if (eq example "inclusive")}}
+  {{#code-demo markup=inclusiveDateDemo}}
+    {{#date-field
+      enabled=true
+      value=inclusiveDate
+      min="January 1, 2019"
+      max="December 31, 2019"
+      as |field|
+    }}
+      <wired-input
+        type="text"
+        placeholder="Enter a 2019 date"
+        oninput={{action (mut inclusiveDate) value="target.value"}}
+        value={{inclusiveDate}}
+      ></wired-input>*ex. April 19, 2019
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/date-field}}
+  {{/code-demo}}
+{{/if}}
+
+<h2>Properties</h2>
+
+{{#each properties as |prop|}}
+  <section class="mb-10">
+    <h3>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h3>
+    <p>{{prop.description}}</p>
+
+    {{#if prop.enums.length}}
+      <div class="">
+        One of:
+        {{#each option.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if prop.defaultValue}}
+      <p>defaultValue: {{prop.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}
+
+<h3>Validation Options</h3>
+
+{{#each validationOptions as |option|}}
+  <section class="mb-10">
+    <h4>{{option.name}} <small class="font-normal text-sm">{{option.type}}</small></h4>
+    <p>{{option.description}}</p>
+
+    {{#if option.enums.length}}
+      <div class="">
+        One of:
+        {{#each option.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if option.defaultValue}}
+      <p>defaultValue: {{option.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}
+
+<h3>Private properties</h3>
+
+{{#each privateProps as |prop|}}
+  <section class="mb-10">
+    <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
+    <p>{{prop.description}}</p>
+
+    {{#if prop.enums.length}}
+      <div class="">
+        One of:
+        {{#each prop.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if prop.defaultValue}}
+      <p>defaultValue: {{prop.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}
+
+<h2>Functions</h2>
+
+{{#each functions as |prop|}}
+  <section class="mb-10">
+    <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
+    <p>{{prop.description}}</p>
+
+    {{#if prop.enums.length}}
+      <div class="">
+        One of:
+        {{#each option.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if prop.defaultValue}}
+      <p>defaultValue: {{prop.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}
+
+{{#each privateFuncs as |prop|}}
+  <section class="mb-10">
+    <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
+    <p>{{prop.description}}</p>
+
+    {{#if prop.enums.length}}
+      <div class="">
+        One of:
+        {{#each option.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if prop.defaultValue}}
+      <p>defaultValue: {{prop.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}

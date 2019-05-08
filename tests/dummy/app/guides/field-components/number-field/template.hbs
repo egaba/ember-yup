@@ -1,0 +1,317 @@
+<h1>Number Field</h1>
+<p>NumberFields are components that wrap <kbd>Yup.number()</kbd> schemas.</p>
+<h2>Examples</h2>
+<wired-listbox horizontal selected={{example}}
+style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;"
+>
+  <wired-item value="number" onclick={{action (mut example) "number"}}>basic</wired-item>
+  <wired-item value="required" onclick={{action (mut example) "required"}}>required</wired-item>
+  <wired-item value="integer" onclick={{action (mut example) "integer"}}>integer</wired-item>
+  <wired-item value="positive" onclick={{action (mut example) "positive"}}>positive</wired-item>
+  <wired-item value="negative" onclick={{action (mut example) "negative"}}>negative</wired-item>
+  <wired-item value="min" onclick={{action (mut example) "min"}}>min</wired-item>
+  <wired-item value="max" onclick={{action (mut example) "max"}}>max</wired-item>
+  <wired-item value="gt" onclick={{action (mut example) "gt"}}>greater than</wired-item>
+  <wired-item value="lt" onclick={{action (mut example) "lt"}}>less than</wired-item>
+  <wired-item value="stacked" onclick={{action (mut example) "stacked"}}>stacked options</wired-item>
+</wired-listbox>
+{{#if (eq example "number")}}
+  {{#code-demo markup=numberDemo}}
+    {{#number-field
+      enabled=true
+      value=simpleNumber
+      as |field|
+    }}
+      <wired-input
+        type="text"
+        placeholder="Enter a number"
+        oninput={{action (mut simpleNumber) value="target.value"}}
+        value={{simpleNumber}}
+      ></wired-input>
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/number-field}}
+  {{/code-demo}}
+{{else if (eq example "required")}}
+  {{#code-demo markup=requiredDemo}}
+    {{#number-field
+      showErrorMessages=true
+      enabled=true
+      required=true
+      value=requiredNumber
+      as |field|
+    }}
+      <wired-input
+        placeholder="enter a number"
+        type="text"
+        value={{requiredNumber}}
+        oninput={{action (mut requiredNumber) value="target.value"}}
+      ></wired-input> *required
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/number-field}}
+  {{/code-demo}}
+{{else if (eq example "integer")}}
+  {{#code-demo markup=integerDemo}}
+    {{#number-field
+      enabled=true
+      value=integer
+      integer=true
+      as |field|
+    }}
+      <wired-input
+        type="text"
+        placeholder="Enter an integer"
+        oninput={{action (mut integer) value="target.value"}}
+        value={{integer}}
+      ></wired-input>
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/number-field}}
+  {{/code-demo}}
+{{else if (eq example "positive")}}
+  {{#code-demo markup=positiveDemo}}
+    {{#number-field
+      enabled=true
+      value=positiveNumber
+      positive=true
+      as |field|
+    }}
+      <wired-input
+        type="text"
+        placeholder="positive number"
+        oninput={{action (mut positiveNumber) value="target.value"}}
+        value={{positiveNumber}}
+      ></wired-input>
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/number-field}}
+  {{/code-demo}}
+{{else if (eq example "negative")}}
+  {{#code-demo markup=negativeDemo}}
+    {{#number-field
+      enabled=true
+      value=negativeNumber
+      negative=true
+      as |field|
+    }}
+      <wired-input
+        type="text"
+        placeholder="negative number"
+        oninput={{action (mut negativeNumber) value="target.value"}}
+        value={{negativeNumber}}
+      ></wired-input>
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/number-field}}
+  {{/code-demo}}
+{{else if (eq example "min")}}
+  {{#code-demo markup=minDemo}}
+    {{#number-field
+      enabled=true
+      value=minValue
+      min=5
+      as |field|
+    }}
+      <wired-input
+        type="text"
+        placeholder="enter a value"
+        oninput={{action (mut minValue) value="target.value"}}
+        value={{minValue}}
+      ></wired-input> *value must be at least 5
+      {{#each field.errorMessages as |errorMessage|}}
+        <p>{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  {{/code-demo}}
+{{else if (eq example "max")}}
+  {{#code-demo markup=maxDemo}}
+    {{#number-field
+      enabled=true
+      value=maxValue
+      max=10
+      as |field|
+    }}
+      <wired-input
+        type="text"
+        placeholder="enter a value"
+        oninput={{action (mut maxValue) value="target.value"}}
+        value={{maxValue}}
+      ></wired-input> *value must be at most 10
+      {{#each field.errorMessages as |errorMessage|}}
+        <p>{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  {{/code-demo}}
+{{else if (eq example "gt")}}
+  {{#code-demo markup=gtDemo}}
+    {{#number-field
+      enabled=true
+      value=gtValue
+      gt=6
+      as |field|
+    }}
+      <wired-input
+        type="text"
+        placeholder="enter a value"
+        oninput={{action (mut gtValue) value="target.value"}}
+        value={{gtValue}}
+      ></wired-input> *value must be greater than 6
+      {{#each field.errorMessages as |errorMessage|}}
+        <p>{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  {{/code-demo}}
+{{else if (eq example "lt")}}
+  {{#code-demo markup=ltDemo}}
+    {{#number-field
+      enabled=true
+      value=ltValue
+      lt=15
+      as |field|
+    }}
+      <wired-input
+        type="text"
+        placeholder="enter a value"
+        oninput={{action (mut ltValue) value="target.value"}}
+        value={{ltValue}}
+      ></wired-input> *value must less than 15
+      {{#each field.errorMessages as |errorMessage|}}
+        <p>{{errorMessage}}</p>
+      {{/each}}
+    {{/number-field}}
+  {{/code-demo}}
+{{else if (eq example "stacked")}}
+  {{#code-demo markup=stackedDemo}}
+    {{#number-field
+      enabled=true
+      value=userAge
+      positive=true
+      integer=true
+      as |field|
+    }}
+      <wired-input
+        type="text"
+        placeholder="Enter your age"
+        oninput={{action (mut userAge) value="target.value"}}
+        value={{userAge}}
+      ></wired-input>
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/number-field}}
+  {{/code-demo}}
+{{/if}}
+
+<h2>Properties</h2>
+
+{{#each properties as |prop|}}
+  <section class="mb-10">
+    <h3>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h3>
+    <p>{{prop.description}}</p>
+
+    {{#if prop.enums.length}}
+      <div class="">
+        One of:
+        {{#each option.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if prop.defaultValue}}
+      <p>defaultValue: {{prop.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}
+
+<h3>Validation Options</h3>
+
+{{#each validationOptions as |option|}}
+  <section class="mb-10">
+    <h4>{{option.name}} <small class="font-normal text-sm">{{option.type}}</small></h4>
+    <p>{{option.description}}</p>
+
+    {{#if option.enums.length}}
+      <div class="">
+        One of:
+        {{#each option.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if option.defaultValue}}
+      <p>defaultValue: {{option.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}
+
+<h3>Private properties</h3>
+
+{{#each privateProps as |prop|}}
+  <section class="mb-10">
+    <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
+    <p>{{prop.description}}</p>
+
+    {{#if prop.enums.length}}
+      <div class="">
+        One of:
+        {{#each prop.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if prop.defaultValue}}
+      <p>defaultValue: {{prop.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}
+
+<h2>Functions</h2>
+
+{{#each functions as |prop|}}
+  <section class="mb-10">
+    <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
+    <p>{{prop.description}}</p>
+
+    {{#if prop.enums.length}}
+      <div class="">
+        One of:
+        {{#each option.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if prop.defaultValue}}
+      <p>defaultValue: {{prop.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}
+
+{{#each privateFuncs as |prop|}}
+  <section class="mb-10">
+    <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
+    <p>{{prop.description}}</p>
+
+    {{#if prop.enums.length}}
+      <div class="">
+        One of:
+        {{#each option.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if prop.defaultValue}}
+      <p>defaultValue: {{prop.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}

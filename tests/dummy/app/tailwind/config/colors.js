@@ -47,7 +47,7 @@ export default {
   'yellow-darker': '#684f1d',
   'yellow-dark': '#f2d024',
   'yellow': '#ffed4a',
-  'yellow-light': '#fff382',
+  'yellow-light': '#282c34',
   'yellow-lighter': '#fff9c2',
   'yellow-lightest': '#fcfbeb',
 
@@ -62,5 +62,5 @@ export default {
 
   'blue': '#0070BF',
   'blue-dark': '#0a5282',
-  'primary': '#0a5282',
+  'primary': '#1F9D55',
 };

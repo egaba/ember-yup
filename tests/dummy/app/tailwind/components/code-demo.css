@@ -1,0 +1,11 @@
+.code-demo p {
+  @apply .mb-0 .text-red;
+}
+
+.code-demo pre {
+  @apply .text-sm;
+  background: #282c34;
+  color: #abb2bf;
+  padding: 4px;
+  border-radius: 2px;
+}

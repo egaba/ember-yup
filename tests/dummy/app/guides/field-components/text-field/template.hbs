@@ -1,0 +1,256 @@
+<h1>TextField</h1>
+<p>This component is a <kbd>Yup.string()</kbd> schema wrapper which validates strings.</p>
+
+<h2>Examples</h2>
+
+<nav>
+  <wired-listbox
+    horizontal
+    selected={{example}}
+    style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;"
+  >
+    <wired-item value="required" onclick={{action (mut example) "required"}}>required</wired-item>
+    <wired-item value="email" onclick={{action (mut example) "email"}}>email</wired-item>
+    <wired-item value="url" onclick={{action (mut example) "url"}}>url</wired-item>
+    <wired-item value="regex" onclick={{action (mut example) "regex"}}>regex match</wired-item>
+    <wired-item value="charLimit" onclick={{action (mut example) "charLimit"}}>char limit</wired-item>
+    <wired-item value="stacked" onclick={{action (mut example) "stacked"}}>stacked options</wired-item>
+  </wired-listbox>
+</nav>
+
+{{#if (eq example "required")}}
+  {{#code-demo markup=requiredDemo}}
+    {{#text-field
+      showErrorMessages=true
+      enabled=true
+      required=true
+      value=username
+      as |field|
+    }}
+      <wired-input
+        placeholder="enter a username"
+        type="text"
+        value={{username}}
+        oninput={{action (mut username) value="target.value"}}
+      ></wired-input> *required
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/text-field}}
+  {{/code-demo}}
+{{else if (eq example "email")}}
+  {{#code-demo markup=emailDemo}}
+    {{#text-field
+      type="email"
+      value=emailAddress
+      enabled=true
+      as |field|
+    }}
+      <wired-input
+        placeholder="Email address"
+        type="text"
+        value={{emailAddress}}
+        oninput={{action (mut emailAddress) value="target.value"}}
+      ></wired-input>
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/text-field}}
+  {{/code-demo}}
+{{else if (eq example "url")}}
+  {{#code-demo markup=urlDemo}}
+    {{#text-field
+      type="url"
+      value=url
+      enabled=true
+      as |field|
+    }}
+      <wired-input
+        placeholder="Enter a URL"
+        type="text"
+        value={{url}}
+        oninput={{action (mut url) value="target.value"}}
+      ></wired-input><span class="text-sm pl-2">*must include protocol</span>
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/text-field}}
+  {{/code-demo}}
+{{else if (eq example "regex")}}
+  {{#code-demo markup=regexDemo}}
+    {{#text-field
+      enabled=true
+      matches="^\d{5}(-\d{4})?$"
+      validationMessages=(hash
+        matches="must be valid 5-digit or 9-digit zip code xxxxx-xxxx or xxxxx. regex: ${regex}"
+      )
+      value=zipcode
+      as |field|
+    }}
+      <wired-input
+        placeholder="Enter a zip code"
+        type="text"
+        value={{zipcode}}
+        oninput={{action (mut zipcode) value="target.value"}}
+      ></wired-input>
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/text-field}}
+  {{/code-demo}}
+{{else if (eq example "charLimit")}}
+  {{#code-demo markup=charLimitDemo}}
+    {{#text-field
+      enabled=true
+      charLimit=10
+      value=charLimitText
+      validationMessages=(hash
+        charLimit="username must be less than 10 characters"
+      )
+      as |field|
+    }}
+      <wired-input
+        placeholder="Enter a username"
+        type="text"
+        value={{charLimitText}}
+        oninput={{action (mut charLimitText) value="target.value"}}
+      ></wired-input> char remaining: {{field.charRemaining}}
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/text-field}}
+  {{/code-demo}}
+{{else if (eq example "stacked")}}
+  {{#code-demo markup=stackedDemo}}
+    {{#text-field
+      showErrorMessages=true
+      enabled=true
+      matches="^[a-zA-Z0-9]+$"
+      charLimit=14
+      value=strictUsername
+      validationMessages=(hash
+        charLimit="username must be less than 14 characters"
+        matches="only letters and numbers are allowed"
+      )
+      as |field|
+    }}
+      <input
+        placeholder="Enter a username"
+        type="text"
+        value={{strictUsername}}
+        oninput={{action (mut strictUsername) value="target.value"}}
+      > char remaining: {{field.charRemaining}}
+      {{#each field.errorMessages as |error|}}
+        <p>{{error}}</p>
+      {{/each}}
+    {{/text-field}}
+  {{/code-demo}}
+{{/if}}
+
+<h2>Properties</h2>
+
+{{#each properties as |prop|}}
+  <section class="mb-10">
+    <h3>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h3>
+    <p>{{prop.description}}</p>
+
+    {{#if prop.enums.length}}
+      <div class="">
+        One of:
+        {{#each option.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if prop.defaultValue}}
+      <p>defaultValue: {{prop.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}
+
+<h3>Validation Options</h3>
+
+{{#each validationOptions as |option|}}
+  <section class="mb-10">
+    <h4>{{option.name}} <small class="font-normal text-sm">{{option.type}}</small></h4>
+    <p>{{option.description}}</p>
+
+    {{#if option.enums.length}}
+      <div class="">
+        One of:
+        {{#each option.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if option.defaultValue}}
+      <p>defaultValue: {{option.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}
+
+<h3>Private properties</h3>
+
+{{#each privateProps as |prop|}}
+  <section class="mb-10">
+    <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
+    <p>{{prop.description}}</p>
+
+    {{#if prop.enums.length}}
+      <div class="">
+        One of:
+        {{#each prop.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if prop.defaultValue}}
+      <p>defaultValue: {{prop.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}
+
+<h2>Functions</h2>
+
+{{#each functions as |prop|}}
+  <section class="mb-10">
+    <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
+    <p>{{prop.description}}</p>
+
+    {{#if prop.enums.length}}
+      <div class="">
+        One of:
+        {{#each option.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if prop.defaultValue}}
+      <p>defaultValue: {{prop.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}
+
+{{#each privateFuncs as |prop|}}
+  <section class="mb-10">
+    <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
+    <p>{{prop.description}}</p>
+
+    {{#if prop.enums.length}}
+      <div class="">
+        One of:
+        {{#each option.enums as |enum|}}
+          <span>{{enum}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if prop.defaultValue}}
+      <p>defaultValue: {{prop.defaultValue}}</p>
+    {{/if}}
+  </section>
+{{/each}}

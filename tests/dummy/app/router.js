@@ -13,18 +13,11 @@ Router.map(function() {
       this.route('sync');
       this.route('nested-data');
     });
-    // this.route('text-field');
-    // this.route('number-field');
-    // this.route('date-field');
-    // this.route('boolean-field');
 
     this.route('field', {
       path: '/:fieldName'
     }, function() {
-      this.route('overview', {
-        path: '/'
-      });
-      this.route('validation-options');
+      this.route('validation-options', { path: '/' });
       this.route('actions');
       this.route('api-reference');
     });
@@ -37,12 +30,32 @@ Router.map(function() {
       this.route('build-template');
       this.route('demo');
     });
+    this.route('intro-to-schemas');
   });
   this.route('blog', function() {
     this.route('beta-release');
 
     this.route('post', {
       path: '/:slug'
+    });
+  });
+
+  this.route('guides', function() {
+
+    this.route('field-components', function() {
+      this.route('text-field');
+      this.route('number-field');
+      this.route('boolean-field');
+      this.route('date-field');
+
+      this.route('overview', {
+        path: '/'
+      });
+    });
+
+    this.route('form-component', function() {
+      this.route('sync-validation');
+      this.route('async-validation');
     });
   });
 });

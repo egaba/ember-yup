@@ -1,5 +1,18 @@
-<div class="py-5 px-8 bg-white">
-  {{{markup}}}
-</div>
-
-{{markdown-to-html markup}}
+<wired-card class="block demo-container relative">
+  <nav class="nav-tabs absolute pin-r text-right" style="top: -46px;">
+    <wired-listbox horizontal selected={{if showCode "code" "demo"}}
+     style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #fff382;">
+     <wired-item value="code" onclick={{action (mut showCode) true}}>code</wired-item>
+     <wired-item value="demo" onclick={{action (mut showCode) false}}>demo</wired-item>
+    </wired-listbox>
+  </nav>
+  <div style="min-height: 80px;">
+    {{#if showCode}}
+      {{markdown-to-html markup}}
+    {{else}}
+      <div class="p-2">
+        {{yield}}
+      </div>
+    {{/if}}
+  </div>
+</wired-card>

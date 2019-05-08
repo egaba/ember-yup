@@ -13,16 +13,11 @@ p {
 }
 
 input[type="text"] {
-  @apply .border .border-black;
-}
-
-button {
-  @apply .bg-blue .text-white;
+  @apply .border .border-grey-darker;
 }
 
 a {
-  @apply .cursor-pointer .no-underline .font-medium;
-  color: #0070BF;
+  @apply .cursor-pointer .no-underline .font-medium .text-green-dark;
 }
 
 a:hover {
@@ -34,12 +29,24 @@ main {
   min-height: 90vh;
 }
 
-pre {
+kbd {
+  color: #616161;
+  background: #f5f5f5;
+  border: 1px solid #eeeeee;
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
+.codeblock code {
+  @apply .text-code;
+}
+
+.codeblock pre {
   @apply .bg-black .mb-4 .mt-6 .flex overflow-x-scroll;
   border-radius: 2px;
   padding: 16px;
 }
 
-code {
-  @apply .text-code;
+[role="checkbox"] {
+  @apply .cursor-pointer inline;
 }

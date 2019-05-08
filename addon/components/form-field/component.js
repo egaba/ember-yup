@@ -150,8 +150,10 @@ export default Component.extend({
     * @property {Array} errorMessages
     * @yielded
     */
-  errorMessages: computed('errors.@each.errors', function() {
+  errorMessages: computed('errors.@each.errors', 'showErrorMessages', function() {
     let errors = [];
+
+    if (!this.get('showErrorMessages')) return [];
 
     this.get('errors').forEach(function(err) {
       errors = errors.concat(err.errors);
@@ -159,6 +161,21 @@ export default Component.extend({
 
     return errors;
   }),
+
+  /**
+    * Flag to display error messages.
+    *
+    * @property {Boolean} showErrorMessages
+    * @defaultValue false
+    */
+  showErrorMessages: false,
+
+  /**
+    * Show error messages when the `value` first updates.
+    *
+    * @property {Boolean} enableErrorMessagesOnUpdate
+    */
+  enableErrorMessagesOnUpdate: true,
 
   /**
    * If the field is `enabled`, the field will validate its `value`. If the validation passes,
@@ -169,7 +186,11 @@ export default Component.extend({
    * @function readValidation
    * @private
    */
-  readValidation: observer('enabled', 'value', function() {
+  readValidation: observer('enabled', 'value', function(formField, updatedKeyName) {
+    if (!this.get('showErrorMessages') && this.get('enableErrorMessagesOnUpdate') && updatedKeyName === 'value') {
+      this.set('showErrorMessages', true);
+    }
+
     if (this.get('enabled')) {
       const value = this.get('value');
 

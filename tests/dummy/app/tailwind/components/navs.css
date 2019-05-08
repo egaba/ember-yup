@@ -4,7 +4,11 @@
 }
 
 .app-side-nav ul {
-  @apply .list-reset .mb-5;
+  @apply .list-reset;
+}
+
+.app-side-nav > ul > li > ul {
+  @apply .mb-3;
 }
 .app-side-nav > ul {
   @apply .leading-loose;
@@ -33,4 +37,13 @@
 
 .app-side-nav a.active {
   @apply .text-primary .font-medium;
+}
+
+.page-side-nav {
+  @apply .text-sm;
+  padding-left: 16px;
+}
+
+.page-side-nav > ul > li {
+  @apply .mb-3;
 }

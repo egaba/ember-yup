@@ -57,25 +57,25 @@ export default FormField.extend({
   negative: false,
 
   /**
-    * @property {Number|undefined} min
+    * @property {Number} min
     * @validationOption
     */
   min: undefined,
 
   /**
-    * @property {Number|undefined} max
+    * @property {Number} max
     * @validationOption
     */
   max: undefined,
 
   /**
-    * @property {Number|undefined} lt
+    * @property {Number} lt
     * @validationOption
     */
   lt: undefined,
 
   /**
-    * @property {Number|undefined} gt
+    * @property {Number} gt
     * @validationOption
     */
   gt: undefined,

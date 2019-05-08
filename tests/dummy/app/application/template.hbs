@@ -1,9 +1,9 @@
 <div class="min-h-screen">
-  <header class="mb-2 border-t-4 border-blue-dark">
+  <header class="mb-2 border-t-4 border-green">
     <nav class="flex items-center justify-between flex-wrap text-grey-darkest p-6">
-      <div class="flex items-center flex-no-shrink text-blue-dark mr-6">
+      <div class="flex items-center flex-no-shrink mr-6">
         <span class="font-semibold text-xl tracking-tight">
-          {{link-to "Ember Yup" "index" class="text-black no-underline"}}
+          {{link-to "Ember Yup" "index" class="text-black no-underline hover:no-underline text-green-dark"}}
         </span>
       </div>
       <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
@@ -23,6 +23,7 @@
           <p>Getting Started</p>
           <ul>
             <li>{{link-to "Installation" "getting-started.installation"}}</li>
+            <li>{{link-to "Intro to schemas" "getting-started.intro-to-schemas"}}</li>
             <li>
               {{link-to "Quick Start" "getting-started.quick-start"}}
               <ul>
@@ -35,17 +36,23 @@
           </ul>
         </li>
         <li>
-          <p>Component Examples</p>
+          <p>Validation Components</p>
           <ul>
-            <li><a href="#">Text fields</a></li>
-            <li><a href="#">Number fields</a></li>
-            <li><a href="#">Boolean fields</a></li>
-            <li><a href="#">Date fields</a></li>
-            <li><a href="#">Sync forms</a></li>
-            <li><a href="#">Async forms</a></li>
+            <li>{{link-to "Overview" "guides.field-components.overview"}}</li>
+            <li>{{link-to "TextField" "guides.field-components.text-field"}}</li>
+            <li>{{link-to "NumberField" "guides.field-components.number-field"}}</li>
+            <li>{{link-to "DateField" "guides.field-components.date-field"}}</li>
+            <li>{{link-to "BooleanField" "guides.field-components.boolean-field"}}</li>
+            <li>
+              <li>{{link-to "ValidationForm" "guides.form-component"}}</li>
+              <ul>
+                <li>{{link-to "Sync submission" "guides.form-component.sync-validation"}}</li>
+                <li>{{link-to "Async submission" "guides.form-component.async-validation"}}</li>
+              </ul>
+            </li>
           </ul>
         </li>
-        <li>
+        <!-- <li>
           <p>API Reference</p>
           <ul>
             <li>{{link-to "Text Field" "validation-components.field" "text-field"}}</li>
@@ -54,7 +61,7 @@
             <li>{{link-to "Boolean Field" "validation-components.field" "boolean-field"}}</li>
             <li>{{link-to "Validation Form" "validation-components.validation-form.sync"}}</li>
           </ul>
-        </li>
+        </li> -->
       </ul>
     </nav>
     <main>
