@@ -30,7 +30,7 @@ Router.map(function() {
       this.route('build-template');
       this.route('demo');
     });
-    this.route('intro-to-schemas');
+    this.route('usage');
   });
   this.route('blog', function() {
     this.route('beta-release');
