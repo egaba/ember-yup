@@ -9,22 +9,21 @@ export default Controller.extend({
       showErrorMessages=true
       enabled=true
       required=true
-      value=agreedToTerms
+      value=checkboxValue
       as |field|
     }}
       <label>
         <input
           type="checkbox"
-          onclick={{action (mut agreedToTerms) value="target.checked"}}
-          checked={{agreedToTerms}}
-        >agree to terms?
+          onclick={{action (mut checkboxValue) value="target.checked"}}
+          checked={{checkboxValue}}
+        >I understand that checking this box will clear the error message.
       </label>
       {{#each field.errorMessages as |error|}}
         <p>{{error}}</p>
       {{/each}}
     {{/boolean-field}}
   `,
-
   simpleBoolExample: `
     {{#boolean-field enabled=true required=true value=agreedToTerms as |field|}}
       <label>

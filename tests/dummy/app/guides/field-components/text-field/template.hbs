@@ -1,5 +1,5 @@
 <h1>TextField</h1>
-<p>This component is a <kbd>Yup.string()</kbd> schema wrapper which validates strings.</p>
+<p>This component wraps <code class="snippet">Yup.string()</code> and validates string values.</p>
 
 <h2>Examples</h2>
 
@@ -152,7 +152,7 @@
 {{#each properties as |prop|}}
   <section class="mb-10">
     <h3>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h3>
-    <p>{{prop.description}}</p>
+    <p>{{markdown-to-html prop.description class="markdown"}}</p>
 
     {{#if prop.enums.length}}
       <div class="">
@@ -174,7 +174,7 @@
 {{#each validationOptions as |option|}}
   <section class="mb-10">
     <h4>{{option.name}} <small class="font-normal text-sm">{{option.type}}</small></h4>
-    <p>{{option.description}}</p>
+    <p>{{markdown-to-html option.description class="markdown"}}</p>
 
     {{#if option.enums.length}}
       <div class="">
@@ -196,7 +196,7 @@
 {{#each privateProps as |prop|}}
   <section class="mb-10">
     <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
-    <p>{{prop.description}}</p>
+    <p>{{markdown-to-html prop.description class="markdown"}}</p>
 
     {{#if prop.enums.length}}
       <div class="">
@@ -218,7 +218,7 @@
 {{#each functions as |prop|}}
   <section class="mb-10">
     <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
-    <p>{{prop.description}}</p>
+    <p>{{markdown-to-html prop.description class="markdown"}}</p>
 
     {{#if prop.enums.length}}
       <div class="">
@@ -238,7 +238,7 @@
 {{#each privateFuncs as |prop|}}
   <section class="mb-10">
     <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
-    <p>{{prop.description}}</p>
+    <p>{{markdown-to-html prop.description class="markdown"}}</p>
 
     {{#if prop.enums.length}}
       <div class="">

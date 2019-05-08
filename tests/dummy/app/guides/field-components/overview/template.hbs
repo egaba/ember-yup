@@ -1,19 +1,36 @@
 <div class="flex pb-20">
   <div class="w-4/5">
     <section>
-      <h1>Validation Components</h1>
-      <p>This library provides components that perform field-level validations. Form fields can operate both standalone or in combination with other form fields within a ValidationForm.</p>
+      <h1>Overview</h1>
+      <p>
+        This library provides <code class="snippet">FormField</code> components that wrap data schemas.
+        <code class="snippet">FormField</code>s can operate both standalone or in combination with
+        other form fields within a <code class="snippet">ValidationForm</code> to create a data object.
+      </p>
     </section>
     <section>
       <h2 id="basics">Enabling fields and displaying messages</h2>
-      <p>By default, form fields will not validate until they are <kbd>enabled</kbd>. Fields aggregate error messages in an <kbd>errorMessages</kbd> array that is passed down with the field.</p>
-      <p>Pass <kbd>enabled=true</kbd> to the form field to enable the field.</p>
+      <p>
+        By default, form fields will not validate until they are <code class="snippet">enabled</code>.
+        Fields aggregate error messages in an <code class="snippet">errorMessages</code> array
+        that is passed down with the field.
+      </p>
+      <p>Pass <code class="snippet">enabled=true</code> to the form field to enable the field.</p>
       {{markdown-to-html formFieldBasicsSnippet class="codeblock"}}
-      <p>When form fields initialize, they will validate but won't display error messages until their value first changes. To show error messages immediately, set <kbd>showErrorMessages=true</kbd> (and <kbd>enabled=true</kbd>). To disable validation when the component initializes, set <kbd>validateOnInit=false</kbd>.</p>
+      <p>
+        When form fields initialize, they will validate but won't display error messages until their value first changes.
+        To show error messages on init, set <code class="snippet">showErrorMessages=true</code>
+        (as well as <code class="snippet">enabled=true</code>). Otherwise, <code class="snippet">showErrorMessages</code>
+        will be set to <code class="snippet">true</code> after it detects its first <code class="snippet">value</code>
+        change.
+      </p>
     </section>
     <section>
       <h2 id="customize-messages">Customize validation messages</h2>
-      <p class="mb-10">To override default validation messages, set messages on the <kbd>validationMessages</kbd> prop as a hash. Every option has its own message.</p>
+      <p class="mb-10">
+        To override default validation messages, set message keys on the <code class="snippet">validationMessages</code>
+        prop as a hash. Every option maps to a message in this hash.
+      </p>
       {{#code-demo markup=overrideMessagesSnippet}}
         {{#text-field
           required=true
@@ -48,22 +65,57 @@
     </section>
 
     <section>
-      <h2 id="transform-data">Transforming data</h2>
+      <h2 id="transforming-data">Transforming data</h2>
       <p>Say you want your controls to set numeric values instead of strings. If you want Yup to cast your data, you'll need to do two things:</p>
       <ol class="mb-4">
-        <li>Add an <kbd>onChange</kbd> action on the form field component to mutate the field's value.</li>
-        <li>Mutate <kbd>field.value</kbd> on the control instead of the original value.</li>
+        <li>Add an <code class="snippet">onChange</code> action on the form field component to mutate the field's value.</li>
+        <li>Mutate <code class="snippet">field.value</code> on the control instead of the original value.</li>
       </ol>
       <p><strong>Transform example:</strong></p>
       {{markdown-to-html afterTransformExample class="codeblock"}}
       {{markdown-to-html afterTransformConsole class="codeblock"}}
+    </section>
+
+    <section>
+      <h2 id="behind-the-scenes">Behind the scenes</h2>
+      <p>
+        A <code class="snippet">FormField</code> uses observers and computed properties for validating its
+        <code class="snippet">value</code>. When the field initializes, the field validates
+        and stores the result in its <code class="snippet">validation</code> property.
+        This <code class="snippet">validation</code> will refresh itself whenever the
+        <code class="snippet">value</code> changes. Every <code class="snippet">FormField</code>
+        has a <code class="snippet">dataSchema</code> that it uses to validate against
+        its <code class="snippet">value</code>.
+      </p>
+      <p>
+        As the fields <code class="snippet">value</code> updates, <code class="snippet">readValidation</code>
+        is invoked, <code class="snippet">validation</code> gets re-computed, the result
+        populates or clears <code class="snippet">errors</code>, then messages are proxied
+        to <code class="snippet">errorMessages</code>. Optionally, <code class="snippet">onChange</code>
+        method is invoked with the fields latest value, if the handler is defined.
+      </p>
+      <p>
+        When fields are used within a <code class="snippet">ValidationForm</code>,
+        the data will collect into an object collected by the form, keyed by the fields
+        <code class="snippet">name</code> property. During the form's submission process,
+        the form will enable all of its fields and collect their validations,
+        re-validating only when needed. Fields can each be thought of as single validation
+        promises, where the form is a hashed collection of these promises. These promises
+        are collected and sent to the form's <code class="snippet">onSubmit</code> handler.
+      </p>
+      <p>
+        Additionally, if the form is sync, the form will wait until its fields' validations are complete then
+        either invoke <code class="snippet">onSuccess</code> or <code class="snippet">onReject</code>,
+        accordingly.
+      </p>
     </section>
   </div>
   <nav class="w-1/5 page-side-nav">
     <ul class="list-reset flex flex-col">
       <li><a href="#basics">Enabling fields and displaying messages</a></li>
       <li><a href="#customize-messages">Customize validation messages</a></li>
-      <li><a href="#transform-data">Transform data</a></li>
+      <li><a href="#transforming-data">Transforming data</a></li>
+      <li><a href="#behind-the-scenes">Behind the scenes</a></li>
     </ul>
   </nav>
 </div>

@@ -3,7 +3,7 @@
 {{#each properties as |prop|}}
   <section class="mb-10">
     <h3>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h3>
-    <p>{{prop.description}}</p>
+    <p>{{markdown-to-html prop.description class="markdown"}}</p>
 
     {{#if prop.enums.length}}
       <div class="">
@@ -25,7 +25,7 @@
 {{#each validationOptions as |option|}}
   <section class="mb-10">
     <h3>{{option.name}} <small class="font-normal text-sm">{{option.type}}</small></h3>
-    <p>{{option.description}}</p>
+    <p>{{markdown-to-html option.description class="markdown"}}</p>
 
     {{#if option.enums.length}}
       <div class="">
@@ -47,7 +47,7 @@
 {{#each privateProps as |prop|}}
   <section class="mb-10">
     <h3>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h3>
-    <p>{{prop.description}}</p>
+    <p>{{markdown-to-html prop.description class="markdown"}}</p>
 
     {{#if prop.enums.length}}
       <div class="">

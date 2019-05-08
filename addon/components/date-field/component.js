@@ -35,13 +35,13 @@ export default FormField.extend({
   }).readOnly(),
 
   /**
-    * @property {Date|undefined} min
+    * @property {Date} min
     * @validationOption
     */
   min: undefined,
 
   /**
-    * @property {Date|undefined} max
+    * @property {Date} max
     * @validationOption
     */
   max: undefined,

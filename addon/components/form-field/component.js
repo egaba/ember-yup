@@ -35,6 +35,7 @@ export default Component.extend({
   abortEarly: false,
 
   /**
+    * DELETE ME
     * Flag to validate the field when the component initializes, as long as the field is `enabled`.
     *
     * @property {Boolean} validateOnInit
