@@ -39,42 +39,49 @@ export default FormField.extend({
   }).readOnly(),
 
   /**
+    * Validates that field value is an integer.
     * @property {Boolean} integer
     * @validationOption
     */
   integer: false,
 
   /**
+    * Validates that field value is positive.
     * @property {Boolean} positive
     * @validationOption
     */
   positive: false,
 
   /**
+    * Validates that field value is negative.
     * @property {Boolean} negative
     * @validationOption
     */
   negative: false,
 
   /**
+    * Set the minimum allowed value for the field.
     * @property {Number} min
     * @validationOption
     */
   min: undefined,
 
   /**
+    * Set the maximum allowed value for the field.
     * @property {Number} max
     * @validationOption
     */
   max: undefined,
 
   /**
+    * Set a value that the field value should be less than.
     * @property {Number} lt
     * @validationOption
     */
   lt: undefined,
 
   /**
+    * Set a value that the field value should be greater than.
     * @property {Number} gt
     * @validationOption
     */
