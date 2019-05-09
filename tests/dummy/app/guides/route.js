@@ -68,13 +68,8 @@ export default Route.extend({
     return fetch('/components-api.json').then(function(response) {
       return response.json();
     }).then(function(data) {
-      const formFieldInfo = readData(data, 'form-field');
-      const fieldInfo = readData(data, 'number-field');
-
-      Object.assign(fieldInfo.properties, formFieldInfo.properties);
-      Object.assign(fieldInfo.functions, formFieldInfo.functions);
-
-      return fieldInfo;
+      console.log('meow', readData(data, 'validation-form'));
+      return readData(data, 'validation-form');
     });
   }
 });

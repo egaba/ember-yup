@@ -28,6 +28,7 @@ export default Component.extend({
     * on its first invalid check.
     *
     * @property {Boolean} abortEarly
+    * @defaultValue false
     */
   abortEarly: false,
 
@@ -49,13 +50,12 @@ export default Component.extend({
     * Mark the schema as required. All field values apart from `undefined` and `null` meet this requirement.
     *
     * @property {Boolean} required
-    * @validationOption
     * @defaultValue false
     */
   required: false,
 
   /**
-    * Set properties on this hash to override the default validation messages.
+    * Set messages on this hash to override the default validation messages.
     *
     * @property {Object} validationMessages
     */
@@ -125,6 +125,32 @@ export default Component.extend({
   enabled: false,
 
   /**
+    * Flag `true` if there are 1 or more errors.
+    *
+    * @property {Boolean} hasErrors
+    * @yielded
+    */
+  hasErrors: Ember.computed.gt('errors.length', 0),
+
+  /**
+    * Flag `true` if component ran validation.
+    *
+    * @property {Boolean} didValidate
+    * @private
+    */
+  didValidate: false,
+
+  /**
+    * Property that determines if there are 1 or more errors.
+    *
+    * @property {Boolean} isValid
+    * @yielded
+    */
+  isValid: Ember.computed('didValidate', 'hasErrors', function() {
+    return this.get('didValidate') && !this.get('hasErrors');
+  }),
+
+  /**
     * Array that holds the ValidationErrors emitted by the schema.
     *
     * @property {Array} errors
@@ -153,7 +179,9 @@ export default Component.extend({
   }),
 
   /**
-    * Flag to display error messages.
+    * Flag to display error messages. If `enableErrorMessagesOnUpdate=true`, this
+    * flag will be set to `true` when the field detects its first `value` update.
+    * If you want to see error messages on initialization, set this to `true`.
     *
     * @property {Boolean} showErrorMessages
     * @defaultValue false
@@ -161,7 +189,7 @@ export default Component.extend({
   showErrorMessages: false,
 
   /**
-    * Show error messages when the `value` first updates.
+    * Set `showErrorMessages=true` on the first update to `value` after initialization.
     *
     * @property {Boolean} enableErrorMessagesOnUpdate
     */
@@ -191,6 +219,7 @@ export default Component.extend({
           }
 
           this.get('errors').clear();
+          this.set('didValidate', true);
         })
         .catch((errors) => {
           if (this.onChange) {
@@ -198,6 +227,7 @@ export default Component.extend({
           }
           this.get('errors').clear();
           this.get('errors').addObjects(errors);
+          this.set('didValidate', true);
         });
     } else {
       this.get('errors').clear();

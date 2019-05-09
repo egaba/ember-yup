@@ -1,1 +1,10 @@
-{{yield (hash formFields=formFields)}}
+{{yield (hash
+    formFields=formFields
+    isValidating=isValidating
+    didSubmit=didSubmit
+    didSucceed=didSucceed
+    didReject=didReject
+    validationTiming=validationTiming
+    errors=errors
+  )
+}}
