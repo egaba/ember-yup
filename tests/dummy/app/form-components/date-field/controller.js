@@ -99,78 +99,15 @@ export default Controller.extend({
       {{/each}}
     {{/date-field}}
   `,
-  properties: Ember.computed('model', function() {
-    const properties = [];
-    const props = this.get('model.properties');
-
-    for (const propName in props) {
-      const prop = props[propName];
-
-      if (!prop.isValidationOption && !prop.isPrivate) {
-        properties.push(Object.assign({}, prop, { name: propName }));
-      }
-    }
-
-    return properties;
-  }),
-
-  privateProps: Ember.computed('model', function() {
-    const properties = [];
-    const props = this.get('model.properties');
-
-    for (const propName in props) {
-      const prop = props[propName];
-
-      if (prop.isPrivate) {
-        properties.push(Object.assign({}, prop, { name: propName }));
-      }
-    }
-
-    return properties;
-  }),
-
-  validationOptions: Ember.computed('model', function() {
-    const options = [];
-    const props = this.get('model.properties');
-
-    for (const propName in props) {
-      const prop = props[propName];
-
-      if (prop.isValidationOption) {
-        options.push(Object.assign({}, prop, { name: propName }));
-      }
-    }
-
-    return options;
-  }),
-
-  functions: Ember.computed('model', function() {
-    const functions = [];
-    const props = this.get('model.functions');
-
-    for (const propName in props) {
-      const prop = props[propName];
-
-      if (!prop.isPrivate) {
-        functions.push(Object.assign({}, prop, { name: propName }));
-      }
-    }
-
-    return functions;
-  }),
-
-  privateFuncs: Ember.computed('model', function() {
-    const functions = [];
-    const props = this.get('model.functions');
-
-    for (const propName in props) {
-      const prop = props[propName];
-
-      if (prop.isPrivate) {
-        functions.push(Object.assign({}, prop, { name: propName }));
-      }
-    }
-
-    return functions;
-  }),
+  methods: Ember.computed.map('model.methods', function(method) {
+    const methodParams = method.get('params').map(function(param) { return param.name; }).join(',');
+    const signature = `${method.get('name')}(${methodParams})`;
+    return {
+      id: method.get('id'),
+      name: method.get('name'),
+      description: method.get('description'),
+      signature: signature,
+      params: method.get('params')
+    };
+  })
 });

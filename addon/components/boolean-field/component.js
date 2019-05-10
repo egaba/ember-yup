@@ -5,16 +5,19 @@ import * as yup from 'yup';
 
 /**
  * This component wraps `Yup.bool()` and validates boolean values.
+ *
  * @class BooleanField
  */
 export default FormField.extend({
   layout,
 
-   /**
-     * @property {String|Boolean} value The value of the field.
-     * @yielded
-     */
-   value: undefined,
+  /**
+   * The value of the field.
+   *
+   * @property {Boolean} value
+   * @yielded
+   */
+  value: undefined,
 
   /**
     * These are the default validation messages set by the Ember Yup library.
@@ -28,10 +31,11 @@ export default FormField.extend({
       dataType: undefined,
       required: '${path} is required',
     };
-  }).readOnly(),
+  }),
 
   /**
     * The primary schema that determines the fields validity.
+    *
     * @property {Object} dataSchema
     * @private
     */

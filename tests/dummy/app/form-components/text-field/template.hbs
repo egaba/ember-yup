@@ -175,12 +175,12 @@
     <section>
       {{#each model.properties as |property|}}
         <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{property.id}}>
-          <h4 class="mb-1">{{property.name}} <small class="text-sm font-normal text-grey">{{property.oneOfType}}</small></h4>
+          <h4 class="mb-1">{{property.name}} <small class="text-sm font-normal text-grey">{{property.dataType}}</small></h4>
 
           {{markdown-to-html property.description class="markdown mb-1"}}
 
           <ul class="list-reset">
-            <li>oneOfType: {{property.oneOfType}}</li>
+            <li>dataType: {{property.dataType}}</li>
             <li>defaultValue: {{property.defaultValue}}</li>
             <li>isPrivate: {{property.isPrivate}}</li>
             <li>isYielded: {{property.isYielded}}</li>
@@ -201,65 +201,3 @@
     {{/each}}
   {{/fixed-nav}}
 </div>
-
-<!-- <div class="mb-10">
-  <section class="mb-10">
-    <h4 class="mb-6">Methods</h4>
-
-    <div class="flex flex-wrap">
-      {{#each model.methods as |method|}}
-        <div class="w-1/2 mb-3">
-          <a href="#{{method.id}}">{{method.name}}</a>
-        </div>
-      {{/each}}
-    </div>
-  </section>
-
-  <section class="mb-10">
-    <h4 class="mb-6">Properties</h4>
-
-    <div class="flex flex-wrap">
-      {{#each model.properties as |prop|}}
-        <div class="w-1/2 mb-3">
-          <a href="#{{prop.id}}">{{prop.name}}</a>
-        </div>
-      {{/each}}
-    </div>
-  </section>
-
-  <section>
-    {{#each methods as |method|}}
-      <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{method.id}}>
-        <h4>{{method.signature}}</h4>
-        {{markdown-to-html method.description class="markdown"}}
-        {{#if method.params.length}}
-          <div class="">
-            <ul class="pl-8 list-reset">
-              {{#each method.params as |param|}}
-                <li>
-                  <strong>{{param.name}}</strong> <em>{{param.type}}</em>
-                </li>
-              {{/each}}
-            </ul>
-          </div>
-        {{/if}}
-      </div>
-    {{/each}}
-  </section>
-
-  <section>
-    {{#each model.properties as |property|}}
-      <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{property.id}}>
-        <h4 class="mb-1">{{property.name}}</h4>
-        {{markdown-to-html property.description class="markdown mb-1"}}
-
-        <ul class="list-reset">
-          <li>oneOfType: {{property.oneOfType}}</li>
-          <li>defaultValue: {{property.defaultValue}}</li>
-          <li>isPrivate: {{property.isPrivate}}</li>
-          <li>isYielded: {{property.isYielded}}</li>
-        </ul>
-      </div>
-    {{/each}}
-  </section>
-</div> -->

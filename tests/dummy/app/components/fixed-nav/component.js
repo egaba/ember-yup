@@ -7,6 +7,7 @@ export default Component.extend({
   layout,
 
   isFixed: false,
+  anchorPosition: 0,
 
   toggleFixedNav() {
     if (this.get('_state') !== 'destroying') {
@@ -14,6 +15,10 @@ export default Component.extend({
       const navDistanceFromTop = nav.getBoundingClientRect().top;
 
       if (navDistanceFromTop < 0) {
+        if (!this.get('anchorPosition')) {
+          this.set('anchorPosition', document.documentElement.scrollTop + navDistanceFromTop - 70);
+        }
+
         this.set('isFixed', true);
       } else {
         this.set('isFixed', false);
@@ -28,7 +33,14 @@ export default Component.extend({
 
     window.addEventListener('scroll', toggleFixedNav);
   },
+
   willDestroyElement() {
     window.removeEventListener('scroll', toggleFixedNav);
+  },
+
+  actions: {
+    scrollToAnchor() {
+      window.scrollTo(0, this.get('anchorPosition'));
+    }
   }
 });

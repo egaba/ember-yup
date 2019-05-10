@@ -74,7 +74,7 @@ export default Component.extend({
   /**
    * This flag holds the status of whether the form submitted, whether it was successful or not.
    *
-   * @property didSubmit
+   * @property {Boolean} didSubmit
    * @defaultValue false
    * @yielded
    */
@@ -83,7 +83,7 @@ export default Component.extend({
   /**
    * This flag holds the status of whether or not the form has enabled its fields.
    *
-   * @property didEnableFields
+   * @property {Boolean} didEnableFields
    * @defaultValue false
    * @private
    */
@@ -95,7 +95,7 @@ export default Component.extend({
    * This flag holds the status of whether or not the form is validating or not.
    * This property is only for sync forms.
    *
-   * @property didEnableFields
+   * @property {Boolean} isValidating
    * @defaultValue false
    * @sync
    * @yielded
@@ -105,7 +105,7 @@ export default Component.extend({
   /**
    * This flag holds the status of whether or not the form successfully validated.
    *
-   * @property didSucceed
+   * @property {Boolean} didSucceed
    * @defaultValue false
    * @sync
    * @yielded
@@ -115,7 +115,7 @@ export default Component.extend({
   /**
    * This flag holds the status of whether or not the form unsuccessfully validated.
    *
-   * @property didReject
+   * @property {Boolean} didReject
    * @defaultValue false
    * @sync
    * @yielded
@@ -145,7 +145,7 @@ export default Component.extend({
   onReject: undefined,
 
   /**
-   * This method handles the component's form submission process.
+   * This method handles the form's submission process.
    *
    * @function submit
    * @private

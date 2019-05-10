@@ -11,7 +11,9 @@ export default FormField.extend({
   layout,
 
   /**
-    * @property {String|Number} value The value of the field.
+    * The value of the field.
+    *
+    * @property {Number} value
     * @yielded
     */
   value: undefined,
@@ -35,59 +37,53 @@ export default FormField.extend({
       lt: undefined,
       gt: undefined,
     };
-  }).readOnly(),
+  }),
 
   /**
     * Validates that field value is an integer.
     * @property {Boolean} integer
-    * @validationOption
     */
   integer: false,
 
   /**
     * Validates that field value is positive.
     * @property {Boolean} positive
-    * @validationOption
     */
   positive: false,
 
   /**
     * Validates that field value is negative.
     * @property {Boolean} negative
-    * @validationOption
     */
   negative: false,
 
   /**
     * Set the minimum allowed value for the field.
     * @property {Number} min
-    * @validationOption
     */
   min: undefined,
 
   /**
     * Set the maximum allowed value for the field.
     * @property {Number} max
-    * @validationOption
     */
   max: undefined,
 
   /**
     * Set a value that the field value should be less than.
     * @property {Number} lt
-    * @validationOption
     */
   lt: undefined,
 
   /**
     * Set a value that the field value should be greater than.
     * @property {Number} gt
-    * @validationOption
     */
   gt: undefined,
 
   /**
     * The primary schema that determines the fields validity.
+    *
     * @property {Object} dataSchema
     * @private
     */

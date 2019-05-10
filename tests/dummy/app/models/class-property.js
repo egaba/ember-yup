@@ -4,7 +4,7 @@ const { Model } = DS;
 export default Model.extend({
   class: DS.belongsTo('api-class'),
   name: DS.attr(),
-  oneOfType: DS.attr(),
+  dataType: DS.attr(),
   description: DS.attr(),
   isPrivate: DS.attr('boolean', { defaultValue: false }),
   isYielded: DS.attr('boolean', { defaultValue: false }),

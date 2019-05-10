@@ -5,7 +5,12 @@ import Component from '@ember/component';
 import RSVP from 'rsvp';
 
 /**
- * The base component for all form fields.
+ * The base component for FormField components. FormFields are responsible for
+ * providing the schema for validating the fields `value`. This base component
+ * is responsible for reading the schema for validation and setting up the fields
+ * state, such as errors. This component alsp registers the field with its parent
+ * if used within a ValidationForm.
+ *
  * @class FormField
  */
 export default Component.extend({
@@ -17,6 +22,7 @@ export default Component.extend({
   /**
    * Called when the field's value is changed. Returns the transformed data value if valid;
    * otherwise returns the input value.
+   *
    * @function onChange
    * @param {*} value
    * @action
@@ -179,21 +185,13 @@ export default Component.extend({
   }),
 
   /**
-    * Flag to display error messages. If `enableErrorMessagesOnUpdate=true`, this
-    * flag will be set to `true` when the field detects its first `value` update.
-    * If you want to see error messages on initialization, set this to `true`.
+    * Flag to display error messages. This * flag will be set to `true` when
+    * the field detects its first `value` update.
     *
     * @property {Boolean} showErrorMessages
     * @defaultValue false
     */
   showErrorMessages: false,
-
-  /**
-    * Set `showErrorMessages=true` on the first update to `value` after initialization.
-    *
-    * @property {Boolean} enableErrorMessagesOnUpdate
-    */
-  enableErrorMessagesOnUpdate: true,
 
   /**
    * If the field is `enabled`, the field will validate its `value`. If the validation passes,
@@ -205,7 +203,7 @@ export default Component.extend({
    * @private
    */
   readValidation: observer('enabled', 'value', function(formField, updatedKeyName) {
-    if (!this.get('showErrorMessages') && this.get('enableErrorMessagesOnUpdate') && updatedKeyName === 'value') {
+    if (!this.get('showErrorMessages') && updatedKeyName === 'value') {
       this.set('showErrorMessages', true);
     }
 

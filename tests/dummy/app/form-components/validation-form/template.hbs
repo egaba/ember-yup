@@ -1,0 +1,159 @@
+<h1>ValidationForm</h1>
+<p>
+  This component acts as a container for FormField components and collects their
+  validations during form submission. Default form validation is async.
+</p>
+<p>The form outputs a data hash keyed by its fields' <code>name</code> properties.</p>
+<p>
+  When the form submits, the <code>onSubmit</code> action is invoked yielding a
+  hash of promises that hold the validation results of the fields.
+</p>
+
+<h2>Examples</h2>
+
+<wired-listbox horizontal selected={{example}} style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;">
+  <wired-item value="async" onclick={{action (mut example) "async"}}>basic</wired-item>
+  <wired-item value="sync" onclick={{action (mut example) "sync"}}>sync</wired-item>
+</wired-listbox>
+
+<h2 class="mb-4">API reference</h2>
+
+{{#if (eq example "async")}}
+  {{#code-demo markup=syncDemo}}
+    async example
+  {{/code-demo}}
+{{else if (eq example "sync")}}
+  {{#code-demo markup=syncDemo}}
+    {{#validation-form
+      onSuccess=(action "submit")
+      onReject=(action "reject")
+      as |form|
+    }}
+      <wired-card class="bg-grey-lightest">
+        <div style="min-height: 250px;">
+          {{#text-field
+            validationMessages=(hash
+              required="username is required"
+            )
+            name="username"
+            parent=form
+            required=true
+            value=formData.username
+            as |field|
+          }}
+            <wired-input
+              type="text"
+              placeholder="username"
+              oninput={{action (mut formData.username) value="target.value"}}
+              value={{formData.username}}
+            ></wired-input> <small>*required</small>
+            {{#each field.errorMessages as |error|}}
+              <p class="text-red-dark mb-0">{{error}}</p>
+            {{/each}}
+          {{/text-field}}
+          {{#number-field
+            validationMessages=(hash
+              required="age is required"
+            )
+            name="age"
+            parent=form
+            integer=true
+            positive=true
+            required=true
+            value=formData.age
+            as |field|
+          }}
+            <wired-input
+              type="text"
+              placeholder="age"
+              oninput={{action (mut formData.age) value="target.value"}}
+              value={{formData.age}}
+            ></wired-input> <small>*required</small>
+            {{#each field.errorMessages as |error|}}
+              <p class="text-red-dark mb-0">{{error}}</p>
+            {{/each}}
+          {{/number-field}}
+          {{#text-field
+            parent=form
+            name="validationFormEmail"
+            value=formData.email
+            type="email"
+            as |field|
+          }}
+            <wired-input
+              placeholder="email"
+              type="text"
+              value={{formData.email}}
+              oninput={{action (mut formData.email) value="target.value"}}
+            ></wired-input>
+            {{#each field.errorMessages as |error|}}
+              <p class="text-red-dark mb-0">{{error}}</p>
+            {{/each}}
+          {{/text-field}}
+
+          {{#if validationFormSuccessData}}
+            <div class="my-4">
+              success! {{validationFormSuccessData}}
+            </div>
+          {{/if}}
+          <button type="submit" class="bg-green-lightest mt-8">
+            <wired-button>submit</wired-button>
+          </button>
+        </div>
+      </wired-card>
+    {{/validation-form}}
+  {{/code-demo}}
+{{/if}}
+
+<div class="flex">
+  <div class="w-4/5 pr-8">
+    <section>
+      {{#each methods as |method|}}
+        <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{method.id}}>
+          <h4>{{method.signature}}</h4>
+
+          {{markdown-to-html method.description class="markdown"}}
+          {{#if method.params.length}}
+            <div class="">
+              <ul class="pl-8 list-reset">
+                {{#each method.params as |param|}}
+                  <li>
+                    <strong>{{param.name}}</strong> <em>{{param.type}}</em>
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+          {{/if}}
+        </div>
+      {{/each}}
+    </section>
+
+    <section>
+      {{#each model.properties as |property|}}
+        <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{property.id}}>
+          <h4 class="mb-1">{{property.name}} <small class="text-sm font-normal text-grey">{{property.dataType}}</small></h4>
+
+          {{markdown-to-html property.description class="markdown mb-1"}}
+
+          <ul class="list-reset">
+            <li>dataType: {{property.dataType}}</li>
+            <li>defaultValue: {{property.defaultValue}}</li>
+            <li>isPrivate: {{property.isPrivate}}</li>
+            <li>isYielded: {{property.isYielded}}</li>
+          </ul>
+        </div>
+      {{/each}}
+    </section>
+  </div>
+
+  {{#fixed-nav class="w-1/5 text-sm flex flex-col"}}
+    <h4 class="mb-3 mt-4 text-grey-darker">Methods</h4>
+    {{#each model.methods as |method|}}
+      <a href="#{{method.id}}" class="inline-block mb-1">{{method.name}}</a>
+    {{/each}}
+    <h4 class="mb-3 mt-4 text-grey-darker">Properties</h4>
+    {{#each model.properties as |prop|}}
+      <a href="#{{prop.id}}" class="inline-block mb-1">{{prop.name}}</a>
+    {{/each}}
+  {{/fixed-nav}}
+</div>

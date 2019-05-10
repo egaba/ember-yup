@@ -5,6 +5,7 @@ import * as yup from 'yup';
 
 /**
  * This component wraps `Yup.date()` and validates date values.
+ *
  * @class DateField
  */
 export default FormField.extend({
@@ -12,7 +13,8 @@ export default FormField.extend({
 
   /**
     * The value of the field.
-    * @property {String|Date} value
+    *
+    * @property {Date} value
     * @yielded
     */
   value: undefined,
@@ -31,22 +33,25 @@ export default FormField.extend({
       min: undefined,
       max: undefined,
     };
-  }).readOnly(),
+  }),
 
   /**
+    * The minimum date allowed for the field's `value`.
+    *
     * @property {Date} min
-    * @validationOption
     */
   min: undefined,
 
   /**
+    * The maximum date allowed for the field's `value`.
+    *
     * @property {Date} max
-    * @validationOption
     */
   max: undefined,
 
   /**
     * The primary schema that determines the fields validity.
+    *
     * @property {Object} dataSchema
     * @private
     */

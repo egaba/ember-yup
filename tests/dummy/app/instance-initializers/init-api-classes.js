@@ -47,16 +47,11 @@ function readData(data, componentName) {
           commentData.isYielded = true;
         } else if (tag.title === 'private') {
           commentData.isPrivate = true;
-        } else if (tag.title === 'validationOption') {
-          commentData.isValidationOption = true;
         } else if (tag.title === 'defaultValue') {
           commentData.defaultValue = tag.description;
         } else if (tag.title === 'param') {
-          console.log('adding param');
           commentData.params.push(tag);
-        }
-
-        else {
+        } else {
           console.log('unknown tag', tag, tag.title === 'param', commentData);
         }
       });
@@ -87,7 +82,10 @@ export function initialize(appInstance) {
       description: componentData.description
     });
 
-    Ember.assign(componentData.properties, baseFieldData.properties);
+    if (/field/.test(componentName)) {
+      Ember.assign(componentData.properties, baseFieldData.properties);
+      Ember.assign(componentData.methods, baseFieldData.methods);
+    }
 
     for (const propertyName in componentData.properties) {
       const data = componentData.properties[propertyName];
@@ -98,23 +96,21 @@ export function initialize(appInstance) {
         id: `${componentName}-${propertyName}`,
         class: baseClass,
         name: propertyName,
-        oneOfType: data.type,
+        dataType: data.type,
         description: data.description,
         isPrivate: data.isPrivate,
         isYielded: data.isYielded
       });
     }
 
-    Ember.assign(componentData.methods, baseFieldData.methods);
-
     for (const methodName in componentData.methods) {
       const data = componentData.methods[methodName];
 
       // console.log('create method', methodName, data);
 
-      if (data.params.length) {
-        console.log('adding params', data);
-      }
+      // if (data.params.length) {
+      //   console.log('adding params', data);
+      // }
 
       const method = store.createRecord('class-method', {
         id: `${componentName}-${methodName}`,

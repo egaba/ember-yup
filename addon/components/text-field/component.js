@@ -6,6 +6,7 @@ import RSVP from 'rsvp';
 
 /**
  * This component wraps `Yup.string()` and validates string values.
+ *
  * @class TextField
  */
 export default FormField.extend({
@@ -13,6 +14,7 @@ export default FormField.extend({
 
   /**
     * The value of the field.
+    *
     * @property {String} value
     * @yielded
     */
@@ -23,7 +25,6 @@ export default FormField.extend({
     * the String form of the regex is permitted. ex. "^\d{5}$"
     *
     * @property {String} matches
-    * @validationOption
     */
   matches: undefined,
 
@@ -44,13 +45,12 @@ export default FormField.extend({
       charLimit: 'character limit has been exceeded',
       matches: undefined,
     };
-  }).readOnly(),
+  }),
 
   /**
     * The validation subtype.
     *
     * @property {Enum} type string|email|url
-    * @validationOption
     * @defaultValue string
     */
   type: 'string',
@@ -97,14 +97,15 @@ export default FormField.extend({
 
   /**
     * The maximum number of characters allowed for the `value`.
+    *
     * @property {Number} charLimit
-    * @validationOption
     * @defaultValue 0
     */
   charLimit: 0,
 
   /**
     * Determines validity by measuring the length of the `value`.
+    *
     * @property {Object} charLimitSchema
     * @private
     */
@@ -116,6 +117,7 @@ export default FormField.extend({
   /**
     * A yielded property the contains the number of allowable characters for the
     * length of the `value`.
+    *
     * @property {Number} charRemaining
     * @yielded
     */
@@ -132,6 +134,7 @@ export default FormField.extend({
 
   /**
     * The validation result of the latest computed `value`.
+    *
     * @property {Promise} validation
     * @private
     */
