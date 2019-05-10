@@ -62,5 +62,4 @@ export default {
 
   'blue': '#0070BF',
   'blue-dark': '#0a5282',
-  'primary': '#1F9D55',
 };

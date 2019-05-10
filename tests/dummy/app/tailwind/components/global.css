@@ -50,3 +50,7 @@ kbd, .markdown code, .snippet {
 [role="checkbox"] {
   @apply .cursor-pointer inline;
 }
+
+nav [role="option"] {
+  @apply .cursor-pointer;
+}

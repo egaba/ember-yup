@@ -4,9 +4,8 @@ import layout from './template';
 import * as yup from 'yup';
 
 /**
- * This component is used for validating boolean values.
+ * This component wraps `Yup.bool()` and validates boolean values.
  * @class BooleanField
- * @extends FormField
  */
 export default FormField.extend({
   layout,

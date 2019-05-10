@@ -4,9 +4,8 @@ import layout from './template';
 import * as yup from 'yup';
 
 /**
- * This component is used for validating numeric values.
+ * This component wraps `Yup.number()` and validates numeric values.
  * @class NumberField
- * @extends FormField
  */
 export default FormField.extend({
   layout,

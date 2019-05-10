@@ -1,5 +1,5 @@
-<h1>TextField</h1>
-<p>This component wraps <code class="snippet">Yup.string()</code> and validates string values.</p>
+<h1>{{model.name}}</h1>
+<p>{{markdown-to-html model.description class="markdown"}}</p>
 
 <h2>Examples</h2>
 
@@ -130,7 +130,7 @@
       value=strictUsername
       validationMessages=(hash
         charLimit="username must be less than 14 characters"
-        matches="only letters and numbers are allowed"
+        matches="only letters and numbers are allowed; cannot be blank"
       )
       as |field|
     }}
@@ -147,110 +147,119 @@
   {{/code-demo}}
 {{/if}}
 
-<h2>Properties</h2>
+<h2 class="mb-4">API reference</h2>
 
-{{#each properties as |prop|}}
+<div class="flex">
+  <div class="w-4/5 pr-8">
+    <section>
+      {{#each methods as |method|}}
+        <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{method.id}}>
+          <h4>{{method.signature}}</h4>
+
+          {{markdown-to-html method.description class="markdown"}}
+          {{#if method.params.length}}
+            <div class="">
+              <ul class="pl-8 list-reset">
+                {{#each method.params as |param|}}
+                  <li>
+                    <strong>{{param.name}}</strong> <em>{{param.type}}</em>
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+          {{/if}}
+        </div>
+      {{/each}}
+    </section>
+
+    <section>
+      {{#each model.properties as |property|}}
+        <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{property.id}}>
+          <h4 class="mb-1">{{property.name}} <small class="text-sm font-normal text-grey">{{property.oneOfType}}</small></h4>
+
+          {{markdown-to-html property.description class="markdown mb-1"}}
+
+          <ul class="list-reset">
+            <li>oneOfType: {{property.oneOfType}}</li>
+            <li>defaultValue: {{property.defaultValue}}</li>
+            <li>isPrivate: {{property.isPrivate}}</li>
+            <li>isYielded: {{property.isYielded}}</li>
+          </ul>
+        </div>
+      {{/each}}
+    </section>
+  </div>
+
+  {{#fixed-nav class="w-1/5 text-sm flex flex-col"}}
+    <h4 class="mb-3 mt-4 text-grey-darker">Methods</h4>
+    {{#each model.methods as |method|}}
+      <a href="#{{method.id}}" class="inline-block mb-1">{{method.name}}</a>
+    {{/each}}
+    <h4 class="mb-3 mt-4 text-grey-darker">Properties</h4>
+    {{#each model.properties as |prop|}}
+      <a href="#{{prop.id}}" class="inline-block mb-1">{{prop.name}}</a>
+    {{/each}}
+  {{/fixed-nav}}
+</div>
+
+<!-- <div class="mb-10">
   <section class="mb-10">
-    <h3>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h3>
-    <p>{{markdown-to-html prop.description class="markdown"}}</p>
+    <h4 class="mb-6">Methods</h4>
 
-    {{#if prop.enums.length}}
-      <div class="">
-        One of:
-        {{#each option.enums as |enum|}}
-          <span>{{enum}}</span>
-        {{/each}}
-      </div>
-    {{/if}}
-
-    {{#if prop.defaultValue}}
-      <p>defaultValue: {{prop.defaultValue}}</p>
-    {{/if}}
+    <div class="flex flex-wrap">
+      {{#each model.methods as |method|}}
+        <div class="w-1/2 mb-3">
+          <a href="#{{method.id}}">{{method.name}}</a>
+        </div>
+      {{/each}}
+    </div>
   </section>
-{{/each}}
 
-<h3>Validation Options</h3>
-
-{{#each validationOptions as |option|}}
   <section class="mb-10">
-    <h4>{{option.name}} <small class="font-normal text-sm">{{option.type}}</small></h4>
-    <p>{{markdown-to-html option.description class="markdown"}}</p>
+    <h4 class="mb-6">Properties</h4>
 
-    {{#if option.enums.length}}
-      <div class="">
-        One of:
-        {{#each option.enums as |enum|}}
-          <span>{{enum}}</span>
-        {{/each}}
-      </div>
-    {{/if}}
-
-    {{#if option.defaultValue}}
-      <p>defaultValue: {{option.defaultValue}}</p>
-    {{/if}}
+    <div class="flex flex-wrap">
+      {{#each model.properties as |prop|}}
+        <div class="w-1/2 mb-3">
+          <a href="#{{prop.id}}">{{prop.name}}</a>
+        </div>
+      {{/each}}
+    </div>
   </section>
-{{/each}}
 
-<h3>Private properties</h3>
-
-{{#each privateProps as |prop|}}
-  <section class="mb-10">
-    <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
-    <p>{{markdown-to-html prop.description class="markdown"}}</p>
-
-    {{#if prop.enums.length}}
-      <div class="">
-        One of:
-        {{#each prop.enums as |enum|}}
-          <span>{{enum}}</span>
-        {{/each}}
+  <section>
+    {{#each methods as |method|}}
+      <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{method.id}}>
+        <h4>{{method.signature}}</h4>
+        {{markdown-to-html method.description class="markdown"}}
+        {{#if method.params.length}}
+          <div class="">
+            <ul class="pl-8 list-reset">
+              {{#each method.params as |param|}}
+                <li>
+                  <strong>{{param.name}}</strong> <em>{{param.type}}</em>
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+        {{/if}}
       </div>
-    {{/if}}
-
-    {{#if prop.defaultValue}}
-      <p>defaultValue: {{prop.defaultValue}}</p>
-    {{/if}}
+    {{/each}}
   </section>
-{{/each}}
 
-<h2>Functions</h2>
+  <section>
+    {{#each model.properties as |property|}}
+      <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{property.id}}>
+        <h4 class="mb-1">{{property.name}}</h4>
+        {{markdown-to-html property.description class="markdown mb-1"}}
 
-{{#each functions as |prop|}}
-  <section class="mb-10">
-    <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
-    <p>{{markdown-to-html prop.description class="markdown"}}</p>
-
-    {{#if prop.enums.length}}
-      <div class="">
-        One of:
-        {{#each option.enums as |enum|}}
-          <span>{{enum}}</span>
-        {{/each}}
+        <ul class="list-reset">
+          <li>oneOfType: {{property.oneOfType}}</li>
+          <li>defaultValue: {{property.defaultValue}}</li>
+          <li>isPrivate: {{property.isPrivate}}</li>
+          <li>isYielded: {{property.isYielded}}</li>
+        </ul>
       </div>
-    {{/if}}
-
-    {{#if prop.defaultValue}}
-      <p>defaultValue: {{prop.defaultValue}}</p>
-    {{/if}}
+    {{/each}}
   </section>
-{{/each}}
-
-{{#each privateFuncs as |prop|}}
-  <section class="mb-10">
-    <h4>{{prop.name}} <small class="font-normal text-sm">{{prop.type}}</small></h4>
-    <p>{{markdown-to-html prop.description class="markdown"}}</p>
-
-    {{#if prop.enums.length}}
-      <div class="">
-        One of:
-        {{#each option.enums as |enum|}}
-          <span>{{enum}}</span>
-        {{/each}}
-      </div>
-    {{/if}}
-
-    {{#if prop.defaultValue}}
-      <p>defaultValue: {{prop.defaultValue}}</p>
-    {{/if}}
-  </section>
-{{/each}}
+</div> -->

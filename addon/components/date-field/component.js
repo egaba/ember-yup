@@ -4,9 +4,8 @@ import layout from './template';
 import * as yup from 'yup';
 
 /**
- * This component is used for validating date values.
+ * This component wraps `Yup.date()` and validates date values.
  * @class DateField
- * @extends FormField
  */
 export default FormField.extend({
   layout,

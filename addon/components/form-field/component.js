@@ -6,7 +6,6 @@ import RSVP from 'rsvp';
 
 /**
  * The base component for all form fields.
- *
  * @class FormField
  */
 export default Component.extend({
@@ -19,6 +18,7 @@ export default Component.extend({
    * Called when the field's value is changed. Returns the transformed data value if valid;
    * otherwise returns the input value.
    * @function onChange
+   * @param {*} value
    * @action
    */
   onChange: undefined,

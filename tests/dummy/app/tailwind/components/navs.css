@@ -36,7 +36,7 @@
 }
 
 .app-side-nav a.active {
-  @apply .text-primary .font-medium;
+  @apply .text-green-dark .font-medium;
 }
 
 .page-side-nav {
