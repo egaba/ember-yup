@@ -1,0 +1,135 @@
+<h1>Testing</h1>
+{{#unless isReloading}}
+<div class="flex">
+  <div class="w-2/3">
+    {{#component model.componentName
+      validationMessages=(hash required=model.requiredValidationMessage)
+      value=model.value
+      required=model.required
+      enabled=model.enabled
+      showErrorMessages=(eq model.displayErrorMessages "init")
+      showErrorMessagesOnUpdate=(eq model.displayErrorMessages "valueUpdate")
+      as |field|
+    }}
+      <div class="">
+        <div class="">
+          {{#if (eq model.componentName "boolean-field")}}
+            <wired-checkbox
+              class="cursor-pointer"
+              checked={{model.value}}
+              onclick={{action (mut model.value) value="target.checked"}}
+            >{{model.componentName}}</wired-checkbox>
+          {{else}}
+            <wired-input
+              value={{model.value}}
+              placeholder={{model.componentName}}
+              oninput={{action (mut model.value) value="target.value"}}
+            ></wired-input>
+          {{/if}}
+          {{#each field.errorMessages as |message|}}
+            <p class="text-red">{{message}}</p>
+          {{/each}}
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>value</th>
+              <th>typeof(value)</th>
+              <th>didValidate</th>
+              <th>hasErrors</th>
+              <th>showErrorMessages</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{field.value}}</td>
+              <td>{{fieldValueType}}</td>
+              <td>{{field.didValidate}}</td>
+              <td>{{field.hasErrors}}</td>
+              <td>{{field.showErrorMessages}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    {{/component}}
+
+
+
+    <!-- {{#if (eq model.componentName "boolean-field")}}
+      {{#boolean-field
+        validationMessages=validationMessages
+        value=fieldValue
+        required=required
+        enabled=enabled
+        showErrorMessages=showErrors
+        as |field|
+      }}
+        <wired-checkbox checked={{fieldValue}} onclick={{action (mut fieldValue) value="target.checked"}}>{{type}}</wired-checkbox>
+        {{#each field.errorMessages as |message|}}
+          <p class="text-red">{{message}}</p>
+        {{/each}}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>value</th>
+              <th>typeof(value)</th>
+              <th>isValid</th>
+              <th>showErrorMessages</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{fieldValue}}</td>
+              <td>{{fieldValueType}}</td>
+              <td>{{field.isValid}}</td>
+              <td>{{field.showErrorMessages}}</td>
+            </tr>
+          </tbody>
+        </table>
+      {{/boolean-field}}
+    {{else}}
+
+    {{/if}} -->
+  </div>
+  <div class="w-1/3">
+    <form>
+      <label class="flex">
+        enable validation
+        <wired-toggle checked={{model.enabled}} onclick={{action (mut model.enabled) value="target.checked"}}></wired-toggle>
+      </label>
+      <fieldset>
+        <legend>data type</legend>
+        <wired-radio-group selected={{model.componentName}}>
+          <wired-radio type="radio" name="text-field" onclick={{action (mut model.componentName) "text-field"}}>string</wired-radio>
+          <wired-radio type="radio" name="number-field" onclick={{action (mut model.componentName) "number-field"}}>number</wired-radio>
+          <wired-radio type="radio" name="date-field" onclick={{action (mut model.componentName) "date-field"}}>date</wired-radio>
+          <wired-radio type="radio" name="boolean-field" onclick={{action (mut model.componentName) "boolean-field"}}>boolean</wired-radio>
+        </wired-radio-group>
+      </fieldset>
+      <fieldset>
+        <legend>options</legend>
+        <label>
+          <wired-checkbox checked={{model.required}} type="checkbox" onclick={{action (mut model.required) value="target.checked"}}>required</wired-checkbox>
+        </label>
+      </fieldset>
+      <fieldset>
+        <legend>populate errorMessages</legend>
+        <wired-radio-group selected={{model.displayErrorMessages}}>
+          <wired-radio type="radio" name="init" onclick={{action (mut model.displayErrorMessages) "init"}}>on init</wired-radio>
+          <wired-radio type="radio" name="valueUpdate" onclick={{action (mut model.displayErrorMessages) "valueUpdate"}}>on value update</wired-radio>
+        </wired-radio-group>
+      </fieldset>
+      <fieldset>
+        <legend>validation messages</legend>
+        <div class="">
+          <label for="required-vmessage">required</label>
+          <input type="text" id="required-vmessage" oninput={{action (mut model.requiredValidationMessage) value="target.value"}}>
+        </div>
+      </fieldset>
+      <button type="button" name="button" {{action "apply"}}><wired-button>reload</wired-button></button>
+      <!-- <button type="button" name="button" {{action "reset"}}><wired-button>reset</wired-button></button> -->
+    </form>
+  </div>
+</div>
+
+{{/unless}}

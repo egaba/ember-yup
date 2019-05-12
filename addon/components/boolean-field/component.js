@@ -1,6 +1,5 @@
 import FormField from 'ember-yup/components/form-field/component';
 import { computed } from '@ember/object';
-import layout from './template';
 import * as yup from 'yup';
 
 /**
@@ -9,8 +8,6 @@ import * as yup from 'yup';
  * @class BooleanField
  */
 export default FormField.extend({
-  layout,
-
   /**
    * The value of the field.
    *
@@ -18,20 +15,6 @@ export default FormField.extend({
    * @yielded
    */
   value: undefined,
-
-  /**
-    * These are the default validation messages set by the Ember Yup library.
-    * Leave the properties `undefined` to allow defaults to be set by Yup.
-    *
-    * @property {Object} defaultValidationMessages
-    * @private
-    */
-  defaultValidationMessages: computed(function() {
-    return {
-      dataType: undefined,
-      required: '${path} is required',
-    };
-  }),
 
   /**
     * The primary schema that determines the fields validity.
@@ -47,7 +30,7 @@ export default FormField.extend({
     }
 
     if (this.get('required')) {
-      dataSchema = dataSchema.required(this.get('validationMessages.required')).equals([true], this.get('validationMessages.required'));
+      dataSchema = dataSchema.required(this.get('validationMessages.required')).equals([true], this.get('validationMessages.required'))
     } else {
       dataSchema = dataSchema.notRequired(this.get('validationMessages.required'));
     }

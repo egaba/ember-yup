@@ -15,13 +15,15 @@ export default Component.extend({
   tagName: 'form',
 
   /**
-   * After the form submits and has collected its fields validations, sync forms will wait
-   * for the validation results and either call `onSuccess` or `onReject` accordingly.
+   * Sync forms perform additional logic to gather form data or collect errors.
+   * After `onSubmit` is invoked and the validations resolve, either `onSuccess`
+   * or `onReject` is invoked with a hash of data or errors. Set this value to `false`
+   * if you want to disable the `onSuccess` and `onReject` handlers.
    *
    * @property {Boolean} sync
-   * @defaultValue false
+   * @defaultValue sync
    */
-  sync: false,
+  sync: true,
 
   /**
    * FormFields register themselves with this property when they initialize.
@@ -171,7 +173,7 @@ export default Component.extend({
 
     this.set('didSubmit', true);
 
-    if (this.get('sync')) {
+    if (!this.get('async')) {
       this.set('isValidating', true);
 
       RSVP.hashSettled(validations).then((fieldValidations) => {

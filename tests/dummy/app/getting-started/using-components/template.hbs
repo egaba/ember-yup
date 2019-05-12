@@ -1,7 +1,7 @@
 <div class="flex pb-20">
-  <div class="w-4/5">
+  <div class="w-4/5 pr-8">
     <section>
-      <h1>Validation Components</h1>
+      <h1>Form Components</h1>
       <p>
         This library provides <code class="snippet">FormField</code> components that wrap data schemas.
         <code class="snippet">FormField</code>s can operate both standalone or in combination with
@@ -110,12 +110,10 @@
       </p>
     </section>
   </div>
-  <nav class="w-1/5 page-side-nav">
-    <ul class="list-reset flex flex-col">
-      <li><a href="#basics">Enabling fields and displaying messages</a></li>
-      <li><a href="#customize-messages">Customize validation messages</a></li>
-      <li><a href="#transforming-data">Transforming data</a></li>
-      <li><a href="#behind-the-scenes">Behind the scenes</a></li>
-    </ul>
-  </nav>
+  {{#fixed-nav class="w-1/5 page-side-nav"}}
+    <a href="#basics">Enabling fields and displaying messages</a>
+    <a href="#customize-messages">Customize validation messages</a>
+    <a href="#transforming-data">Transforming data</a>
+    <a href="#behind-the-scenes">Behind the scenes</a>
+  {{/fixed-nav}}
 </div>

@@ -40,10 +40,17 @@
 }
 
 .page-side-nav {
-  @apply .text-sm;
-  padding-left: 16px;
+  @apply .text-sm .flex .flex-col;
 }
 
 .page-side-nav > ul > li {
   @apply .mb-3;
+}
+
+.page-side-nav a {
+  @apply .inline-block .mb-1;
+}
+
+.page-side-nav :first-child {
+  @apply .mt-4;
 }

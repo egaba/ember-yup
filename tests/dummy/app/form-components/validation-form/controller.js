@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 
 export default Controller.extend({
-  example: 'async',
+  example: 'sync',
   queryParams: ['example'],
   asyncDemo: `
     TODO

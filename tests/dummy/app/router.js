@@ -53,6 +53,13 @@ Router.map(function() {
       this.route('async-validation');
     });
   });
+  this.route('yup-playground', function() {
+    this.route('new');
+
+    this.route('edit', {
+      path: '/:id'
+    });
+  });
 });
 
 export default Router;

@@ -147,7 +147,7 @@
   {{/code-demo}}
 {{/if}}
 
-<h2 class="mb-4">API reference</h2>
+<h2 class="mt-10 mb-4">API reference</h2>
 
 <div class="flex">
   <div class="w-4/5 pr-8">
@@ -178,26 +178,19 @@
           <h4 class="mb-1">{{property.name}} <small class="text-sm font-normal text-grey">{{property.dataType}}</small></h4>
 
           {{markdown-to-html property.description class="markdown mb-1"}}
-
-          <ul class="list-reset">
-            <li>dataType: {{property.dataType}}</li>
-            <li>defaultValue: {{property.defaultValue}}</li>
-            <li>isPrivate: {{property.isPrivate}}</li>
-            <li>isYielded: {{property.isYielded}}</li>
-          </ul>
         </div>
       {{/each}}
     </section>
   </div>
 
-  {{#fixed-nav class="w-1/5 text-sm flex flex-col"}}
+  {{#fixed-nav class="w-1/5 page-side-nav"}}
     <h4 class="mb-3 mt-4 text-grey-darker">Methods</h4>
     {{#each model.methods as |method|}}
-      <a href="#{{method.id}}" class="inline-block mb-1">{{method.name}}</a>
+      <a href="#{{method.id}}">{{method.name}}</a>
     {{/each}}
     <h4 class="mb-3 mt-4 text-grey-darker">Properties</h4>
     {{#each model.properties as |prop|}}
-      <a href="#{{prop.id}}" class="inline-block mb-1">{{prop.name}}</a>
+      <a href="#{{prop.id}}">{{prop.name}}</a>
     {{/each}}
   {{/fixed-nav}}
 </div>

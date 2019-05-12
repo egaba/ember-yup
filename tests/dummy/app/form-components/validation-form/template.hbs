@@ -12,17 +12,11 @@
 <h2>Examples</h2>
 
 <wired-listbox horizontal selected={{example}} style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;">
-  <wired-item value="async" onclick={{action (mut example) "async"}}>basic</wired-item>
   <wired-item value="sync" onclick={{action (mut example) "sync"}}>sync</wired-item>
+  <wired-item value="async" onclick={{action (mut example) "async"}}>async</wired-item>
 </wired-listbox>
 
-<h2 class="mb-4">API reference</h2>
-
-{{#if (eq example "async")}}
-  {{#code-demo markup=syncDemo}}
-    async example
-  {{/code-demo}}
-{{else if (eq example "sync")}}
+{{#if (eq example "sync")}}
   {{#code-demo markup=syncDemo}}
     {{#validation-form
       onSuccess=(action "submit")
@@ -105,6 +99,7 @@
   {{/code-demo}}
 {{/if}}
 
+<h2 class="mt-10 mb-4">API reference</h2>
 <div class="flex">
   <div class="w-4/5 pr-8">
     <section>

@@ -3,21 +3,33 @@ import { assign } from '@ember/polyfills';
 import { computed, observer } from '@ember/object';
 import Component from '@ember/component';
 import RSVP from 'rsvp';
+import layout from './template';
 
 /**
  * The base component for FormField components. FormFields are responsible for
  * providing the schema for validating the fields `value`. This base component
  * is responsible for reading the schema for validation and setting up the fields
- * state, such as errors. This component alsp registers the field with its parent
- * if used within a ValidationForm.
+ * state, such as errors. This component also registers with its parent, if part
+ * of a ValidationForm.
  *
  * @class FormField
  */
 export default Component.extend({
+  layout,
+
   init() {
     this._super(...arguments);
     this.readValidation();
   },
+
+  /**
+   * Properties that are yielded to the template.
+   *
+   * @property {Object} yieldedProperties
+   */
+  yieldedProperties: Ember.computed('errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', function() {
+    return this.getProperties('errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages');
+  }),
 
   /**
    * Called when the field's value is changed. Returns the transformed data value if valid;
@@ -48,9 +60,9 @@ export default Component.extend({
   defaultValidationMessages: computed(function() {
     return {
       dataType: undefined,
-      required: undefined,
+      required: '${path} is a required field',
     };
-  }).readOnly(),
+  }),
 
   /**
     * Mark the schema as required. All field values apart from `undefined` and `null` meet this requirement.
@@ -65,12 +77,19 @@ export default Component.extend({
     *
     * @property {Object} validationMessages
     */
-  validationMessages: computed('defaultValidationMessages', {
+  validationMessages: computed({
     get() {
       return this.get('defaultValidationMessages');
     },
-    set(key, value) {
-      return assign({}, this.get('defaultValidationMessages'), value);
+    set(key, messageOverridesHash) {
+      const overrides = {};
+      for (const key in messageOverridesHash) {
+        const message = messageOverridesHash[key];
+        if (message) {
+          overrides[key] = message;
+        }
+      }
+      return assign({}, this.get('defaultValidationMessages'), overrides);
     },
   }),
 
@@ -80,11 +99,7 @@ export default Component.extend({
     * @property {Promise} validation
     * @private
     */
-  validation: computed('value', 'enabled', 'dataSchema', 'abortEarly', function() {
-    if (!this.get('enabled')) {
-      return RSVP.resolve();
-    }
-
+  validation: computed('value', 'dataSchema', 'abortEarly', function() {
     const abortEarly = this.get('abortEarly');
     const value = this.get('value');
     const validation = {
@@ -147,16 +162,6 @@ export default Component.extend({
   didValidate: false,
 
   /**
-    * Property that determines if there are 1 or more errors.
-    *
-    * @property {Boolean} isValid
-    * @yielded
-    */
-  isValid: Ember.computed('didValidate', 'hasErrors', function() {
-    return this.get('didValidate') && !this.get('hasErrors');
-  }),
-
-  /**
     * Array that holds the ValidationErrors emitted by the schema.
     *
     * @property {Array} errors
@@ -194,6 +199,14 @@ export default Component.extend({
   showErrorMessages: false,
 
   /**
+    * Used to set `showErrorMessages=true` when the value first updates.
+    *
+    * @property {Boolean} showErrorMessagesOnUpdate
+    * @defaultValue true
+    */
+  showErrorMessagesOnUpdate: true,
+
+  /**
    * If the field is `enabled`, the field will validate its `value`. If the validation passes,
    * the transformed value will be passed to its `onInput` or `onClick` handlers, if defined.
    * If the validation fails, errors will get added to the `errors` property, which populates
@@ -202,13 +215,13 @@ export default Component.extend({
    * @function readValidation
    * @private
    */
-  readValidation: observer('enabled', 'value', function(formField, updatedKeyName) {
-    if (!this.get('showErrorMessages') && updatedKeyName === 'value') {
-      this.set('showErrorMessages', true);
-    }
-
+  readValidation: observer('enabled', 'value', 'dataSchema', function(formField, updatedKeyName) {
     if (this.get('enabled')) {
       const value = this.get('value');
+
+      if (!this.get('showErrorMessages') && this.get('showErrorMessagesOnUpdate') && updatedKeyName === 'value') {
+        this.set('showErrorMessages', true);
+      }
 
       this.get('validation')
         .then((val) => {

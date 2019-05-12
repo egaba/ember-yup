@@ -1,6 +1,6 @@
 import FormField from 'ember-yup/components/form-field/component';
 import { computed } from '@ember/object';
-import layout from './template';
+// import layout from './template';
 import * as yup from 'yup';
 import RSVP from 'rsvp';
 
@@ -10,8 +10,6 @@ import RSVP from 'rsvp';
  * @class TextField
  */
 export default FormField.extend({
-  layout,
-
   /**
     * The value of the field.
     *
@@ -130,6 +128,10 @@ export default FormField.extend({
     }
 
     return 0;
+  }),
+
+  yieldedProperties: Ember.computed('charRemaining', 'errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', function() {
+    return this.getProperties('charRemaining', 'errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages');
   }),
 
   /**

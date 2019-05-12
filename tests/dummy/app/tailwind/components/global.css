@@ -54,3 +54,23 @@ kbd, .markdown code, .snippet {
 nav [role="option"] {
   @apply .cursor-pointer;
 }
+
+.demo-container wired-listbox {
+  --wired-item-selected-color: #212121;
+  --wired-item-selected-bg: #fff382;
+}
+
+.demo-container > .nav-tabs {
+  top: -46px;
+}
+
+.demo-container .demo {
+  min-height: 100px;
+}
+
+.table {
+  @apply .text-left .text-xs;
+}
+.table th, .table td {
+  @apply .px-1;
+}

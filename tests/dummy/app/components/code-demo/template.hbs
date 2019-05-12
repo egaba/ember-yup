@@ -1,8 +1,7 @@
 {{#if showCode}}
   <wired-card class="block demo-container relative">
-    <nav class="nav-tabs absolute pin-r text-right" style="top: -46px;">
-      <wired-listbox horizontal selected={{if showCode "code" "demo"}}
-       style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #fff382;">
+    <nav class="nav-tabs absolute pin-r text-right">
+      <wired-listbox horizontal selected={{if showCode "code" "demo"}}>
        <wired-item value="demo" onclick={{action (mut showCode) false}}>demo</wired-item>
        <wired-item value="code" onclick={{action (mut showCode) true}}>code</wired-item>
       </wired-listbox>
@@ -11,14 +10,13 @@
   </wired-card>
 {{else}}
   <wired-card class="block demo-container relative">
-    <nav class="nav-tabs absolute pin-r text-right" style="top: -46px;">
-      <wired-listbox horizontal selected={{if showCode "code" "demo"}}
-       style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #fff382;">
+    <nav class="nav-tabs absolute pin-r text-right">
+      <wired-listbox horizontal selected={{if showCode "code" "demo"}}>
        <wired-item value="demo" onclick={{action (mut showCode) false}}>demo</wired-item>
        <wired-item value="code" onclick={{action (mut showCode) true}}>code</wired-item>
       </wired-listbox>
     </nav>
-    <div class="p-2">
+    <div class="pt-2 pb-10 px-2 demo">
       {{yield}}
     </div>
   </wired-card>
