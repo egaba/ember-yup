@@ -1,0 +1,129 @@
+{{#if (eq currentTab "code")}}
+  <wired-card class="block demo-container relative">
+    <nav class="nav-tabs absolute pin-r text-right">
+      <wired-listbox horizontal selected={{currentTab}}>
+       <wired-item value="demo" onclick={{action (mut currentTab) value="target.value"}}>demo</wired-item>
+       <wired-item value="code" onclick={{action (mut currentTab) value="target.value"}}>code</wired-item>
+      </wired-listbox>
+    </nav>
+    {{#unless isReloading}}
+      {{markdown-to-html fieldMarkup}}
+    {{/unless}}
+  </wired-card>
+{{else if (eq currentTab "demo")}}
+  <wired-card class="block demo-container relative">
+    <nav class="nav-tabs absolute pin-r text-right">
+      <wired-listbox horizontal selected={{currentTab}}>
+       <wired-item value="demo" onclick={{action (mut currentTab) value="target.value"}}>demo</wired-item>
+       <wired-item value="code" onclick={{action (mut currentTab) value="target.value"}}>code</wired-item>
+      </wired-listbox>
+    </nav>
+    <div class="pt-2 pb-10 px-2 demo">
+      {{#unless isReloading}}
+        {{#component field.componentName
+          validationMessages=(hash required=field.requiredValidationMessage)
+          value=fieldValue
+          required=field.required
+          enabled=field.enabled
+          showErrorMessages=showErrorMessages
+          showErrorMessagesOnUpdate=showErrorMessagesOnUpdate
+          as |field|
+        }}
+          <div class="flex">
+            <div class="w-2/5">
+              {{#if isBoolean}}
+                <wired-checkbox
+                  class="cursor-pointer"
+                  checked={{fieldValue}}
+                  onclick={{action (mut fieldValue) value="target.checked"}}
+                >{{field.componentName}}</wired-checkbox>
+              {{else}}
+                <wired-input
+                  value={{fieldValue}}
+                  placeholder={{field.componentName}}
+                  oninput={{action (mut fieldValue) value="target.value"}}
+                  onblur={{action (mut didBlur) true}}
+                ></wired-input>
+              {{/if}}
+              {{#each field.errorMessages as |message|}}
+                <p class="text-red text-sm">{{message}}</p>
+              {{/each}}
+            </div>
+            <div class="w-3/5 flex justify-end">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>typeof(value)</th>
+                    <th>didValidate</th>
+                    <th>hasErrors</th>
+                    <th>showErrorMessages</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{fieldValueType}}</td>
+                    <td>{{field.didValidate}}</td>
+                    <td>{{field.hasErrors}}</td>
+                    <td>{{field.showErrorMessages}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        {{/component}}
+      {{/unless}}
+    </div>
+  </wired-card>
+{{/if}}
+
+<p class="m-0 mb-2 text-right"><a class="cursor-pointer" {{action (mut showSettings) (not showSettings)}}>toggle settings</a></p>
+{{#if showSettings}}
+  <form>
+    <div class="flex">
+      <div class="w-1/2">
+        <fieldset>
+          <legend class="mb-1">data type</legend>
+          <wired-radio-group selected={{field.componentName}}>
+            <wired-radio name="text-field" onclick={{action (mut field.componentName) value="target.name"}}>string</wired-radio>
+            <wired-radio name="number-field" onclick={{action (mut field.componentName) value="target.name"}}>number</wired-radio>
+            <wired-radio name="date-field" onclick={{action (mut field.componentName) value="target.name"}}>date</wired-radio>
+            <wired-radio name="boolean-field" onclick={{action (mut field.componentName) value="target.name"}}>boolean</wired-radio>
+          </wired-radio-group>
+        </fieldset>
+      </div>
+      <div class="w-1/2">
+        <label class="flex" style="line-height: 30px;">
+          enabled <wired-toggle checked={{field.enabled}} onclick={{action (mut field.enabled) value="target.checked"}}></wired-toggle>
+        </label>
+      </div>
+    </div>
+    <fieldset>
+      <legend>options</legend>
+      <label>
+        <wired-checkbox checked={{field.required}} type="checkbox" onclick={{action (mut field.required) value="target.checked"}}>required</wired-checkbox>
+      </label>
+    </fieldset>
+    <fieldset>
+      <legend>show errorMessages</legend>
+      <wired-radio-group selected={{field.displayErrorMessages}}>
+        <wired-radio type="radio" name="onInit" onclick={{action (mut field.displayErrorMessages) "onInit"}}>on init</wired-radio>
+        {{#unless isBoolean}}
+          <wired-radio type="radio" name="onBlur" onclick={{action (mut field.displayErrorMessages) "onBlur"}}>on blur</wired-radio>
+        {{/unless}}
+        <wired-radio type="radio" name="onUpdate" onclick={{action (mut field.displayErrorMessages) "onUpdate"}}>on value update</wired-radio>
+      </wired-radio-group>
+    </fieldset>
+    <fieldset>
+      <legend>validation messages</legend>
+      <div class="">
+        <label for="required-vmessage">required</label>
+        <input type="text" id="required-vmessage" oninput={{action (mut field.requiredValidationMessage) value="target.value"}}>
+      </div>
+    </fieldset>
+    <div class="leading-tight">
+      <a href>set value to undefined</a> <br>
+      <a href>set value to null</a>
+    </div>
+    <button type="button" name="button" {{action "reset"}}><wired-button>reset</wired-button></button>
+  </form>
+{{/if}}

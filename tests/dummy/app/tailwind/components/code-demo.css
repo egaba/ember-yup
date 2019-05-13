@@ -1,5 +1,5 @@
 .code-demo p {
-  @apply .mb-0 .text-red;
+  @apply .mb-0;
 }
 
 .code-demo pre {

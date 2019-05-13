@@ -7,5 +7,5 @@ export default Model.extend({
   required: DS.attr('boolean', { defaultValue: true }),
   enabled: DS.attr('boolean', { defaultValue: true }),
   requiredValidationMessage: DS.attr(),
-  displayErrorMessages: DS.attr({ defaultValue: 'init' })
+  displayErrorMessages: DS.attr({ defaultValue: 'onInit' })
 });
