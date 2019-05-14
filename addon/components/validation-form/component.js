@@ -159,7 +159,7 @@ export default Component.extend({
 
     if (!this.get('didEnableFields')) {
       this.get('formFields').forEach(function(field) {
-        field.set('enabled', true);
+        field.set('disabled', false);
         field.set('showErrorMessages', true);
       });
       this.set('didEnableFields', true);

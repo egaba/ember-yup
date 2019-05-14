@@ -114,14 +114,14 @@ export default Component.extend({
   },
 
   reload: Ember.observer('field.required', 'field.displayErrorMessages', function() {
-    // this.set('isReloading', true);
-    // this.set('didBlur', false);
-    // Ember.run.later(() => {
-    //   this.set('isReloading', false);
-    // }, 10);
+    this.set('isReloading', true);
+    this.set('didBlur', false);
+    Ember.run.later(() => {
+      this.set('isReloading', false);
+    }, 10);
   }),
 
-  resetField: Ember.observer('field.componentName', 'field.enabled', function() {
+  resetField: Ember.observer('field.componentName', 'field.disabled', function() {
     // this.get('field').setProperties(this.get('initialState'));
     // this.set('fieldValue', this.get('initialState.value'));
     // this.set('didBlur', false);

@@ -130,8 +130,8 @@ export default FormField.extend({
     return 0;
   }),
 
-  yieldedProperties: Ember.computed('charRemaining', 'errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', function() {
-    return this.getProperties('charRemaining', 'errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages');
+  yieldedProperties: Ember.computed('charRemaining', 'errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', 'disabled', function() {
+    return this.getProperties('charRemaining', 'errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', 'disabled');
   }),
 
   /**
@@ -140,8 +140,8 @@ export default FormField.extend({
     * @property {Promise} validation
     * @private
     */
-  validation: computed('value', 'enabled', 'dataSchema', 'charLimit', 'charLimitSchema', 'abortEarly', function() {
-    if (!this.get('enabled')) {
+  validation: computed('value', 'disabled', 'dataSchema', 'charLimit', 'charLimitSchema', 'abortEarly', function() {
+    if (this.get('disabled')) {
       return RSVP.resolve(); // TODO: should we reject?
     }
 

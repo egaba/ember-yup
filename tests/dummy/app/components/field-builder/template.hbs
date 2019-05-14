@@ -29,7 +29,7 @@
           )
           value=fieldValue
           required=field.required
-          enabled=field.enabled
+          disabled=field.disabled
           showErrorMessages=showErrorMessages
           showErrorMessagesOnUpdate=showErrorMessagesOnUpdate
           matches=field.stringMatches
@@ -45,12 +45,14 @@
                   onclick={{action (mut fieldValue) value="target.checked"}}
                 ></wired-checkbox>
               {{else}}
-                <wired-input
-                  value={{fieldValue}}
-                  placeholder={{field.componentName}}
-                  oninput={{action (mut fieldValue) value="target.value"}}
-                  onblur={{action (mut didBlur) true}}
-                ></wired-input>
+                <WiredInput
+                  @disabled={{f.disabled}}
+                  @value={{fieldValue}}
+                  @placeholder={{field.componentName}}
+                  @input={{action (mut fieldValue) value="target.value"}}
+                  @blur={{action (mut didBlur) true}}
+                >
+                </WiredInput>
               {{/if}}
               {{#each f.errorMessages as |message|}}
                 <p class="text-red text-sm">{{message}}</p>
@@ -64,7 +66,7 @@
                     <th>didValidate</th>
                     <th>hasErrors</th>
                     <th>showErrorMessages</th>
-                    <th>charRemaining</th>
+                    {{#if isText}}<th>charRemaining</th>{{/if}}
                   </tr>
                 </thead>
                 <tbody>
@@ -73,7 +75,7 @@
                     <td>{{f.didValidate}}</td>
                     <td>{{f.hasErrors}}</td>
                     <td>{{f.showErrorMessages}}</td>
-                    <td>{{f.charRemaining}}</td>
+                    {{#if isText}}<td>{{f.charRemaining}}</td>{{/if}}
                   </tr>
                 </tbody>
               </table>
@@ -85,7 +87,7 @@
   </wired-card>
 {{/if}}
 
-<p class="m-0 mb-2 text-right"><a class="cursor-pointer" {{action (mut showSettings) (not showSettings)}}>toggle settings</a></p>
+<p class="m-0 mb-2 text-right"><a class="cursor-pointer" {{action (mut showSettings) (not showSettings)}}>{{if showSettings "Hide settings ▽" "Show settings ▶"}}</a></p>
 {{#if showSettings}}
   <section class="field-settings">
     <WiredCard>
@@ -96,15 +98,15 @@
             <div class="control-field"></div>
           </div>
           <div class="field-row">
-            <label for="">Enable field?</label>
+            <label for="">Disable field?</label>
             <div class="control-field">
-              <WiredToggle @checked={{field.enabled}} @click={{action (mut field.enabled) value="target.checked"}}></WiredToggle>
+              <WiredToggle @checked={{field.disabled}} @click={{action (mut field.disabled) value="target.checked"}}></WiredToggle>
             </div>
           </div>
           <div class="field-row">
             <label for="">Data type</label>
             <div class="control-field">
-              <WiredSelect @selected={{field.componentName}} @select={{action (mut field.componentName) value="detail.selected"}}>
+              <WiredSelect @selected={{field.componentName}} @change={{action (mut field.componentName) value="detail.selected"}}>
                 <wired-item value="text-field">String</wired-item>
                 <wired-item value="number-field">Number</wired-item>
                 <wired-item value="date-field">Date</wired-item>
@@ -164,7 +166,7 @@
                 {{else if (eq field.subType "url")}}
                   <WiredInput @placeholder="must be a valid url" @input={{action (mut field.urlValidationMessage) value="target.value"}}></WiredInput>
                 {{else}}
-                  <WiredInput @placeholder="must be a valid field" @disabled=true></WiredInput>
+                  <WiredInput @placeholder="N/A" @disabled=true></WiredInput>
                 {{/if}}
               </div>
             </div>

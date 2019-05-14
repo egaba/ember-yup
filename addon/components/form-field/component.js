@@ -17,18 +17,24 @@ import layout from './template';
 export default Component.extend({
   layout,
 
+  attributeBindings: ['disabled'],
+
   init() {
     this._super(...arguments);
     this.readValidation();
   },
+
+  tagName: 'fieldset',
+
+  disabled: true,
 
   /**
    * Properties that are yielded to the template.
    *
    * @property {Object} yieldedProperties
    */
-  yieldedProperties: Ember.computed('errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', function() {
-    return this.getProperties('errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages');
+  yieldedProperties: Ember.computed('errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', 'disabled', function() {
+    return this.getProperties('errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', 'disabled');
   }),
 
   /**
@@ -139,13 +145,6 @@ export default Component.extend({
   }),
 
   /**
-    * Enables validation to occur on the field.
-    *
-    * @property {Boolean} enabled
-    */
-  enabled: false,
-
-  /**
     * Flag `true` if there are 1 or more errors.
     *
     * @property {Boolean} hasErrors
@@ -207,7 +206,7 @@ export default Component.extend({
   showErrorMessagesOnUpdate: true,
 
   /**
-   * If the field is `enabled`, the field will validate its `value`. If the validation passes,
+   * If the field is not `disabled`, the field will validate its `value`. If the validation passes,
    * the transformed value will be passed to its `onInput` or `onClick` handlers, if defined.
    * If the validation fails, errors will get added to the `errors` property, which populates
    * the fields `errorMessages`.
@@ -215,8 +214,8 @@ export default Component.extend({
    * @function readValidation
    * @private
    */
-  readValidation: observer('enabled', 'value', 'dataSchema', function(formField, updatedKeyName) {
-    if (this.get('enabled')) {
+  readValidation: observer('disabled', 'value', 'dataSchema', function(formField, updatedKeyName) {
+    if (!this.get('disabled')) {
       const value = this.get('value');
 
       if (!this.get('showErrorMessages') && this.get('showErrorMessagesOnUpdate') && updatedKeyName === 'value') {

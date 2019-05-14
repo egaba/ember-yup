@@ -8,5 +8,5 @@ export default Component.extend({
   placeholder: '',
   type: 'text',
   value: '',
-  attributeBindings: ['placeholder', 'disabled', 'type', 'value']
+  attributeBindings: ['placeholder', 'disabled', 'type', 'value', 'blur:onblur'],
 });

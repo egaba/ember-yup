@@ -8,9 +8,8 @@ export default Component.extend({
 
   didInsertElement() {
     this.element.addEventListener('selected', (e) => {
-      if (this.select) {
-        console.log('on select', e);
-        this.select(e);
+      if (this.change) {
+        this.change(e);
       }
     });
   }

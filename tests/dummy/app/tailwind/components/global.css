@@ -130,3 +130,8 @@ wired-radio {
 wired-combo {
   --wired-item-selected-bg: #1f9d55;
 }
+
+wired-slider {
+  --wired-slider-knob-zero-color: #9e9e9e;
+  --wired-slider-knob-color: #1f9d55;
+}

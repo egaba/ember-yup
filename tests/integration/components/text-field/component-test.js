@@ -30,7 +30,7 @@ module('Integration | Component | text-field', function(hooks) {
     // Template block usage:
     await render(hbs`
       {{#text-field
-        enabled=true
+        disabled=false
         required=true
         validationMessages=(hash
           required="username is required"

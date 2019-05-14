@@ -22,7 +22,7 @@
   {{#code-demo markup=requiredDemo}}
     {{#text-field
       showErrorMessages=true
-      enabled=true
+      disabled=false
       required=true
       value=username
       as |field|
@@ -43,7 +43,7 @@
     {{#text-field
       type="email"
       value=emailAddress
-      enabled=true
+      disabled=false
       as |field|
     }}
       <wired-input
@@ -62,7 +62,7 @@
     {{#text-field
       type="url"
       value=url
-      enabled=true
+      disabled=false
       as |field|
     }}
       <wired-input
@@ -79,7 +79,7 @@
 {{else if (eq example "regex")}}
   {{#code-demo markup=regexDemo}}
     {{#text-field
-      enabled=true
+      disabled=false
       matches="^\d{5}(-\d{4})?$"
       validationMessages=(hash
         matches="must be valid 5-digit or 9-digit zip code xxxxx-xxxx or xxxxx. regex: ${regex}"
@@ -101,7 +101,7 @@
 {{else if (eq example "charLimit")}}
   {{#code-demo markup=charLimitDemo}}
     {{#text-field
-      enabled=true
+      disabled=false
       charLimit=10
       value=charLimitText
       validationMessages=(hash
@@ -124,7 +124,7 @@
   {{#code-demo markup=stackedDemo}}
     {{#text-field
       showErrorMessages=true
-      enabled=true
+      disabled=false
       matches="^[a-zA-Z0-9]+$"
       charLimit=14
       value=strictUsername

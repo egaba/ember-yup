@@ -8,7 +8,7 @@ export default Controller.extend({
   }),
   dateDemo: `
     {{#date-field
-      enabled=true
+      disabled=false
       value=date
       as |field|
     }}
@@ -26,7 +26,7 @@ export default Controller.extend({
   requiredDemo: `
     {{#date-field
       showErrorMessages=true
-      enabled=true
+      disabled=false
       value=requiredDate
       required=true
       as |field|
@@ -44,7 +44,7 @@ export default Controller.extend({
   `,
   futureDateDemo: `
     {{#date-field
-      enabled=true
+      disabled=false
       value=minDate
       min=todaysDate
       required=true
@@ -63,7 +63,7 @@ export default Controller.extend({
   `,
   pastDateDemo: `
     {{#date-field
-      enabled=true
+      disabled=false
       value=maxDate
       required=true
       max=todaysDate
@@ -82,7 +82,7 @@ export default Controller.extend({
   `,
   inclusiveDateDemo: `
     {{#date-field
-      enabled=true
+      disabled=false
       value=inclusiveDate
       min="January 1, 2019"
       max="December 31, 2019"

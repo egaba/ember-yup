@@ -11,16 +11,16 @@
     <section>
       <h2 id="basics">Enabling fields and displaying messages</h2>
       <p>
-        By default, form fields will not validate until they are <code class="snippet">enabled</code>.
+        By default, form fields will not validate until <code class="snippet">disabled=false</code>.
         Fields aggregate error messages in an <code class="snippet">errorMessages</code> array
         that is passed down with the field.
       </p>
-      <p>Pass <code class="snippet">enabled=true</code> to the form field to enable the field.</p>
+      <p>Pass <code class="snippet">disabled=false</code> to the form field to enable the field.</p>
       {{markdown-to-html formFieldBasicsSnippet class="codeblock"}}
       <p>
         When form fields initialize, they will validate but won't display error messages until their value first changes.
         To show error messages on init, set <code class="snippet">showErrorMessages=true</code>
-        (as well as <code class="snippet">enabled=true</code>). Otherwise, <code class="snippet">showErrorMessages</code>
+        (as well as <code class="snippet">disabled=false</code>). Otherwise, <code class="snippet">showErrorMessages</code>
         will be set to <code class="snippet">true</code> after it detects its first <code class="snippet">value</code>
         change.
       </p>
@@ -34,7 +34,7 @@
       {{#code-demo markup=overrideMessagesSnippet}}
         {{#text-field
           required=true
-          enabled=true
+          disabled=false
           type="email"
           value=customMessagesValue
           validationMessages=(hash
