@@ -21,13 +21,20 @@
     <div class="pt-2 pb-10 px-2 demo">
       {{#unless isReloading}}
         {{#component field.componentName
-          validationMessages=(hash required=field.requiredValidationMessage)
+          type=field.subType
+          validationMessages=(hash
+            required=field.requiredValidationMessage
+            matches=field.matchesValidationMessage
+            charLimit=field.charLimitValidationMessage
+          )
           value=fieldValue
           required=field.required
           enabled=field.enabled
           showErrorMessages=showErrorMessages
           showErrorMessagesOnUpdate=showErrorMessagesOnUpdate
-          as |field|
+          matches=field.stringMatches
+          charLimit=field.stringCharLimit
+          as |f|
         }}
           <div class="flex">
             <div class="w-2/5">
@@ -36,16 +43,16 @@
                   class="cursor-pointer"
                   checked={{fieldValue}}
                   onclick={{action (mut fieldValue) value="target.checked"}}
-                >{{field.componentName}}</wired-checkbox>
+                ></wired-checkbox>
               {{else}}
                 <wired-input
                   value={{fieldValue}}
                   placeholder={{field.componentName}}
                   oninput={{action (mut fieldValue) value="target.value"}}
                   onblur={{action (mut didBlur) true}}
-                ></wired-input>
+                ></wired-input> {{#if field.stringCharLimit}}<span>characters remaining: {{f.charRemaining}}</span>{{/if}}
               {{/if}}
-              {{#each field.errorMessages as |message|}}
+              {{#each f.errorMessages as |message|}}
                 <p class="text-red text-sm">{{message}}</p>
               {{/each}}
             </div>
@@ -57,14 +64,16 @@
                     <th>didValidate</th>
                     <th>hasErrors</th>
                     <th>showErrorMessages</th>
+                    <th>charRemaining</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>{{fieldValueType}}</td>
-                    <td>{{field.didValidate}}</td>
-                    <td>{{field.hasErrors}}</td>
-                    <td>{{field.showErrorMessages}}</td>
+                    <td>{{f.didValidate}}</td>
+                    <td>{{f.hasErrors}}</td>
+                    <td>{{f.showErrorMessages}}</td>
+                    <td>{{f.charRemaining}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -102,6 +111,27 @@
       <label>
         <wired-checkbox checked={{field.required}} type="checkbox" onclick={{action (mut field.required) value="target.checked"}}>required</wired-checkbox>
       </label>
+      {{#if isText}}
+        <fieldset>
+          <legend class="mb-1">string subtype</legend>
+          <wired-radio-group selected={{field.subType}}>
+            <wired-radio name="none" onclick={{action (mut field.subType) value="target.name"}}>none</wired-radio>
+            <wired-radio name="email" onclick={{action (mut field.subType) value="target.name"}}>email</wired-radio>
+            <wired-radio name="url" onclick={{action (mut field.subType) value="target.name"}}>url</wired-radio>
+            <wired-radio name="matches" onclick={{action (mut field.subType) value="target.name"}}>regex</wired-radio>
+          </wired-radio-group>
+        </fieldset>
+        {{#if isStringMatches}}
+          <label>
+            regex
+            <wired-input placeholder="^\d{5}(-\d{4})?$" oninput={{action (mut field.stringMatches) value="target.value"}}></wired-input>
+          </label>
+        {{/if}}
+        <label>
+          character limit
+          <wired-input placeholder="enter a char limit" oninput={{action (mut field.stringCharLimit) value="target.value"}}></wired-input>
+        </label>
+      {{/if}}
     </fieldset>
     <fieldset>
       <legend>show errorMessages</legend>
@@ -118,6 +148,14 @@
       <div class="">
         <label for="required-vmessage">required</label>
         <input type="text" id="required-vmessage" oninput={{action (mut field.requiredValidationMessage) value="target.value"}}>
+      </div>
+      <div class="">
+        <label for="matches-vmessage">matches</label>
+        <input type="text" id="matches-vmessage" oninput={{action (mut field.matchesValidationMessage) value="target.value"}}>
+      </div>
+      <div class="">
+        <label for="charlimit-vmessage">character limit</label>
+        <input type="text" id="charlimit-vmessage" oninput={{action (mut field.charLimitValidationMessage) value="target.value"}}>
       </div>
     </fieldset>
     <div class="leading-tight">

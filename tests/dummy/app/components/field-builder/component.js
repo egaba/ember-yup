@@ -7,6 +7,18 @@ export default Component.extend({
   isBoolean: Ember.computed('field.componentName', function() {
     return /bool/.test(this.get('field.componentName'));
   }),
+  isText: Ember.computed('field.componentName', function() {
+    return /text/.test(this.get('field.componentName'));
+  }),
+  isStringMatches: Ember.computed('isText', 'field.subType', function() {
+    return this.get('isText') && this.get('field.subType') === 'matches';
+  }),
+  isNumber: Ember.computed('field.componentName', function() {
+    return /number/.test(this.get('field.componentName'));
+  }),
+  isDate: Ember.computed('field.componentName', function() {
+    return /date/.test(this.get('field.componentName'));
+  }),
   showErrorMessages: Ember.computed('field.displayErrorMessages', 'didBlur', function() {
     const blur = this.get('field.displayErrorMessages') === 'onBlur' && this.get('didBlur');
     return this.get('field.displayErrorMessages') === 'onInit' || blur;
@@ -15,10 +27,10 @@ export default Component.extend({
   showErrorMessagesOnUpdate: Ember.computed('field.displayErrorMessages', function() {
     return this.get('field.displayErrorMessages') === 'onBlur' ? false : true;
   }),
-  fieldMarkup: Ember.computed('showErrorMessages', 'field.componentName', 'field.displayErrorMessages', 'field.required', 'showErrorMessagesOnUpdate', function() {
+  fieldMarkup: Ember.computed('field.stringCharLimit', 'field.stringMatches', 'isText', 'field.subType', 'showErrorMessages', 'field.componentName', 'field.displayErrorMessages', 'field.required', 'showErrorMessagesOnUpdate', function() {
     const componentName = this.get('field.componentName');
     const displayErrorMessages = this.get('field.displayErrorMessages');
-    let controlMarkup, errorMessagesMarkup = '', toggleErrorMessagesOnBlur = '';
+    let controlMarkup, errorMessagesMarkup = '', toggleErrorMessagesOnBlur = '', subTypeMarkup = '';
 
     if (displayErrorMessages === 'onInit') {
       errorMessagesMarkup = `
@@ -44,12 +56,36 @@ export default Component.extend({
       >`;
     }
 
+    const subType = this.get('field.subType');
+    const isText = this.get('isText');
+    let charLimitMarkup = '';
+
+    if (isText) {
+      if (this.get('isStringMatches')) {
+        subTypeMarkup = `
+      matches="${this.get('field.stringMatches') || ''}"`;
+      } else {
+        if (subType === 'email') {
+          subTypeMarkup = `
+        type="email"`;
+        } else if (subType === 'url') {
+          subTypeMarkup = `
+        type="url"`;
+        }
+      }
+
+      if (this.get('field.stringCharLimit')) {
+        charLimitMarkup = `
+      charLimit="${this.get('field.stringCharLimit')}"`
+      }
+    }
+
     const requiredMarkup = this.get('field.required') ? `
       required=true` : '';
 
     return `
     {{#${componentName}
-      value=fieldValue${requiredMarkup}${errorMessagesMarkup}
+      value=fieldValue${requiredMarkup}${errorMessagesMarkup}${subTypeMarkup}${charLimitMarkup}
       as |field|
     }}
       ${controlMarkup}

@@ -6,6 +6,14 @@ export default Model.extend({
   value: DS.attr(),
   required: DS.attr('boolean', { defaultValue: true }),
   enabled: DS.attr('boolean', { defaultValue: true }),
+  displayErrorMessages: DS.attr({ defaultValue: 'onInit' }),
+  subType: DS.attr({ defaultValue: 'none' }),
+  stringMatches: DS.attr(),
+  stringCharLimit: DS.attr('number', { defaultValue: 0 }),
+
+
+
   requiredValidationMessage: DS.attr(),
-  displayErrorMessages: DS.attr({ defaultValue: 'onInit' })
+  matchesValidationMessage: DS.attr(),
+  charLimitValidationMessage: DS.attr()
 });
