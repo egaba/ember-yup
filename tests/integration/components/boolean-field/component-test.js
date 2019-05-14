@@ -30,7 +30,6 @@ module('Integration | Component | boolean-field', function(hooks) {
     // Template block usage:
     await render(hbs`
       {{#boolean-field
-        disabled=false
         required=true
         validationMessages=(hash
           required="You must agree to Terms of Service"

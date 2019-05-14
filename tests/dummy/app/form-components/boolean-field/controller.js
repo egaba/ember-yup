@@ -7,7 +7,6 @@ export default Controller.extend({
   boolDemo: `
     {{#boolean-field
       showErrorMessages=true
-      disabled=false
       required=true
       value=checkboxValue
       as |field|
@@ -25,7 +24,7 @@ export default Controller.extend({
     {{/boolean-field}}
   `,
   simpleBoolExample: `
-    {{#boolean-field disabled=false required=true value=agreedToTerms as |field|}}
+    {{#boolean-field required=true value=agreedToTerms as |field|}}
       <label>
         <input
           type="checkbox"

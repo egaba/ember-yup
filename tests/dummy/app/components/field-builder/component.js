@@ -13,6 +13,13 @@ export default Component.extend({
   isStringMatches: Ember.computed('isText', 'field.subType', function() {
     return this.get('isText') && this.get('field.subType') === 'matches';
   }),
+  stringMatches: Ember.computed('isStringMatches', 'field.stringMatches', function() {
+    let regex = '';
+    if (this.get('isStringMatches')) {
+      regex = this.get('field.stringMatches');
+    }
+    return regex;
+  }),
   isNumber: Ember.computed('field.componentName', function() {
     return /number/.test(this.get('field.componentName'));
   }),
@@ -27,10 +34,52 @@ export default Component.extend({
   showErrorMessagesOnUpdate: Ember.computed('field.displayErrorMessages', function() {
     return this.get('field.displayErrorMessages') === 'onBlur' ? false : true;
   }),
-  fieldMarkup: Ember.computed('field.stringCharLimit', 'field.stringMatches', 'isText', 'field.subType', 'showErrorMessages', 'field.componentName', 'field.displayErrorMessages', 'field.required', 'showErrorMessagesOnUpdate', function() {
+  validationMessagesMarkup: Ember.computed('field.requiredValidationMessage',
+  'field.matchesValidationMessage', 'field.matchesValidationMessage', 'field.charLimitValidationMessage',
+  'field.emailValidationMessage', 'field.urlValidationMessage', 'field.required', 'isText', 'isStringMatches',
+  function() {
+
+    const messages = [];
+
+    if (this.get('field.required') && this.get('field.requiredValidationMessage')) {
+      messages.push(`required="${this.get('field.requiredValidationMessage')}"`);
+    }
+
+    if (this.get('isText')) {
+      if (this.get('field.subType') === 'email') {
+        messages.push(`email="${this.get('field.emailValidationMessage')}"`);
+      } else if (this.get('field.subType') === 'url') {
+        messages.push(`url="${this.get('field.urlValidationMessage')}"`);
+      } else if (this.get('isStringMatches')) {
+        messages.push(`matches="${this.get('field.matchesValidationMessage')}"`);
+      }
+    }
+
+    let validationMessagesMarkup = '';
+
+    if (messages.length) {
+      validationMessagesMarkup = `
+      validationMessages=(hash`;
+
+      messages.forEach(function(msg) {
+        validationMessagesMarkup += `
+        ${msg}`;
+      });
+
+      validationMessagesMarkup += `
+      )`;
+    }
+
+    return validationMessagesMarkup;
+  }),
+  fieldMarkup: Ember.computed(
+      'field.required', 'field.stringCharLimit', 'field.stringMatches', 'isText',
+      'field.subType', 'showErrorMessages', 'field.componentName', 'field.displayErrorMessages',
+      'field.required', 'showErrorMessagesOnUpdate', 'validationMessagesMarkup',
+  function() {
     const componentName = this.get('field.componentName');
     const displayErrorMessages = this.get('field.displayErrorMessages');
-    let controlMarkup, errorMessagesMarkup = '', toggleErrorMessagesOnBlur = '', subTypeMarkup = '';
+    let controlMarkup, errorMessagesMarkup = '', toggleErrorMessagesOnBlur = '', subTypeMarkup = '', validationMessagesMarkup = this.get('validationMessagesMarkup');
 
     if (displayErrorMessages === 'onInit') {
       errorMessagesMarkup = `
@@ -67,10 +116,10 @@ export default Component.extend({
       } else {
         if (subType === 'email') {
           subTypeMarkup = `
-        type="email"`;
+      type="email"`;
         } else if (subType === 'url') {
           subTypeMarkup = `
-        type="url"`;
+      type="url"`;
         }
       }
 
@@ -85,7 +134,7 @@ export default Component.extend({
 
     return `
     {{#${componentName}
-      value=fieldValue${requiredMarkup}${errorMessagesMarkup}${subTypeMarkup}${charLimitMarkup}
+      value=fieldValue${requiredMarkup}${errorMessagesMarkup}${subTypeMarkup}${charLimitMarkup}${validationMessagesMarkup}
       as |field|
     }}
       ${controlMarkup}
@@ -107,13 +156,14 @@ export default Component.extend({
       'required',
       'showErrorMessages',
       'requiredValidationMessage',
-      'value'
+      'value',
+      'stringMatches'
     );
 
     this.set('initialState', initialState);
   },
 
-  reload: Ember.observer('field.required', 'field.displayErrorMessages', function() {
+  reload: Ember.observer('field.required', 'field.displayErrorMessages', 'field.subType', function() {
     this.set('isReloading', true);
     this.set('didBlur', false);
     Ember.run.later(() => {
@@ -121,15 +171,22 @@ export default Component.extend({
     }, 10);
   }),
 
-  resetField: Ember.observer('field.componentName', 'field.disabled', function() {
-    // this.get('field').setProperties(this.get('initialState'));
-    // this.set('fieldValue', this.get('initialState.value'));
-    // this.set('didBlur', false);
-    // this.reload();
+  resetField: Ember.observer('field.disabled', function() {
+    this.get('field').setProperties(this.get('initialState'));
+    this.set('fieldValue', this.get('initialState.value'));
+    this.set('didBlur', false);
+    this.reload();
+  }),
+
+  refreshSettings: Ember.observer('field.componentName', function() {
+    const cardId = `${this.get('elementId')}-settings-card`;
+    Ember.run.next(function() {
+      document.getElementById(cardId).requestUpdate();
+    });
   }),
 
   isReloading: false,
-  showSettings: true,
+  showSettings: false,
 
   currentTab: 'demo',
   classNames: ['code-demo', 'mb-8'],

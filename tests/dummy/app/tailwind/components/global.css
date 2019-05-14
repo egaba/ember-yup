@@ -128,10 +128,23 @@ wired-radio {
 }
 
 wired-combo {
-  --wired-item-selected-bg: #1f9d55;
+  --wired-item-selected-bg: #38c172;
 }
 
 wired-slider {
   --wired-slider-knob-zero-color: #9e9e9e;
   --wired-slider-knob-color: #1f9d55;
+}
+
+.code-demo .settings-toggle {
+  @apply .cursor-pointer;
+  padding-top: 2px;
+  background: white;
+  position: absolute;
+  bottom: 7px;
+  right: 7px;
+  padding-left: 6px;
+  border-top-left-radius: 5px;
+  font-size: 14px;
+  z-index: 15;
 }

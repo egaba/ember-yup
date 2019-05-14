@@ -5,7 +5,6 @@ export default Controller.extend({
   queryParams: ['example'],
   numberDemo: `
     {{#number-field
-      disabled=false
       value=simpleNumber
       as |field|
     }}
@@ -23,7 +22,6 @@ export default Controller.extend({
   requiredDemo: `
     {{#number-field
       showErrorMessages=true
-      disabled=false
       required=true
       value=requiredNumber
       as |field|
@@ -41,7 +39,6 @@ export default Controller.extend({
   `,
   integerDemo: `
     {{#number-field
-      disabled=false
       value=integer
       integer=true
       as |field|
@@ -59,7 +56,6 @@ export default Controller.extend({
   `,
   positiveDemo: `
     {{#number-field
-      disabled=false
       value=positiveNumber
       positive=true
       as |field|
@@ -77,7 +73,6 @@ export default Controller.extend({
   `,
   negativeDemo: `
     {{#number-field
-      disabled=false
       value=negativeNumber
       negative=true
       as |field|
@@ -95,7 +90,6 @@ export default Controller.extend({
   `,
   minDemo: `
     {{#number-field
-      disabled=false
       value=minValue
       min=5
       as |field|
@@ -114,7 +108,6 @@ export default Controller.extend({
   maxDemo: `
     {{#code-demo markup=maxDemo}}
       {{#number-field
-        disabled=false
         value=minValue
         max=10
         as |field|
@@ -133,7 +126,6 @@ export default Controller.extend({
   `,
   gtDemo: `
     {{#number-field
-      disabled=false
       value=gtValue
       gt=6
       as |field|
@@ -151,7 +143,6 @@ export default Controller.extend({
   `,
   ltDemo: `
     {{#number-field
-      disabled=false
       value=ltValue
       lt=15
       as |field|
@@ -169,7 +160,6 @@ export default Controller.extend({
   `,
   stackedDemo: `
     {{#number-field
-      disabled=false
       value=userAge
       positive=true
       integer=true

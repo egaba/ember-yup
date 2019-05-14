@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 
 export default Controller.extend({
   formFieldBasicsSnippet: `
-    {{#text-field disabled=false type="email" value=myEmailValue as |field|}}
+    {{#text-field type="email" value=myEmailValue as |field|}}
       <input
         placeholder="Email address"
         type="text"
@@ -17,7 +17,6 @@ export default Controller.extend({
   overrideMessagesSnippet: `
     {{#text-field
       required=true
-      disabled=false
       type="email"
       value=customEmailMessageValue
       validationMessages=(hash
@@ -77,7 +76,6 @@ export default Controller.extend({
   `,
   beforeTransformExample: `
     {{#number-field
-      disabled=false
       value=myAgeValue
       positive=true
       integer=true
@@ -100,7 +98,6 @@ export default Controller.extend({
   `,
   afterTransformExample: `
     {{#number-field
-      disabled=false
       value=myAgeValue
       positive=true
       integer=true

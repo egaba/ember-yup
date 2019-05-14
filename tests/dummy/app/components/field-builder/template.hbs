@@ -9,6 +9,9 @@
     {{#unless isReloading}}
       {{markdown-to-html fieldMarkup}}
     {{/unless}}
+    <p class="m-0 mb-2 text-right">
+      <a class="settings-toggle" {{action (mut showSettings) (not showSettings)}}>{{if showSettings "Hide settings ▽" "Show settings ▶"}}</a>
+    </p>
   </wired-card>
 {{else if (eq currentTab "demo")}}
   <wired-card class="block demo-container relative">
@@ -26,13 +29,15 @@
             required=field.requiredValidationMessage
             matches=field.matchesValidationMessage
             charLimit=field.charLimitValidationMessage
+            email=field.emailValidationMessage
+            url=field.urlValidationMessage
           )
           value=fieldValue
           required=field.required
           disabled=field.disabled
           showErrorMessages=showErrorMessages
           showErrorMessagesOnUpdate=showErrorMessagesOnUpdate
-          matches=field.stringMatches
+          matches=stringMatches
           charLimit=field.stringCharLimit
           as |f|
         }}
@@ -84,13 +89,15 @@
         {{/component}}
       {{/unless}}
     </div>
+    <p class="m-0 mb-2 text-right">
+      <a class="settings-toggle" {{action (mut showSettings) (not showSettings)}}>{{if showSettings "Hide settings ▽" "Show settings ▶"}}</a>
+    </p>
   </wired-card>
 {{/if}}
 
-<p class="m-0 mb-2 text-right"><a class="cursor-pointer" {{action (mut showSettings) (not showSettings)}}>{{if showSettings "Hide settings ▽" "Show settings ▶"}}</a></p>
 {{#if showSettings}}
   <section class="field-settings">
-    <WiredCard>
+    <WiredCard id="{{elementId}}-settings-card">
       <div class="flex">
         <div class="w-1/2">
           <div class="field-row">
@@ -173,7 +180,7 @@
             <div class="field-row">
               <label for="">Regex pattern</label>
               <div class="control-field">
-                <WiredInput @disabled={{not isStringMatches}} @placeholder="^\d{5}(-\d{4})?$" @input={{action (mut field.stringMatches) value="target.value"}}></WiredInput>
+                <WiredInput @value={{field.stringMatches}} @disabled={{not isStringMatches}} @placeholder="^\d{5}(-\d{4})?$" @input={{action (mut field.stringMatches) value="target.value"}}></WiredInput>
               </div>
             </div>
             <div class="field-row">

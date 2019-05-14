@@ -26,7 +26,7 @@ export default Component.extend({
 
   tagName: 'fieldset',
 
-  disabled: true,
+  disabled: false,
 
   /**
    * Properties that are yielded to the template.

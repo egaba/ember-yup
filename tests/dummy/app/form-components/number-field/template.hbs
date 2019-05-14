@@ -18,7 +18,6 @@ style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;"
 {{#if (eq example "number")}}
   {{#code-demo markup=numberDemo}}
     {{#number-field
-      disabled=false
       value=simpleNumber
       as |field|
     }}
@@ -37,7 +36,6 @@ style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;"
   {{#code-demo markup=requiredDemo}}
     {{#number-field
       showErrorMessages=true
-      disabled=false
       required=true
       value=requiredNumber
       as |field|
@@ -56,7 +54,6 @@ style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;"
 {{else if (eq example "integer")}}
   {{#code-demo markup=integerDemo}}
     {{#number-field
-      disabled=false
       value=integer
       integer=true
       as |field|
@@ -75,7 +72,6 @@ style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;"
 {{else if (eq example "positive")}}
   {{#code-demo markup=positiveDemo}}
     {{#number-field
-      disabled=false
       value=positiveNumber
       positive=true
       as |field|
@@ -94,7 +90,6 @@ style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;"
 {{else if (eq example "negative")}}
   {{#code-demo markup=negativeDemo}}
     {{#number-field
-      disabled=false
       value=negativeNumber
       negative=true
       as |field|
@@ -113,7 +108,6 @@ style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;"
 {{else if (eq example "min")}}
   {{#code-demo markup=minDemo}}
     {{#number-field
-      disabled=false
       value=minValue
       min=5
       as |field|
@@ -132,7 +126,6 @@ style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;"
 {{else if (eq example "max")}}
   {{#code-demo markup=maxDemo}}
     {{#number-field
-      disabled=false
       value=maxValue
       max=10
       as |field|
@@ -151,7 +144,6 @@ style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;"
 {{else if (eq example "gt")}}
   {{#code-demo markup=gtDemo}}
     {{#number-field
-      disabled=false
       value=gtValue
       gt=6
       as |field|
@@ -170,7 +162,6 @@ style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;"
 {{else if (eq example "lt")}}
   {{#code-demo markup=ltDemo}}
     {{#number-field
-      disabled=false
       value=ltValue
       lt=15
       as |field|
@@ -189,7 +180,6 @@ style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;"
 {{else if (eq example "stacked")}}
   {{#code-demo markup=stackedDemo}}
     {{#number-field
-      disabled=false
       value=userAge
       positive=true
       integer=true

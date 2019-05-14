@@ -30,7 +30,6 @@ module('Integration | Component | date-field', function(hooks) {
     // Template block usage:
     await render(hbs`
       {{#text-field
-        disabled=false
         required=true
         validationMessages=(hash
           required="birthdate is required"

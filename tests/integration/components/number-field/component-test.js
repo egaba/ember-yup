@@ -30,7 +30,6 @@ module('Integration | Component | number-field', function(hooks) {
     // Template block usage:
     await render(hbs`
       {{#number-field
-        disabled=false
         required=true
         validationMessages=(hash
           dataType="age is required"

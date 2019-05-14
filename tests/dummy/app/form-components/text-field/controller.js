@@ -6,7 +6,6 @@ export default Controller.extend({
   requiredDemo: `
     {{#text-field
       showErrorMessages=true
-      disabled=false
       required=true
       value=username
       as |field|
@@ -26,7 +25,6 @@ export default Controller.extend({
     {{#text-field
       type="email"
       value=emailAddress
-      disabled=false
       as |field|
     }}
       <input
@@ -44,7 +42,6 @@ export default Controller.extend({
     {{#text-field
       type="url"
       value=url
-      disabled=false
       as |field|
     }}
       <input
@@ -60,7 +57,6 @@ export default Controller.extend({
   `,
   regexDemo: `
     {{#text-field
-      disabled=false
       matches="^\\d{5}(-\\d{4})?$"
       validationMessages=(hash
         matches="must be valid 5-digit or 9-digit zip code xxxxx-xxxx or xxxxx. regex: \${regex}"
@@ -81,7 +77,6 @@ export default Controller.extend({
   `,
   charLimitDemo: `
     {{#text-field
-      disabled=false
       charLimit=10
       value=charLimitText
       validationMessages=(hash
@@ -104,7 +99,6 @@ export default Controller.extend({
   stackedDemo: `
     {{#text-field
       showErrorMessages=true
-      disabled=false
       matches="^[a-zA-Z0-9]+\$"
       charLimit=14
       value=strictUsername

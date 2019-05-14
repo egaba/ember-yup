@@ -12,7 +12,6 @@
 {{#if (eq example "date")}}
   {{#code-demo markup=dateDemo}}
     {{#date-field
-      disabled=false
       value=date
       as |field|
     }}
@@ -31,7 +30,6 @@
   {{#code-demo markup=requiredDemo}}
     {{#date-field
       showErrorMessages=true
-      disabled=false
       value=requiredDate
       required=true
       as |field|
@@ -50,7 +48,6 @@
 {{else if (eq example "future")}}
   {{#code-demo markup=futureDateDemo}}
     {{#date-field
-      disabled=false
       value=minDate
       min=todaysDate
       required=true
@@ -70,7 +67,6 @@
 {{else if (eq example "past")}}
   {{#code-demo markup=pastDateDemo}}
     {{#date-field
-      disabled=false
       value=maxDate
       required=true
       max=todaysDate
@@ -90,7 +86,6 @@
 {{else if (eq example "inclusive")}}
   {{#code-demo markup=inclusiveDateDemo}}
     {{#date-field
-      disabled=false
       value=inclusiveDate
       min="January 1, 2019"
       max="December 31, 2019"
