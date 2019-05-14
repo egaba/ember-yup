@@ -114,18 +114,18 @@ export default Component.extend({
   },
 
   reload: Ember.observer('field.required', 'field.displayErrorMessages', function() {
-    this.set('isReloading', true);
-    this.set('didBlur', false);
-    Ember.run.later(() => {
-      this.set('isReloading', false);
-    }, 10);
+    // this.set('isReloading', true);
+    // this.set('didBlur', false);
+    // Ember.run.later(() => {
+    //   this.set('isReloading', false);
+    // }, 10);
   }),
 
   resetField: Ember.observer('field.componentName', 'field.enabled', function() {
-    this.get('field').setProperties(this.get('initialState'));
-    this.set('fieldValue', this.get('initialState.value'));
-    this.set('didBlur', false);
-    this.reload();
+    // this.get('field').setProperties(this.get('initialState'));
+    // this.set('fieldValue', this.get('initialState.value'));
+    // this.set('didBlur', false);
+    // this.reload();
   }),
 
   isReloading: false,
@@ -134,9 +134,15 @@ export default Component.extend({
   currentTab: 'demo',
   classNames: ['code-demo', 'mb-8'],
 
+  settingsTab: 'general',
+
   actions: {
     reset() {
       this.resetField();
     },
+
+    setCharLimit(e) {
+      this.set('field.stringCharLimit', Math.round(e.target.value, 10));
+    }
   }
 });

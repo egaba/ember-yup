@@ -50,7 +50,7 @@
                   placeholder={{field.componentName}}
                   oninput={{action (mut fieldValue) value="target.value"}}
                   onblur={{action (mut didBlur) true}}
-                ></wired-input> {{#if field.stringCharLimit}}<span>characters remaining: {{f.charRemaining}}</span>{{/if}}
+                ></wired-input>
               {{/if}}
               {{#each f.errorMessages as |message|}}
                 <p class="text-red text-sm">{{message}}</p>
@@ -87,81 +87,102 @@
 
 <p class="m-0 mb-2 text-right"><a class="cursor-pointer" {{action (mut showSettings) (not showSettings)}}>toggle settings</a></p>
 {{#if showSettings}}
-  <form>
-    <div class="flex">
-      <div class="w-1/2">
-        <fieldset>
-          <legend class="mb-1">data type</legend>
-          <wired-radio-group selected={{field.componentName}}>
-            <wired-radio name="text-field" onclick={{action (mut field.componentName) value="target.name"}}>string</wired-radio>
-            <wired-radio name="number-field" onclick={{action (mut field.componentName) value="target.name"}}>number</wired-radio>
-            <wired-radio name="date-field" onclick={{action (mut field.componentName) value="target.name"}}>date</wired-radio>
-            <wired-radio name="boolean-field" onclick={{action (mut field.componentName) value="target.name"}}>boolean</wired-radio>
-          </wired-radio-group>
-        </fieldset>
+  <section class="field-settings">
+    <WiredCard>
+      <div class="flex">
+        <div class="w-1/2">
+          <div class="field-row">
+            <h3>General</h3>
+            <div class="control-field"></div>
+          </div>
+          <div class="field-row">
+            <label for="">Enable field?</label>
+            <div class="control-field">
+              <WiredToggle @checked={{field.enabled}} @click={{action (mut field.enabled) value="target.checked"}}></WiredToggle>
+            </div>
+          </div>
+          <div class="field-row">
+            <label for="">Data type</label>
+            <div class="control-field">
+              <WiredSelect @selected={{field.componentName}} @select={{action (mut field.componentName) value="detail.selected"}}>
+                <wired-item value="text-field">String</wired-item>
+                <wired-item value="number-field">Number</wired-item>
+                <wired-item value="date-field">Date</wired-item>
+                <wired-item value="boolean-field">Boolean</wired-item>
+              </WiredSelect>
+            </div>
+          </div>
+          <div class="field-row">
+            <label for="">Show error messages</label>
+            <div class="control-field">
+              <WiredRadioGroup @selected={{field.displayErrorMessages}}>
+                <WiredRadio @name="onInit" @click={{action (mut field.displayErrorMessages) value="target.name"}}>on init</WiredRadio>
+                {{#unless isBoolean}}
+                  <WiredRadio @name="onBlur" @click={{action (mut field.displayErrorMessages) value="target.name"}}>on blur</WiredRadio>
+                {{/unless}}
+                <WiredRadio @name="onUpdate" @click={{action (mut field.displayErrorMessages) value="target.name"}}>on value update</WiredRadio>
+              </WiredRadioGroup>
+            </div>
+          </div>
+        </div>
+        <div class="w-1/2">
+          <div class="field-row">
+            <h3>Validation Options</h3>
+            <div class="control-field"></div>
+          </div>
+          <div class="field-row">
+            <label for="">Require value?</label>
+            <div class="control-field">
+              <WiredToggle @checked={{field.required}} @click={{action (mut field.required) value="target.checked"}}></WiredToggle>
+            </div>
+          </div>
+          <div class="field-row">
+            <label for="">Required message</label>
+            <div class="control-field">
+              <WiredInput @placeholder="this is a required field" @disabled={{not field.required}} @value={{field.requiredValidationMessage}} @input={{action (mut field.requiredValidationMessage) value="target.value"}}></WiredInput>
+            </div>
+          </div>
+          {{#if isText}}
+            <div class="field-row">
+              <label for="">String subtype</label>
+              <div class="control-field">
+                <WiredRadioGroup @selected={{field.subType}}>
+                  <WiredRadio @name="none" @click={{action (mut field.subType) value="target.name"}}>none</WiredRadio>
+                  <WiredRadio @name="email" @click={{action (mut field.subType) value="target.name"}}>email</WiredRadio>
+                  <WiredRadio @name="url" @click={{action (mut field.subType) value="target.name"}}>url</WiredRadio>
+                  <WiredRadio @name="matches" @click={{action (mut field.subType) value="target.name"}}>regex</WiredRadio>
+                </WiredRadioGroup>
+              </div>
+            </div>
+            <div class="field-row">
+              <label for="">Subtype message</label>
+              <div class="control-field">
+                {{#if isStringMatches}}
+                  <WiredInput @placeholder="must match ${regex}" @input={{action (mut field.matchesValidationMessage) value="target.value"}}></WiredInput>
+                {{else if (eq field.subType "email")}}
+                  <WiredInput @placeholder="must be a valid email" @input={{action (mut field.emailValidationMessage) value="target.value"}}></WiredInput>
+                {{else if (eq field.subType "url")}}
+                  <WiredInput @placeholder="must be a valid url" @input={{action (mut field.urlValidationMessage) value="target.value"}}></WiredInput>
+                {{else}}
+                  <WiredInput @placeholder="must be a valid field" @disabled=true></WiredInput>
+                {{/if}}
+              </div>
+            </div>
+            <div class="field-row">
+              <label for="">Regex pattern</label>
+              <div class="control-field">
+                <WiredInput @disabled={{not isStringMatches}} @placeholder="^\d{5}(-\d{4})?$" @input={{action (mut field.stringMatches) value="target.value"}}></WiredInput>
+              </div>
+            </div>
+            <div class="field-row">
+              <label for="">Character limit: {{field.stringCharLimit}}</label>
+              <div class="control-field">
+                <WiredSlider @max=120 @change={{action "setCharLimit"}}></WiredSlider>
+              </div>
+            </div>
+          {{/if}}
+        </div>
       </div>
-      <div class="w-1/2">
-        <label class="flex" style="line-height: 30px;">
-          enabled <wired-toggle checked={{field.enabled}} onclick={{action (mut field.enabled) value="target.checked"}}></wired-toggle>
-        </label>
-      </div>
-    </div>
-    <fieldset>
-      <legend>options</legend>
-      <label>
-        <wired-checkbox checked={{field.required}} type="checkbox" onclick={{action (mut field.required) value="target.checked"}}>required</wired-checkbox>
-      </label>
-      {{#if isText}}
-        <fieldset>
-          <legend class="mb-1">string subtype</legend>
-          <wired-radio-group selected={{field.subType}}>
-            <wired-radio name="none" onclick={{action (mut field.subType) value="target.name"}}>none</wired-radio>
-            <wired-radio name="email" onclick={{action (mut field.subType) value="target.name"}}>email</wired-radio>
-            <wired-radio name="url" onclick={{action (mut field.subType) value="target.name"}}>url</wired-radio>
-            <wired-radio name="matches" onclick={{action (mut field.subType) value="target.name"}}>regex</wired-radio>
-          </wired-radio-group>
-        </fieldset>
-        {{#if isStringMatches}}
-          <label>
-            regex
-            <wired-input placeholder="^\d{5}(-\d{4})?$" oninput={{action (mut field.stringMatches) value="target.value"}}></wired-input>
-          </label>
-        {{/if}}
-        <label>
-          character limit
-          <wired-input placeholder="enter a char limit" oninput={{action (mut field.stringCharLimit) value="target.value"}}></wired-input>
-        </label>
-      {{/if}}
-    </fieldset>
-    <fieldset>
-      <legend>show errorMessages</legend>
-      <wired-radio-group selected={{field.displayErrorMessages}}>
-        <wired-radio type="radio" name="onInit" onclick={{action (mut field.displayErrorMessages) "onInit"}}>on init</wired-radio>
-        {{#unless isBoolean}}
-          <wired-radio type="radio" name="onBlur" onclick={{action (mut field.displayErrorMessages) "onBlur"}}>on blur</wired-radio>
-        {{/unless}}
-        <wired-radio type="radio" name="onUpdate" onclick={{action (mut field.displayErrorMessages) "onUpdate"}}>on value update</wired-radio>
-      </wired-radio-group>
-    </fieldset>
-    <fieldset>
-      <legend>validation messages</legend>
-      <div class="">
-        <label for="required-vmessage">required</label>
-        <input type="text" id="required-vmessage" oninput={{action (mut field.requiredValidationMessage) value="target.value"}}>
-      </div>
-      <div class="">
-        <label for="matches-vmessage">matches</label>
-        <input type="text" id="matches-vmessage" oninput={{action (mut field.matchesValidationMessage) value="target.value"}}>
-      </div>
-      <div class="">
-        <label for="charlimit-vmessage">character limit</label>
-        <input type="text" id="charlimit-vmessage" oninput={{action (mut field.charLimitValidationMessage) value="target.value"}}>
-      </div>
-    </fieldset>
-    <div class="leading-tight">
-      <a href>set value to undefined</a> <br>
-      <a href>set value to null</a>
-    </div>
-    <button type="button" name="button" {{action "reset"}}><wired-button>reset</wired-button></button>
-  </form>
+    </WiredCard>
+  </section>
 {{/if}}
