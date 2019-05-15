@@ -130,8 +130,8 @@ export default FormField.extend({
     return 0;
   }),
 
-  yieldedProperties: Ember.computed('charRemaining', 'errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', 'disabled', function() {
-    return this.getProperties('charRemaining', 'errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', 'disabled');
+  fieldYieldedProperties: Ember.computed('charRemaining', function() {
+    return this.getProperties('charRemaining');
   }),
 
   /**

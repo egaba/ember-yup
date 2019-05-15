@@ -33,8 +33,21 @@ export default Component.extend({
    *
    * @property {Object} yieldedProperties
    */
-  yieldedProperties: Ember.computed('errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', 'disabled', function() {
-    return this.getProperties('errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', 'disabled');
+  yieldedProperties: Ember.computed('defaultYieldedProperties', 'fieldYieldedProperties', function() {
+    const defaultProps = this.get('defaultYieldedProperties');
+    const fieldProps = this.get('fieldYieldedProperties');
+    return Ember.assign({}, defaultProps, fieldProps);
+  }),
+
+  fieldYieldedProperties: Ember.computed(function() {
+    return {};
+  }),
+
+  defaultYieldedProperties: Ember.computed('errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', 'disabled', 'onChange', function() {
+    return this.getProperties(
+      'errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages',
+      'disabled', 'onChange'
+    );
   }),
 
   /**
