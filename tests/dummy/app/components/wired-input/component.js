@@ -5,7 +5,7 @@ export default Component.extend({
   layout,
   tagName: 'wired-input',
   disabled: false,
-  placeholder: '',
+  placeholder: 'enter a message',
   type: 'text',
   value: '',
   attributeBindings: ['placeholder', 'disabled', 'type', 'value', 'blur:onblur'],

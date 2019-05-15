@@ -21,7 +21,7 @@
        <wired-item value="code" onclick={{action (mut currentTab) value="target.value"}}>code</wired-item>
       </wired-listbox>
     </nav>
-    <div class="pt-2 pb-10 px-2 demo">
+    <div class="pt-2 pb-10 px-2 demo bg-grey-lightest">
       {{#unless isReloading}}
         {{#component field.componentName
           type=field.subType
@@ -31,10 +31,24 @@
             charLimit=field.charLimitValidationMessage
             email=field.emailValidationMessage
             url=field.urlValidationMessage
+            integer=field.integerMessage
+            negative=field.negativeMessage
+            positive=field.positiveMessage
+            min=field.minNumberMessage
+            max=field.maxNumberMessage
+            gt=field.greaterThanMessage
+            lt=field.lessThanMessage
           )
           value=fieldValue
           required=field.required
           disabled=field.disabled
+          integer=field.isInteger
+          negative=field.isNegative
+          positive=field.isPositive
+          min=field.minRangeNumber
+          max=field.maxRangeNumber
+          gt=field.greaterThanNumber
+          lt=field.lessThanNumber
           showErrorMessages=showErrorMessages
           showErrorMessagesOnUpdate=showErrorMessagesOnUpdate
           matches=stringMatches
@@ -99,58 +113,72 @@
   <section class="field-settings">
     <WiredCard id="{{elementId}}-settings-card">
       <div class="flex">
-        <div class="w-1/2">
-          <div class="field-row">
+        <div class="w-2/5">
+          <section class="pl-4">
             <h3>General</h3>
-            <div class="control-field"></div>
-          </div>
-          <div class="field-row">
             <label for="">Disable field?</label>
-            <div class="control-field">
-              <WiredToggle @checked={{field.disabled}} @click={{action (mut field.disabled) value="target.checked"}}></WiredToggle>
-            </div>
-          </div>
-          <div class="field-row">
-            <label for="">Data type</label>
-            <div class="control-field">
-              <WiredSelect @selected={{field.componentName}} @change={{action (mut field.componentName) value="detail.selected"}}>
-                <wired-item value="text-field">String</wired-item>
-                <wired-item value="number-field">Number</wired-item>
-                <wired-item value="date-field">Date</wired-item>
-                <wired-item value="boolean-field">Boolean</wired-item>
-              </WiredSelect>
-            </div>
-          </div>
-          <div class="field-row">
-            <label for="">Show error messages</label>
-            <div class="control-field">
+            <WiredToggle @checked={{field.disabled}} @click={{action (mut field.disabled) value="target.checked"}}></WiredToggle>
+            <fieldset>
+              <legend>Show error messages</legend>
               <WiredRadioGroup @selected={{field.displayErrorMessages}}>
                 <WiredRadio @name="onInit" @click={{action (mut field.displayErrorMessages) value="target.name"}}>on init</WiredRadio>
                 {{#unless isBoolean}}
                   <WiredRadio @name="onBlur" @click={{action (mut field.displayErrorMessages) value="target.name"}}>on blur</WiredRadio>
                 {{/unless}}
-                <WiredRadio @name="onUpdate" @click={{action (mut field.displayErrorMessages) value="target.name"}}>on value update</WiredRadio>
+                <WiredRadio @name="onUpdate" @click={{action (mut field.displayErrorMessages) value="target.name"}}>on change</WiredRadio>
               </WiredRadioGroup>
-            </div>
-          </div>
+            </fieldset>
+          </section>
+
+
         </div>
-        <div class="w-1/2">
+        <div class="w-3/5">
           <div class="field-row">
-            <h3>Validation Options</h3>
+            <h3 class="right-col-heading">Validation Options</h3>
             <div class="control-field"></div>
           </div>
-          <div class="field-row">
-            <label for="">Require value?</label>
-            <div class="control-field">
-              <WiredToggle @checked={{field.required}} @click={{action (mut field.required) value="target.checked"}}></WiredToggle>
+          <div class="flex">
+            <div class="w-1/2">
+              <div class="field-row">
+                <label for="">Data type</label>
+                <div class="control-field">
+                  <WiredSelect @selected={{field.componentName}} @change={{action (mut field.componentName) value="detail.selected"}}>
+                    <wired-item value="text-field">String</wired-item>
+                    <wired-item value="number-field">Number</wired-item>
+                    <wired-item value="date-field">Date</wired-item>
+                    <wired-item value="boolean-field">Boolean</wired-item>
+                  </WiredSelect>
+                </div>
+              </div>
+            </div>
+            <div class="w-1/2">
+              <div class="field-row">
+                <label for="">Message</label>
+                <div class="control-field">
+                  <WiredInput @placeholder="invalid data type" @disabled={{not field.required}} @value={{field.requiredValidationMessage}} @input={{action (mut field.requiredValidationMessage) value="target.value"}}></WiredInput>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="field-row">
-            <label for="">Required message</label>
-            <div class="control-field">
-              <WiredInput @placeholder="this is a required field" @disabled={{not field.required}} @value={{field.requiredValidationMessage}} @input={{action (mut field.requiredValidationMessage) value="target.value"}}></WiredInput>
+          <div class="flex">
+            <div class="w-1/2">
+              <div class="field-row">
+                <label for="">Require value?</label>
+                <div class="control-field">
+                  <WiredToggle @checked={{field.required}} @click={{action (mut field.required) value="target.checked"}}></WiredToggle>
+                </div>
+              </div>
+            </div>
+            <div class="w-1/2">
+              <div class="field-row">
+                <label for="">Message</label>
+                <div class="control-field">
+                  <WiredInput @placeholder="this is a required field" @disabled={{not field.required}} @value={{field.requiredValidationMessage}} @input={{action (mut field.requiredValidationMessage) value="target.value"}}></WiredInput>
+                </div>
+              </div>
             </div>
           </div>
+
           {{#if isText}}
             <div class="field-row">
               <label for="">String subtype</label>
@@ -187,6 +215,135 @@
               <label for="">Character limit: {{field.stringCharLimit}}</label>
               <div class="control-field">
                 <WiredSlider @max=120 @change={{action "setCharLimit"}}></WiredSlider>
+              </div>
+            </div>
+          {{else if isNumber}}
+            <div class="flex">
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Integer</label>
+                  <div class="control-field">
+                    <WiredToggle @checked={{field.isInteger}} @click={{action (mut field.isInteger) value="target.checked"}}></WiredToggle>
+                  </div>
+                </div>
+              </div>
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Message</label>
+                  <div class="control-field">
+                    <WiredInput @placeholder="must be an integer" @value={{field.integerMessage}} @input={{action (mut field.integerMessage) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex">
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Positive</label>
+                  <div class="control-field">
+                    <WiredToggle @checked={{field.isPositive}} @click={{action (mut field.isPositive) value="target.checked"}}></WiredToggle>
+                  </div>
+                </div>
+              </div>
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Message</label>
+                  <div class="control-field">
+                    <WiredInput @placeholder="must be positive" @value={{field.positiveMessageMessage}} @input={{action (mut field.positiveMessageMessage) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex">
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Negative</label>
+                  <div class="control-field">
+                    <WiredToggle @checked={{field.isNegative}} @click={{action (mut field.isNegative) value="target.checked"}}></WiredToggle>
+                  </div>
+                </div>
+              </div>
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Message</label>
+                  <div class="control-field">
+                    <WiredInput @placeholder="must be negative" @value={{field.negativeMessage}} @input={{action (mut field.negativeMessage) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex">
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Min</label>
+                  <div class="control-field">
+                    <WiredInput @placeholder="enter a number" @value={{field.minRangeNumber}} @input={{action (mut field.minRangeNumber) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
+              </div>
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Message</label>
+                  <div class="control-field">
+                    <WiredInput @placeholder="must be > ${min}" @value={{field.minNumberMessage}} @input={{action (mut field.minNumberMessage) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex">
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Max</label>
+                  <div class="control-field">
+                    <WiredInput @value={{field.maxRangeNumber}} @input={{action (mut field.maxRangeNumber) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
+              </div>
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Message</label>
+                  <div class="control-field">
+                    <WiredInput @placeholder="must be < ${max}" @value={{field.maxNumberMessage}} @input={{action (mut field.maxNumberMessage) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex">
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Greater than</label>
+                  <div class="control-field">
+                    <WiredInput @placeholder="enter a number" @value={{field.greaterThanNumber}} @input={{action (mut field.greaterThanNumber) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
+              </div>
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Message</label>
+                  <div class="control-field">
+                    <WiredInput @value={{field.greaterThanMessage}} @input={{action (mut field.greaterThanMessage) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex">
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Less than</label>
+                  <div class="control-field">
+                    <WiredInput @placeholder="enter a number" @value={{field.lessThanNumber}} @input={{action (mut field.lessThanNumber) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
+              </div>
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Message</label>
+                  <div class="control-field">
+                    <WiredInput @value={{field.lessThanMessage}} @input={{action (mut field.lessThanMessage) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
               </div>
             </div>
           {{/if}}

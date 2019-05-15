@@ -82,10 +82,15 @@ nav [role="option"] {
 .field-settings {
   @apply .relative;
   font-size: 14px;
+  bottom: 4px;
 }
 
 .field-settings label {
-  @apply .w-2/5 .text-right .pr-4 .font-semibold .text-grey-dark;
+  @apply .w-2/5 .text-right .pr-4;
+}
+
+.field-settings legend, .field-settings label {
+  @apply .font-semibold .text-grey-dark;
   line-height: 32px;
 }
 
@@ -115,7 +120,18 @@ nav [role="option"] {
 }
 
 .field-settings h3 {
-  @apply .w-2/5 .text-right .text-grey-darkest .pr-4;
+
+}
+
+.field-settings .inline-field {
+  @apply .flex;
+}
+
+.field-settings h3 {
+  @apply .text-grey-darkest;
+}
+.field-settings .right-col-heading {
+  @apply .w-2/5 .text-right .pr-4;
 }
 
 wired-toggle {
@@ -137,14 +153,13 @@ wired-slider {
 }
 
 .code-demo .settings-toggle {
-  @apply .cursor-pointer;
+  @apply .cursor-pointer .no-underline .text-xs;
   padding-top: 2px;
-  background: white;
+  background: rgba(255,255,255,0.9);
   position: absolute;
-  bottom: 7px;
-  right: 7px;
+  bottom: 8px;
+  right: 8px;
   padding-left: 6px;
   border-top-left-radius: 5px;
-  font-size: 14px;
   z-index: 15;
 }

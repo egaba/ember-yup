@@ -3,9 +3,8 @@
 }
 
 .code-demo pre {
-  @apply .text-sm;
-  background: #282c34;
-  color: #abb2bf;
+  @apply .text-sm bg-grey-lightest;
+  color: #2d523f;
   padding: 4px;
   border-radius: 2px;
 }

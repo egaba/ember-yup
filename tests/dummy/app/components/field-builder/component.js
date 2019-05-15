@@ -76,6 +76,9 @@ export default Component.extend({
       'field.required', 'field.stringCharLimit', 'field.stringMatches', 'isText',
       'field.subType', 'showErrorMessages', 'field.componentName', 'field.displayErrorMessages',
       'field.required', 'showErrorMessagesOnUpdate', 'validationMessagesMarkup',
+      'field.integerNumber', 'field.positiveNumber', 'field.negativeNumber',
+      'field.minRangeNumber', 'field.maxRangeNumber', 'field.greaterThanNumber',
+      'field.lessThanNumber',
   function() {
     const componentName = this.get('field.componentName');
     const displayErrorMessages = this.get('field.displayErrorMessages');
@@ -188,10 +191,11 @@ export default Component.extend({
   isReloading: false,
   showSettings: false,
 
-  currentTab: 'demo',
+  showCode: true,
+  currentTab: Ember.computed('showCode', function() {
+    return this.get('showCode') ? 'code' : 'demo';
+  }),
   classNames: ['code-demo', 'mb-8'],
-
-  settingsTab: 'general',
 
   actions: {
     reset() {
