@@ -92,6 +92,7 @@ nav [role="option"] {
 .field-settings legend, .field-settings label {
   @apply .font-semibold .text-grey-dark;
   line-height: 32px;
+  vertical-align: top;
 }
 
 .field-settings .control-field {

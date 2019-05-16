@@ -35,5 +35,5 @@ export default Model.extend({
   maxNumberMessage: DS.attr({ defaultValue: '' }),
   minDateMessage: DS.attr({ defaultValue: '' }),
   maxDateMessage: DS.attr({ defaultValue: '' }),
-
+  dataTypeMessage: DS.attr({ defaultValue: '' }),
 });

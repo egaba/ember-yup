@@ -1,5 +1,5 @@
 {{#if (eq currentTab "code")}}
-  <wired-card class="block demo-container relative">
+  <WiredCard id="{{elementId}}-code-card" class="block demo-container relative">
     <nav class="nav-tabs absolute pin-r text-right">
       <wired-listbox horizontal selected={{currentTab}}>
        <wired-item value="demo" onclick={{action (mut currentTab) value="target.value"}}>demo</wired-item>
@@ -12,9 +12,9 @@
     <p class="m-0 mb-2 text-right">
       <a class="settings-toggle" {{action (mut showSettings) (not showSettings)}}>{{if showSettings "Hide settings ▽" "Show settings ▶"}}</a>
     </p>
-  </wired-card>
+  </WiredCard>
 {{else if (eq currentTab "demo")}}
-  <wired-card class="block demo-container relative">
+  <WiredCard id="{{elementId}}-code-card" class="block demo-container relative">
     <nav class="nav-tabs absolute pin-r text-right">
       <wired-listbox horizontal selected={{currentTab}}>
        <wired-item value="demo" onclick={{action (mut currentTab) value="target.value"}}>demo</wired-item>
@@ -34,10 +34,11 @@
             integer=field.integerMessage
             negative=field.negativeMessage
             positive=field.positiveMessage
-            min=field.minNumberMessage
-            max=field.maxNumberMessage
+            min=(if isNumber field.minNumberMessage field.minDateMessage)
+            max=(if isNumber field.maxNumberMessage field.maxDateMessage)
             gt=field.greaterThanMessage
             lt=field.lessThanMessage
+            dataType=field.dataTypeMessage
           )
           value=fieldValue
           required=field.required
@@ -45,8 +46,8 @@
           integer=field.isInteger
           negative=field.isNegative
           positive=field.isPositive
-          min=field.minRangeNumber
-          max=field.maxRangeNumber
+          min=(if isNumber field.minRangeNumber field.minDate)
+          max=(if isNumber field.maxRangeNumber field.maxDate)
           gt=field.greaterThanNumber
           lt=field.lessThanNumber
           showErrorMessages=showErrorMessages
@@ -106,7 +107,7 @@
     <p class="m-0 mb-2 text-right">
       <a class="settings-toggle" {{action (mut showSettings) (not showSettings)}}>{{if showSettings "Hide settings ▽" "Show settings ▶"}}</a>
     </p>
-  </wired-card>
+  </WiredCard>
 {{/if}}
 
 {{#if showSettings}}
@@ -155,7 +156,7 @@
               <div class="field-row">
                 <label for="">Message</label>
                 <div class="control-field">
-                  <WiredInput @placeholder="invalid data type" @disabled={{not field.required}} @value={{field.requiredValidationMessage}} @input={{action (mut field.requiredValidationMessage) value="target.value"}}></WiredInput>
+                  <WiredInput @placeholder="invalid data type" @value={{field.dataTypeMessage}} @input={{action (mut field.dataTypeMessage) value="target.value"}}></WiredInput>
                 </div>
               </div>
             </div>
@@ -287,7 +288,7 @@
                 <div class="field-row">
                   <label for="">Message</label>
                   <div class="control-field">
-                    <WiredInput @placeholder="must be > ${min}" @value={{field.minNumberMessage}} @input={{action (mut field.minNumberMessage) value="target.value"}}></WiredInput>
+                    <WiredInput @placeholder="must be >= ${min}" @value={{field.minNumberMessage}} @input={{action (mut field.minNumberMessage) value="target.value"}}></WiredInput>
                   </div>
                 </div>
               </div>
@@ -297,7 +298,7 @@
                 <div class="field-row">
                   <label for="">Max</label>
                   <div class="control-field">
-                    <WiredInput @value={{field.maxRangeNumber}} @input={{action (mut field.maxRangeNumber) value="target.value"}}></WiredInput>
+                    <WiredInput @placeholder="enter a number" @value={{field.maxRangeNumber}} @input={{action (mut field.maxRangeNumber) value="target.value"}}></WiredInput>
                   </div>
                 </div>
               </div>
@@ -305,7 +306,7 @@
                 <div class="field-row">
                   <label for="">Message</label>
                   <div class="control-field">
-                    <WiredInput @placeholder="must be < ${max}" @value={{field.maxNumberMessage}} @input={{action (mut field.maxNumberMessage) value="target.value"}}></WiredInput>
+                    <WiredInput @placeholder="must be <= ${max}" @value={{field.maxNumberMessage}} @input={{action (mut field.maxNumberMessage) value="target.value"}}></WiredInput>
                   </div>
                 </div>
               </div>
@@ -323,7 +324,7 @@
                 <div class="field-row">
                   <label for="">Message</label>
                   <div class="control-field">
-                    <WiredInput @value={{field.greaterThanMessage}} @input={{action (mut field.greaterThanMessage) value="target.value"}}></WiredInput>
+                    <WiredInput @placeholder="must be > ${more}"@value={{field.greaterThanMessage}} @input={{action (mut field.greaterThanMessage) value="target.value"}}></WiredInput>
                   </div>
                 </div>
               </div>
@@ -341,7 +342,44 @@
                 <div class="field-row">
                   <label for="">Message</label>
                   <div class="control-field">
-                    <WiredInput @value={{field.lessThanMessage}} @input={{action (mut field.lessThanMessage) value="target.value"}}></WiredInput>
+                    <WiredInput @placeholder="must be < ${less}" @value={{field.lessThanMessage}} @input={{action (mut field.lessThanMessage) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {{else if isDate}}
+            <div class="flex">
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Min Date</label>
+                  <div class="control-field">
+                    <WiredInput @placeholder="enter a date" @value={{field.minDate}} @input={{action (mut field.minDate) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
+              </div>
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Message</label>
+                  <div class="control-field">
+                    <WiredInput @value={{field.minDateMessage}} @input={{action (mut field.minDateMessage) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex">
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Max Date</label>
+                  <div class="control-field">
+                    <WiredInput @placeholder="enter a date" @value={{field.maxDate}} @input={{action (mut field.maxDate) value="target.value"}}></WiredInput>
+                  </div>
+                </div>
+              </div>
+              <div class="w-1/2">
+                <div class="field-row">
+                  <label for="">Message</label>
+                  <div class="control-field">
+                    <WiredInput @value={{field.maxDateMessage}} @input={{action (mut field.maxDateMessage) value="target.value"}}></WiredInput>
                   </div>
                 </div>
               </div>
