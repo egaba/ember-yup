@@ -43,10 +43,10 @@ export default Component.extend({
     return {};
   }),
 
-  defaultYieldedProperties: Ember.computed('errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', 'disabled', 'onChange', function() {
+  defaultYieldedProperties: Ember.computed('errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', 'disabled', function() {
     return this.getProperties(
       'errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages',
-      'disabled', 'onChange'
+      'disabled'
     );
   }),
 
