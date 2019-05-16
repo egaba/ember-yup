@@ -317,6 +317,12 @@ export default Component.extend({
       this.set('value', nextValue);
     },
 
+    /**
+     * Sets the field into a "new" state.
+     *
+     * @function onClear
+     * @action
+     */
     onClear() {
       this.setProperties({
         value: undefined,
