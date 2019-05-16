@@ -1,1 +1,29 @@
-{{yield yieldedProperties}}
+{{yield state (hash
+    onChange=(action "onChange")
+    onBlur=(action (mut didBlur) true)
+    onClear=(action "onClear")
+  )
+}}
+
+{{#if debug}}
+  <table class="table">
+    <thead>
+      <tr>
+        {{#each-in state as |key|}}
+          {{#unless (or (eq key "errorMessages") (eq key "value"))}}
+            <th>{{key}}</th>
+          {{/unless}}
+        {{/each-in}}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        {{#each-in state as |key val|}}
+          {{#unless (or (eq key "errorMessages") (eq key "value"))}}
+            <td>{{val}}</td>
+          {{/unless}}
+        {{/each-in}}
+      </tr>
+    </tbody>
+  </table>
+{{/if}}

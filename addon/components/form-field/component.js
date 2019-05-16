@@ -17,7 +17,8 @@ import layout from './template';
 export default Component.extend({
   layout,
 
-  attributeBindings: ['disabled'],
+  classNames: ['form-field'],
+  attributeBindings: ['disabled', 'name'],
 
   init() {
     this._super(...arguments);
@@ -26,39 +27,49 @@ export default Component.extend({
 
   tagName: 'fieldset',
 
+  /**
+    * Control whether or not validation occurs on the field.
+    *
+    * @property {Boolean} disabled
+    * @defaultValue false
+    */
   disabled: false,
 
   /**
    * Properties that are yielded to the template.
    *
-   * @property {Object} yieldedProperties
+   * @property {Object} state
+   * @private
    */
-  yieldedProperties: Ember.computed('defaultYieldedProperties', 'fieldYieldedProperties', function() {
-    const defaultProps = this.get('defaultYieldedProperties');
-    const fieldProps = this.get('fieldYieldedProperties');
-    return Ember.assign({}, defaultProps, fieldProps);
-  }),
-
-  fieldYieldedProperties: Ember.computed(function() {
-    return {};
-  }),
-
-  defaultYieldedProperties: Ember.computed('errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages', 'disabled', function() {
-    return this.getProperties(
-      'errorMessages', 'value', 'hasErrors', 'didValidate', 'showErrorMessages',
-      'disabled'
-    );
+  state: Ember.computed('baseState', 'additionalState', function() {
+    const baseState = this.get('baseState');
+    const additionalState = this.get('additionalState') || {};
+    return Ember.assign({}, baseState, additionalState);
   }),
 
   /**
-   * Called when the field's value is changed. Returns the transformed data value if valid;
-   * otherwise returns the input value.
+   * Field-type specific properties that are yielded to the template.
    *
-   * @function onChange
-   * @param {*} value
-   * @action
+   * @property {Object} additionalState
+   * @private
    */
-  onChange: undefined,
+  additionalState: null,
+
+  /**
+   * Base properties that are yielded to the template.
+   *
+   * @property {Object} baseState
+   * @private
+   */
+  baseState: Ember.computed(
+    'errorMessages', 'value', 'hasErrors', 'didValidate', 'disabled',
+    'didValueChange', 'didBlur',
+  function() {
+    return this.getProperties(
+      'errorMessages', 'value', 'hasErrors', 'didValidate', 'disabled', 'didValueChange',
+      'didBlur'
+    );
+  }),
 
   /**
     * This is a Yup option that gets passed to the schema's validate method, which will fail validation
@@ -121,9 +132,14 @@ export default Component.extend({
   validation: computed('value', 'dataSchema', 'abortEarly', function() {
     const abortEarly = this.get('abortEarly');
     const value = this.get('value');
-    const validation = {
-      data: this.get('dataSchema').validate(value, { abortEarly: abortEarly })
-    };
+    let validation;
+    try {
+      validation = {
+        data: this.get('dataSchema').validate(value, { abortEarly: abortEarly })
+      };
+    } catch(e) {
+      return RSVP.reject([{ errors: [e.message] }]);
+    }
 
     return new RSVP.Promise(function(resolve, reject) {
       if (abortEarly) {
@@ -163,15 +179,23 @@ export default Component.extend({
     * @property {Boolean} hasErrors
     * @yielded
     */
-  hasErrors: Ember.computed.gt('errors.length', 0),
+  hasErrors: Ember.computed.gt('errors.length', 0).readOnly(),
 
   /**
     * Flag `true` if component ran validation.
     *
     * @property {Boolean} didValidate
-    * @private
+    * @yielded
     */
   didValidate: false,
+
+  /**
+    * Flag `true` if onBlur action was called.
+    *
+    * @property {Boolean} didBlur
+    * @yielded
+    */
+  didBlur: false,
 
   /**
     * Array that holds the ValidationErrors emitted by the schema.
@@ -181,7 +205,7 @@ export default Component.extend({
     */
   errors: computed(function() {
     return A();
-  }),
+  }).readOnly(),
 
   /**
     * Array that proxies the messages from field's `errors`.
@@ -189,34 +213,24 @@ export default Component.extend({
     * @property {Array} errorMessages
     * @yielded
     */
-  errorMessages: computed('errors.@each.errors', 'showErrorMessages', function() {
+  errorMessages: computed('errors.@each.errors', function() {
     let errors = [];
-
-    if (!this.get('showErrorMessages')) return [];
 
     this.get('errors').forEach(function(err) {
       errors = errors.concat(err.errors);
     });
 
     return errors;
-  }),
+  }).readOnly(),
 
   /**
-    * Flag to display error messages. This * flag will be set to `true` when
-    * the field detects its first `value` update.
+    * Flag used to determine if there was input.
     *
-    * @property {Boolean} showErrorMessages
+    * @property {Boolean} didValueChange
+    * @yielded
     * @defaultValue false
     */
-  showErrorMessages: false,
-
-  /**
-    * Used to set `showErrorMessages=true` when the value first updates.
-    *
-    * @property {Boolean} showErrorMessagesOnUpdate
-    * @defaultValue true
-    */
-  showErrorMessagesOnUpdate: true,
+  didValueChange: false,
 
   /**
    * If the field is not `disabled`, the field will validate its `value`. If the validation passes,
@@ -231,29 +245,20 @@ export default Component.extend({
     if (!this.get('disabled')) {
       const value = this.get('value');
 
-      if (!this.get('showErrorMessages') && this.get('showErrorMessagesOnUpdate') && updatedKeyName === 'value') {
-        this.set('showErrorMessages', true);
+      if (!this.get('didValueChange') && updatedKeyName === 'value') {
+        this.set('didValueChange', true);
       }
 
       this.get('validation')
         .then((val) => {
-          if (this.onChange) {
-            this.onChange(val);
-          }
-
           this.get('errors').clear();
           this.set('didValidate', true);
         })
         .catch((errors) => {
-          if (this.onChange) {
-            this.onChange(value);
-          }
           this.get('errors').clear();
           this.get('errors').addObjects(errors);
           this.set('didValidate', true);
         });
-    } else {
-      this.get('errors').clear();
     }
   }),
 
@@ -287,4 +292,37 @@ export default Component.extend({
       parent.formFields.removeObject(this);
     }
   },
+
+  debug: false,
+  actions: {
+    /**
+     * Called when the field's value is changed. Returns the transformed data value if valid;
+     * otherwise returns the input value.
+     *
+     * @function onChange
+     * @param {*} value
+     * @action
+     */
+    onChange(value) {
+      const schema = this.get('dataSchema');
+      let nextValue;
+      try {
+        nextValue = schema.cast(value);
+      } catch(e) {
+        nextValue = value;
+      }
+      this.set('value', nextValue);
+    },
+
+    onClear() {
+      this.setProperties({
+        value: undefined,
+        didBlur: false,
+      });
+
+      Ember.run.next(() => {
+        this.set('didValueChange', false);
+      });
+    },
+  }
 });

@@ -10,6 +10,10 @@ export default Component.extend({
   isText: Ember.computed('field.componentName', function() {
     return /text/.test(this.get('field.componentName'));
   }),
+  isLongText: Ember.computed('isText', 'field.stringCharLimit', function() {
+    const charLimit = parseInt(this.get('field.stringCharLimit'), 10) || 0;
+    return this.get('isText') && charLimit > 10;
+  }),
   isStringMatches: Ember.computed('isText', 'field.subType', function() {
     return this.get('isText') && this.get('field.subType') === 'matches';
   }),
@@ -26,17 +30,14 @@ export default Component.extend({
   isDate: Ember.computed('field.componentName', function() {
     return /date/.test(this.get('field.componentName'));
   }),
-  showErrorMessages: Ember.computed('field.displayErrorMessages', 'didBlur', function() {
-    const blur = this.get('field.displayErrorMessages') === 'onBlur' && this.get('didBlur');
-    return this.get('field.displayErrorMessages') === 'onInit' || blur;
+  didChangeValue: Ember.computed('initialState.value', 'fieldValue', function() {
+    return this.get('initialState.value') !== this.get('fieldValue');
   }),
+
   clearValueOnTypeChange: Ember.observer('field.componentName', function() {
     this.set('value', undefined);
   }),
-  didBlur: false,
-  showErrorMessagesOnUpdate: Ember.computed('field.displayErrorMessages', function() {
-    return this.get('field.displayErrorMessages') === 'onBlur' ? false : true;
-  }),
+
   validationMessagesMarkup: Ember.computed('field.requiredValidationMessage',
   'field.matchesValidationMessage', 'field.matchesValidationMessage', 'field.charLimitValidationMessage',
   'field.emailValidationMessage', 'field.urlValidationMessage', 'field.required', 'isText', 'isStringMatches',
@@ -115,8 +116,8 @@ export default Component.extend({
   }),
   fieldMarkup: Ember.computed(
       'field.required', 'field.stringCharLimit', 'field.stringMatches', 'isText',
-      'field.subType', 'showErrorMessages', 'field.componentName', 'field.displayErrorMessages',
-      'field.required', 'showErrorMessagesOnUpdate', 'validationMessagesMarkup',
+      'field.subType', 'field.componentName', 'field.displayErrorMessages',
+      'field.required', 'validationMessagesMarkup',
       'field.integerNumber', 'field.minRangeNumber', 'field.maxRangeNumber', 'field.greaterThanNumber',
       'field.lessThanNumber', 'field.isPositive', 'field.isNegative', 'field.isInteger',
       'field.minDate', 'field.maxDate', 'isNumber', 'isDate',
@@ -125,43 +126,43 @@ export default Component.extend({
     const displayErrorMessages = this.get('field.displayErrorMessages');
     let controlMarkup, errorMessagesMarkup = '', toggleErrorMessagesOnBlur = '', subTypeMarkup = '', validationMessagesMarkup = this.get('validationMessagesMarkup');
     let nonZeroMarkup = '', integerMarkup = '', minNumberMarkup = '', maxNumberMarkup = '', gtMarkup = '', ltMarkup = '';
-
+    const errorMessageStates = [];
     if (this.get('isNumber')) {
       if (this.get('field.isPositive')) {
         nonZeroMarkup = `
-        positive=true`;
+      positive=true`;
       } else if (this.get('field.isNegative')) {
         nonZeroMarkup = `
-        negative=true`;
+      negative=true`;
       }
 
       if (this.get('field.isInteger')) {
         integerMarkup = `
-        integer=true`;
+      integer=true`;
       }
 
       const minNumber = this.get('field.minRangeNumber');
       if (Ember.isPresent(minNumber)) {
         minNumberMarkup = `
-        min=${minNumber}`;
+      min=${minNumber}`;
       }
 
       const maxNumber = this.get('field.maxRangeNumber');
       if (Ember.isPresent(maxNumber)) {
         maxNumberMarkup = `
-        max=${maxNumber}`;
+      max=${maxNumber}`;
       }
 
       const gtNumber = this.get('field.greaterThanNumber');
       if (Ember.isPresent(gtNumber)) {
         gtMarkup = `
-        gt=${gtNumber}`;
+      gt=${gtNumber}`;
       }
 
       const ltNumber = this.get('field.lessThanNumber');
       if (Ember.isPresent(ltNumber)) {
         ltMarkup = `
-        lt=${ltNumber}`;
+      lt=${ltNumber}`;
       }
     }
 
@@ -180,27 +181,41 @@ export default Component.extend({
       }
     }
 
-    if (displayErrorMessages === 'onInit') {
-      errorMessagesMarkup = `
-      showErrorMessages=${this.get('showErrorMessages')}`;
-    } else if (displayErrorMessages === 'onBlur') {
-      errorMessagesMarkup = `
-      showErrorMessagesOnUpdate=${this.get('showErrorMessagesOnUpdate')}`;
+    let errorMessages = `{{#each state.errorMessages as |errorMessage|}}
+        <p>{{errorMessage}}</p>
+      {{/each}}
+    `
+    if (displayErrorMessages === 'onBlur') {
       toggleErrorMessagesOnBlur = `
-        onblur={{action (mut field.showErrorMessages) true}}`;
+        onblur={{action actions.onBlur}}`;
+      errorMessageStates.push('state.didBlur');
+    } else if (displayErrorMessages === 'onUpdate') {
+      errorMessageStates.push('state.didValueChange');
+    }
+
+    if (errorMessageStates.length) {
+      errorMessages = `{{#if (and ${errorMessageStates.join(' ')})}}
+        {{#each state.errorMessages as |errorMessage|}}
+          <p>{{errorMessage}}</p>
+        {{/each}}
+      {{/if}}`
+    } else {
+      errorMessages = `{{#each state.errorMessages as |errorMessage|}}
+        <p>{{errorMessage}}</p>
+      {{/each}}`
     }
 
     if (/bool/.test(componentName)) {
       controlMarkup = `<input
         type="checkbox"
         checked={{fieldValue}}
-        onclick={{action (mut fieldValue) value="target.checked"}}
+        onclick={{action actions.onChange value="target.checked"}}
       >`;
     } else {
       controlMarkup = `<input
         type="text"
         value={{fieldValue}}
-        oninput={{action (mut fieldValue) value="target.value"}}${toggleErrorMessagesOnBlur}
+        oninput={{action actions.onChange value="target.value"}}${toggleErrorMessagesOnBlur}
       >`;
     }
 
@@ -224,7 +239,7 @@ export default Component.extend({
 
       if (this.get('field.stringCharLimit')) {
         charLimitMarkup = `
-      charLimit="${this.get('field.stringCharLimit')}"`
+      charLimit=${this.get('field.stringCharLimit')}`
       }
     }
 
@@ -234,12 +249,10 @@ export default Component.extend({
     return `
     {{#${componentName}
       value=fieldValue${requiredMarkup}${errorMessagesMarkup}${subTypeMarkup}${charLimitMarkup}${validationMessagesMarkup}${nonZeroMarkup}${integerMarkup}${minNumberMarkup}${maxNumberMarkup}${ltMarkup}${gtMarkup}${minDateMarkup}${maxDateMarkup}
-      as |field|
+      as |state actions|
     }}
       ${controlMarkup}
-      {{#each field.errorMessages as |errorMessage|}}
-        <p>{{errorMessage}}</p>
-      {{/each}}
+      ${errorMessages}
     {{/${componentName}}}
     `
   }),
@@ -253,7 +266,6 @@ export default Component.extend({
 
     const initialState = this.get('field').getProperties(
       'required',
-      'showErrorMessages',
       'requiredValidationMessage',
       'value',
       'stringMatches'
@@ -277,13 +289,13 @@ export default Component.extend({
   resetField: Ember.observer('field.disabled', function() {
     this.get('field').setProperties(this.get('initialState'));
     this.set('fieldValue', this.get('initialState.value'));
-    this.set('didBlur', false);
+    // this.set('didBlur', false);
   }),
 
-  clearField() {
+  clearField: Ember.observer('field.componentName', function() {
     this.set('fieldValue', undefined);
-    this.set('didBlur', false);
-  },
+    // this.set('didBlur', false);
+  }),
 
   refreshCode: Ember.observer(
     'field.required', 'field.displayErrorMessages', 'field.subType',
@@ -306,13 +318,16 @@ export default Component.extend({
   isReloading: false,
   showSettings: false,
 
-  showCode: true,
+  showCode: false,
   currentTab: Ember.computed('showCode', function() {
     return this.get('showCode') ? 'code' : 'demo';
   }),
   classNames: ['code-demo', 'mb-8'],
 
   actions: {
+    clear() {
+      this.clearField();
+    },
     reset() {
       this.resetField();
     },

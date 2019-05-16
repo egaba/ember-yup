@@ -130,7 +130,7 @@ export default FormField.extend({
     return 0;
   }),
 
-  fieldYieldedProperties: Ember.computed('charRemaining', function() {
+  additionalState: Ember.computed('charRemaining', function() {
     return this.getProperties('charRemaining');
   }),
 

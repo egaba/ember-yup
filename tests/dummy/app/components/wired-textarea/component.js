@@ -3,18 +3,14 @@ import layout from './template';
 
 export default Component.extend({
   layout,
-  tagName: 'wired-input',
+  tagName: 'wired-textarea',
   disabled: false,
   placeholder: 'enter a message',
   type: 'text',
   value: '',
-  attributeBindings: ['placeholder', 'disabled', 'type', 'value', 'blur:onblur'],
-  clearValue: Ember.observer('value', function() {
-    const value = this.get('value');
-    if (!value) {
-      this.element.pendingValue = value;
-    }
-  }),
+  rows: 4,
+  maxrows: 8,
+  attributeBindings: ['placeholder', 'disabled', 'type', 'value', 'blur:onblur', 'rows', 'maxrows'],
   didInsertElement() {
     this.element.pendingValue = this.get('value');
 
