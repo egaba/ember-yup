@@ -30,6 +30,9 @@ export default Component.extend({
     const blur = this.get('field.displayErrorMessages') === 'onBlur' && this.get('didBlur');
     return this.get('field.displayErrorMessages') === 'onInit' || blur;
   }),
+  clearValueOnTypeChange: Ember.observer('field.componentName', function() {
+    this.set('value', undefined);
+  }),
   didBlur: false,
   showErrorMessagesOnUpdate: Ember.computed('field.displayErrorMessages', function() {
     return this.get('field.displayErrorMessages') === 'onBlur' ? false : true;
@@ -276,6 +279,11 @@ export default Component.extend({
     this.set('fieldValue', this.get('initialState.value'));
     this.set('didBlur', false);
   }),
+
+  clearField() {
+    this.set('fieldValue', undefined);
+    this.set('didBlur', false);
+  },
 
   refreshCode: Ember.observer(
     'field.required', 'field.displayErrorMessages', 'field.subType',

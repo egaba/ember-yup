@@ -156,7 +156,7 @@ wired-slider {
 .code-demo .settings-toggle {
   @apply .cursor-pointer .no-underline .text-xs;
   padding-top: 2px;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.7);
   position: absolute;
   bottom: 8px;
   right: 8px;
