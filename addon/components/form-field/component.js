@@ -294,6 +294,9 @@ export default Component.extend({
   },
 
   debug: false,
+  typeOfValue: Ember.computed('value', function() {
+    return typeof(this.get('value'));
+  }),
   actions: {
     /**
      * Called when the field's value is changed. Returns the transformed data value if valid;

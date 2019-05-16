@@ -9,6 +9,7 @@
   <table class="table">
     <thead>
       <tr>
+        <th>typeof(value)</th>
         {{#each-in state as |key|}}
           {{#unless (or (eq key "errorMessages") (eq key "value"))}}
             <th>{{key}}</th>
@@ -18,6 +19,7 @@
     </thead>
     <tbody>
       <tr>
+        <td>{{typeOfValue}}</td>
         {{#each-in state as |key val|}}
           {{#unless (or (eq key "errorMessages") (eq key "value"))}}
             <td>{{val}}</td>
