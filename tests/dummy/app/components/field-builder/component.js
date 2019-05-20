@@ -10,9 +10,10 @@ export default Component.extend({
   isText: Ember.computed('field.componentName', function() {
     return /text/.test(this.get('field.componentName'));
   }),
-  isLongText: Ember.computed('isText', 'field.stringCharLimit', function() {
-    const charLimit = parseInt(this.get('field.stringCharLimit'), 10) || 0;
-    return this.get('isText') && charLimit > 10;
+  isLongText: Ember.computed('isText', 'field.stringMaxChars', 'field.stringMinChars', function() {
+    const charLimit = parseInt(this.get('field.stringMaxChars'), 10) || 0;
+    const charMin = parseInt(this.get('field.stringMinChars'), 10) || 0;
+    return this.get('isText') && (charLimit > 10 || charMin > 10);
   }),
   isStringMatches: Ember.computed('isText', 'field.subType', function() {
     return this.get('isText') && this.get('field.subType') === 'matches';

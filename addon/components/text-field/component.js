@@ -120,13 +120,13 @@ export default FormField.extend({
   }),
 
   /**
-    * A yielded property the contains the number of allowable characters for the
+    * A yielded property the contains the number of max allowable characters for the
     * length of the `value`.
     *
-    * @property {Number} charRemaining
+    * @property {Number} maxCharRemaining
     * @yielded
     */
-  charRemaining: computed('value', 'max', function() {
+  maxCharRemaining: computed('value', 'max', function() {
     const charLimit = this.get('max');
 
     if (charLimit > 0) {
@@ -137,7 +137,25 @@ export default FormField.extend({
     return 0;
   }),
 
-  additionalState: Ember.computed('charRemaining', function() {
-    return this.getProperties('charRemaining');
+  /**
+    * A yielded property the contains the number of min allowable characters for the
+    * length of the `value`.
+    *
+    * @property {Number} minCharRemaining
+    * @yielded
+    */
+  minCharRemaining: computed('value', 'min', function() {
+    const charLimit = this.get('min');
+
+    if (charLimit > 0) {
+      const charCount = this.get('value.length') || 0;
+      return Math.max(charLimit - charCount, 0);
+    }
+
+    return 0;
+  }),
+
+  additionalState: Ember.computed('minCharRemaining', 'maxCharRemaining', function() {
+    return this.getProperties('minCharRemaining', 'maxCharRemaining');
   }),
 });
