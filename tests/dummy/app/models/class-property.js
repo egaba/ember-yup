@@ -8,5 +8,5 @@ export default Model.extend({
   description: DS.attr(),
   isPrivate: DS.attr('boolean', { defaultValue: false }),
   isYielded: DS.attr('boolean', { defaultValue: false }),
-  defaultValue: DS.attr()
+  defaultValue: DS.attr(),
 });

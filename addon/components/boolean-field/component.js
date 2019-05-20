@@ -12,7 +12,6 @@ export default FormField.extend({
    * The value of the field.
    *
    * @property {Boolean} value
-   * @yielded
    */
   value: undefined,
 

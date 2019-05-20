@@ -14,7 +14,6 @@ export default FormField.extend({
     * The value of the field.
     *
     * @property {String} value
-    * @yielded
     */
   value: undefined,
 
@@ -25,6 +24,22 @@ export default FormField.extend({
     * @property {String} matches
     */
   matches: undefined,
+
+  /**
+    * Set a minimum length limit for the string value.
+    * The `${min}` interpolation can be used in the message.
+    *
+    * @property {Number} min
+    */
+  min: undefined,
+
+  /**
+    * Set a maximum length limit for the string value.
+    * The `${max}` interpolation can be used in the message.
+    *
+    * @property {Number} max
+    */
+  max: undefined,
 
   /**
     * These are the default validation messages set by the Ember Yup library.
@@ -40,8 +55,9 @@ export default FormField.extend({
       url: undefined,
       type: undefined,
       required: undefined,
-      charLimit: 'character limit has been exceeded',
       matches: undefined,
+      min: undefined,
+      max: undefined,
     };
   }),
 
@@ -64,6 +80,8 @@ export default FormField.extend({
     'type', 'validationMessages.email', 'validationMessages.url', 'validationMessages.type',
     'matches', 'validationMessages.matches',
     'required', 'validationMessages.required',
+    'min', 'validationMessages.min',
+    'max', 'validationMessages.max',
   function() {
     const type = this.get('type');
 
@@ -84,6 +102,14 @@ export default FormField.extend({
       dataSchema = dataSchema.matches(matchesRegex, this.get('validationMessages.matches'));
     }
 
+    if (this.get('min')) {
+      dataSchema = dataSchema.min(this.get('min'), this.get('validationMessages.min'));
+    }
+
+    if (this.get('max')) {
+      dataSchema = dataSchema.max(this.get('max'), this.get('validationMessages.max'));
+    }
+
     if (this.get('required')) {
       dataSchema = dataSchema.required(this.get('validationMessages.required'));
     } else {
@@ -94,33 +120,14 @@ export default FormField.extend({
   }),
 
   /**
-    * The maximum number of characters allowed for the `value`.
-    *
-    * @property {Number} charLimit
-    * @defaultValue 0
-    */
-  charLimit: 0,
-
-  /**
-    * Determines validity by measuring the length of the `value`.
-    *
-    * @property {Object} charLimitSchema
-    * @private
-    */
-  charLimitSchema: computed('charLimit', 'validationMessages.charLimit', function() {
-    const charLimit = this.get('charLimit');
-    return yup.number().max(charLimit, this.get('validationMessages.charLimit'));
-  }),
-
-  /**
     * A yielded property the contains the number of allowable characters for the
     * length of the `value`.
     *
     * @property {Number} charRemaining
     * @yielded
     */
-  charRemaining: computed('value', 'charLimit', function() {
-    const charLimit = this.get('charLimit');
+  charRemaining: computed('value', 'max', function() {
+    const charLimit = this.get('max');
 
     if (charLimit > 0) {
       const charCount = this.get('value.length') || 0;
@@ -132,57 +139,5 @@ export default FormField.extend({
 
   additionalState: Ember.computed('charRemaining', function() {
     return this.getProperties('charRemaining');
-  }),
-
-  /**
-    * The validation result of the latest computed `value`.
-    *
-    * @property {Promise} validation
-    * @private
-    */
-  validation: computed('value', 'disabled', 'dataSchema', 'charLimit', 'charLimitSchema', 'abortEarly', function() {
-    if (this.get('disabled')) {
-      return RSVP.resolve(); // TODO: should we reject?
-    }
-
-    const abortEarly = this.get('abortEarly');
-    const value = this.get('value');
-    const validation = {
-      data: this.get('dataSchema').validate(value, { abortEarly: abortEarly })
-    };
-
-    if (this.get('charLimit') > 0) {
-      const numChars = value ? value.length : 0;
-      validation.charLimit = this.get('charLimitSchema').validate(numChars);
-    }
-
-    return new RSVP.Promise(function(resolve, reject) {
-      if (abortEarly) {
-        RSVP.hash(validation).then(function(hash) {
-          resolve(hash.data);
-        }).catch((e) => reject([e]));
-      } else {
-        RSVP.hashSettled(validation).then(function(hash) {
-          let errors = [], returnValue = value;
-
-          for (const validationType in hash) {
-            const state = hash[validationType].state;
-            if (state === 'rejected') {
-              const error = hash[validationType].reason;
-              error.type = validationType;
-              errors = errors.concat(error);
-            } else if (validationType === 'data' && state === 'fulfilled') {
-              returnValue = hash[validationType].value;
-            }
-          }
-
-          if (errors.length) {
-            reject(errors);
-          } else {
-            resolve(returnValue);
-          }
-        });
-      }
-    });
   }),
 });

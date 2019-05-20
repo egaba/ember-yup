@@ -190,10 +190,16 @@ export default Component.extend({
         onblur={{action actions.onBlur}}`;
       errorMessageStates.push('state.didBlur');
     } else if (displayErrorMessages === 'onUpdate') {
-      errorMessageStates.push('state.didValueChange');
+      errorMessageStates.push('state.didValueUpdate');
     }
 
-    if (errorMessageStates.length) {
+    if (errorMessageStates.length === 1) {
+      errorMessages = `{{#if ${errorMessageStates[0]}}}
+        {{#each state.errorMessages as |errorMessage|}}
+          <p>{{errorMessage}}</p>
+        {{/each}}
+      {{/if}}`
+    } else if (errorMessageStates.length > 1) {
       errorMessages = `{{#if (and ${errorMessageStates.join(' ')})}}
         {{#each state.errorMessages as |errorMessage|}}
           <p>{{errorMessage}}</p>
@@ -221,7 +227,7 @@ export default Component.extend({
 
     const subType = this.get('field.subType');
     const isText = this.get('isText');
-    let charLimitMarkup = '';
+    let charLimitMarkup = '', minStringMarkup = '', maxStringMarkup = '';
 
     if (isText) {
       if (this.get('isStringMatches')) {
@@ -237,9 +243,19 @@ export default Component.extend({
         }
       }
 
-      if (this.get('field.stringCharLimit')) {
-        charLimitMarkup = `
-      charLimit=${this.get('field.stringCharLimit')}`
+      // if (this.get('field.stringCharLimit')) {
+      //   charLimitMarkup = `
+      // charLimit=${this.get('field.stringCharLimit')}`
+      // }
+
+      if (this.get('field.stringMinChars')) {
+        minStringMarkup = `
+      min=${this.get('field.stringMinChars')}`
+      }
+
+      if (this.get('field.stringMaxChars')) {
+        maxStringMarkup = `
+      max=${this.get('field.stringMaxChars')}`
       }
     }
 
@@ -248,7 +264,7 @@ export default Component.extend({
 
     return `
     {{#${componentName}
-      value=fieldValue${requiredMarkup}${errorMessagesMarkup}${subTypeMarkup}${charLimitMarkup}${validationMessagesMarkup}${nonZeroMarkup}${integerMarkup}${minNumberMarkup}${maxNumberMarkup}${ltMarkup}${gtMarkup}${minDateMarkup}${maxDateMarkup}
+      value=fieldValue${requiredMarkup}${errorMessagesMarkup}${subTypeMarkup}${charLimitMarkup}${validationMessagesMarkup}${nonZeroMarkup}${integerMarkup}${minNumberMarkup}${maxNumberMarkup}${ltMarkup}${gtMarkup}${minDateMarkup}${maxDateMarkup}${minStringMarkup}${maxStringMarkup}
       as |state actions|
     }}
       ${controlMarkup}
@@ -286,21 +302,22 @@ export default Component.extend({
     }
   }),
 
-  resetField: Ember.observer('field.disabled', function() {
-    this.get('field').setProperties(this.get('initialState'));
-    this.set('fieldValue', this.get('initialState.value'));
-    // this.set('didBlur', false);
-  }),
-
-  clearField: Ember.observer('field.componentName', function() {
-    this.set('fieldValue', undefined);
-    // this.set('didBlur', false);
-  }),
+  // resetField: Ember.observer('field.disabled', function() {
+  //   // this.get('field').setProperties(this.get('initialState'));
+  //   // this.set('fieldValue', this.get('initialState.value'));
+  //   // this.set('didBlur', false);
+  // }),
+  //
+  // clearField: Ember.observer('field.componentName', function() {
+  //   // this.set('fieldValue', undefined);
+  //   // this.set('didBlur', false);
+  // }),
 
   refreshCode: Ember.observer(
     'field.required', 'field.displayErrorMessages', 'field.subType',
     'field.isNegative', 'field.isPositive', 'field.isInteger', 'field.minRangeNumber',
     'field.maxRangeNumber', 'field.greaterThanNumber', 'field.lessThanNumber', 'fieldMarkup',
+    'field.debug', 'fieldValue',
   function() {
     const cardId = `${this.get('elementId')}-code-card`;
     Ember.run.next(function() {
@@ -324,6 +341,66 @@ export default Component.extend({
   }),
   classNames: ['code-demo', 'mb-8'],
 
+  minValue: Ember.computed('field.componentName', 'field.stringMinChars', 'field.minRangeNumber', 'field.minDate',
+  function() {
+    const name = this.get('field.componentName');
+
+    if (/text/.test(name)) {
+      return this.get('field.stringMinChars');
+    } else if (/number/.test(name)) {
+      return this.get('field.minRangeNumber');
+    } else if (/date/.test(name)) {
+      return this.get('field.minDate');
+    }
+
+    return undefined;
+  }),
+
+  maxValue: Ember.computed('field.componentName', 'field.stringMaxChars', 'field.maxRangeNumber', 'field.maxDate',
+  function() {
+    const name = this.get('field.componentName');
+
+    if (/text/.test(name)) {
+      return this.get('field.stringMaxChars');
+    } else if (/number/.test(name)) {
+      return this.get('field.maxRangeNumber');
+    } else if (/date/.test(name)) {
+      return this.get('field.maxDate');
+    }
+
+    return undefined;
+  }),
+
+  minMessage: Ember.computed('field.componentName', 'field.minStringCharsMessage', 'field.minNumberMessage', 'field.minDateMessage',
+  function() {
+    const name = this.get('field.componentName');
+
+    if (/text/.test(name)) {
+      return this.get('field.minStringCharsMessage');
+    } else if (/number/.test(name)) {
+      return this.get('field.minNumberMessage');
+    } else if (/date/.test(name)) {
+      return this.get('field.minDateMessage');
+    }
+
+    return undefined;
+  }),
+
+  maxMessage: Ember.computed('field.componentName', 'field.maxStringCharsMessage', 'field.maxNumberMessage', 'field.maxDateMessage',
+  function() {
+    const name = this.get('field.componentName');
+
+    if (/text/.test(name)) {
+      return this.get('field.maxStringCharsMessage');
+    } else if (/number/.test(name)) {
+      return this.get('field.maxNumberMessage');
+    } else if (/date/.test(name)) {
+      return this.get('field.maxDateMessage');
+    }
+
+    return undefined;
+  }),
+
   actions: {
     clear() {
       this.clearField();
@@ -332,8 +409,12 @@ export default Component.extend({
       this.resetField();
     },
 
-    setCharLimit(e) {
-      this.set('field.stringCharLimit', Math.round(e.target.value, 10));
-    }
+    setCharMin(e) {
+      this.set('field.stringMinChars', Math.round(e.target.value, 10));
+    },
+
+    setCharMax(e) {
+      this.set('field.stringMaxChars', Math.round(e.target.value, 10));
+    },
   }
 });

@@ -1,9 +1,13 @@
 <div class="container">
   <section class="release-notes-section">
-    <h2>v0.5.0</h2>
+    <h2>v1.0.0</h2>
     <ul>
-      <li>renamed fields' `enabled` to `disabled`; fields are now `disabled=false` by default (as opposed to previously `enabled=false`)</li>
-      <li>fixed issue with incorrect message from displaying when setting `validationMessages`</li>
+      <li>renamed FormField prop `enabled` to `disabled`; fields are now `disabled=false` by default (as opposed to previously `enabled=false`)</li>
+      <li>yielded properties from FormFields are now divided into `states` and `actions`</li>
+      <li>FormFields yield the following `states`: `value` `hasErrors`	`didValidate`	`didValueUpdate` `didBlur` `disabled` `errorMessages`</li>
+      <li>FormFields yield the following `actions`: `onChange` `onBlur` `onClear`</li>
+      <li>removed `showErrorMessages` prop in lieu of new field states for better display control</li>
+      <li>fixed issue with messages in `validationMessages` not getting set</li>
     </ul>
   </section>
   <section class="release-notes-section">

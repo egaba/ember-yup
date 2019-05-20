@@ -3,124 +3,124 @@ import Controller from '@ember/controller';
 export default Controller.extend({
   example: 'required',
   queryParams: ['example'],
-  requiredDemo: `
-    {{#text-field
-      showErrorMessages=true
-      required=true
-      value=username
-      as |field|
-    }}
-      <input
-        placeholder="enter a username"
-        type="text"
-        value={{username}}
-        oninput={{action (mut username) value="target.value"}}
-      > *required
-      {{#each field.errorMessages as |error|}}
-        <p>{{error}}</p>
-      {{/each}}
-    {{/text-field}}
-  `,
-  emailDemo: `
-    {{#text-field
-      type="email"
-      value=emailAddress
-      as |field|
-    }}
-      <input
-        placeholder="Email address"
-        type="text"
-        value={{emailAddress}}
-        oninput={{action (mut emailAddress) value="target.value"}}
-      >
-      {{#each field.errorMessages as |error|}}
-        <p>{{error}}</p>
-      {{/each}}
-    {{/text-field}}
-  `,
-  urlDemo: `
-    {{#text-field
-      type="url"
-      value=url
-      as |field|
-    }}
-      <input
-        placeholder="Enter a URL"
-        type="text"
-        value={{url}}
-        oninput={{action (mut url) value="target.value"}}
-      >*must include protocol
-      {{#each field.errorMessages as |error|}}
-        <p>{{error}}</p>
-      {{/each}}
-    {{/text-field}}
-  `,
-  regexDemo: `
-    {{#text-field
-      matches="^\\d{5}(-\\d{4})?$"
-      validationMessages=(hash
-        matches="must be valid 5-digit or 9-digit zip code xxxxx-xxxx or xxxxx. regex: \${regex}"
-      )
-      value=zipcode
-      as |field|
-    }}
-      <input
-        placeholder="Enter a zip code"
-        type="text"
-        value={{zipcode}}
-        oninput={{action (mut zipcode) value="target.value"}}
-      >
-      {{#each field.errorMessages as |error|}}
-        <p>{{error}}</p>
-      {{/each}}
-    {{/text-field}}
-  `,
-  charLimitDemo: `
-    {{#text-field
-      charLimit=10
-      value=charLimitText
-      validationMessages=(hash
-        charLimit="username must be less than 10 characters"
-      )
-      as |field|
-    }}
-      <input
-        placeholder="Enter a username"
-        type="text"
-        value={{charLimitText}}
-        oninput={{action (mut charLimitText) value="target.value"}}
-      > char remaining: {{field.charRemaining}}
-      {{#each field.errorMessages as |error|}}
-        <p>{{error}}</p>
-      {{/each}}
-    {{/text-field}}
-  `,
-  strictUsername: 'invalid_username',
-  stackedDemo: `
-    {{#text-field
-      showErrorMessages=true
-      matches="^[a-zA-Z0-9]+\$"
-      charLimit=14
-      value=strictUsername
-      validationMessages=(hash
-        charLimit="username must be less than 14 characters"
-        matches="only letters and numbers are allowed; cannot be blank"
-      )
-      as |field|
-    }}
-      <input
-        placeholder="Enter a username"
-        type="text"
-        value={{strictUsername}}
-        oninput={{action (mut strictUsername) value="target.value"}}
-      > char remaining: {{field.charRemaining}}
-      {{#each field.errorMessages as |error|}}
-        <p>{{error}}</p>
-      {{/each}}
-    {{/text-field}}
-  `,
+  // requiredDemo: `
+  //   {{#text-field
+  //     showErrorMessages=true
+  //     required=true
+  //     value=username
+  //     as |field|
+  //   }}
+  //     <input
+  //       placeholder="enter a username"
+  //       type="text"
+  //       value={{username}}
+  //       oninput={{action (mut username) value="target.value"}}
+  //     > *required
+  //     {{#each field.errorMessages as |error|}}
+  //       <p>{{error}}</p>
+  //     {{/each}}
+  //   {{/text-field}}
+  // `,
+  // emailDemo: `
+  //   {{#text-field
+  //     type="email"
+  //     value=emailAddress
+  //     as |field|
+  //   }}
+  //     <input
+  //       placeholder="Email address"
+  //       type="text"
+  //       value={{emailAddress}}
+  //       oninput={{action (mut emailAddress) value="target.value"}}
+  //     >
+  //     {{#each field.errorMessages as |error|}}
+  //       <p>{{error}}</p>
+  //     {{/each}}
+  //   {{/text-field}}
+  // `,
+  // urlDemo: `
+  //   {{#text-field
+  //     type="url"
+  //     value=url
+  //     as |field|
+  //   }}
+  //     <input
+  //       placeholder="Enter a URL"
+  //       type="text"
+  //       value={{url}}
+  //       oninput={{action (mut url) value="target.value"}}
+  //     >*must include protocol
+  //     {{#each field.errorMessages as |error|}}
+  //       <p>{{error}}</p>
+  //     {{/each}}
+  //   {{/text-field}}
+  // `,
+  // regexDemo: `
+  //   {{#text-field
+  //     matches="^\\d{5}(-\\d{4})?$"
+  //     validationMessages=(hash
+  //       matches="must be valid 5-digit or 9-digit zip code xxxxx-xxxx or xxxxx. regex: \${regex}"
+  //     )
+  //     value=zipcode
+  //     as |field|
+  //   }}
+  //     <input
+  //       placeholder="Enter a zip code"
+  //       type="text"
+  //       value={{zipcode}}
+  //       oninput={{action (mut zipcode) value="target.value"}}
+  //     >
+  //     {{#each field.errorMessages as |error|}}
+  //       <p>{{error}}</p>
+  //     {{/each}}
+  //   {{/text-field}}
+  // `,
+  // charLimitDemo: `
+  //   {{#text-field
+  //     charLimit=10
+  //     value=charLimitText
+  //     validationMessages=(hash
+  //       charLimit="username must be less than 10 characters"
+  //     )
+  //     as |field|
+  //   }}
+  //     <input
+  //       placeholder="Enter a username"
+  //       type="text"
+  //       value={{charLimitText}}
+  //       oninput={{action (mut charLimitText) value="target.value"}}
+  //     > char remaining: {{field.charRemaining}}
+  //     {{#each field.errorMessages as |error|}}
+  //       <p>{{error}}</p>
+  //     {{/each}}
+  //   {{/text-field}}
+  // `,
+  // strictUsername: 'invalid_username',
+  // stackedDemo: `
+  //   {{#text-field
+  //     showErrorMessages=true
+  //     matches="^[a-zA-Z0-9]+\$"
+  //     charLimit=14
+  //     value=strictUsername
+  //     validationMessages=(hash
+  //       charLimit="username must be less than 14 characters"
+  //       matches="only letters and numbers are allowed; cannot be blank"
+  //     )
+  //     as |field|
+  //   }}
+  //     <input
+  //       placeholder="Enter a username"
+  //       type="text"
+  //       value={{strictUsername}}
+  //       oninput={{action (mut strictUsername) value="target.value"}}
+  //     > char remaining: {{field.charRemaining}}
+  //     {{#each field.errorMessages as |error|}}
+  //       <p>{{error}}</p>
+  //     {{/each}}
+  //   {{/text-field}}
+  // `,
 
-  methods: Ember.computed.map('model.methods', function(method) {
+  methods: Ember.computed.map('model.api.methods', function(method) {
     const methodParams = method.get('params').map(function(param) { return param.name; }).join(',');
     const signature = `${method.get('name')}(${methodParams})`;
     return {

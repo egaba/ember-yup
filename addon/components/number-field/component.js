@@ -11,9 +11,17 @@ export default FormField.extend({
     * The value of the field.
     *
     * @property {Number} value
-    * @yielded
     */
   value: undefined,
+
+  /**
+    * Permits Yup to transform the field's value before passing the value through.
+    *
+    * @property {Boolean} allowTransform
+    * @private
+    * @defaultValue true
+    */
+  allowTransform: true,
 
   /**
     * These are the default validation messages set by the Ember Yup library.

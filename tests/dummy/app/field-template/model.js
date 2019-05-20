@@ -10,11 +10,16 @@ export default Model.extend({
   subType: DS.attr({ defaultValue: 'none' }),
   stringMatches: DS.attr({ defaultValue: '\\w+' }),
   stringCharLimit: DS.attr('number', { defaultValue: 0 }),
+  stringMinChars: DS.attr('number', { defaultValue: 0 }),
+  stringMaxChars: DS.attr('number', { defaultValue: 0 }),
   requiredValidationMessage: DS.attr({ defaultValue: '' }),
   matchesValidationMessage: DS.attr({ defaultValue: '' }),
   charLimitValidationMessage: DS.attr({ defaultValue: '' }),
   emailValidationMessage: DS.attr({ defaultValue: '' }),
   urlValidationMessage: DS.attr({ defaultValue: '' }),
+  debug: DS.attr('boolean'),
+  minStringCharsMessage: DS.attr({ defaultValue: '' }),
+  maxStringCharsMessage: DS.attr({ defaultValue: '' }),
 
 
   isInteger: DS.attr('boolean'),

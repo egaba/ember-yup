@@ -20,10 +20,10 @@ export default Component.extend({
    * or `onReject` is invoked with a hash of data or errors. Set this value to `false`
    * if you want to disable the `onSuccess` and `onReject` handlers.
    *
-   * @property {Boolean} sync
-   * @defaultValue sync
+   * @property {Boolean} async
+   * @defaultValue async
    */
-  sync: true,
+  async: false,
 
   /**
    * FormFields register themselves with this property when they initialize.

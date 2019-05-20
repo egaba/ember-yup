@@ -1,31 +1,40 @@
 {{yield state (hash
     onChange=(action "onChange")
-    onBlur=(action (mut didBlur) true)
+    onBlur=(action "onBlur")
     onClear=(action "onClear")
   )
 }}
 
 {{#if debug}}
-  <table class="table">
-    <thead>
-      <tr>
-        <th>typeof(value)</th>
-        {{#each-in state as |key|}}
-          {{#unless (or (eq key "errorMessages") (eq key "value"))}}
-            <th>{{key}}</th>
-          {{/unless}}
-        {{/each-in}}
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{typeOfValue}}</td>
-        {{#each-in state as |key val|}}
-          {{#unless (or (eq key "errorMessages") (eq key "value"))}}
-            <td>{{val}}</td>
-          {{/unless}}
-        {{/each-in}}
-      </tr>
-    </tbody>
-  </table>
+  <div class="text-xs mt-4">
+    <table>
+      <thead>
+        <tr>
+          <th class="pr-2 text-xs">typeof(value)</th>
+          {{#each-in state as |key|}}
+            {{#unless (or (eq key "errorMessages") (eq key "value"))}}
+              <th class="pr-2 text-xs">{{key}}</th>
+            {{/unless}}
+          {{/each-in}}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{typeOfValue}}</td>
+          {{#each-in state as |key val|}}
+            {{#unless (or (eq key "errorMessages") (eq key "value"))}}
+              <td>{{val}}</td>
+            {{/unless}}
+          {{/each-in}}
+        </tr>
+      </tbody>
+    </table>
+    <div class="mt-4">
+      <p class="font-semibold text-grey-dark">actions</p>
+      <div class="flex">
+        <a class="inline-block cursor-pointer mr-4" {{action "onClear"}}>onClear</a>
+        <a class="inline-block cursor-pointer mr-4" {{action "onBlur"}}>onBlur</a>
+      </div>
+    </div>
+  </div>
 {{/if}}

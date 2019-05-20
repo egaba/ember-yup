@@ -25,6 +25,7 @@
       {{#unless isReloading}}
         {{#component field.componentName
           type=field.subType
+          debug=field.debug
           validationMessages=(hash
             required=field.requiredValidationMessage
             matches=field.matchesValidationMessage
@@ -34,8 +35,8 @@
             integer=field.integerMessage
             negative=field.negativeMessage
             positive=field.positiveMessage
-            min=(if isNumber field.minNumberMessage field.minDateMessage)
-            max=(if isNumber field.maxNumberMessage field.maxDateMessage)
+            min=minMessage
+            max=maxMessage
             gt=field.greaterThanMessage
             lt=field.lessThanMessage
             dataType=field.dataTypeMessage
@@ -46,89 +47,57 @@
           integer=field.isInteger
           negative=field.isNegative
           positive=field.isPositive
-          min=(if isNumber field.minRangeNumber field.minDate)
-          max=(if isNumber field.maxRangeNumber field.maxDate)
+          min=minValue
+          max=maxValue
           gt=field.greaterThanNumber
           lt=field.lessThanNumber
           matches=stringMatches
-          charLimit=field.stringCharLimit
           as |f actions|
         }}
-          <div class="flex">
-            <div class="w-2/5">
-              {{#if isBoolean}}
-                <wired-checkbox
-                  class="cursor-pointer"
-                  checked={{fieldValue}}
-                  onclick={{action actions.onChange value="target.checked"}}
-                ></wired-checkbox>
-              {{else}}
-                {{#if isLongText}}
-                  <WiredTextarea
-                    @disabled={{f.disabled}}
-                    @value={{fieldValue}}
-                    @placeholder={{field.componentName}}
-                    @input={{action actions.onChange value="target.value"}}
-                    @blur={{action actions.onBlur}}
-                  >
-                  </WiredTextarea>
-                {{else}}
-                  <WiredInput
-                    @disabled={{f.disabled}}
-                    @value={{fieldValue}}
-                    @placeholder={{field.componentName}}
-                    @input={{action actions.onChange value="target.value"}}
-                    @blur={{action actions.onBlur}}
-                  >
-                  </WiredInput>
-                {{/if}}
-                <a class="inline-block ml-1 text-sm cursor-pointer" {{action actions.onClear}}>clear</a>
-              {{/if}}
-              {{#if (eq field.displayErrorMessages "onBlur")}}
-                {{#if f.didBlur}}
-                  {{#each f.errorMessages as |message|}}
-                    <p class="text-red text-sm">{{message}}</p>
-                  {{/each}}
-                {{/if}}
-              {{else if (eq field.displayErrorMessages "onUpdate")}}
-                {{#if f.didValueChange}}
-                  {{#each f.errorMessages as |message|}}
-                    <p class="text-red text-sm">{{message}}</p>
-                  {{/each}}
-                {{/if}}
-              {{else}}
-                {{#each f.errorMessages as |message|}}
-                  <p class="text-red text-sm">{{message}}</p>
-                {{/each}}
-              {{/if}}
-
-
-            </div>
-            <div class="w-3/5 flex justify-end">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>typeof(value)</th>
-                    {{#each-in f as |key|}}
-                      {{#unless (or (eq key "errorMessages") (eq key "value"))}}
-                        <th>{{key}}</th>
-                      {{/unless}}
-                    {{/each-in}}
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{{fieldValueType}}</td>
-                    {{#each-in f as |key val|}}
-                      {{#unless (or (eq key "errorMessages") (eq key "value"))}}
-                        <td>{{val}}</td>
-                      {{/unless}}
-                    {{/each-in}}
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+        {{#if isBoolean}}
+          <wired-checkbox
+            class="cursor-pointer"
+            checked={{fieldValue}}
+            onclick={{action actions.onChange value="target.checked"}}
+          >{{field.componentName}}</wired-checkbox>
+        {{else}}
+          {{#if isLongText}}
+            <WiredTextarea
+              @disabled={{f.isDisabled}}
+              @value={{fieldValue}}
+              @placeholder={{field.componentName}}
+              @input={{action actions.onChange value="target.value"}}
+              @blur={{action actions.onBlur}}
+            >
+            </WiredTextarea>
+          {{else}}
+            <WiredInput
+              @disabled={{f.isDisabled}}
+              @value={{fieldValue}}
+              @placeholder={{field.componentName}}
+              @input={{action actions.onChange value="target.value"}}
+              @blur={{action actions.onBlur}}
+            >
+            </WiredInput>
+          {{/if}}
+        {{/if}}
+        {{#if (eq field.displayErrorMessages "onBlur")}}
+          {{#if f.didBlur}}
+            {{#each f.errorMessages as |message|}}
+              <p class="text-red text-sm">{{message}}</p>
+            {{/each}}
+          {{/if}}
+        {{else if (eq field.displayErrorMessages "onUpdate")}}
+          {{#if f.didValueUpdate}}
+            {{#each f.errorMessages as |message|}}
+              <p class="text-red text-sm">{{message}}</p>
+            {{/each}}
+          {{/if}}
+        {{else}}
+          {{#each f.errorMessages as |message|}}
+            <p class="text-red text-sm">{{message}}</p>
+          {{/each}}
+        {{/if}}
         {{/component}}
       {{/unless}}
     </div>
@@ -145,17 +114,23 @@
         <div class="w-2/5">
           <section class="pl-4">
             <h3>General</h3>
-            <label for="">Disable field?</label>
-            <WiredToggle @checked={{field.disabled}} @click={{action (mut field.disabled) value="target.checked"}}></WiredToggle>
-            <fieldset>
+            <fieldset class="mb-4">
               <legend>Show error messages</legend>
               <WiredRadioGroup @selected={{field.displayErrorMessages}}>
-                <WiredRadio @name="onInit" @click={{action (mut field.displayErrorMessages) value="target.name"}}>on init</WiredRadio>
+                <WiredRadio @name="onInit" @click={{action (mut field.displayErrorMessages) value="target.name"}}>always</WiredRadio>
                 {{#unless isBoolean}}
                   <WiredRadio @name="onBlur" @click={{action (mut field.displayErrorMessages) value="target.name"}}>on blur</WiredRadio>
                 {{/unless}}
                 <WiredRadio @name="onUpdate" @click={{action (mut field.displayErrorMessages) value="target.name"}}>on change</WiredRadio>
               </WiredRadioGroup>
+            </fieldset>
+            <fieldset class="mt-2">
+              <label for="">Debug mode</label>
+              <WiredToggle @checked={{field.debug}} @click={{action (mut field.debug) value="target.checked"}}></WiredToggle>
+            </fieldset>
+            <fieldset class="mt-2">
+              <label for="">Disable field</label>
+              <WiredToggle @checked={{field.disabled}} @click={{action (mut field.disabled) value="target.checked"}}></WiredToggle>
             </fieldset>
           </section>
 
@@ -241,9 +216,15 @@
               </div>
             </div>
             <div class="field-row">
-              <label for="">Character limit: {{field.stringCharLimit}}</label>
+              <label for="">Min chars: {{field.stringMinChars}}</label>
               <div class="control-field">
-                <WiredSlider @max=50 @change={{action "setCharLimit"}}></WiredSlider>
+                <WiredSlider @max=50 @change={{action "setCharMin"}}></WiredSlider>
+              </div>
+            </div>
+            <div class="field-row">
+              <label for="">Max chars: {{field.stringMaxChars}}</label>
+              <div class="control-field">
+                <WiredSlider @max=50 @change={{action "setCharMax"}}></WiredSlider>
               </div>
             </div>
           {{else if isNumber}}

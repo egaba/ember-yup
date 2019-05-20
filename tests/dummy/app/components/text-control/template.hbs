@@ -1,0 +1,38 @@
+{{#if label}}<label for="{{elementId}}-label">{{label}}</label>{{/if}}
+<WiredInput
+  @id="{{elementId}}-control"
+  @class={{if inline "flex-inline" "flex"}}
+  @disabled={{disabled}}
+  @value={{value}}
+  @placeholder={{placeholder}}
+  @input={{action "onChange" value="target.value"}}
+></WiredInput>
+
+{{#each f.errorMessages as |message|}}
+  <p class="text-red text-sm">{{message}}</p>
+{{/each}}
+
+{{#if debug}}
+  <table style="font-size: 11px; margin-top: 4px;">
+    <thead>
+      <tr>
+        <th>typeof(value)</th>
+        {{#each-in state as |key|}}
+          {{#unless (or (eq key "errorMessages") (eq key "value"))}}
+            <th>{{key}}</th>
+          {{/unless}}
+        {{/each-in}}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{typeOfValue}}</td>
+        {{#each-in state as |key val|}}
+          {{#unless (or (eq key "errorMessages") (eq key "value"))}}
+            <td>{{val}}</td>
+          {{/unless}}
+        {{/each-in}}
+      </tr>
+    </tbody>
+  </table>
+{{/if}}

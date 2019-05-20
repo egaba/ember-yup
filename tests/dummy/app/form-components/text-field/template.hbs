@@ -17,7 +17,7 @@
     <wired-item value="stacked" onclick={{action (mut example) "stacked"}}>stacked options</wired-item>
   </wired-listbox>
 </nav>
-
+<!--
 {{#if (eq example "required")}}
   {{#code-demo markup=requiredDemo}}
     {{#text-field
@@ -139,7 +139,9 @@
       {{/each}}
     {{/text-field}}
   {{/code-demo}}
-{{/if}}
+{{/if}} -->
+
+{{field-builder field=model.example}}
 
 <h2 class="mt-10 mb-4">API reference</h2>
 
@@ -167,7 +169,7 @@
     </section>
 
     <section>
-      {{#each model.properties as |property|}}
+      {{#each model.api.properties as |property|}}
         <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{property.id}}>
           <h4 class="mb-1">{{property.name}} <small class="text-sm font-normal text-grey">{{property.dataType}}</small></h4>
 
@@ -178,13 +180,23 @@
   </div>
 
   {{#fixed-nav class="w-1/5 page-side-nav"}}
-    <h4 class="mb-3 mt-4 text-grey-darker">Methods</h4>
-    {{#each model.methods as |method|}}
-      <a href="#{{method.id}}">{{method.name}}</a>
+    <h4 class="mb-3 mt-4 text-grey-darker">State</h4>
+    {{#each model.api.properties as |prop|}}
+      {{#if prop.isYielded}}
+        <a href="#{{prop.id}}">{{prop.name}}</a>
+      {{/if}}
     {{/each}}
-    <h4 class="mb-3 mt-4 text-grey-darker">Properties</h4>
-    {{#each model.properties as |prop|}}
-      <a href="#{{prop.id}}">{{prop.name}}</a>
+    <h4 class="mb-3 mt-4 text-grey-darker">Actions</h4>
+    {{#each model.api.methods as |method|}}
+      {{#if method.isYielded}}
+        <a href="#{{method.id}}">{{method.name}}</a>
+      {{/if}}
+    {{/each}}
+    <h4 class="mb-3 mt-4 text-grey-darker">Public Properties</h4>
+    {{#each model.api.properties as |prop|}}
+      {{#unless (or prop.isPrivate prop.isYielded)}}
+        <a href="#{{prop.id}}">{{prop.name}}</a>
+      {{/unless}}
     {{/each}}
   {{/fixed-nav}}
 </div>

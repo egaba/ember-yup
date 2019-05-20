@@ -51,6 +51,8 @@ function readData(data, componentName) {
           commentData.defaultValue = tag.description;
         } else if (tag.title === 'param') {
           commentData.params.push(tag);
+        } else if (tag.title === 'state') {
+          commentData.isState = true;
         } else {
           console.log('unknown tag', tag, tag.title === 'param', commentData);
         }
@@ -99,7 +101,7 @@ export function initialize(appInstance) {
         dataType: data.type,
         description: data.description,
         isPrivate: data.isPrivate,
-        isYielded: data.isYielded
+        isYielded: data.isYielded,
       });
     }
 

@@ -18,14 +18,11 @@ export default Component.extend({
   layout,
 
   classNames: ['form-field'],
-  attributeBindings: ['disabled', 'name'],
 
   init() {
     this._super(...arguments);
     this.readValidation();
   },
-
-  tagName: 'fieldset',
 
   /**
     * Control whether or not validation occurs on the field.
@@ -48,7 +45,8 @@ export default Component.extend({
   }),
 
   /**
-   * Field-type specific properties that are yielded to the template.
+   * Field-specific properties that are yielded to the template. Can be overridden
+   * by the inheriting FormField component.
    *
    * @property {Object} additionalState
    * @private
@@ -56,18 +54,20 @@ export default Component.extend({
   additionalState: null,
 
   /**
-   * Base properties that are yielded to the template.
+   * Base field properties that are yielded to the template.
    *
    * @property {Object} baseState
    * @private
    */
   baseState: Ember.computed(
-    'errorMessages', 'value', 'hasErrors', 'didValidate', 'disabled',
-    'didValueChange', 'didBlur',
+    'errorMessages', 'hasErrors', 'didValidate',
+    'didValueUpdate', 'didBlur', 'isValid', 'isInvalid', 'isInvalidAfterUpdate',
+    'isValidAfterUpdate', 'isDisabled',
   function() {
     return this.getProperties(
-      'errorMessages', 'value', 'hasErrors', 'didValidate', 'disabled', 'didValueChange',
-      'didBlur'
+      'errorMessages', 'hasErrors', 'didValidate', 'didValueUpdate',
+      'didBlur', 'isValid', 'isInvalid', 'isInvalidAfterUpdate', 'isValidAfterUpdate',
+      'isDisabled'
     );
   }),
 
@@ -212,6 +212,7 @@ export default Component.extend({
     *
     * @property {Array} errorMessages
     * @yielded
+    * @state
     */
   errorMessages: computed('errors.@each.errors', function() {
     let errors = [];
@@ -226,11 +227,69 @@ export default Component.extend({
   /**
     * Flag used to determine if there was input.
     *
-    * @property {Boolean} didValueChange
+    * @property {Boolean} didValueUpdate
     * @yielded
     * @defaultValue false
     */
-  didValueChange: false,
+  didValueUpdate: false,
+
+  /**
+    * A field is valid if there are no errors after validating.
+    *
+    * @property {Boolean} isValid
+    * @yielded
+    * @defaultValue false
+    */
+  isValid: Ember.computed('didValidate', 'hasErrors', function() {
+    if (!this.get('didValidate')) {
+      return false;
+    }
+
+    return !this.get('hasErrors');
+  }).readOnly(),
+
+  /**
+    * Computed from `isValid` && `didValueUpdate`. Useful for implementing
+    * valid styles after user input.
+    *
+    * @property {Boolean} isValidAfterUpdate
+    * @yielded
+    * @defaultValue false
+    */
+  isValidAfterUpdate: Ember.computed.and('isValid', 'didValueUpdate'),
+
+  /**
+    * A field is not valid if there are errors after validating.
+    *
+    * @property {Boolean} isInvalid
+    * @yielded
+    * @defaultValue false
+    */
+  isInvalid: Ember.computed('didValidate', 'hasErrors', function() {
+    if (!this.get('didValidate')) {
+      return false;
+    }
+
+    return this.get('hasErrors');
+  }).readOnly(),
+
+  /**
+    * Control whether or not validation occurs on the field.
+    *
+    * @property {Boolean} isDisabled
+    * @yielded
+    */
+  isDisabled: Ember.computed.alias('disabled'),
+
+  /**
+    * Computed from `isInvalid` && `didValueUpdate`. Useful for implementing
+    * invalid styles after user input.
+    *
+    * @property {Boolean} isInvalidAfterUpdate
+    * @yielded
+    * @defaultValue false
+    */
+  isInvalidAfterUpdate: Ember.computed.and('isInvalid', 'didValueUpdate'),
 
   /**
    * If the field is not `disabled`, the field will validate its `value`. If the validation passes,
@@ -245,8 +304,8 @@ export default Component.extend({
     if (!this.get('disabled')) {
       const value = this.get('value');
 
-      if (!this.get('didValueChange') && updatedKeyName === 'value') {
-        this.set('didValueChange', true);
+      if (!this.get('didValueUpdate') && updatedKeyName === 'value') {
+        this.set('didValueUpdate', true);
       }
 
       this.get('validation')
@@ -259,6 +318,9 @@ export default Component.extend({
           this.get('errors').addObjects(errors);
           this.set('didValidate', true);
         });
+    } else {
+      this.set('didValidate', false);
+      this.get('errors').clear();
     }
   }),
 
@@ -293,6 +355,15 @@ export default Component.extend({
     }
   },
 
+  /**
+    * Permits Yup to transform the field's value before passing the value through.
+    *
+    * @property {Boolean} allowTransform
+    * @private
+    * @defaultValue false
+    */
+  allowTransform: false,
+
   debug: false,
   typeOfValue: Ember.computed('value', function() {
     return typeof(this.get('value'));
@@ -305,23 +376,29 @@ export default Component.extend({
      * @function onChange
      * @param {*} value
      * @action
+     * @yielded
      */
     onChange(value) {
-      const schema = this.get('dataSchema');
-      let nextValue;
-      try {
-        nextValue = schema.cast(value);
-      } catch(e) {
-        nextValue = value;
+      let nextValue = value;
+
+      if (this.get('allowTransform')) {
+        const schema = this.get('dataSchema');
+        try {
+          nextValue = schema.cast(value);
+        } catch(e) {
+          nextValue = value;
+        }
       }
+
       this.set('value', nextValue);
     },
 
     /**
-     * Sets the field into a "new" state.
+     * Clears the value and sets the field into a "new" state.
      *
      * @function onClear
      * @action
+     * @yielded
      */
     onClear() {
       this.setProperties({
@@ -330,8 +407,19 @@ export default Component.extend({
       });
 
       Ember.run.next(() => {
-        this.set('didValueChange', false);
+        this.set('didValueUpdate', false);
       });
     },
+
+    /**
+     * Sets the `didBlur` state.
+     *
+     * @function onBlur
+     * @action
+     * @yielded
+     */
+    onBlur() {
+      this.set('didBlur', true);
+    }
   }
 });
