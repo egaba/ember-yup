@@ -1,24 +1,124 @@
-<nav class="mb-8">
-  {{link-to "← Blog" "blog.index" class="text-grey"}}
-</nav>
 
-<article class="w-4/5">
+
+<!-- <article class="w-4/5">
   <header>
     <time datetime="2019-05-02" class="text-grey font-medium">
       May 2, 2019
     </time>
 
     <h1 class="docs-md__h1">
-      Ember Yup beta has arrived!
+      Hello, world
       <small><span class="text-grey font-normal text-sm">by Edward Gaba</span></small>
     </h1>
   </header>
 
   <div class="docs-md">
-    <p><a href="https://github.com/jquense/yup" target="_blank" rel="noopener noreferrer">Yup</a> is a JavaScript object schema validator and object parser inspired by Joi. It's a library that pairs perfectly with modern web apps for validating data on the client.</p>
-    <p>This initial release includes form field components that validate strings, numbers, booleans, dates, and forms.</p>
-    <p>If you're new to Yup, {{link-to "check out the tutorial" "getting-started.quick-start.index"}} for an example of how to validate data using an object schema.</p>
-    <p>If you or your team are using Ember Yup and are running into any issues, I'd love to hear from you! Feel free to email me at <span class="font-bold">egaba88@gmail.com</span> or <a target="_blank" rel="noopener noreferrer" href="https://github.com/egaba88/ember-yup/issues">leave a question in Github</a>.</p>
-    <p>Thanks! ✌️</p>
+    <div class="flex">
+      <div class="w-4/5">
+        <p>What started out as a simple wrapper library evolved into another form component library, but I promise this one's different.</p>
+      </div>
+      <div class="w-1/5 pl-10">
+        <TextField value=value1 @required=true as |state actions|>
+          <input type="text" name="" value={{value}}>
+          {{#each state.errorMessages as |msg|}}
+            <p>{{msg}}</p>
+          {{/each}}
+        </TextField>
+      </div>
+    </div>
+  </div>
+</article> -->
+<div class="container">
+  <nav class="mb-8">
+    {{link-to "← Blog" "blog.index" class="text-grey"}}
+  </nav>
+</div>
+
+<article class="container">
+  <header>
+    <div class="row">
+      <div class="col-12">
+        <time datetime="2019-05-02" class="text-grey font-medium">
+          May 2, 2019
+        </time>
+
+        <h1>
+          Hello, world
+          <small><span class="text-grey font-normal text-sm">by Edward Gaba</span></small>
+        </h1>
+      </div>
+    </div>
+  </header>
+  <div class="row">
+    <div class="col-12">
+      <p>
+        What started out as a simple wrapper library evolved into a form component library, as if there weren't already plenty.
+      </p>
+
+
+
+      <!-- <div class="py-8 px-4 bg-grey-lightest">
+        <p>There is a certain club which is for men only. There are 600 men who belong to this club and 5% of these men wear one earring. Of the other 95% membership, half wear two earrings and the other half wear none. How many earrings are being worn in this club?</p>
+        <NumberField
+          @tagName="fieldset"
+          @value=riddle2Value
+          @min=600
+          @max=600
+          @validationMessages={{hash
+            min="Answer: 600"
+            max="Answer: 600"
+            dataType="Answer: 600"
+          }}
+          as |state actions|
+        >
+          <WiredRadioGroup @selected={{field.displayErrorMessages}}>
+            <WiredRadio @name=400 @click={{action actions.onChange value="target.name"}}>400</WiredRadio>
+            <WiredRadio @name=500 @click={{action actions.onChange value="target.name"}}>500</WiredRadio>
+            <WiredRadio @name=600 @click={{action actions.onChange value="target.name"}}>600</WiredRadio>
+            <WiredRadio @name=700 @click={{action actions.onChange value="target.name"}}>700</WiredRadio>
+          </WiredRadioGroup>
+          {{#if (or state.didValueUpdate riddle2ShowAnswer)}}
+            {{#if state.isValid}}
+              <span class="font-medium text-green">Correct! Answer is 600</span>
+            {{else}}
+              {{#each state.errorMessages as |msg|}}
+                <span class="font-bold">{{msg}}</span>
+              {{/each}}
+            {{/if}}
+          {{else}}
+            <a class="cursor-pointer text-sm" {{action (mut riddle2ShowAnswer) true}}>Show answer</a>
+          {{/if}}
+
+        </NumberField>
+      </div> -->
+
+
+      <!-- <div>
+        <p>The more you take, the more you leave behind. What am I?</p>
+        <TextField
+          @value=riddle1Value
+          @matches="step"
+          as |state actions|
+        >
+          <WiredInput
+            @input={{action actions.onChange value="target.value"}}
+            @placeholder="Enter a guess"
+            @value={{riddle1Value}}
+            @blur={{action actions.onBlur}}
+          />
+          {{#if riddle1ShowAnswer}}
+            <span>Answer: footsteps</span>
+          {{else}}
+            <a class="cursor-pointer text-sm" {{action (mut riddle1ShowAnswer) true}}>Show answer</a>
+          {{/if}}
+
+          {{#if state.didBlur}}
+            {{#each state.errorMessages as |msg|}}
+              <p class="text-red-dark text-sm mb-0">{{msg}}</p>
+            {{/each}}
+          {{/if}}
+        </TextField>
+      </div> -->
+    </div>
   </div>
 </article>

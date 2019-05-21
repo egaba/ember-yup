@@ -102,7 +102,7 @@ export default Component.extend({
 
     if (messages.length) {
       validationMessagesMarkup = `
-      validationMessages=(hash`;
+      @validationMessages={{hash`;
 
       messages.forEach(function(msg) {
         validationMessagesMarkup += `
@@ -110,7 +110,7 @@ export default Component.extend({
       });
 
       validationMessagesMarkup += `
-      )`;
+      }}`;
     }
 
     return validationMessagesMarkup;
@@ -131,39 +131,39 @@ export default Component.extend({
     if (this.get('isNumber')) {
       if (this.get('field.isPositive')) {
         nonZeroMarkup = `
-      positive=true`;
+      @positive=true`;
       } else if (this.get('field.isNegative')) {
         nonZeroMarkup = `
-      negative=true`;
+      @negative=true`;
       }
 
       if (this.get('field.isInteger')) {
         integerMarkup = `
-      integer=true`;
+      @integer=true`;
       }
 
       const minNumber = this.get('field.minRangeNumber');
       if (Ember.isPresent(minNumber)) {
         minNumberMarkup = `
-      min=${minNumber}`;
+      @min=${minNumber}`;
       }
 
       const maxNumber = this.get('field.maxRangeNumber');
       if (Ember.isPresent(maxNumber)) {
         maxNumberMarkup = `
-      max=${maxNumber}`;
+      @max=${maxNumber}`;
       }
 
       const gtNumber = this.get('field.greaterThanNumber');
       if (Ember.isPresent(gtNumber)) {
         gtMarkup = `
-      gt=${gtNumber}`;
+      @gt=${gtNumber}`;
       }
 
       const ltNumber = this.get('field.lessThanNumber');
       if (Ember.isPresent(ltNumber)) {
         ltMarkup = `
-      lt=${ltNumber}`;
+      @lt=${ltNumber}`;
       }
     }
 
@@ -172,13 +172,13 @@ export default Component.extend({
       const minDate = this.get('field.minDate');
       if (minDate) {
         minDateMarkup = `
-      min="${minDate}"`;
+      @min="${minDate}"`;
       }
 
       const maxDate = this.get('field.maxDate');
       if (maxDate) {
         maxDateMarkup = `
-      max="${maxDate}"`;
+      @max="${maxDate}"`;
       }
     }
 
@@ -233,14 +233,14 @@ export default Component.extend({
     if (isText) {
       if (this.get('isStringMatches')) {
         subTypeMarkup = `
-      matches="${this.get('field.stringMatches') || ''}"`;
+      @matches="${this.get('field.stringMatches') || ''}"`;
       } else {
         if (subType === 'email') {
           subTypeMarkup = `
-      type="email"`;
+      @type="email"`;
         } else if (subType === 'url') {
           subTypeMarkup = `
-      type="url"`;
+      @type="url"`;
         }
       }
 
@@ -251,26 +251,36 @@ export default Component.extend({
 
       if (this.get('field.stringMinChars')) {
         minStringMarkup = `
-      min=${this.get('field.stringMinChars')}`
+      @min=${this.get('field.stringMinChars')}`
       }
 
       if (this.get('field.stringMaxChars')) {
         maxStringMarkup = `
-      max=${this.get('field.stringMaxChars')}`
+      @max=${this.get('field.stringMaxChars')}`
       }
     }
 
     const requiredMarkup = this.get('field.required') ? `
-      required=true` : '';
+      @required=true` : '';
 
+    const className = Ember.String.classify(componentName);
+    // return `
+    // {{#${componentName}
+    //   value=fieldValue${requiredMarkup}${errorMessagesMarkup}${subTypeMarkup}${charLimitMarkup}${validationMessagesMarkup}${nonZeroMarkup}${integerMarkup}${minNumberMarkup}${maxNumberMarkup}${ltMarkup}${gtMarkup}${minDateMarkup}${maxDateMarkup}${minStringMarkup}${maxStringMarkup}
+    //   as |state actions|
+    // }}
+    //   ${controlMarkup}
+    //   ${errorMessages}
+    // {{/${componentName}}}
+    // `
     return `
-    {{#${componentName}
-      value=fieldValue${requiredMarkup}${errorMessagesMarkup}${subTypeMarkup}${charLimitMarkup}${validationMessagesMarkup}${nonZeroMarkup}${integerMarkup}${minNumberMarkup}${maxNumberMarkup}${ltMarkup}${gtMarkup}${minDateMarkup}${maxDateMarkup}${minStringMarkup}${maxStringMarkup}
+    <${className}
+      @value=fieldValue${requiredMarkup}${errorMessagesMarkup}${subTypeMarkup}${charLimitMarkup}${validationMessagesMarkup}${nonZeroMarkup}${integerMarkup}${minNumberMarkup}${maxNumberMarkup}${ltMarkup}${gtMarkup}${minDateMarkup}${maxDateMarkup}${minStringMarkup}${maxStringMarkup}
       as |state actions|
-    }}
+    >
       ${controlMarkup}
       ${errorMessages}
-    {{/${componentName}}}
+    </${className}>
     `
   }),
   fieldValue: undefined,
@@ -340,7 +350,7 @@ export default Component.extend({
   currentTab: Ember.computed('showCode', function() {
     return this.get('showCode') ? 'code' : 'demo';
   }),
-  classNames: ['code-demo', 'mb-8'],
+  classNames: ['code-demo', 'mb-8', 'pt-12'],
 
   minValue: Ember.computed('field.componentName', 'field.stringMinChars', 'field.minRangeNumber', 'field.minDate',
   function() {

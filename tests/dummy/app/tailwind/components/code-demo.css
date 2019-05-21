@@ -7,6 +7,7 @@
   background-color: #fffaf2;
   padding: 4px;
   border-radius: 2px;
+  /* overflow-x: scroll; */
 }
 
 .demo-container {

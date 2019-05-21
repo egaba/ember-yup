@@ -1,7 +1,6 @@
 <!-- <div class="bg-grey-lighter py-1 text-center">
   <p class="m-0 font-medium text-xs text-grey-darker">Site under re-construction. Beta is on its way!</p>
 </div> -->
-
 <div class="min-h-screen">
   <header class="mb-2 border-t-4 border-green-dark">
     <nav class="flex items-center justify-between flex-wrap text-grey-darkest p-6">
@@ -10,56 +9,55 @@
           {{link-to "Ember Yup" "index" class="text-black no-underline hover:no-underline text-green-dark"}}
         </span>
       </div>
-      <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-        <div class="text-sm lg:flex-grow text-right">
-          {{link-to "Blog" "blog" class="app-bar-link"}}
-          {{link-to "Changelog" "changelog" class="app-bar-link"}}
-          <a href="https://github.com/egaba88/ember-yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Github</a>
-          <a href="https://github.com/jquense/yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Yup API Documentation</a>
-        </div>
-      </div>
+
     </nav>
   </header>
-  <div class="flex">
-    <nav class="app-side-nav hidden sm:hidden md:block">
-      <ul>
-        <li>
-          <p>Getting Started</p>
-          <ul>
-            <li>{{link-to "Installation" "getting-started.installation"}}</li>
-            <li>
-              {{link-to "Quick Start" "getting-started.quick-start"}}
-              <ul>
-                <li>{{link-to "Example" "getting-started.quick-start.demo"}}</li>
-                <li>{{link-to "Define schema" "getting-started.quick-start.define-schema"}}</li>
-                <li>{{link-to "Setup controller" "getting-started.quick-start.setup-controller"}}</li>
-                <li>{{link-to "Build template" "getting-started.quick-start.build-template"}}</li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <p>Form Components</p>
-          <ul>
-            <li>{{link-to "TextField" "form-components.text-field"}}</li>
-            <li>{{link-to "NumberField" "form-components.number-field"}}</li>
-            <li>{{link-to "DateField" "form-components.date-field"}}</li>
-            <li>{{link-to "BooleanField" "form-components.boolean-field"}}</li>
-            <li>{{link-to "ValidationForm" "form-components.validation-form"}}</li>
-          </ul>
-        </li>
-        <li>
-          <p>Guides and Tools</p>
-          <ul>
-            <li>{{link-to "Playground" "yup-playground.new"}}</li>
-            <li>{{link-to "How to schema" "getting-started.using-schemas"}}</li>
-            <li>{{link-to "Form components" "getting-started.using-components"}}</li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-    <main class="pb-20">
-      {{outlet}}
-    </main>
-  </div>
+  <!-- <nav class="app-side-nav hidden sm:hidden md:block">
+    <ul>
+      <li>
+        <p>Getting Started</p>
+        <ul>
+          <li>{{link-to "Installation" "getting-started.installation"}}</li>
+          <li>
+            {{link-to "Quick Start" "getting-started.quick-start"}}
+            <ul>
+              <li>{{link-to "Example" "getting-started.quick-start.demo"}}</li>
+              <li>{{link-to "Define schema" "getting-started.quick-start.define-schema"}}</li>
+              <li>{{link-to "Setup controller" "getting-started.quick-start.setup-controller"}}</li>
+              <li>{{link-to "Build template" "getting-started.quick-start.build-template"}}</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>Form Components</p>
+        <ul>
+          <li>{{link-to "TextField" "form-components.text-field"}}</li>
+          <li>{{link-to "NumberField" "form-components.number-field"}}</li>
+          <li>{{link-to "DateField" "form-components.date-field"}}</li>
+          <li>{{link-to "BooleanField" "form-components.boolean-field"}}</li>
+          <li>{{link-to "ValidationForm" "form-components.validation-form"}}</li>
+        </ul>
+      </li>
+      <li>
+        <p>Guides and Tools</p>
+        <ul>
+          <li>{{link-to "Playground" "yup-playground.new"}}</li>
+          <li>{{link-to "How to schema" "getting-started.using-schemas"}}</li>
+          <li>{{link-to "Form components" "getting-started.using-components"}}</li>
+        </ul>
+      </li>
+    </ul>
+  </nav> -->
+  {{outlet}}
+  <footer class="container-fluid">
+    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+      <div class="text-sm lg:flex-grow">
+        {{link-to "Blog" "blog" class="app-bar-link"}}
+        {{link-to "Changelog" "changelog" class="app-bar-link"}}
+        <a href="https://github.com/egaba88/ember-yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Github</a>
+        <a href="https://github.com/jquense/yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Yup API Documentation</a>
+      </div>
+    </div>
+  </footer>
 </div>
