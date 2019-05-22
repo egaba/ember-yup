@@ -182,8 +182,8 @@ export default Component.extend({
       }
     }
 
-    let errorMessages = `{{#each state.errorMessages as |errorMessage|}}
-        <p>{{errorMessage}}</p>
+    let errorMessages = `{{#each state.errorMessages as |msg|}}
+        <p>{{msg}}</p>
       {{/each}}
     `
     if (displayErrorMessages === 'onBlur') {
@@ -196,19 +196,19 @@ export default Component.extend({
 
     if (errorMessageStates.length === 1) {
       errorMessages = `{{#if ${errorMessageStates[0]}}}
-        {{#each state.errorMessages as |errorMessage|}}
-          <p>{{errorMessage}}</p>
+        {{#each state.errorMessages as |msg|}}
+          <p>{{msg}}</p>
         {{/each}}
       {{/if}}`
     } else if (errorMessageStates.length > 1) {
       errorMessages = `{{#if (and ${errorMessageStates.join(' ')})}}
-        {{#each state.errorMessages as |errorMessage|}}
-          <p>{{errorMessage}}</p>
+        {{#each state.errorMessages as |msg|}}
+          <p>{{msg}}</p>
         {{/each}}
       {{/if}}`
     } else {
-      errorMessages = `{{#each state.errorMessages as |errorMessage|}}
-        <p>{{errorMessage}}</p>
+      errorMessages = `{{#each state.errorMessages as |msg|}}
+        <p>{{msg}}</p>
       {{/each}}`
     }
 

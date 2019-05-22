@@ -5,7 +5,7 @@
 .code-demo pre {
   @apply .text-sm .text-grey-darkest;
   background-color: #fffaf2;
-  padding: 4px;
+  padding: 12px 8px;
   border-radius: 2px;
   overflow-x: scroll;
 }

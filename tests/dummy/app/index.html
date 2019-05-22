@@ -19,6 +19,7 @@
 
     {{content-for "head"}}
 
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous"> -->
     <link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css">
     <link integrity="" rel="stylesheet" href="{{rootURL}}assets/dummy.css">
 
@@ -29,7 +30,10 @@
       <wired-progress id="app-loading" class="w-full" value="0"><p class="text-center text-lg">loading...</p></wired-progress>
       <script type="text/javascript">
         window.setTimeout(function() {
-          document.getElementById('app-loading').value = 15 + Math.round(Math.random() * 25);
+          const element = document.getElementById('app-loading');
+          if (element) {
+            element.value = 15 + Math.round(Math.random() * 25);
+          }
         }, 100);
       </script>
     </div>

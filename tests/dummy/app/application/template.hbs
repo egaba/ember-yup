@@ -4,9 +4,9 @@
 
 {{#side-menu class="bg-grey-lightest"}}
   <nav class="app-side-nav">
-    <header class="font-semibold text-xl tracking-tight mb-8">
+    <!-- <header class="font-semibold text-xl mb-8">
       {{link-to "Ember Yup" "index" class="logo-link"}}
-    </header>
+    </header> -->
     <ul>
       <li>
         <p>Getting Started</p>
@@ -36,7 +36,7 @@
       <li>
         <p>Tools and Guides</p>
         <ul>
-          <li>{{link-to "Field Builder" "yup-playground.new"}}</li>
+          <li>{{link-to "Data field builder" "yup-playground.new"}}</li>
           <li>{{link-to "How to schema" "getting-started.using-schemas"}}</li>
           <li>{{link-to "Form components" "getting-started.using-components"}}</li>
         </ul>
@@ -48,11 +48,11 @@
 {{content-backdrop}}
 
 <div class="min-h-screen overflow-x-hidden flex flex-col">
-  <header class="mb-4 border-b-4 border-green-dark container-fluid">
-    <nav class="flex items-center justify-between flex-wrap text-grey-darkest py-3">
+  <header class="mb-4 border-t-4 border-green-dark container-fluid">
+    <nav class="flex items-center justify-between flex-wrap text-grey-darkest py-4">
       <div class="flex items-center flex-no-shrink mr-6">
-        <span class="font-semibold text-2xl tracking-tight">
-          {{link-to "Ember Yup" "index" class="text-black no-underline hover:no-underline text-green-dark"}}
+        <span class="font-semibold text-2xl">
+          {{link-to "Ember Yup" "index" class="logo-link"}}
         </span>
       </div>
       {{side-menu-toggle class="ml-auto"}}
@@ -63,13 +63,15 @@
     {{outlet}}
   </main>
 
-  <footer class="container-fluid" id="app-footer">
-    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-      <div class="text-sm lg:flex-grow">
-        {{link-to "Blog" "blog" class="app-bar-link"}}
-        <a href="https://github.com/jquense/yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Yup API Documentation</a>
-        <a href="https://github.com/egaba88/ember-yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Github</a>
-        {{link-to "Changelog" "changelog" class="app-bar-link"}}
+  <footer id="app-footer">
+    <div class="container">
+      <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+        <div class="text-sm lg:flex-grow">
+          {{link-to "Blog" "blog" class="app-bar-link"}}
+          <a href="https://github.com/jquense/yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Yup API Documentation</a>
+          <a href="https://github.com/egaba88/ember-yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Github</a>
+          {{link-to "Changelog" "changelog" class="app-bar-link"}}
+        </div>
       </div>
     </div>
   </footer>

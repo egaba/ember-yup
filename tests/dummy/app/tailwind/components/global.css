@@ -170,6 +170,14 @@ wired-slider {
 
 @media screen and (max-width: 490px) {
   h1 {
-    @apply .mb-3 .text-3xl;
+    @apply .text-3xl;
   }
+}
+
+.logo-link {
+  @apply .text-black .no-underline .text-green-dark .font-semibold;
+}
+
+.logo-link:hover {
+  @apply .no-underline;
 }

@@ -21,7 +21,7 @@
        <wired-item value="code" onclick={{action (mut currentTab) value="target.value"}}>code</wired-item>
       </wired-listbox>
     </nav>
-    <div class="pt-2 pb-10 px-2 demo bg-grey-lightest">
+    <div class="overflow-x-scroll pt-2 pb-10 px-2 demo bg-grey-lightest">
       {{#unless isReloading}}
         {{#component field.componentName
           type=field.subType
