@@ -1,5 +1,5 @@
 .app-bar-link {
-  @apply .block .mt-4 .text-grey .no-underline .mr-4 .font-medium;
+  @apply .block .mb-2 .text-grey .no-underline .mr-4 .font-medium;
 }
 
 .app-bar-link:hover {

@@ -1,202 +1,81 @@
-<h1>{{model.name}}</h1>
-<p>{{markdown-to-html model.description class="markdown"}}</p>
+<section>
+  <h1>{{model.api.name}}</h1>
+  <p>{{markdown-to-html model.api.description class="markdown"}}</p>
 
-<h2>Examples</h2>
+</section>
+<section>
+  <h2>Examples</h2>
 
-<nav>
-  <wired-listbox
-    horizontal
-    selected={{example}}
-    style="--wired-item-selected-color: #212121; --wired-item-selected-bg: #A2F5BF;"
-  >
-    <wired-item value="required" onclick={{action (mut example) "required"}}>required</wired-item>
-    <wired-item value="email" onclick={{action (mut example) "email"}}>email</wired-item>
-    <wired-item value="url" onclick={{action (mut example) "url"}}>url</wired-item>
-    <wired-item value="regex" onclick={{action (mut example) "regex"}}>regex match</wired-item>
-    <wired-item value="charLimit" onclick={{action (mut example) "charLimit"}}>char limit</wired-item>
-    <wired-item value="stacked" onclick={{action (mut example) "stacked"}}>stacked options</wired-item>
-  </wired-listbox>
-</nav>
-<!--
-{{#if (eq example "required")}}
-  {{#code-demo markup=requiredDemo}}
-    {{#text-field
-      showErrorMessages=true
-      required=true
-      value=username
-      as |field|
-    }}
-      <wired-input
-        placeholder="enter a username"
-        type="text"
-        value={{username}}
-        oninput={{action (mut username) value="target.value"}}
-      ></wired-input> *required
-      {{#each field.errorMessages as |error|}}
-        <p>{{error}}</p>
-      {{/each}}
-    {{/text-field}}
-  {{/code-demo}}
-{{else if (eq example "email")}}
-  {{#code-demo markup=emailDemo}}
-    {{#text-field
-      type="email"
-      value=emailAddress
-      as |field|
-    }}
-      <wired-input
-        placeholder="Email address"
-        type="text"
-        value={{emailAddress}}
-        oninput={{action (mut emailAddress) value="target.value"}}
-      ></wired-input>
-      {{#each field.errorMessages as |error|}}
-        <p>{{error}}</p>
-      {{/each}}
-    {{/text-field}}
-  {{/code-demo}}
-{{else if (eq example "url")}}
-  {{#code-demo markup=urlDemo}}
-    {{#text-field
-      type="url"
-      value=url
-      as |field|
-    }}
-      <wired-input
-        placeholder="Enter a URL"
-        type="text"
-        value={{url}}
-        oninput={{action (mut url) value="target.value"}}
-      ></wired-input><span class="text-sm pl-2">*must include protocol</span>
-      {{#each field.errorMessages as |error|}}
-        <p>{{error}}</p>
-      {{/each}}
-    {{/text-field}}
-  {{/code-demo}}
-{{else if (eq example "regex")}}
-  {{#code-demo markup=regexDemo}}
-    {{#text-field
-      matches="^\d{5}(-\d{4})?$"
-      validationMessages=(hash
-        matches="must be valid 5-digit or 9-digit zip code xxxxx-xxxx or xxxxx. regex: ${regex}"
-      )
-      value=zipcode
-      as |field|
-    }}
-      <wired-input
-        placeholder="Enter a zip code"
-        type="text"
-        value={{zipcode}}
-        oninput={{action (mut zipcode) value="target.value"}}
-      ></wired-input>
-      {{#each field.errorMessages as |error|}}
-        <p>{{error}}</p>
-      {{/each}}
-    {{/text-field}}
-  {{/code-demo}}
-{{else if (eq example "charLimit")}}
-  {{#code-demo markup=charLimitDemo}}
-    {{#text-field
-      charLimit=10
-      value=charLimitText
-      validationMessages=(hash
-        charLimit="username must be less than 10 characters"
-      )
-      as |field|
-    }}
-      <wired-input
-        placeholder="Enter a username"
-        type="text"
-        value={{charLimitText}}
-        oninput={{action (mut charLimitText) value="target.value"}}
-      ></wired-input> char remaining: {{field.charRemaining}}
-      {{#each field.errorMessages as |error|}}
-        <p>{{error}}</p>
-      {{/each}}
-    {{/text-field}}
-  {{/code-demo}}
-{{else if (eq example "stacked")}}
-  {{#code-demo markup=stackedDemo}}
-    {{#text-field
-      showErrorMessages=true
-      matches="^[a-zA-Z0-9]+$"
-      charLimit=14
-      value=strictUsername
-      validationMessages=(hash
-        charLimit="username must be less than 14 characters"
-        matches="only letters and numbers are allowed; cannot be blank"
-      )
-      as |field|
-    }}
-      <input
-        placeholder="Enter a username"
-        type="text"
-        value={{strictUsername}}
-        oninput={{action (mut strictUsername) value="target.value"}}
-      > char remaining: {{field.charRemaining}}
-      {{#each field.errorMessages as |error|}}
-        <p>{{error}}</p>
-      {{/each}}
-    {{/text-field}}
-  {{/code-demo}}
-{{/if}} -->
-
-{{field-builder field=model.example}}
-
-<h2 class="mt-10 mb-4">API reference</h2>
-
-<div class="flex">
-  <div class="w-4/5 pr-8">
-    <section>
-      {{#each methods as |method|}}
-        <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{method.id}}>
-          <h4>{{method.signature}}</h4>
-
-          {{markdown-to-html method.description class="markdown"}}
-          {{#if method.params.length}}
-            <div class="">
-              <ul class="pl-8 list-reset">
-                {{#each method.params as |param|}}
-                  <li>
-                    <strong>{{param.name}}</strong> <em>{{param.type}}</em>
-                  </li>
-                {{/each}}
-              </ul>
-            </div>
-          {{/if}}
-        </div>
-      {{/each}}
-    </section>
-
-    <section>
-      {{#each model.api.properties as |property|}}
-        <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{property.id}}>
-          <h4 class="mb-1">{{property.name}} <small class="text-sm font-normal text-grey">{{property.dataType}}</small></h4>
-
-          {{markdown-to-html property.description class="markdown mb-1"}}
-        </div>
-      {{/each}}
-    </section>
+  <div class="relative" style="top: 6px; left: 2px;">
+    <div class="absolute">
+      <WiredSelect @selected={{example}} @change={{action (mut example) value="detail.selected"}}>
+        <WiredItem @value="required">required</WiredItem>
+        <WiredItem @value="email">email</WiredItem>
+      </WiredSelect>
+    </div>
   </div>
 
-  {{#fixed-nav class="w-1/5 page-side-nav"}}
-    <h4 class="mb-3 mt-4 text-grey-darker">State</h4>
-    {{#each model.api.properties as |prop|}}
-      {{#if prop.isYielded}}
-        <a href="#{{prop.id}}">{{prop.name}}</a>
-      {{/if}}
-    {{/each}}
-    <h4 class="mb-3 mt-4 text-grey-darker">Actions</h4>
-    {{#each model.api.methods as |method|}}
-      {{#if method.isYielded}}
-        <a href="#{{method.id}}">{{method.name}}</a>
-      {{/if}}
-    {{/each}}
-    <h4 class="mb-3 mt-4 text-grey-darker">Public Properties</h4>
-    {{#each model.api.properties as |prop|}}
-      {{#unless (or prop.isPrivate prop.isYielded)}}
-        <a href="#{{prop.id}}">{{prop.name}}</a>
-      {{/unless}}
-    {{/each}}
-  {{/fixed-nav}}
-</div>
+  {{field-builder field=model.example}}
+</section>
+
+
+<section id="api-reference">
+
+  <h2 class="mb-4">API reference</h2>
+
+  <div class="api-nav-container">
+    <nav class="api-index-nav">
+      <section>
+        {{#each methods as |method|}}
+          <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{method.id}}>
+            <h4>{{method.signature}}</h4>
+
+            {{markdown-to-html method.description class="markdown"}}
+            {{#if method.params.length}}
+              <div class="">
+                <ul class="pl-8 list-reset">
+                  {{#each method.params as |param|}}
+                    <li>
+                      <strong>{{param.name}}</strong> <em>{{param.type}}</em>
+                    </li>
+                  {{/each}}
+                </ul>
+              </div>
+            {{/if}}
+          </div>
+        {{/each}}
+      </section>
+
+      <section>
+        {{#each model.api.properties as |property|}}
+          <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{property.id}}>
+            <h4 class="mb-1">{{property.name}} <small class="text-sm font-normal text-grey">{{property.dataType}}</small></h4>
+
+            {{markdown-to-html property.description class="markdown mb-1"}}
+          </div>
+        {{/each}}
+      </section>
+    </nav>
+
+    {{#fixed-nav class="page-side-nav"}}
+      <h4 class="mb-3 mt-4 text-grey-darker">State</h4>
+      {{#each model.api.properties as |prop|}}
+        {{#if prop.isYielded}}
+          <a href="#{{prop.id}}">{{prop.name}}</a>
+        {{/if}}
+      {{/each}}
+      <h4 class="mb-3 mt-4 text-grey-darker">Actions</h4>
+      {{#each model.api.methods as |method|}}
+        {{#if method.isYielded}}
+          <a href="#{{method.id}}">{{method.name}}</a>
+        {{/if}}
+      {{/each}}
+      <h4 class="mb-3 mt-4 text-grey-darker">Public Properties</h4>
+      {{#each model.api.properties as |prop|}}
+        {{#unless (or prop.isPrivate prop.isYielded)}}
+          <a href="#{{prop.id}}">{{prop.name}}</a>
+        {{/unless}}
+      {{/each}}
+    {{/fixed-nav}}
+  </div>
+</section>

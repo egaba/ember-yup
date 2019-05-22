@@ -1,5 +1,5 @@
 .app-side-nav {
-  @apply .bg-grey-lightest .p-5 .w-1/5;
+  @apply .px-4 .pt-6;
   min-width: 192px;
 }
 
@@ -27,11 +27,11 @@
   @apply .text-base .mb-1 .font-medium;
 }
 
-.app-side-nav a {
+.app-side-nav a:not(.logo-link) {
   @apply .text-grey .no-underline .font-normal;
 }
 
-.app-side-nav a:hover {
+.app-side-nav a:not(.logo-link):hover {
   @apply .text-grey-dark .no-underline .font-medium;
 }
 
@@ -53,4 +53,47 @@
 
 .page-side-nav :first-child {
   @apply .mt-4;
+}
+
+.app-side-nav .logo-link {
+  @apply .text-black .no-underline .text-green-dark;
+}
+
+.app-side-nav .logo-link:hover {
+  @apply .no-underline;
+}
+
+#api-reference .api-nav-container {
+  @apply .flex;
+}
+
+.fixed-nav .scroll-top-link {
+  @apply .inline-block .mt-6 .cursor-pointer;
+}
+
+@media screen and (max-width: 490px) {
+  #api-reference .api-nav-container {
+    @apply .flex-col-reverse;
+  }
+
+  #api-reference .page-side-nav {
+    width: 100%;
+  }
+
+  .fixed-nav .scroll-top-link {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 16px;
+  }
+}
+
+@media screen and (min-width: 491px) {
+  #api-reference .page-side-nav {
+    @apply .w-1/5;
+  }
+
+  #api-reference .api-index-nav {
+    @apply .w-4/5 .pr-8;
+  }
 }

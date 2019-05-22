@@ -8,7 +8,6 @@ export default Route.extend({
     if (!record) {
       this.store.createRecord('field-template', {
         id: id,
-        debug: true
       });
     }
   },

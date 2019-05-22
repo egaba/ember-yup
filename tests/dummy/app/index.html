@@ -25,9 +25,17 @@
     {{content-for "head-footer"}}
   </head>
   <body>
+    <div class="px-4 min-h-screen flex flex-col justify-center pb-20" id="app-loading-container">
+      <wired-progress id="app-loading" class="w-full" value="0"><p class="text-center text-lg">loading...</p></wired-progress>
+      <script type="text/javascript">
+        window.setTimeout(function() {
+          document.getElementById('app-loading').value = 15 + Math.round(Math.random() * 25);
+        }, 100);
+      </script>
+    </div>
+
     {{content-for "body"}}
 
-    <!-- <script src="https://unpkg.com/wired-elements@latest/dist/wired-elements.bundled.js"></script> -->
     <script src="{{rootURL}}assets/vendor.js"></script>
     <script src="{{rootURL}}assets/dummy.js"></script>
 

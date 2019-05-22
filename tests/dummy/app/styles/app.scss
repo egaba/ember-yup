@@ -1,0 +1,27 @@
+@import "tailwind";
+@import "ember-side-menu";
+
+.side-menu-toggle {
+  width: 34px;
+  height: 34px;
+}
+
+.side-menu-toggle span.toggle-bars,
+.side-menu-toggle span.toggle-bars::before,
+.side-menu-toggle span.toggle-bars::after {
+  background-color: #9e9e9e;
+  width: 34px;
+  height: 4px;
+}
+
+.side-menu-toggle span.toggle-bars::before {
+  top: -11px;
+}
+
+.side-menu-toggle span.toggle-bars::after {
+  top: 7px;
+}
+
+#app-loading {
+  --wired-progress-color: #38c172;
+}

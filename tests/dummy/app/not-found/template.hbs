@@ -1,0 +1,11 @@
+<div class="container">
+  <h1>
+    Oops, nothing here!
+  </h1>
+  <p class="text-lg">
+    Redirecting to {{link-to "playground" "yup-playground.new"}} in... <span>{{secondsUntilRedirect}}</span>
+  </p>
+</div>
+
+
+<a {{action (mut secondsUntilRedirect) 4}}>reset to 4</a>

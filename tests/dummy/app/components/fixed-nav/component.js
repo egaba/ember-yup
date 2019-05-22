@@ -5,6 +5,7 @@ let toggleFixedNav;
 
 export default Component.extend({
   layout,
+  classNames: ['fixed-nav'],
 
   isFixed: false,
   anchorPosition: 0,
@@ -14,7 +15,7 @@ export default Component.extend({
       const nav = document.getElementById(this.elementId);
       const navDistanceFromTop = nav.getBoundingClientRect().top;
 
-      if (navDistanceFromTop < 0) {
+      if (navDistanceFromTop < 0 && document.body.clientWidth > 490) {
         if (!this.get('anchorPosition')) {
           this.set('anchorPosition', document.documentElement.scrollTop + navDistanceFromTop - 70);
         }

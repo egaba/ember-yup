@@ -339,7 +339,10 @@ export default Component.extend({
   refreshSettings: Ember.observer('field.componentName', function() {
     const cardId = `${this.get('elementId')}-settings-card`;
     Ember.run.next(function() {
-      document.getElementById(cardId).requestUpdate();
+      const element = document.getElementById(cardId);
+      if (element) {
+        element.requestUpdate();
+      }
     });
   }),
 
@@ -350,7 +353,7 @@ export default Component.extend({
   currentTab: Ember.computed('showCode', function() {
     return this.get('showCode') ? 'code' : 'demo';
   }),
-  classNames: ['code-demo', 'mb-8', 'pt-12'],
+  classNames: ['code-demo', 'mb-8', 'pt-1'],
 
   minValue: Ember.computed('field.componentName', 'field.stringMinChars', 'field.minRangeNumber', 'field.minDate',
   function() {

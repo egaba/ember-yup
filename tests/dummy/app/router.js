@@ -60,6 +60,12 @@ Router.map(function() {
       path: '/:id'
     });
   });
+
+  // this.route('404', { path: '/*path' });
+
+  this.route('not-found', {
+    path: '/:*path'
+  });
 });
 
 export default Router;
