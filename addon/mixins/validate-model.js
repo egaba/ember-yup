@@ -3,9 +3,33 @@ import Mixin from '@ember/object/mixin';
 import RSVP from 'rsvp';
 
 export default Mixin.create({
-  _schema: undefined,
-  isValid: false,
   isValidating: false,
+
+  validate(values = this.toJSON()) {
+    return new RSVP.Promise((resolve, reject) => {
+      this.set('isValidating', true);
+
+      const errors = this.get('errors');
+
+      const validate = this.get('_schema').validate(values, {
+        abortEarly: false
+      });
+
+      validate.then((data) => {
+        errors.clear();
+
+        resolve(data);
+      }).catch((validations) => {
+        validations.inner.forEach(function(validation) {
+          errors.add(validation.path, validation.errors);
+        });
+
+        reject(errors);
+      }).finally(() => {
+        this.set('isValidating', false);
+      });
+    });
+  },
 
   save(options = {}) {
     if (options.validate) {
@@ -17,39 +41,5 @@ export default Mixin.create({
     return this._super(options);
   },
 
-  validate() {
-    return new RSVP.Promise((resolve, reject) => {
-      const errors = this.get('errors');
-      const errorsByAttributeName = errors.errorsByAttributeName;
-
-      this.set('isValidating', true);
-
-      const validate = this.get('_schema').validate(this.toJSON(), {
-        abortEarly: false
-      });
-
-      validate.then((data) => {
-        this.set('isValidating', false);
-
-        resolve(data);
-      }).catch((validations) => {
-        this.set('isValidating', false);
-
-        errorsByAttributeName.forEach(function(k, name) {
-          errorsByAttributeName.get(name).clear();
-        });
-
-        validations.inner.forEach(function(validation) {
-          const attrErrors = errorsByAttributeName.get(validation.path);
-
-          attrErrors.clear();
-          attrErrors.addObjects(validation.errors);
-
-          errors.set(validation.path, attrErrors);
-        });
-
-        reject(errorsByAttributeName);
-      });
-    });
-  },
+  _schema: undefined,
 });

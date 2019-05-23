@@ -17,42 +17,50 @@
         oninput={{action (mut model.username) value="target.value"}}
       >
 
-      {{#each model.errors.username as |msg|}}
+      {{#each model.errors.username as |err|}}
         <p>
-          {{msg}}
+          {{err.message}}
         </p>
       {{/each}}
     </div>
 
     <div class="">
-      {{#each model.errors.age as |msg|}}
-        <p>{{msg}}</p>
+      {{#each model.errors.age as |err|}}
+        <p>{{err.message}}</p>
       {{/each}}
     </div>
 
     <div class="">
-      {{#each model.errors.email as |msg|}}
-        <p>{{msg}}</p>
+      {{#each model.errors.email as |err|}}
+        <p>{{err.message}}</p>
       {{/each}}
     </div>
 
     <div class="">
-      {{#each model.errors.zipCode as |msg|}}
-        <p>{{msg}}</p>
+      {{#each model.errors.zipCode as |err|}}
+        <p>{{err.message}}</p>
       {{/each}}
     </div>
 
     <div class="">
-      {{#each model.errors.gender as |msg|}}
-        <p>{{msg}}</p>
+      {{#each model.errors.gender as |err|}}
+        <p>{{err.message}}</p>
       {{/each}}
     </div>
 
     <div class="">
-      {{#each model.errors.countryCode as |msg|}}
-        <p>{{msg}}</p>
+      {{#each model.errors.countryCode as |err|}}
+        <p>{{err.message}}</p>
       {{/each}}
     </div>
+<!--
+    <div class="border-1 border-black">
+      {{#each model.errors.messages as |message|}}
+        <div class="error">
+          {{message}}
+        </div>
+      {{/each}}
+    </div> -->
 
     <div class="cta">
       <button type="submit" name="button">submit</button>
