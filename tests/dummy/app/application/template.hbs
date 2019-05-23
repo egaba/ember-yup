@@ -3,56 +3,17 @@
 </div> -->
 
 {{#side-menu class="bg-grey-lightest"}}
-  <nav class="app-side-nav">
-    <!-- <header class="font-semibold text-xl mb-8">
-      {{link-to "Ember Yup" "index" class="logo-link"}}
-    </header> -->
-    <ul>
-      <li>
-        <p>Getting Started</p>
-        <ul>
-          <li>{{link-to "Installation" "getting-started.installation"}}</li>
-          <li>
-            {{link-to "Quick Start" "getting-started.quick-start"}}
-            <ul>
-              <li>{{link-to "Example" "getting-started.quick-start.demo"}}</li>
-              <li>{{link-to "Define schema" "getting-started.quick-start.define-schema"}}</li>
-              <li>{{link-to "Setup controller" "getting-started.quick-start.setup-controller"}}</li>
-              <li>{{link-to "Build template" "getting-started.quick-start.build-template"}}</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <p>Form Components</p>
-        <ul>
-          <li>{{link-to "TextField" "form-components.text-field"}}</li>
-          <li>{{link-to "NumberField" "form-components.number-field"}}</li>
-          <li>{{link-to "DateField" "form-components.date-field"}}</li>
-          <li>{{link-to "BooleanField" "form-components.boolean-field"}}</li>
-          <li>{{link-to "ValidationForm" "form-components.validation-form"}}</li>
-        </ul>
-      </li>
-      <li>
-        <p>Tools and Guides</p>
-        <ul>
-          <li>{{link-to "Data field builder" "yup-playground.new"}}</li>
-          <li>{{link-to "How to schema" "getting-started.using-schemas"}}</li>
-          <li>{{link-to "Form components" "getting-started.using-components"}}</li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
+  {{app-main-nav}}
 {{/side-menu}}
 
 {{content-backdrop}}
 
 <div class="min-h-screen overflow-x-hidden flex flex-col">
-  <header class="mb-4 border-t-4 border-green-dark container-fluid">
-    <nav class="flex items-center justify-between flex-wrap text-grey-darkest py-4">
+  <header class="mb-4 border-t-4 border-green-dark">
+    <nav class="flex items-center justify-between flex-wrap text-grey-darkest py-4 container">
       <div class="flex items-center flex-no-shrink mr-6">
         <span class="font-semibold text-2xl">
-          {{link-to "Ember Yup" "index" class="logo-link"}}
+          {{link-to "Yup" "index" class="logo-link"}}
         </span>
       </div>
       {{side-menu-toggle class="ml-auto"}}

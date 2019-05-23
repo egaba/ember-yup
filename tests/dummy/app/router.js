@@ -66,6 +66,7 @@ Router.map(function() {
   this.route('not-found', {
     path: '/:*path'
   });
+  this.route('validation-mixin');
 });
 
 export default Router;

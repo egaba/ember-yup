@@ -41,7 +41,7 @@ kbd, .markdown code, .snippet {
 }
 
 .codeblock pre {
-  @apply .bg-black .mb-4 .mt-6 .flex overflow-x-scroll;
+  @apply .bg-black .mb-4 .mt-6 .flex;
   border-radius: 2px;
   padding: 16px;
 }
@@ -64,7 +64,8 @@ nav [role="option"] {
 }
 
 .demo-container > .nav-tabs {
-  top: -44px;
+  top: -48px;
+  right: 2px;
 }
 
 .demo-container .demo {
@@ -81,7 +82,7 @@ nav [role="option"] {
 .field-settings {
   @apply .relative;
   font-size: 14px;
-  bottom: 4px;
+  bottom: 0;
 }
 
 .field-settings label {
@@ -144,7 +145,7 @@ wired-radio {
 }
 
 wired-combo {
-  --wired-item-selected-bg: #38c172;
+  --wired-item-selected-bg: #1f9d55;
 }
 
 wired-slider {
@@ -152,13 +153,10 @@ wired-slider {
   --wired-slider-knob-color: #1f9d55;
 }
 
-.code-demo .settings-toggle {
+.code-demo .settings-toggle, .field-builder .settings-toggle {
   @apply .cursor-pointer .no-underline .text-xs;
   padding-top: 2px;
   background: rgba(255,255,255,0.7);
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
   padding-left: 6px;
   border-top-left-radius: 5px;
   z-index: 15;
@@ -180,4 +178,23 @@ wired-slider {
 
 .logo-link:hover {
   @apply .no-underline;
+}
+
+.field-builder {
+  @apply .mb-8 .pt-12;
+}
+
+
+@media screen and (max-width: 490px) {
+  .field-builder pre {
+    overflow-x: scroll;
+  }
+}
+
+.settings-toggle-container {
+  position: absolute;
+  width: 100%;
+  right: 6px;
+  bottom: -12px;
+  text-align: right;
 }

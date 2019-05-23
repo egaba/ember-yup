@@ -1,0 +1,39 @@
+<div class="container">
+  <h1>validation mixin</h1>
+  <div class="">
+    <ul>
+      <li>username: {{model.username}}</li>
+      <li>age: {{model.age}}</li>
+      <li>email: {{model.email}}</li>
+      <li>countryCode: {{model.age}}</li>
+      <li>age: {{model.age}}</li>
+      <li>zip code: {{model.zipCode}}</li>
+      <li>gender: {{model.gender}}</li>
+    </ul>
+  </div>
+  <form {{action "validate" on="submit"}}>
+
+
+    <div class="">
+      <input type="text" name="" value=""
+        oninput={{action (mut model.username) value="target.value"}}
+      >
+
+      {{#each model.errors.username as |msg|}}
+        <p>
+          {{msg}}
+        </p>
+      {{/each}}
+    </div>
+
+    <div class="">
+      {{#each model.errors.email as |msg|}}
+        <p>{{msg}}</p>
+      {{/each}}
+    </div>
+
+    <div class="cta">
+      <button type="submit" name="button">submit</button>
+    </div>
+  </form>
+</div>

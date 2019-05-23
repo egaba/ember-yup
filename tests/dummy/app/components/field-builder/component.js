@@ -353,7 +353,7 @@ export default Component.extend({
   currentTab: Ember.computed('showCode', function() {
     return this.get('showCode') ? 'code' : 'demo';
   }),
-  classNames: ['code-demo', 'mb-8', 'pt-1'],
+  classNames: ['field-builder'],
 
   minValue: Ember.computed('field.componentName', 'field.stringMinChars', 'field.minRangeNumber', 'field.minDate',
   function() {

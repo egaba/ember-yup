@@ -9,7 +9,7 @@
     {{#unless isReloading}}
       {{markdown-to-html fieldMarkup}}
     {{/unless}}
-    <p class="m-0 mb-2 text-right">
+    <p class="settings-toggle-container">
       <a class="settings-toggle" {{action (mut showSettings) (not showSettings)}}>{{if showSettings "Hide settings ▽" "Show settings ▶"}}</a>
     </p>
   </WiredCard>
@@ -21,7 +21,7 @@
        <wired-item value="code" onclick={{action (mut currentTab) value="target.value"}}>code</wired-item>
       </wired-listbox>
     </nav>
-    <div class="overflow-x-scroll pt-2 pb-10 px-2 demo bg-grey-lightest">
+    <div class="pt-2 pb-10 px-2 demo bg-grey-lightest">
       {{#unless isReloading}}
         {{#component field.componentName
           type=field.subType
@@ -101,7 +101,7 @@
         {{/component}}
       {{/unless}}
     </div>
-    <p class="m-0 mb-2 text-right">
+    <p class="settings-toggle-container">
       <a class="settings-toggle" {{action (mut showSettings) (not showSettings)}}>{{if showSettings "Hide settings ▽" "Show settings ▶"}}</a>
     </p>
   </WiredCard>
