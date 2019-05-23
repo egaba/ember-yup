@@ -6,13 +6,11 @@
       <li>age: {{model.age}}</li>
       <li>email: {{model.email}}</li>
       <li>countryCode: {{model.age}}</li>
-      <li>age: {{model.age}}</li>
       <li>zip code: {{model.zipCode}}</li>
       <li>gender: {{model.gender}}</li>
     </ul>
   </div>
   <form {{action "validate" on="submit"}}>
-
 
     <div class="">
       <input type="text" name="" value=""
@@ -27,7 +25,31 @@
     </div>
 
     <div class="">
+      {{#each model.errors.age as |msg|}}
+        <p>{{msg}}</p>
+      {{/each}}
+    </div>
+
+    <div class="">
       {{#each model.errors.email as |msg|}}
+        <p>{{msg}}</p>
+      {{/each}}
+    </div>
+
+    <div class="">
+      {{#each model.errors.zipCode as |msg|}}
+        <p>{{msg}}</p>
+      {{/each}}
+    </div>
+
+    <div class="">
+      {{#each model.errors.gender as |msg|}}
+        <p>{{msg}}</p>
+      {{/each}}
+    </div>
+
+    <div class="">
+      {{#each model.errors.countryCode as |msg|}}
         <p>{{msg}}</p>
       {{/each}}
     </div>

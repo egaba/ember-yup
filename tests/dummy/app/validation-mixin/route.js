@@ -7,10 +7,10 @@ export default Route.extend({
 
   actions: {
     validate() {
-      this.get('currentModel').validate().then(function(data) {
-        console.log('siccess', data);
-      }).catch(function(validation) {
-        console.log(validation);
+      this.get('currentModel').save({ validate: true }).then(function(data) {
+        console.log('route success', data);
+      }).catch(function(errors) {
+        console.log('route errors', errors);
       });
     }
   }

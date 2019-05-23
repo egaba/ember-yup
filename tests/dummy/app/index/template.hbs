@@ -1,4 +1,38 @@
-<div class="bg-white text-center py-16">
-  <h1 class="mb-2 px-4 text-3xl">Oooh! Building forms is my favorite!</h1>
-  <em class="font-medium text-grey-dark italic">- said no developer, ever</em>
+<div class="py-16">
+  <section class="mb-20 text-center">
+    <h1 class="mb-2 px-4 text-3xl">Oooh! Building forms is my favorite!</h1>
+    <em class="font-medium text-grey-dark italic">- said no developer, ever</em>
+  </section>
+
+  <div class="container-fluid">
+    <h2>Ways to validate</h2>
+    <div class="row">
+      <section class="col-12">
+        <h3>build schemas</h3>
+        <WiredCard>
+
+          <p>create `yup` schemas and validate against them within your app</p>
+          <p>provides the most flexibility</p>
+        </WiredCard>
+      </section>
+
+      <section class="col-12">
+        <h3>model validation mixin</h3>
+        <WiredCard>
+          <p>useful if you like your data configuration all in one place</p>
+          <p>errors are added to `errors`</p>
+          <p>`save()` has new option: `validate: true`; calls `validate()` before saving</p>
+        </WiredCard>
+      </section>
+    </div>
+    <section>
+      <h3>form components</h3>
+      <p>wrap fields around your controls to validate their values</p>
+      <p>the ValidationForm component supports both sync and async submission</p>
+      {{field-builder field=model}}
+    </section>
+    <section>
+      <p>Wanna try it? {{link-to "install" "getting-started.installation"}} </p>
+    </section>
+  </div>
 </div>

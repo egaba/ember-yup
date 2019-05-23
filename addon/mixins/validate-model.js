@@ -7,6 +7,16 @@ export default Mixin.create({
   isValid: false,
   isValidating: false,
 
+  save(options = {}) {
+    if (options.validate) {
+      return this.validate().then(() => {
+        return this._super(options);
+      });
+    }
+
+    return this._super(options);
+  },
+
   validate() {
     return new RSVP.Promise((resolve, reject) => {
       const errors = this.get('errors');
@@ -26,7 +36,7 @@ export default Mixin.create({
           errors.set(validation.path, validation.errors);
         });
 
-        reject(validations.inner);
+        reject(errors);
       });
     });
   },

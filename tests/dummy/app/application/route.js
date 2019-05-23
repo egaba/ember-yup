@@ -5,10 +5,11 @@ export default Route.extend({
     const loading = document.getElementById('app-loading');
     loading.value = 60 + Math.round(Math.random() * 20);
 
+    window.scrollTo(0,0);
+
     Ember.run.later(function() {
       const loadingContainer = document.getElementById('app-loading-container');
       loadingContainer.parentNode.removeChild(loadingContainer);
-      window.scrollTo(0,0);
     }, 100);
   },
 
