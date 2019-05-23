@@ -1,69 +1,40 @@
 <div class="container">
   <h1>validation mixin</h1>
-  <div class="">
-    <ul>
-      <li>username: {{model.username}}</li>
-      <li>age: {{model.age}}</li>
-      <li>email: {{model.email}}</li>
-      <li>countryCode: {{model.age}}</li>
-      <li>zip code: {{model.zipCode}}</li>
-      <li>gender: {{model.gender}}</li>
-    </ul>
-  </div>
-  <form {{action "validate" on="submit"}}>
 
-    <div class="">
-      <input type="text" name="" value=""
-        oninput={{action (mut model.username) value="target.value"}}
-      >
-
-      {{#each model.errors.username as |err|}}
-        <p>
-          {{err.message}}
-        </p>
-      {{/each}}
-    </div>
-
-    <div class="">
-      {{#each model.errors.age as |err|}}
-        <p>{{err.message}}</p>
-      {{/each}}
-    </div>
-
-    <div class="">
-      {{#each model.errors.email as |err|}}
-        <p>{{err.message}}</p>
-      {{/each}}
-    </div>
-
-    <div class="">
-      {{#each model.errors.zipCode as |err|}}
-        <p>{{err.message}}</p>
-      {{/each}}
-    </div>
-
-    <div class="">
-      {{#each model.errors.gender as |err|}}
-        <p>{{err.message}}</p>
-      {{/each}}
-    </div>
-
-    <div class="">
-      {{#each model.errors.countryCode as |err|}}
-        <p>{{err.message}}</p>
-      {{/each}}
-    </div>
-<!--
-    <div class="border-1 border-black">
-      {{#each model.errors.messages as |message|}}
-        <div class="error">
-          {{message}}
-        </div>
-      {{/each}}
+  <CodeDemo @markup=modelExample>
+    <!-- <div class="">
+      <ul>
+        <li>username: {{model.username}}</li>
+        <li>age: {{model.age}}</li>
+        <li>email: {{model.email}}</li>
+        <li>countryCode: {{model.age}}</li>
+        <li>zip code: {{model.zipCode}}</li>
+        <li>gender: {{model.gender}}</li>
+      </ul>
     </div> -->
+    <form {{action "validate" on="submit"}}>
+      {{#each-in model.schema.fields as |name|}}
+        {{name}}
+        <DataField
+          @debug=false
+          @model={{model}}
+          @name={{name}}
+        />
+      {{/each-in}}
 
-    <div class="cta">
-      <button type="submit" name="button">submit</button>
-    </div>
-  </form>
+
+
+      <!-- <div class="border-1 border-black">
+        {{#each model.errors.messages as |message|}}
+          <div class="error">
+            {{message}}
+          </div>
+        {{/each}}
+      </div> -->
+
+      <div class="cta">
+        <button type="submit" name="button">submit</button>
+      </div>
+    </form>
+  </CodeDemo>
 </div>

@@ -10,6 +10,7 @@ import RSVP from 'rsvp';
  * @class TextField
  */
 export default FormField.extend({
+
   /**
     * The value of the field.
     *

@@ -3,7 +3,15 @@ import Mixin from '@ember/object/mixin';
 import RSVP from 'rsvp';
 import * as yup from 'yup';
 
+/**
+ * This mixin enables the Model to `validate()` its values against its schema.
+ */
 export default Mixin.create({
+
+  /**
+   * This is built from the attributes. Options passed to the attribute will be
+   * applied to the schema. eg. `username: DS.attr({ validate: { required: true }})`
+   */
   schema: Ember.computed(function() {
     const schemaAttrs = {};
 
@@ -36,8 +44,14 @@ export default Mixin.create({
     return yup.object().shape(schemaAttrs);
   }),
 
+  /**
+   * Flag to tell whether or not the model is currently validating.
+   */
   isValidating: false,
 
+  /**
+   * Validate the record's values against the schema.
+   */
   validate(values = this.toJSON(), options = { abortEarly: false }) {
     return new RSVP.Promise((resolve, reject) => {
       this.set('isValidating', true);
@@ -59,6 +73,10 @@ export default Mixin.create({
     });
   },
 
+  /**
+   * Add `validate` option to validate before saving. This ensures that only
+   * valid data is sent when saving.
+   */
   save(options = {}) {
     if (options.validate) {
       return new RSVP.Promise((resolve, reject) => {

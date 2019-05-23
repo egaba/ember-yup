@@ -22,15 +22,16 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this.readValidation();
+    // debugger;
   },
 
   /**
     * Control whether or not validation occurs on the field.
     *
     * @property {Boolean} disabled
-    * @defaultValue false
+    * @defaultValue true
     */
-  disabled: false,
+  disabled: true,
 
   /**
    * Properties that are yielded to the template.
