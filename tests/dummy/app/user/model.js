@@ -12,7 +12,9 @@ export default Model.extend(Validate, {
     validate: {
       required: true,
       min: 18,
-      minMessage: 'you must be at least ${min} years of age in order to join this app',
+      messages: {
+        min: 'you must be at least ${min} years of age in order to join this app',
+      },
     },
   }),
   email: DS.attr({
@@ -30,7 +32,9 @@ export default Model.extend(Validate, {
     validate: {
       required: true,
       matches: /\d{5}(-?\d{4})?|\s*/,
-      matchesMessage: 'must be a 5 or 9 digit zip code',
+      messages: {
+        matches: 'must be a 5 or 9 digit zip code',
+      }
     },
   }),
   gender: DS.attr(),

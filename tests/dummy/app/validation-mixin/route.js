@@ -10,7 +10,7 @@ export default Route.extend({
       this.get('currentModel').save({ validate: true }).then(function(data) {
         console.log('route success', data);
       }).catch(function(errors) {
-        console.log('route errors', errors);
+        console.log('route errors', errors.get('messages'));
       });
     }
   }
