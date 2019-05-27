@@ -1,10 +1,11 @@
 <div class="container pb-20">
-  <h1>building schemas</h1>
+  <h1>Build a schema</h1>
 
   <CodeDemo2
     @key="custom-schema"
     @activeTab="example1"
     @example1={{controllerCode}} @label1="controller"
+    @example2={{templateCode}} @label2="template"
   >
     <form {{action "validate" on="submit"}}>
       <p class="my-6"><a class="cursor-pointer inline-block" {{action "generateFakeData"}}>Generate fake data</a></p>
