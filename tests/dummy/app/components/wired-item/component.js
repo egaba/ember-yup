@@ -5,5 +5,5 @@ export default Component.extend({
   layout,
   tagName: 'wired-item',
   value: null,
-  attributeBindings: ['value', 'onclick'],
+  attributeBindings: ['value', 'click:onclick'],
 });

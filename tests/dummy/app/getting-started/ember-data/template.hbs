@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="lg:w-4/5 lg:mx-auto">
+    <h1>Model mixin</h1>
+    <CodeDemo2
+      @key="model-mixin"
+      @activeTab="example1"
+      @example1={{modelExample}} @label1="model"
+      @example2={{templateExample}} @label2="template"
+      @example3={{actionsExample}} @label3="actions"
+    >
+      <form {{action "validate" on="submit"}}>
+        <header>
+          <h2>Form name</h2>
+        </header>
+
+        <p class="my-6"><a class="cursor-pointer inline-block" {{action "generateFakeData"}}>Generate fake data</a></p>
+        {{#if isValid}}
+          <section class="mt-6 mb-8">
+            <WiredCard @class="w-block w-full bg-green-lighter py-4 px-2">
+              <p class="mb-0">valid</p>
+            </WiredCard>
+          </section>
+        {{else if didAttemptValidate}}
+          <section class="mt-6 mb-8">
+            <WiredCard @class="w-block w-full bg-red-lighter py-4 px-2">
+              <p class="mb-0">invalid. {{model.errors.messages.length}} error(s)</p>
+            </WiredCard>
+          </section>
+        {{/if}}
+
+        <div class="row">
+          {{#each-in model.schema.fields as |name|}}
+            <div class="col-xs-12 col-sm-6 mb-4">
+              <div class="flex">
+                <label for="{{name}}-input" class="w-2/5">{{name}}</label>
+                <div class="w-3/5">
+                  <WiredInput @id="{{name}}-input" @class="block w-full" @input={{action (mut (get model name)) value="target.value"}} @value={{get model name}}/>
+                </div>
+              </div>
+              {{#each (get model.errors name) as |error|}}
+                <p class="text-sm text-red-dark mb-0">{{error.message}}</p>
+              {{/each}}
+            </div>
+          {{/each-in}}
+        </div>
+
+        <footer class="mt-10">
+          <div class="text-right">
+            <WiredButton @class="bg-green-light">
+              <button type="submit" class="px-5 py-3 font-semibold uppercase  text-green-darker">validate</button>
+            </WiredButton>
+          </div>
+        </footer>
+      </form>
+    </CodeDemo2>
+  </div>
+</div>

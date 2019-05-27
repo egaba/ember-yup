@@ -144,12 +144,12 @@ export default {
   |
   */
 
-  // plugins: [
-  //   container({
-  //     center: true,
-  //     // padding: '1rem',
-  //   })
-  // ],
+  plugins: [
+    container({
+      center: true,
+      // padding: '1rem',
+    })
+  ],
 
   /*
   |-----------------------------------------------------------------------------

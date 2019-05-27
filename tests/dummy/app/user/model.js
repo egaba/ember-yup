@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 const { Model } = DS;
-import Validate from 'ember-yup/mixins/validate-model';
+import Validate from 'ember-yup/mixins/schema';
 
 export default Model.extend(Validate, {
   username: DS.attr({
@@ -37,5 +37,10 @@ export default Model.extend(Validate, {
       }
     },
   }),
+  // dateOfBirth: DS.attr('date', {
+  //   validate: {
+  //     required: true,
+  //   },
+  // }),
   gender: DS.attr(),
 });

@@ -15,7 +15,7 @@ export default Component.extend({
   }),
 
   errorMessages: Ember.computed('model.errors', 'name', function() {
-    const errors = this.get(`model.errors.${this.get('name')}`);
+    const errors = this.get('model.errors').get(this.get('name'));
 
     return errors;
   })

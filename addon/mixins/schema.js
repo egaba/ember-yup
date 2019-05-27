@@ -27,6 +27,10 @@ export default Mixin.create({
           const value = validationOptions[propName];
           const message = messages[value];
 
+          if (message) {
+            debugger;
+          }
+
           if (propSchema[propName]) {
             const shouldIncludeValue = /lt|gt|min|max|matches/.test(propName);
             if (shouldIncludeValue) {
@@ -57,7 +61,8 @@ export default Mixin.create({
       this.set('isValidating', true);
 
       const errors = this.get('errors');
-      const validate = this.get('schema').validate(values, options);
+      const schema = this.get('schema');
+      const validate = schema.validate(values, options);
 
       validate.then(() => {
         errors.clear();
@@ -66,7 +71,7 @@ export default Mixin.create({
         validations.inner.forEach(function(validation) {
           errors.add(validation.path, validation.errors);
         });
-        reject(errors);
+        reject(errors, schema);
       }).finally(() => {
         this.set('isValidating', false);
       });

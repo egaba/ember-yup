@@ -198,3 +198,7 @@ wired-slider {
   bottom: -12px;
   text-align: right;
 }
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}

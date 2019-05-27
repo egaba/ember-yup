@@ -1,3 +1,4 @@
+import faker from 'faker';
 import Controller from '@ember/controller';
 
 export default Controller.extend({
@@ -118,5 +119,18 @@ export default Controller.extend({
   afterTransformConsole: `
     $E.get('myAgeValue'); // 23
     typeof $E.get('myAgeValue'); // "number"
-  `
+  `,
+  actions: {
+    generateFakeData() {
+      // this.set('didAttemptValidate', false);
+      // this.get('model').setProperties({
+      //   username: faker.internet.userName(),
+      //   age: faker.random.number({ min: 3, max: 35 }),
+      //   email: faker.internet.email(),
+      //   countryCode: faker.address.countryCode(),
+      //   zipCode: faker.address.zipCode(),
+      //   // dateOfBirth: faker.date.past(18),
+      // });
+    }
+  }
 });

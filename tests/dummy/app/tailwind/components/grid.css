@@ -4,7 +4,7 @@
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
-@-ms-viewport {
+/* @-ms-viewport {
   width: device-width;
 }
 
@@ -16,7 +16,7 @@ html {
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
+  box-sizing: border-box;
 }
 
 .container {
@@ -2046,5 +2046,5 @@ html {
     -ms-flex-item-align: stretch !important;
     align-self: stretch !important;
   }
-}
+} */
 /*# sourceMappingURL=bootstrap-grid.css.map */

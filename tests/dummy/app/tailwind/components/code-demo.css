@@ -1,12 +1,10 @@
-.code-demo p {
-  @apply .mb-0;
-}
-
 .code-demo pre, .field-builder pre {
   @apply .text-sm .text-grey-darkest;
   background-color: #fffaf2;
   padding: 12px 8px;
   border-radius: 2px;
+
+  overflow-x: scroll;
 }
 
 .demo-container {

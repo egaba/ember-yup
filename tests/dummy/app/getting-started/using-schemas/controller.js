@@ -1,44 +1,106 @@
+import faker from 'faker';
 import Controller from '@ember/controller';
+import * as yup from 'yup';
 
 export default Controller.extend({
-  importSnippet: `
-    import * as yup from 'yup'; // for everything
-    // or
-    import { string, object } from 'yup'; // for only what you need
-  `,
-  usageSnippet: `
-    let yup = require('yup');
+  formData: {
+    username: '',
+    age: '',
+    email: '',
+    countryCode: '',
+    zipCode: '',
+    gender: '',
+  },
+  errors: Ember.computed(function() {
+    return Ember.A();
+  }),
+  controllerCode: `
+    import faker from 'faker';
+    import Controller from '@ember/controller';
+    import * as yup from 'yup';
 
-    let schema = yup.object().shape({
-      name: yup.string().required(),
-      age: yup
-        .number()
-        .required()
-        .positive()
-        .integer(),
-      email: yup.string().email(),
-      website: yup.string().url(),
-      createdOn: yup.date().default(function() {
-        return new Date();
+    export default Controller.extend({
+      formData: {
+        username: '',
+        age: '',
+        email: '',
+        countryCode: '',
+        zipCode: '',
+        gender: '',
+      },
+      errors: Ember.computed(function() {
+        return Ember.A();
       }),
+      isValid: false,
+      didAttemptValidate: false,
+      schema: Ember.computed(function() {
+        return yup.object().shape({
+          username: yup.string().required(),
+          age: yup.number().min(18, 'you must be at least \${min} years of age in order to join this app').required(),
+          email: yup.string().email().required(),
+          countryCode: yup.string().required(),
+          zipCode: yup.string().required().matches(/\\d{5}(-?\\d{4})?|\\s*/, 'must be a 5 or 9 digit zip code'),
+        });
+      }),
+      actions: {
+        validate() {
+          const errors = this.get('errors');
+          errors.clear();
+          this.get('schema').validate(this.get('formData'), { abortEarly: false }).then((data) => {
+            this.set('isValid', true);
+          }).catch((err) => {
+            this.set('isValid', false);
+            errors.addObjects(err.errors)
+          }).finally(() => {
+            this.set('didAttemptValidate', true);
+          });
+        },
+        generateFakeData() {
+          this.set('didAttemptValidate', false);
+          this.set('formData', {
+            username: faker.internet.userName(),
+            age: faker.random.number({ min: 3, max: 35 }),
+            email: faker.internet.email(),
+            countryCode: faker.address.countryCode(),
+            zipCode: faker.address.zipCode(),
+          });
+        }
+      }
     });
-
-    // check validity
-    schema
-      .isValid({
-        name: 'jimmy',
-        age: 24,
-      })
-      .then(function(valid) {
-        valid; // => true
+  `,
+  isValid: false,
+  didAttemptValidate: false,
+  schema: Ember.computed(function() {
+    return yup.object().shape({
+      username: yup.string().required(),
+      age: yup.number().min(18, 'you must be at least ${min} years of age in order to join this app').required(),
+      email: yup.string().email().required(),
+      countryCode: yup.string().required(),
+      zipCode: yup.string().required().matches(/\d{5}(-?\d{4})?|\s*/, 'must be a 5 or 9 digit zip code'),
+    });
+  }),
+  actions: {
+    validate() {
+      const errors = this.get('errors');
+      errors.clear();
+      this.get('schema').validate(this.get('formData'), { abortEarly: false }).then((data) => {
+        this.set('isValid', true);
+      }).catch((err) => {
+        this.set('isValid', false);
+        errors.addObjects(err.errors)
+      }).finally(() => {
+        this.set('didAttemptValidate', true);
       });
-
-    // you can try and type cast objects to the defined schema
-    schema.cast({
-      name: 'jimmy',
-      age: '24',
-      createdOn: '2014-09-23T19:25:25Z',
-    });
-    // => { name: 'jimmy', age: 24, createdOn: Date }
-  `
+    },
+    generateFakeData() {
+      this.set('didAttemptValidate', false);
+      this.set('formData', {
+        username: faker.internet.userName(),
+        age: faker.random.number({ min: 3, max: 35 }),
+        email: faker.internet.email(),
+        countryCode: faker.address.countryCode(),
+        zipCode: faker.address.zipCode(),
+      });
+    }
+  }
 });

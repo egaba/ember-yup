@@ -33,6 +33,7 @@ Router.map(function() {
     });
     this.route('using-schemas');
     this.route('using-components');
+    this.route('ember-data');
   });
 
   this.route('blog', function() {
@@ -62,11 +63,12 @@ Router.map(function() {
   });
 
   // this.route('404', { path: '/*path' });
+  // this.route('validation-mixin');
 
   this.route('not-found', {
     path: '/:*path'
   });
-  this.route('validation-mixin');
+
 });
 
 export default Router;

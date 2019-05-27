@@ -1,16 +1,52 @@
-<article>
-  <section>
-    <h1>Schemas</h1>
-    <p>Schemas are objects that represent and validate logical data models.</p>
-    <p>Yup supports validating different types and combinations of data: strings, numbers, booleans, dates, arrays, and objects. See the <a href="https://github.com/jquense/yup#api" target="_blank" rel="noopener noreferrer">Yup API documentation here.</a></p>
-  </section>
-  <section>
-    <h2>Usage</h2>
-    <p>Schema objects are immutable, so each call of a method returns a new schema object.</p>
-    <p><strong>Try it out: <a href="https://tonicdev.com/570c52590a85f71200eb09ba/yup" target="_blank" rel="noopener noreferrer">Yup playground</a></strong></p>
-    <p>When using es module syntax, yup exports everything as a named export.</p>
-    {{markdown-to-html importSnippet class="codeblock"}}
-    {{markdown-to-html usageSnippet class="codeblock"}}
-    <p class="mt-8">If you would like to see an example integrated with Ember, check out {{link-to "the Quick Start section" "getting-started.quick-start"}}.</p>
-  </section>
-</article>
+<div class="container pb-20">
+  <h1>building schemas</h1>
+
+  <CodeDemo2
+    @key="custom-schema"
+    @activeTab="example1"
+    @example1={{controllerCode}} @label1="controller"
+  >
+    <form {{action "validate" on="submit"}}>
+      <p class="my-6"><a class="cursor-pointer inline-block" {{action "generateFakeData"}}>Generate fake data</a></p>
+
+      {{#if isValid}}
+        <section class="mt-6 mb-8">
+          <WiredCard @class="w-block w-full bg-green-lighter py-4 px-2">
+            <p class="mb-0">valid</p>
+          </WiredCard>
+        </section>
+      {{else if didAttemptValidate}}
+        <section class="mt-6 mb-8">
+          <WiredCard @class="w-block w-full bg-red-lighter py-4 px-2 text-sm">
+            <ul>
+              {{#each errors as |msg|}}
+                <li>{{msg}}</li>
+              {{/each}}
+            </ul>
+          </WiredCard>
+        </section>
+      {{/if}}
+
+      <div class="row">
+        {{#each-in formData as |name value|}}
+          <div class="col-xs-12 col-sm-6 mb-4 m-auto">
+            <div class="flex">
+              <label for="{{name}}-input" class="w-2/5">{{name}}</label>
+              <div class="w-3/5">
+                <WiredInput @id="{{name}}-input" @class="block w-full" @input={{action (mut (get formData name)) value="target.value"}} @value={{get formData name}}/>
+              </div>
+            </div>
+          </div>
+        {{/each-in}}
+      </div>
+
+      <footer class="text-right">
+        <WiredButton @class="bg-green-light">
+          <button type="submit" class="px-5 py-3 font-semibold uppercase text-green-darker">validate</button>
+        </WiredButton>
+      </footer>
+    </form>
+  </CodeDemo2>
+
+
+</div>

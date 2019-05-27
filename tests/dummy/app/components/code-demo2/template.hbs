@@ -1,0 +1,27 @@
+<WiredCard @class="block demo-container relative" @id={{cardId}}>
+  <nav class="nav-tabs absolute pin-r text-right">
+    <WiredListbox @horizontal=true @selected={{activeTab}}>
+      <WiredItem @value="demo" @click={{action (mut activeTab) value="target.value"}}>{{demoLabel}}</WiredItem>
+      {{#if example1}}
+        <WiredItem @value="example1" @click={{action (mut activeTab) value="target.value"}}>{{label1}}</WiredItem>
+      {{/if}}
+      {{#if example2}}
+        <WiredItem @value="example2" @click={{action (mut activeTab) value="target.value"}}>{{label2}}</WiredItem>
+      {{/if}}
+      {{#if example3}}
+        <WiredItem @value="example3" @click={{action (mut activeTab) value="target.value"}}>{{label3}}</WiredItem>
+      {{/if}}
+    </WiredListbox>
+  </nav>
+  {{#if (eq activeTab "demo")}}
+    <div class="pt-2 pb-10 px-2 demo">
+      {{yield}}
+    </div>
+  {{else if (eq activeTab "example1")}}
+    {{markdown-to-html example1}}
+  {{else if (eq activeTab "example2")}}
+    {{markdown-to-html example2}}
+  {{else if (eq activeTab "example3")}}
+    {{markdown-to-html example3}}
+  {{/if}}
+</WiredCard>

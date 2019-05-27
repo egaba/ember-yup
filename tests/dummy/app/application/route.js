@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 
 export default Route.extend({
+  theme: Ember.inject.service(),
   activate() {
     const loading = document.getElementById('app-loading');
     loading.value = 60 + Math.round(Math.random() * 20);
