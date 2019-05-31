@@ -5,9 +5,9 @@ export default Controller.extend({
   modelExample:`
     import DS from 'ember-data';
     const { Model } = DS;
-    import Schema from 'ember-yup/mixins/schema';
+    import Validate from 'ember-yup/mixins/validate-model';
 
-    export default Model.extend(Schema, {
+    export default Model.extend(Validate, {
       username: DS.attr({
         validate: {
           required: true,
@@ -17,12 +17,9 @@ export default Controller.extend({
         validate: {
           required: true,
           min: 18,
-          messages: {
-            min: 'you must be at least \${min} years of age in order to join this app',
-          },
         },
       }),
-      email: DS.attr({
+      email: DS.attr('string', {
         validate: {
           type: 'email',
           required: true,
@@ -31,14 +28,19 @@ export default Controller.extend({
       countryCode: DS.attr({
         validate: {
           required: true,
+          oneOf: ['us', 'es', 'jp']
         },
       }),
-      zipCode: DS.attr({
+      zipCode: DS.attr('string', {
         validate: {
           required: true,
-          matches: /\\d{5}(-?\\d{4})?|\\s*/,
-          messages: {
-            matches: 'must be a 5 or 9 digit zip code',
+          when: {
+            countryCode: {
+              is: 'us',
+              then: {
+                matches: /\\d{5}(-?\\d{4})?/,
+              }
+            }
           }
         },
       }),

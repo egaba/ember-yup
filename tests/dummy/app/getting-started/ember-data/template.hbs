@@ -37,11 +37,11 @@
                 <label for="{{name}}-input" class="w-2/5">{{name}}</label>
                 <div class="w-3/5">
                   <WiredInput @id="{{name}}-input" @class="block w-full" @input={{action (mut (get model name)) value="target.value"}} @value={{get model name}}/>
+                  {{#each (get model.errors name) as |error|}}
+                    <p class="text-sm text-red-dark mb-0">{{error.message}}</p>
+                  {{/each}}
                 </div>
               </div>
-              {{#each (get model.errors name) as |error|}}
-                <p class="text-sm text-red-dark mb-0">{{error.message}}</p>
-              {{/each}}
             </div>
           {{/each-in}}
         </div>

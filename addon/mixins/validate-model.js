@@ -3,12 +3,19 @@ import Mixin from '@ember/object/mixin';
 import RSVP from 'rsvp';
 import * as yup from 'yup';
 
-const aliases = {
+const VALIDATION_ALIASES = {
   lt: 'lessThan',
   gt: 'moreThan',
   mt: 'moreThan',
   gte: 'min',
   lte: 'max',
+};
+
+const ALLOWABLE_DATA_TYPES = ['mixed', 'text', 'string', 'number', 'boolean', 'bool', 'date', 'array', 'object', undefined];
+
+const DATA_TYPE_ALIASES = {
+  'boolean': 'bool',
+  'text': 'string',
 };
 
 /**
@@ -19,9 +26,9 @@ export default Mixin.create({
     schema = schema.nullable();
 
     for (let optionName in options) {
-      optionName = aliases[optionName] || optionName;
+      optionName = VALIDATION_ALIASES[optionName] || optionName;
 
-      if (!/message/i.test(optionName)) {
+      if (!/message|dataType/i.test(optionName)) {
         const config = options[optionName];
 
         try {
@@ -30,7 +37,19 @@ export default Mixin.create({
             schema = schema.typeError(typeErrorMessage);
           }
 
-          if (optionName === 'when') {
+          if (optionName === 'of') {
+            if (!ALLOWABLE_DATA_TYPES.includes(config.dataType)) {
+              throw new TypeError(`Unallowed schema type ${config.dataType}`);
+            }
+
+            const dataType = DATA_TYPE_ALIASES[config.dataType] || config.dataType || 'mixed';
+            const arrayChildSchema = yup[dataType] && yup[dataType]();
+
+            arrayChildSchemaConfig = Ember.assign({}, config);
+            delete arrayChildSchemaConfig.dataType;
+
+            schema = schema.of(this.buildSchema(arrayChildSchema, arrayChildSchemaConfig));
+          } else if (optionName === 'when') {
             for (const dependentKey in config) {
               const schemaOptions = config[dependentKey];
               schema = schema[optionName](dependentKey, {
@@ -40,7 +59,7 @@ export default Mixin.create({
               });
             }
           } else if (typeof schema[optionName] === 'function') {
-            const shouldIncludeValue = /email|url|integer|positive|negative|moreThan|lessThan|mt|lt|gt|min|max|matches/.test(optionName); // TODO improve
+            const shouldIncludeValue = /oneOf|equals|email|url|integer|positive|negative|moreThan|lessThan|mt|lt|gt|min|max|matches/i.test(optionName); // TODO improve
             let message;
 
             const messageKey = options[optionName + 'MessageKey'];

@@ -1,7 +1,6 @@
 import DS from 'ember-data';
 const { Model } = DS;
-import Validate from 'ember-yup/mixins/schema';
-import * as yup from 'yup';
+import Validate from 'ember-yup/mixins/validate-model';
 
 export default Model.extend(Validate, {
   username: DS.attr({
@@ -13,7 +12,6 @@ export default Model.extend(Validate, {
     validate: {
       required: true,
       min: 18,
-      minMessage: 'must be at least ${min} years old'
     },
   }),
   email: DS.attr('string', {
@@ -25,6 +23,7 @@ export default Model.extend(Validate, {
   countryCode: DS.attr({
     validate: {
       required: true,
+      oneOf: ['US', 'ES', 'JP', 'SK']
     },
   }),
   zipCode: DS.attr('string', {
@@ -32,10 +31,9 @@ export default Model.extend(Validate, {
       required: true,
       when: {
         countryCode: {
-          is: 'us',
+          is: 'US',
           then: {
             matches: /\d{5}(-?\d{4})?/,
-            matchesMessage: 'must be valid 5 or 9 digit zip code'
           }
         }
       }
