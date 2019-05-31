@@ -16,6 +16,7 @@
 /npm-debug.log*
 /testem.log
 /yarn-error.log
+yarn.lock
 notes
 
 # ember-try

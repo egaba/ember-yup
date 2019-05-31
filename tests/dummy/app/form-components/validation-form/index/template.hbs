@@ -5,7 +5,7 @@
     onReject=(action "reject")
     as |form|
   }}
-    <wired-card class="bg-grey-lightest">
+    <WiredCard @class="bg-grey-lightest">
       <div style="min-height: 250px;">
         {{#text-field
           validationMessages=(hash
@@ -76,6 +76,6 @@
           <wired-button>submit</wired-button>
         </button>
       </div>
-    </wired-card>
+    </WiredCard>
   {{/validation-form}}
 {{/code-demo}}

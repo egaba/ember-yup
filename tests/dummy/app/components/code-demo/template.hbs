@@ -1,5 +1,5 @@
 {{#if showCode}}
-  <wired-card class="block demo-container relative">
+  <WiredCard @class="block demo-container relative">
     <nav class="nav-tabs absolute pin-r text-right">
       <wired-listbox horizontal selected={{if showCode "code" "demo"}}>
        <wired-item value="demo" onclick={{action (mut showCode) false}}>demo</wired-item>
@@ -7,9 +7,9 @@
       </wired-listbox>
     </nav>
     {{markdown-to-html markup}}
-  </wired-card>
+  </WiredCard>
 {{else}}
-  <wired-card class="block demo-container relative">
+  <WiredCard @class="block demo-container relative">
     <nav class="nav-tabs absolute pin-r text-right">
       <wired-listbox horizontal selected={{if showCode "code" "demo"}}>
        <wired-item value="demo" onclick={{action (mut showCode) false}}>demo</wired-item>
@@ -19,5 +19,5 @@
     <div class="pt-2 pb-10 px-2 demo">
       {{yield}}
     </div>
-  </wired-card>
+  </WiredCard>
 {{/if}}

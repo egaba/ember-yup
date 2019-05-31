@@ -3,50 +3,108 @@ import Mixin from '@ember/object/mixin';
 import RSVP from 'rsvp';
 import * as yup from 'yup';
 
+const aliases = {
+  lt: 'lessThan',
+  gt: 'moreThan',
+  mt: 'moreThan',
+  gte: 'min',
+  lte: 'max',
+};
+
 /**
  * This mixin enables the Model to `validate()` its values against its schema.
  */
 export default Mixin.create({
+  buildSchema(schema = yup.mixed(), options = {}) {
+    schema = schema.nullable();
 
+    for (let optionName in options) {
+      optionName = aliases[optionName] || optionName;
+
+      if (!/message/i.test(optionName)) {
+        const config = options[optionName];
+
+        try {
+          const typeErrorMessage = options['typeMessage'];
+          if (typeErrorMessage) {
+            schema = schema.typeError(typeErrorMessage);
+          }
+
+          if (optionName === 'when') {
+            for (const dependentKey in config) {
+              const schemaOptions = config[dependentKey];
+              schema = schema[optionName](dependentKey, {
+                is: schemaOptions.is,
+                then: this.buildSchema(schema.clone(), schemaOptions.then),
+                otherwise: this.buildSchema(schema.clone(), schemaOptions.otherwise)
+              });
+            }
+          } else if (typeof schema[optionName] === 'function') {
+            const shouldIncludeValue = /email|url|integer|positive|negative|moreThan|lessThan|mt|lt|gt|min|max|matches/.test(optionName); // TODO improve
+            let message;
+
+            const messageKey = options[optionName + 'MessageKey'];
+            if (messageKey && this.intl) {
+              message = this.intl.lookup(messageKey, this.intl.get('locales'), {
+                resilient: true
+              });
+            } else {
+              message = options[optionName + 'Message'];
+            }
+
+            if (shouldIncludeValue) {
+              schema = schema[optionName](config, message);
+            } else {
+              schema = schema[optionName](message);
+            }
+          } else if (optionName === 'type' && typeof schema[config] === 'function') {
+            const messageKey = options[`${config}MessageKey`] || options['typeMessageKey'];
+            let message;
+
+            if (messageKey && this.intl) {
+              message = this.intl.lookup(messageKey, this.intl.get('locales'), {
+                resilient: true
+              });
+            } else {
+              message = options[`${optionName}Message`] || options[`${config}Message`] || typeErrorMessage;
+            }
+
+            schema = schema[config](message);
+          } else {
+            if (/type|matches|email|url/.test(optionName)) {
+              console.warn(optionName, 'option only available for `string` schema type. Define the attribute as a `string`.');
+            } else if (/integer|positive|negative|lessThan|moreThan/.test(optionName)) {
+              console.warn(optionName, 'option only available for `number` schema type. Define the attribute as a `number`.');
+            } else {
+              // TODO remove after tests
+              console.error('TODO', optionName, schema, config);
+            }
+          }
+        } catch(e) {
+          console.error('error', optionName, schema, config); // TODO remove
+          console.error(e);
+        }
+      }
+    }
+
+    return schema;
+  },
   /**
-   * This is built from the attributes. Options passed to the attribute will be
-   * applied to the schema. eg. `username: DS.attr({ validate: { required: true }})`
+   * Schema to validate data against. Built from attributes.
    */
   schema: Ember.computed(function() {
     const schemaAttrs = {};
 
     this.eachAttribute((name, attr) => {
-      const dataType = attr.type || 'string';
+      const dataType = attr.type;
       const validationOptions = attr.options && attr.options.validate || {};
-      const messages = validationOptions.messages || {};
+      const schema = yup[dataType] && yup[dataType]();
 
-      let propSchema = yup[dataType] && yup[dataType]() || yup.mixed();
-
-      for (const propName in validationOptions) {
-        if (!/message/.test(propName)) {
-          const value = validationOptions[propName];
-          const message = messages[value];
-
-          if (message) {
-            debugger;
-          }
-
-          if (propSchema[propName]) {
-            const shouldIncludeValue = /lt|gt|min|max|matches/.test(propName);
-            if (shouldIncludeValue) {
-              propSchema = propSchema[propName](value, message);
-            } else {
-              propSchema = propSchema[propName](message);
-            }
-          }
-        }
-      }
-
-      schemaAttrs[name] = propSchema;
+      schemaAttrs[name] = this.buildSchema(schema, validationOptions);
     });
 
     return yup.object().shape(schemaAttrs);
-  }),
+  }).readOnly(),
 
   /**
    * Flag to tell whether or not the model is currently validating.
@@ -64,8 +122,9 @@ export default Mixin.create({
       const schema = this.get('schema');
       const validate = schema.validate(values, options);
 
-      validate.then(() => {
-        errors.clear();
+      errors.clear();
+
+      validate.then((data) => {
         resolve(this);
       }).catch((validations) => {
         validations.inner.forEach(function(validation) {

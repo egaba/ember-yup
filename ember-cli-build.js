@@ -19,7 +19,5 @@ module.exports = function(defaults) {
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
 
-  app.import('./vendor/wired.js');
-
   return app.toTree();
 };

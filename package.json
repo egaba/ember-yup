@@ -10,10 +10,10 @@
     "forms",
     "schema"
   ],
-  "homepage": "https://egaba88.github.io/ember-yup/",
+  "homepage": "https://egaba.github.io/ember-yup/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/egaba88/ember-yup.git"
+    "url": "https://github.com/egaba/ember-yup.git"
   },
   "license": "MIT",
   "author": "Edward Gaba <egaba88@gmail.com>",
@@ -28,13 +28,16 @@
     "start": "ember serve",
     "test": "ember test",
     "test:all": "ember try:each",
-    "deploy": "rm -rf docs && ember build -prod --output-path docs && git add . && git commit -am 'deploy gh page' && git push --follow-tags"
+    "deploy": "rm -rf docs && ember build -prod --output-path docs && git add . && git commit -am 'deploy gh page' && git push || true"
+  },
+  "peerDependencies": {
+    "yup": "0.x"
   },
   "dependencies": {
     "ember-cli-babel": "^6.16.0",
     "ember-cli-cjs-transform": "^1.3.1",
     "ember-cli-htmlbars": "^3.0.0",
-    "yup": "^0.27.0"
+    "yup": "0.27.x"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.6.3",
@@ -57,6 +60,7 @@
     "ember-export-application-global": "^2.0.0",
     "ember-faker": "^1.5.0",
     "ember-fetch": "^6.5.1",
+    "ember-intl": "^3.5.2",
     "ember-load-initializers": "^1.1.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-qunit": "^3.4.1",
@@ -66,17 +70,19 @@
     "ember-source-channel-url": "^1.1.0",
     "ember-truth-helpers": "^2.1.0",
     "ember-try": "^1.0.0",
+    "ember-wired": "^1.0.5",
     "eslint-plugin-ember": "^5.2.0",
     "eslint-plugin-node": "^8.0.1",
     "loader.js": "^4.7.0",
     "qunit-dom": "^0.8.0",
-    "sass": "^1.20.1"
+    "sass": "^1.20.1",
+    "wired-elements": "^1.0.0"
   },
   "engines": {
     "node": "6.* || 8.* || >= 10.*"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "demoURL": "https://egaba88.github.io/ember-yup/"
+    "demoURL": "https://egaba.github.io/ember-yup/"
   }
 }

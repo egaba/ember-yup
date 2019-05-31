@@ -7,7 +7,7 @@ export default Controller.extend({
       onReject=(action "reject")
       as |form|
     }}
-      <wired-card class="bg-grey-lightest">
+      <div class="bg-grey-lightest">
         <div style="min-height: 250px;">
           {{#text-field
             validationMessages=(hash
@@ -78,7 +78,7 @@ export default Controller.extend({
             <wired-button>submit</wired-button>
           </button>
         </div>
-      </wired-card>
+      </div>
     {{/validation-form}}
   `,
   formData: {},
