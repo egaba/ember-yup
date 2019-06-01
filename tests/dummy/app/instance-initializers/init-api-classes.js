@@ -54,7 +54,7 @@ function readData(data, componentName) {
         } else if (tag.title === 'state') {
           commentData.isState = true;
         } else {
-          console.log('unknown tag', tag, tag.title === 'param', commentData);
+          console.debug('unknown tag', tag, tag.title === 'param', commentData);
         }
       });
     });
@@ -69,7 +69,7 @@ export function initialize(appInstance) {
   const store = appInstance.lookup('service:store');
   const apiData = appInstance.lookup('api:components');
 
-  const components = ['text-field', 'boolean-field', 'number-field', 'date-field', 'validation-form'];
+  const components = ['text-field', 'boolean-field', 'number-field', 'date-field', 'validation-form', 'validate-mixin'];
 
   const baseFieldData = readData(apiData, 'form-field');
 

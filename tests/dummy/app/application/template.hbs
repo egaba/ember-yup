@@ -6,8 +6,8 @@
 
 <div class="min-h-screen overflow-x-hidden flex flex-col">
   <header class="mb-4 border-t-4 border-green-dark">
-    <ThemeBreakpoint @down="md">
-      <div class="xs:w-full sm:w-full md:w-4/5 mx-auto px-3">
+    <ThemeBreakpoint @down="lg">
+      <div class="mx-auto px-3">
         <nav class="flex items-center justify-between flex-wrap text-grey-darkest py-4">
           <div class="flex items-center flex-no-shrink mr-6">
             <span class="font-semibold text-2xl">
@@ -18,8 +18,8 @@
         </nav>
       </div>
     </ThemeBreakpoint>
-    <ThemeBreakpoint @up="md">
-      <div class="w-4/5 mx-auto">
+    <ThemeBreakpoint @up="lg">
+      <div class="xl:w-4/5 mx-auto lg:px-6">
         <nav class="flex items-center justify-between flex-wrap text-grey-darkest py-4">
           <div class="flex items-center flex-no-shrink">
             <span class="font-semibold text-2xl">
@@ -27,11 +27,11 @@
             </span>
           </div>
           <div class="flex flex-end justify-end text-sm">
-            {{link-to "Getting Started" "getting-started.ember-data" class="app-bar-link"}}
-            {{link-to "Blog" "blog" class="app-bar-link"}}
+            {{link-to "Getting Started" "getting-started" class="app-bar-link"}}
+            <!-- {{link-to "Blog" "blog" class="app-bar-link"}} -->
             <a href="https://github.com/jquense/yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">API</a>
             <a href="https://github.com/egaba88/ember-yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Github</a>
-            {{link-to "Changelog" "changelog" class="app-bar-link"}}
+            <!-- {{link-to "Changelog" "changelog" class="app-bar-link"}} -->
           </div>
 
         </nav>
@@ -40,11 +40,11 @@
   </header>
 
   <main class="flex-grow">
-    <ThemeBreakpoint @down="md" @class="px-3">
+    <ThemeBreakpoint @down="lg" @class="px-3">
       {{outlet}}
     </ThemeBreakpoint>
     {{#if showNav}}
-      <ThemeBreakpoint @up="md" @class="container">
+      <ThemeBreakpoint @up="lg" @class="container">
         <div class="flex">
           <div class="w-1/5">
             {{app-main-nav}}
@@ -55,7 +55,7 @@
         </div>
       </ThemeBreakpoint>
     {{else}}
-      <ThemeBreakpoint @up="md">
+      <ThemeBreakpoint @up="lg">
         <div class="w-4/5 mx-auto">
           {{outlet}}
         </div>
@@ -67,10 +67,10 @@
     <div class="container">
       <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div class="text-sm lg:flex-grow">
-          {{link-to "Blog" "blog" class="app-bar-link"}}
+          <!-- {{link-to "Blog" "blog" class="app-bar-link"}} -->
           <a href="https://github.com/jquense/yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Yup API Documentation</a>
           <a href="https://github.com/egaba88/ember-yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Github</a>
-          {{link-to "Changelog" "changelog" class="app-bar-link"}}
+          <!-- {{link-to "Changelog" "changelog" class="app-bar-link"}} -->
         </div>
       </div>
     </div>
