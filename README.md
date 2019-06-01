@@ -13,9 +13,9 @@ $ ember install ember-yup
 
 ## Usage
 
-Here's an example where we validate form data before creating a user using a schema.
+Here's an example of adding validation to a user model.
 
-Demo: https://egaba88.github.io/ember-yup/#/getting-started/quick-start/demo
+Demo: https://egaba.github.io/ember-yup/#/getting-started/ember-data
 
 ```js
 import DS from 'ember-data';
