@@ -17,11 +17,18 @@ export default Route.extend({
 
   sideMenu: Ember.inject.service(),
 
+  scrollTop() {
+    window.scrollTo(0,0);
+  },
+
   actions: {
     willTransition() {
       if (this.get('sideMenu.isOpen')) {
         this.get('sideMenu').close();
       }
     },
+    didTransition() {
+      Ember.run.next(null, this.scrollTop);
+    }
   },
 });
