@@ -53,7 +53,7 @@ export default Model.extend(Validate, {
         countryCode: {
           is: 'US',
           then: {
-            matches: /\\d{5}(-?\\d{4})?/,
+            matches: /\d{5}(-?\d{4})?/,
           }
         }
       }
