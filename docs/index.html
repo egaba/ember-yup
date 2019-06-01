@@ -18,18 +18,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     
-<meta name="dummy/config/environment" content="%7B%22modulePrefix%22%3A%22dummy%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/ember-yup/%22%2C%22locationType%22%3A%22hash%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%2C%22_JQUERY_INTEGRATION%22%3Afalse%7D%2C%22APP%22%3A%7B%7D%2C%22exportApplicationGlobal%22%3Afalse%7D" />
+<meta name="dummy/config/environment" content="%7B%22modulePrefix%22%3A%22dummy%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/ember-yup/%22%2C%22locationType%22%3A%22hash%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%2C%22_JQUERY_INTEGRATION%22%3Afalse%7D%2C%22APP%22%3A%7B%7D%2C%22exportApplicationGlobal%22%3Afalse%2C%22ember-faker%22%3A%7B%7D%7D" />
 
     <link integrity="" rel="stylesheet" href="/ember-yup/assets/vendor-d41d8cd98f00b204e9800998ecf8427e.css">
-    <link integrity="" rel="stylesheet" href="/ember-yup/assets/dummy-54e2c36ffcbb934c55d4b170d7a4ff96.css">
+    <link integrity="" rel="stylesheet" href="/ember-yup/assets/dummy-08cd5361975b3742704db01cb942935b.css">
 
     
   </head>
   <body>
+    <div class="px-4 min-h-screen flex flex-col justify-center pb-20" id="app-loading-container">
+      <wired-progress id="app-loading" class="w-full" value="0"><p class="text-center text-lg">loading...</p></wired-progress>
+      <script type="text/javascript">
+        window.setTimeout(function() {
+          const element = document.getElementById('app-loading');
+          if (element) {
+            element.value = 15 + Math.round(Math.random() * 25);
+          }
+        }, 100);
+      </script>
+    </div>
+
     
 
-    <script src="/ember-yup/assets/vendor-789bc8872d33b9bbae89ebda0e5851a2.js"></script>
-    <script src="/ember-yup/assets/dummy-cbaebf29570c7762255deec2c4cad5e7.js"></script>
+    <script src="/ember-yup/assets/vendor-d5940991e4942dfc902fe1cbb66c2ec5.js"></script>
+    <script src="/ember-yup/assets/dummy-5203df5ccc0348c0177bd405bd28072a.js"></script>
 
     
   </body>
