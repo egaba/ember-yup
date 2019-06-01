@@ -7803,9 +7803,9 @@ var a=Ember.Component.extend(t.default,{tagName:"wired-toggle",checked:!1,disabl
 e.default=a}),define("ember-wired/mixins/wired-element",["exports"],function(e){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
 var t=Ember.Mixin.create({wired:Ember.inject.service("wired"),animated:!1,rewireInterval:0,minRewireInterval:150,rewire:function(){"inDOM"===this.get("_state")&&this.element&&Ember.run.next(this.element,function(){if(this)try{this.requestUpdate()}catch(e){}})},animate:Ember.computed.and("animated","wired.allowAnimations"),cancelScheduledRewire:function(){var e=this.get("nextRewire")||null
-e&&(Ember.run.cancel(e),this.set("nextRewire",null))},scheduleNextRewire:Ember.observer("animate",function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:this.get("rewireInterval")||Math.round(1200*Math.random())
-if(this.cancelScheduledRewire(),this.get("animate")){var t=Ember.run.later(this,function(){this.rewire(),this.scheduleNextRewire()},Math.max(e,this.get("minRewireInterval")))
-this.set("nextRewire",t)}}),didInsertElement:function(){this._super.apply(this,arguments),this.scheduleNextRewire()}})
+e&&(Ember.run.cancel(e),"inDOM"===this.get("_state")&&this.set("nextRewire",null))},scheduleNextRewire:Ember.observer("animate",function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:this.get("rewireInterval")||Math.round(1200*Math.random())
+if(this.cancelScheduledRewire(),this.get("animate")&&"inDOM"===this.get("_state")){var t=Ember.run.later(this,function(){this.rewire(),this.scheduleNextRewire()},Math.max(e,this.get("minRewireInterval")))
+this.set("nextRewire",t)}}),didInsertElement:function(){this._super.apply(this,arguments),this.scheduleNextRewire()},willDestroyElement:function(){this._super.apply(this,arguments),this.cancelScheduledRewire()}})
 e.default=t}),define("ember-wired/wired/service",["exports"],function(e){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
 var t=Ember.Service.extend({allowAnimations:!0})
