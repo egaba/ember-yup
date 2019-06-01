@@ -1,5 +1,5 @@
 .app-side-nav {
-  @apply .px-4 .pt-6;
+  @apply .px-4;
   min-width: 192px;
 }
 

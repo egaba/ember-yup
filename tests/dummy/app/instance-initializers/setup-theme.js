@@ -4,10 +4,15 @@ export function initialize(appInstance) {
   const theme = appInstance.lookup('service:theme');
   // window.addEventListener('scroll', function(event) {
   //   const clientRect = event.target.documentElement.getBoundingClientRect();
-  //   theme.set('viewportPosition', clientRect);
+  //   console.log('scroll', clientRect);
+  //
+  //   theme.set('viewportWidth', clientRect.width);
   // });
-  // debugger;
-  // appInstance.inject('route', 'foo', 'service:foo');
+
+  window.addEventListener('resize', function() {
+    theme.set('viewportWidth', window.innerWidth);
+  });
+
 
 }
 

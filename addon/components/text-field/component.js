@@ -1,4 +1,5 @@
-import FormField from 'ember-yup/components/form-field/component';
+// import FormField from 'ember-yup/components/form-field/component';
+import FormField from '../form-field/component';
 import { computed } from '@ember/object';
 // import layout from './template';
 import * as yup from 'yup';

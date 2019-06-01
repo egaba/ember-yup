@@ -2,6 +2,28 @@ import faker from 'faker';
 import Controller from '@ember/controller';
 
 export default Controller.extend({
+  intro: `
+    - DS.attr() -> yup.mixed()
+    - DS.attr('string') -> yup.string()
+    - DS.attr('boolean') -> yup.bool()
+    - DS.attr('number') -> yup.number()
+    - DS.attr('date') -> yup.date()
+    - DS.attr('object') -> yup.object()
+    - DS.attr('array') -> yup.array()
+  `,
+  schemaExample: `
+    const schema = yup.object().shape({
+      username: yup.mixed().required(),
+      age: yup.number().required().min(18),
+      email: yup.string().email().required(),
+      countryCode: yup.string().oneOf(['US', 'ES', 'JP', 'SK']),
+      zipCode: yup.string().required().when('countryCode', {
+        is: 'US',
+        then: yup.string().matches(/\\d{5}(-?\\d{4})?/)
+      }),
+      gender: yup.mixed()
+    });
+  `,
   modelExample:`
     import DS from 'ember-data';
     const { Model } = DS;
@@ -28,7 +50,7 @@ export default Controller.extend({
       countryCode: DS.attr({
         validate: {
           required: true,
-          oneOf: ['us', 'es', 'jp']
+          oneOf: ['US', 'ES', 'JP', 'SK']
         },
       }),
       zipCode: DS.attr('string', {
@@ -36,7 +58,7 @@ export default Controller.extend({
           required: true,
           when: {
             countryCode: {
-              is: 'us',
+              is: 'US',
               then: {
                 matches: /\\d{5}(-?\\d{4})?/,
               }

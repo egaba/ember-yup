@@ -18,11 +18,19 @@ const DATA_TYPE_ALIASES = {
   'text': 'string',
 };
 
-/**
- * This mixin enables the Model to `validate()` its values against its schema.
- */
+ /**
+  * This mixin allows the model to validate values against its schema.
+  *
+  * @class ValidateModelMixin
+  */
 export default Mixin.create({
-  buildSchema(schema = yup.mixed(), options = {}) {
+  /**
+   * Parses validation options and applies them to the schema.
+   *
+   * @function _buildSchema
+   * @private
+   */
+  _buildSchema(schema = yup.mixed(), options = {}) {
     schema = schema.nullable();
 
     for (let optionName in options) {
@@ -48,14 +56,14 @@ export default Mixin.create({
             arrayChildSchemaConfig = Ember.assign({}, config);
             delete arrayChildSchemaConfig.dataType;
 
-            schema = schema.of(this.buildSchema(arrayChildSchema, arrayChildSchemaConfig));
+            schema = schema.of(this._buildSchema(arrayChildSchema, arrayChildSchemaConfig));
           } else if (optionName === 'when') {
             for (const dependentKey in config) {
               const schemaOptions = config[dependentKey];
               schema = schema[optionName](dependentKey, {
                 is: schemaOptions.is,
-                then: this.buildSchema(schema.clone(), schemaOptions.then),
-                otherwise: this.buildSchema(schema.clone(), schemaOptions.otherwise)
+                then: this._buildSchema(schema.clone(), schemaOptions.then),
+                otherwise: this._buildSchema(schema.clone(), schemaOptions.otherwise)
               });
             }
           } else if (typeof schema[optionName] === 'function') {
@@ -109,7 +117,8 @@ export default Mixin.create({
     return schema;
   },
   /**
-   * Schema to validate data against. Built from attributes.
+   * A `yup` schema.
+   * @property schema
    */
   schema: Ember.computed(function() {
     const schemaAttrs = {};
@@ -119,19 +128,21 @@ export default Mixin.create({
       const validationOptions = attr.options && attr.options.validate || {};
       const schema = yup[dataType] && yup[dataType]();
 
-      schemaAttrs[name] = this.buildSchema(schema, validationOptions);
+      schemaAttrs[name] = this._buildSchema(schema, validationOptions);
     });
 
     return yup.object().shape(schemaAttrs);
   }).readOnly(),
 
-  /**
-   * Flag to tell whether or not the model is currently validating.
-   */
+ /**
+  * Flag to tell whether or not the model is currently validating.
+  * @property isValidating
+  */
   isValidating: false,
 
   /**
    * Validate the record's values against the schema.
+   * @function validate
    */
   validate(values = this.toJSON(), options = { abortEarly: false }) {
     return new RSVP.Promise((resolve, reject) => {
@@ -159,6 +170,7 @@ export default Mixin.create({
   /**
    * Add `validate` option to validate before saving. This ensures that only
    * valid data is sent when saving.
+   * @function save
    */
   save(options = {}) {
     if (options.validate) {

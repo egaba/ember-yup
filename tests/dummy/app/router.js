@@ -69,6 +69,7 @@ Router.map(function() {
     path: '/:*path'
   });
 
+  this.route('validate-model-mixin');
 });
 
 export default Router;

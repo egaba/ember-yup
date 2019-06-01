@@ -1,4 +1,4 @@
-{{#side-menu class="bg-grey-lightest"}}
+{{#side-menu class="bg-grey-lightest pt-8"}}
   {{app-main-nav}}
 {{/side-menu}}
 
@@ -6,21 +6,64 @@
 
 <div class="min-h-screen overflow-x-hidden flex flex-col">
   <header class="mb-4 border-t-4 border-green-dark">
-    <nav class="flex items-center justify-between flex-wrap text-grey-darkest py-4 container">
-      <div class="flex items-center flex-no-shrink mr-6">
-        <span class="font-semibold text-2xl">
-          {{link-to "Yup" "index" class="logo-link"}}
-        </span>
+    <ThemeBreakpoint @down="md">
+      <div class="xs:w-full sm:w-full md:w-4/5 mx-auto px-3">
+        <nav class="flex items-center justify-between flex-wrap text-grey-darkest py-4">
+          <div class="flex items-center flex-no-shrink mr-6">
+            <span class="font-semibold text-2xl">
+              {{link-to "Yup" "index" class="logo-link"}}
+            </span>
+          </div>
+          {{side-menu-toggle class="ml-auto"}}
+        </nav>
       </div>
-      {{side-menu-toggle class="ml-auto"}}
-    </nav>
+    </ThemeBreakpoint>
+    <ThemeBreakpoint @up="md">
+      <div class="w-4/5 mx-auto">
+        <nav class="flex items-center justify-between flex-wrap text-grey-darkest py-4">
+          <div class="flex items-center flex-no-shrink">
+            <span class="font-semibold text-2xl">
+              {{link-to "Yup" "index" class="logo-link"}}
+            </span>
+          </div>
+          <div class="flex flex-end justify-end text-sm">
+            {{link-to "Getting Started" "getting-started.ember-data" class="app-bar-link"}}
+            {{link-to "Blog" "blog" class="app-bar-link"}}
+            <a href="https://github.com/jquense/yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">API</a>
+            <a href="https://github.com/egaba88/ember-yup" class="app-bar-link" target="_blank" rel="noopener noreferrer">Github</a>
+            {{link-to "Changelog" "changelog" class="app-bar-link"}}
+          </div>
+
+        </nav>
+      </div>
+    </ThemeBreakpoint>
   </header>
 
   <main class="flex-grow">
-    {{outlet}}
+    <ThemeBreakpoint @down="md" @class="px-3">
+      {{outlet}}
+    </ThemeBreakpoint>
+    {{#if showNav}}
+      <ThemeBreakpoint @up="md" @class="container">
+        <div class="flex">
+          <div class="w-1/5">
+            {{app-main-nav}}
+          </div>
+          <div class="w-4/5">
+            {{outlet}}
+          </div>
+        </div>
+      </ThemeBreakpoint>
+    {{else}}
+      <ThemeBreakpoint @up="md">
+        <div class="w-4/5 mx-auto">
+          {{outlet}}
+        </div>
+      </ThemeBreakpoint>
+    {{/if}}
   </main>
 
-  <footer id="app-footer">
+  <footer id="app-footer" class="mt-20">
     <div class="container">
       <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div class="text-sm lg:flex-grow">

@@ -22,7 +22,6 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this.readValidation();
-    // debugger;
   },
 
   /**
