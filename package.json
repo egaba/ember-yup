@@ -28,7 +28,8 @@
     "start": "ember serve",
     "test": "ember test",
     "test:all": "ember try:each",
-    "deploy": "rm -rf docs && ember build -prod --output-path docs && git add . && git commit -am 'deploy gh page' && git push || true"
+    "deploy": "rm -rf docs && ember build -prod --output-path docs && git add . && git commit -am 'deploy gh page' && git push || true",
+    "postversion": "npm run deploy && npm publish && git push --follow-tags"
   },
   "peerDependencies": {
     "yup": "0.x"
