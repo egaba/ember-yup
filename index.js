@@ -10,7 +10,9 @@ module.exports = {
   included(app) {
     this._super.included.apply(this, arguments);
 
-    fs.writeFileSync('./tests/dummy/public/components-api.json', parseJsDocs());
+    if (app.name === 'dummy' && app.env === 'development') {
+      fs.writeFileSync('./tests/dummy/public/components-api.json', parseJsDocs());
+    }
 
     app.import('node_modules/yup/lib/index.js', {
       using: [
