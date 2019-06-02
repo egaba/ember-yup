@@ -10,7 +10,7 @@ export default Model.extend({
   name: DS.attr(),
   description: DS.attr(),
   meta: DS.attr(),
-  type: Ember.computed('meta.type', function() {
-    return typeMap[this.get('meta.type')];
+  type: Ember.computed('meta.type', 'meta.name', function() {
+    return typeMap[this.get('meta.type')] || this.get('meta.name');
   })
 });

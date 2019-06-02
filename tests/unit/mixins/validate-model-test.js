@@ -1,12 +1,14 @@
-import EmberObject from '@ember/object';
-import ValidateModelMixin from 'ember-yup/mixins/schema';
 import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
+import { run } from '@ember/runloop';
 
-module('Unit | Mixin | schema', function() {
-  // Replace this with your real tests.
-  test('it works', function (assert) {
-    let ValidateModelObject = EmberObject.extend(ValidateModelMixin);
-    let subject = ValidateModelObject.create();
-    assert.ok(subject);
-  });
+module('Unit | Mixin | ValidateModel', function(hooks) {
+ setupTest(hooks);
+
+ test('should validate model', function(assert) {
+   const model = run(() => this.owner.lookup('service:store').createRecord('user'));
+   run(() => model.validate());
+
+   assert.equal(model.get('isValid'), false, 'model is invalid');
+ });
 });

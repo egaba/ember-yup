@@ -37,6 +37,7 @@ function readData(data, componentName) {
           commentData.description = comment.description;
           info.properties[tag.name] = commentData;
         } else if (tag.title === 'function') {
+
           commentData.type = 'method';
           commentData.description = comment.description;
 
@@ -50,6 +51,9 @@ function readData(data, componentName) {
         } else if (tag.title === 'defaultValue') {
           commentData.defaultValue = tag.description;
         } else if (tag.title === 'param') {
+          if (componentName === 'validate-mixin') {
+            console.log(tag);
+          }
           commentData.params.push(tag);
         } else if (tag.title === 'state') {
           commentData.isState = true;
@@ -127,7 +131,8 @@ export function initialize(appInstance) {
         store.createRecord('method-param', {
           method: method,
           name: param.name,
-          meta: param.type
+          meta: param.type,
+          description: param.description,
         });
       });
     }

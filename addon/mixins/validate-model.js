@@ -1,7 +1,8 @@
-import DS from 'ember-data';
 import Mixin from '@ember/object/mixin';
 import RSVP from 'rsvp';
 import * as yup from 'yup';
+import { assign } from '@ember/polyfills';
+import { computed } from '@ember/object';
 
 const VALIDATION_ALIASES = {
   lt: 'lessThan',
@@ -26,7 +27,6 @@ const DATA_TYPE_ALIASES = {
 export default Mixin.create({
   /**
    * Parses validation options and applies them to the schema.
-   *
    * @function _buildSchema
    * @private
    */
@@ -53,7 +53,7 @@ export default Mixin.create({
             const dataType = DATA_TYPE_ALIASES[config.dataType] || config.dataType || 'mixed';
             const arrayChildSchema = yup[dataType] && yup[dataType]();
 
-            arrayChildSchemaConfig = Ember.assign({}, config);
+            const arrayChildSchemaConfig = assign({}, config);
             delete arrayChildSchemaConfig.dataType;
 
             schema = schema.of(this._buildSchema(arrayChildSchema, arrayChildSchemaConfig));
@@ -102,13 +102,9 @@ export default Mixin.create({
               console.warn(optionName, 'option only available for `string` schema type. Define the attribute as a `string`.');
             } else if (/integer|positive|negative|lessThan|moreThan/.test(optionName)) {
               console.warn(optionName, 'option only available for `number` schema type. Define the attribute as a `number`.');
-            } else {
-              // TODO remove after tests
-              console.error('TODO', optionName, schema, config);
             }
           }
         } catch(e) {
-          console.error('error', optionName, schema, config); // TODO remove
           console.error(e);
         }
       }
@@ -120,7 +116,7 @@ export default Mixin.create({
    * A `yup` schema.
    * @property schema
    */
-  schema: Ember.computed(function() {
+  schema: computed(function() {
     const schemaAttrs = {};
 
     this.eachAttribute((name, attr) => {
@@ -143,6 +139,8 @@ export default Mixin.create({
   /**
    * Validate the record's values against the schema.
    * @function validate
+   * @param {Object} values The values to validate against; defaults to `this.toJSON()`
+   * @param {Object} options Options to pass to the schema's `validate` method
    */
   validate(values = this.toJSON(), options = { abortEarly: false }) {
     return new RSVP.Promise((resolve, reject) => {
@@ -168,9 +166,10 @@ export default Mixin.create({
   },
 
   /**
-   * Add `validate` option to validate before saving. This ensures that only
-   * valid data is sent when saving.
+   * Adds a `validate` option to `save()`.
+   * This ensures that only valid data is saved.
    * @function save
+   * @param {Object} options `validate` option ensures only valid values are saved
    */
   save(options = {}) {
     if (options.validate) {
