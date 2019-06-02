@@ -120,7 +120,7 @@ export default Controller.extend({
       this.set('didAttemptValidate', false);
       this.set('formData', {
         username: faker.internet.userName(),
-        age: faker.random.number({ min: 3, max: 35 }),
+        age: faker.random.number({ min: 3, max: 17 }),
         email: faker.internet.email(),
         countryCode: faker.address.countryCode(),
         zipCode: faker.address.zipCode(),

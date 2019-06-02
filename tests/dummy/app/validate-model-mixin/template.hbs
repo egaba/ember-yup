@@ -15,7 +15,7 @@
               <ul class="pl-8 list-reset">
                 {{#each method.params as |param|}}
                   <li>
-                    <strong>{{param.name}}</strong> <em>{{param.type}}</em> <span>{{param.description}}</span>
+                    <strong>{{param.name}}</strong> <em>{{param.type}}</em> <span>{{markdown-to-html param.description class="markdown"}}</span>
                   </li>
                 {{/each}}
               </ul>

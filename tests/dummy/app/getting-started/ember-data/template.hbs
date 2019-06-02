@@ -1,7 +1,5 @@
 <h1>Model mixin</h1>
 <p>Add a schema to your model using a mixin.</p>
-<p>Here's a schema that's built for the model in the demo below:</p>
-{{markdown-to-html schemaExample class="snippet p-2"}}
 <CodeDemo2
   @key="model-mixin"
   @activeTab="example1"
@@ -54,6 +52,11 @@
     </footer>
   </form>
 </CodeDemo2>
+
+<section class="mt-6">
+  <p>The model's schema looks like this:</p>
+  {{markdown-to-html schemaExample class="snippet p-2"}}
+</section>
 
 <section class="mt-6">
   {{markdown-to-html "When using the Validate mixin, a schema is built by creating a `yup.object()` in the shape of the model's attributes." class="markdown"}}
