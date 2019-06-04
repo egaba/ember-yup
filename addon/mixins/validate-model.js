@@ -149,10 +149,19 @@ export default Mixin.create({
    */
   isInvalid: false,
 
+  /**
+   * @event willValidate
+   */
+
+  /**
+   * @event didValidate
+   */
+
   _preValidate() {
     if (this.preValidate) {
       this.preValidate();
     }
+
     this.trigger('willValidate');
     this.set('isValidating', true);
     this.get('errors').clear();
@@ -169,6 +178,7 @@ export default Mixin.create({
       isInvalid,
       isValidating: false,
     });
+
     this.trigger('didValidate', isInvalid, data);
     if (this.postValidate) {
       this.postValidate();
@@ -186,13 +196,13 @@ export default Mixin.create({
 
     options = Ember.assign({}, DEFAULT_VALIDATE_OPTIONS, options);
 
-    const validateValues = new RSVP.Promise((resolve, reject) => {
+    const validation = new RSVP.Promise((resolve, reject) => {
       this.get('schema').validate(values, options)
         .then(resolve)
         .catch(reject);
     });
 
-    validateValues.then((transformedValues) => {
+    validation.then((transformedValues) => {
       if (options.transform) {
         values = transformedValues;
       }
@@ -201,7 +211,7 @@ export default Mixin.create({
       this._postValidate(true, validations);
     });
 
-    return validateValues;
+    return validation;
   },
 
   /**
