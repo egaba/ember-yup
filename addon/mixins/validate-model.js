@@ -178,13 +178,13 @@ export default Mixin.create({
   /**
    * Validate the record's values against the schema.
    * @function validate
-   * @param {Object} validateOptions Options to pass to the schema's `validate` method
+   * @param {Object} options Options to pass to the schema's `validate` method
    * @param {Object} values The values to validate against; defaults to `this.toJSON()`
    */
-  validate(validateOptions = {}, values = this.toJSON()) {
+  validate(options = {}, values = this.toJSON()) {
     this._preValidate();
 
-    const options = Ember.assign({}, DEFAULT_VALIDATE_OPTIONS, validateOptions);
+    options = Ember.assign({}, DEFAULT_VALIDATE_OPTIONS, options);
 
     const validateValues = new RSVP.Promise((resolve, reject) => {
       this.get('schema').validate(values, options)
@@ -208,13 +208,13 @@ export default Mixin.create({
    * Same as validate, except synchronous.
    * Validate the record's values against the schema.
    * @function validateSync
-   * @param {Object} validateOptions Options to pass to the schema's `validate` method
+   * @param {Object} options Options to pass to the schema's `validate` method
    * @param {Object} values The values to validate against; defaults to `this.toJSON()`
    */
-  validateSync(validateOptions = {}, values = this.toJSON()) {
+  validateSync(options = {}, values = this.toJSON()) {
     this._preValidate();
 
-    const options = Ember.assign({}, DEFAULT_VALIDATE_OPTIONS, validateOptions);
+    options = Ember.assign({}, DEFAULT_VALIDATE_OPTIONS, options);
 
     try {
       if (options.transform) {
@@ -233,6 +233,7 @@ export default Mixin.create({
    * This ensures that only valid data is saved.
    * @function save
    * @param {Object} options `validate` option ensures only valid values are saved
+   * @return {Promise}
    */
   save(options = {}) {
     if (options.validate) {
