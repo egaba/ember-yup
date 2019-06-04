@@ -1,7 +1,8 @@
 import Controller from '@ember/controller';
+import { map } from '@ember/object/computed';
 
 export default Controller.extend({
-  methods: Ember.computed.map('model.methods', function(method) {
+  methods: map('model.methods', function(method) {
     const methodParams = method.get('params').map(function(param) { return param.name; }).join(',');
     const signature = `${method.get('name')}(${methodParams})`;
     return {
