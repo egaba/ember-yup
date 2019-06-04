@@ -7869,10 +7869,9 @@ return this.eachAttribute(function(n,r){var i=r.type,o=r.options&&r.options.vali
 a[n]=e._buildSchema(s,o)}),t.object().shape(a)}).readOnly(),isValidating:!1,isInvalid:!1,_preValidate:function(){this.preValidate&&this.preValidate(),this.trigger("willValidate"),this.set("isValidating",!0),this.get("errors").clear()},_postValidate:function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0],t=arguments[1]
 if(e){var a=this.get("errors")
 t.inner.forEach(function(e){a.add(e.path,e.errors)})}this.setProperties({isInvalid:e,isValidating:!1}),this.trigger("didValidate",e,t),this.postValidate&&this.postValidate()},validate:function(){var e=this,t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},a=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.toJSON()
-this._preValidate()
-var n=Ember.assign({},i,t),r=new Ember.RSVP.Promise(function(t,r){e.get("schema").validate(a,n).then(t).catch(r)})
-return r.then(function(t){n.transform&&(a=t),e._postValidate(!1,a)}).catch(function(t){e._postValidate(!0,t)}),r},validateSync:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.toJSON()
-this._preValidate()
-var a=Ember.assign({},i,e)
-try{a.transform&&(t=this.get("schema").validateSync(t,a)),this._postValidate(!1,t)}catch(n){this._postValidate(!0,n)}return t},save:function(){var e=this,t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{}
+this._preValidate(),t=Ember.assign({},i,t)
+var n=new Ember.RSVP.Promise(function(n,r){e.get("schema").validate(a,t).then(n).catch(r)})
+return n.then(function(n){t.transform&&(a=n),e._postValidate(!1,a)}).catch(function(t){e._postValidate(!0,t)}),n},validateSync:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.toJSON()
+this._preValidate(),e=Ember.assign({},i,e)
+try{e.transform&&(t=this.get("schema").validateSync(t,e)),this._postValidate(!1,t)}catch(a){this._postValidate(!0,a)}return t},save:function(){var e=this,t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{}
 return t.validate?new Ember.RSVP.Promise(function(a,n){e.validateSync(t),e.get("isInvalid")?n(e):a(e._super(t))}):this._super(t)}})})
