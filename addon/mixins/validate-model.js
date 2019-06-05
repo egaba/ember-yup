@@ -22,7 +22,6 @@ const DATA_TYPE_ALIASES = {
 
 const DEFAULT_VALIDATE_OPTIONS = {
   abortEarly: false,
-  transform: false,
 };
 
  /**
@@ -31,6 +30,156 @@ const DEFAULT_VALIDATE_OPTIONS = {
   * @class ValidateModelMixin
   */
 export default Mixin.create({
+  /**
+   * A `yup` schema.
+   * @property schema
+   */
+  schema: computed(function() {
+    const schemaAttrs = {};
+
+    this.eachAttribute((name, attr) => {
+      const dataType = attr.type;
+      const validationOptions = attr.options && attr.options.validate || {};
+      const schema = yup[dataType] && yup[dataType]();
+
+      schemaAttrs[name] = this._buildSchema(schema, validationOptions);
+    });
+
+    return yup.object().shape(schemaAttrs);
+  }).readOnly(),
+
+ /**
+  * Flag to tell whether or not the record is in process of an async validation.
+  * @property isValidating
+  */
+  isValidating: false,
+
+  /**
+   * Flag to tell whether or not the record has failed validation.
+   * @property isInvalid
+   */
+  isInvalid: false,
+
+  _preValidate() {
+    this.get('errors').clear();
+
+    if (this.preValidate) {
+      this.preValidate();
+    }
+
+    this.set('isValidating', true);
+  },
+
+  _postValidate(isInvalid = false, data) {
+    if (isInvalid) {
+      const errors = this.get('errors');
+      data.inner.forEach(function(validation) {
+        errors.add(validation.path, validation.errors);
+      });
+    }
+
+    this.setProperties({
+      isInvalid,
+      isValidating: false,
+    });
+
+    this.trigger('didValidate');
+
+    if (this.postValidate) {
+      this.postValidate(...arguments);
+    }
+  },
+
+  /**
+   * @event didValidate
+   */
+
+  /**
+   * Validate the record's values against the schema.
+   * @function validate
+   * @param {Object} options Options to pass to the schema's `validate` method
+   * @param {Object} values The values to validate against; defaults to `this.toJSON()`
+   * @param {String} path An optional deeply nested path
+   */
+  validate(options = {}, values = this.toJSON(), path) {
+    this._preValidate();
+
+    options = Ember.assign({}, DEFAULT_VALIDATE_OPTIONS, options);
+
+    const validation = new RSVP.Promise((resolve, reject) => {
+      if (path) {
+        this.get('schema').validateAt(path, values, options)
+          .then(resolve)
+          .catch(reject);
+      } else {
+        this.get('schema').validate(values, options)
+          .then(resolve)
+          .catch(reject);
+      }
+    });
+
+    validation.then((values) => {
+      this._postValidate(false, values);
+    }).catch((validations) => {
+      this._postValidate(true, validations);
+    });
+
+    return validation;
+  },
+
+  /**
+   * Same as validate, except synchronous.
+   * Validate the record's values against the schema.
+   * @function validateSync
+   * @param {Object} options Options to pass to the schema's `validate` method
+   * @param {Object} values The values to validate against; defaults to `this.toJSON()`
+   * @param {String} path An optional deeply nested path
+   * @return {Object}
+   */
+  validateSync(options = {}, values = this.toJSON(), path) {
+    this._preValidate();
+
+    options = Ember.assign({}, DEFAULT_VALIDATE_OPTIONS, options);
+
+    try {
+      if (path) {
+        values = this.get('schema').validateSyncAt(path, values, options);
+      } else {
+        values = this.get('schema').validateSync(values, options);
+      }
+
+      this._postValidate(false, values);
+    } catch(validations) {
+      values = validations;
+      this._postValidate(true, values);
+    }
+
+    return values;
+  },
+
+  /**
+   * Adds a `validate` option to `save()`.
+   * This ensures that only valid data is saved.
+   * @function save
+   * @param {Object} options `validate` option ensures only valid values are saved
+   * @return {Promise}
+   */
+  save(options = {}) {
+    if (options.validate) {
+      return new RSVP.Promise((resolve, reject) => {
+        this.validateSync(options);
+
+        if (this.get('isInvalid')) {
+          reject(this);
+        } else {
+          this._super(options).then(resolve).catch(reject);
+        }
+      });
+    }
+
+    return this._super(options);
+  },
+
   /**
    * Parses validation options and applies them to the schema.
    * @function _buildSchema
@@ -117,147 +266,5 @@ export default Mixin.create({
     }
 
     return schema;
-  },
-
-  /**
-   * A `yup` schema.
-   * @property schema
-   */
-  schema: computed(function() {
-    const schemaAttrs = {};
-
-    this.eachAttribute((name, attr) => {
-      const dataType = attr.type;
-      const validationOptions = attr.options && attr.options.validate || {};
-      const schema = yup[dataType] && yup[dataType]();
-
-      schemaAttrs[name] = this._buildSchema(schema, validationOptions);
-    });
-
-    return yup.object().shape(schemaAttrs);
-  }).readOnly(),
-
- /**
-  * Flag to tell whether or not the model is currently validating.
-  * @property isValidating
-  */
-  isValidating: false,
-
-  /**
-   * Flag to tell whether or not the model has field errors.
-   * @property isInvalid
-   */
-  isInvalid: false,
-
-  /**
-   * @event willValidate
-   */
-
-  /**
-   * @event didValidate
-   */
-
-  _preValidate() {
-    if (this.preValidate) {
-      this.preValidate();
-    }
-
-    this.trigger('willValidate');
-    this.set('isValidating', true);
-    this.get('errors').clear();
-  },
-
-  _postValidate(isInvalid = false, data) {
-    if (isInvalid) {
-      const errors = this.get('errors');
-      data.inner.forEach(function(validation) {
-        errors.add(validation.path, validation.errors);
-      });
-    }
-    this.setProperties({
-      isInvalid,
-      isValidating: false,
-    });
-
-    this.trigger('didValidate', isInvalid, data);
-    if (this.postValidate) {
-      this.postValidate();
-    }
-  },
-
-  /**
-   * Validate the record's values against the schema.
-   * @function validate
-   * @param {Object} options Options to pass to the schema's `validate` method
-   * @param {Object} values The values to validate against; defaults to `this.toJSON()`
-   */
-  validate(options = {}, values = this.toJSON()) {
-    this._preValidate();
-
-    options = Ember.assign({}, DEFAULT_VALIDATE_OPTIONS, options);
-
-    const validation = new RSVP.Promise((resolve, reject) => {
-      this.get('schema').validate(values, options)
-        .then(resolve)
-        .catch(reject);
-    });
-
-    validation.then((transformedValues) => {
-      if (options.transform) {
-        values = transformedValues;
-      }
-      this._postValidate(false, values);
-    }).catch((validations) => {
-      this._postValidate(true, validations);
-    });
-
-    return validation;
-  },
-
-  /**
-   * Same as validate, except synchronous.
-   * Validate the record's values against the schema.
-   * @function validateSync
-   * @param {Object} options Options to pass to the schema's `validate` method
-   * @param {Object} values The values to validate against; defaults to `this.toJSON()`
-   */
-  validateSync(options = {}, values = this.toJSON()) {
-    this._preValidate();
-
-    options = Ember.assign({}, DEFAULT_VALIDATE_OPTIONS, options);
-
-    try {
-      if (options.transform) {
-        values = this.get('schema').validateSync(values, options);
-      }
-      this._postValidate(false, values);
-    } catch(validations) {
-      this._postValidate(true, validations);
-    }
-
-    return values;
-  },
-
-  /**
-   * Adds a `validate` option to `save()`.
-   * This ensures that only valid data is saved.
-   * @function save
-   * @param {Object} options `validate` option ensures only valid values are saved
-   * @return {Promise}
-   */
-  save(options = {}) {
-    if (options.validate) {
-      return new RSVP.Promise((resolve, reject) => {
-        this.validateSync(options);
-
-        if (this.get('isInvalid')) {
-          reject(this);
-        } else {
-          resolve(this._super(options));
-        }
-      });
-    }
-
-    return this._super(options);
   },
 });
