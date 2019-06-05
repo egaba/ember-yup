@@ -36,6 +36,8 @@ module.exports = {
         'addon-test-support/**',
         'app/**',
         'tests/**',
+        'dummy/**',
+        'tests/dummy/app/**',
         'node_modules/**',
         'tmp/**',
         'docs/**',

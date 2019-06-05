@@ -73,9 +73,11 @@ export default Mixin.create({
   _postValidate(isInvalid = false, data) {
     if (isInvalid) {
       const errors = this.get('errors');
-      data.inner.forEach(function(validation) {
-        errors.add(validation.path, validation.errors);
-      });
+      if (data && data.inner) {
+        data.inner.forEach(function(validation) {
+          errors.add(validation.path, validation.errors);
+        });
+      }
     }
 
     this.setProperties({
@@ -83,32 +85,38 @@ export default Mixin.create({
       isValidating: false,
     });
 
-    /**
-     * @event didValidate
-     */
-    this.trigger('didValidate');
-
     if (typeof this.postValidate === 'function') {
       this.postValidate(...arguments);
     }
   },
+  /**
+   * An optional hook that is called before `validate` or `validateSync`.
+   * @function preValidate
+   * @hook
+   */
+  /**
+   * An optional hook that is called after `validate` or `validateSync`.
+   * @function postValidate
+   * @hook
+   * @param {Boolean} isInvalid `true` if there were validation errors
+   * @param {Object} data if `isInvalid`, data are Yup's ValidationErrors; otherwise, the transformed values
+   */
 
   /**
    * Validate the record's values against the schema.
    * @function validate
-   * @param {Object} options Options to pass to the schema's `validate` method
+   * @param {Object} options Options to pass to the schema's `validate/validateAt` method
    * @param {Object} values The values to validate against; defaults to `this.toJSON()`
-   * @param {String} path An optional deeply nested path
    * @return {Promise} validation
    */
-  validate(options = {}, values = this.toJSON(), path) {
+  validate(options = {}, values = this.toJSON()) {
     this._preValidate();
 
-    options = Ember.assign({}, DEFAULT_VALIDATE_OPTIONS, options);
+    options = assign({}, DEFAULT_VALIDATE_OPTIONS, options);
 
     const validation = new RSVP.Promise((resolve, reject) => {
-      if (path) {
-        this.get('schema').validateAt(path, values, options)
+      if (options.path) {
+        this.get('schema').validateAt(options.path, values, options)
           .then(resolve)
           .catch(reject);
       } else {
@@ -131,19 +139,19 @@ export default Mixin.create({
    * Same as validate, except synchronous.
    * Validate the record's values against the schema.
    * @function validateSync
-   * @param {Object} options Options to pass to the schema's `validate` method
+   * @param {Object} options Options to pass to the schema's `validateSync/validateSyncAt` method
    * @param {Object} values The values to validate against; defaults to `this.toJSON()`
-   * @param {String} path An optional deeply nested path
+   * @param {String} path The path to the field name. ex. `username` (optional)
    * @return {Object} hash of fields transformed values
    */
-  validateSync(options = {}, values = this.toJSON(), path) {
-    this._preValidate();
-
-    options = Ember.assign({}, DEFAULT_VALIDATE_OPTIONS, options);
-
+  validateSync(options = {}, values = this.toJSON()) {
     try {
-      if (path) {
-        values = this.get('schema').validateSyncAt(path, values, options);
+      this._preValidate();
+
+      options = assign({}, DEFAULT_VALIDATE_OPTIONS, options);
+
+      if (options.path) {
+        values = this.get('schema').validateSyncAt(options.path, values, options);
       } else {
         values = this.get('schema').validateSync(values, options);
       }
@@ -183,6 +191,8 @@ export default Mixin.create({
   /**
    * Parses validation options and applies them to the schema.
    * @function _buildSchema
+   * @param {Schema} schema Yup schema; defaults to `yup.mixed()`
+   * @param {Object} options `validate` options read from `DS.attr()`
    * @private
    */
   _buildSchema(schema = yup.mixed(), options = {}) {

@@ -3,6 +3,7 @@ const doctrine = require('doctrine');
 
 function parseCommentsForPath(path) {
   const contents = fs.readFileSync(path);
+  // when brute force implementation evolves...
   const comments = contents.toString().match(/\/\*\*[\\\d\?\,\.\`'\'"\"_:!@#\$%\^&.\s\*\w@=\(\);{\|}\]\[\-\s]*\*\//ig);
   const parsedComments = [];
 
