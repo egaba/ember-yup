@@ -99,6 +99,7 @@ export default Mixin.create({
    * @param {Object} options Options to pass to the schema's `validate` method
    * @param {Object} values The values to validate against; defaults to `this.toJSON()`
    * @param {String} path An optional deeply nested path
+   * @return {Promise} validation
    */
   validate(options = {}, values = this.toJSON(), path) {
     this._preValidate();
@@ -133,7 +134,7 @@ export default Mixin.create({
    * @param {Object} options Options to pass to the schema's `validate` method
    * @param {Object} values The values to validate against; defaults to `this.toJSON()`
    * @param {String} path An optional deeply nested path
-   * @return {Object}
+   * @return {Object} hash of fields transformed values
    */
   validateSync(options = {}, values = this.toJSON(), path) {
     this._preValidate();
