@@ -33,6 +33,7 @@ export default Mixin.create({
   /**
    * A `yup` schema.
    * @property schema
+   * @readOnly
    */
   schema: computed(function() {
     const schemaAttrs = {};
@@ -61,12 +62,11 @@ export default Mixin.create({
   isInvalid: false,
 
   _preValidate() {
-    this.get('errors').clear();
-
-    if (this.preValidate) {
+    if (typeof this.preValidate === 'function') {
       this.preValidate();
     }
 
+    this.get('errors').clear();
     this.set('isValidating', true);
   },
 
@@ -83,16 +83,15 @@ export default Mixin.create({
       isValidating: false,
     });
 
+    /**
+     * @event didValidate
+     */
     this.trigger('didValidate');
 
-    if (this.postValidate) {
+    if (typeof this.postValidate === 'function') {
       this.postValidate(...arguments);
     }
   },
-
-  /**
-   * @event didValidate
-   */
 
   /**
    * Validate the record's values against the schema.
