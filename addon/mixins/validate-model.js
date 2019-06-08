@@ -31,7 +31,7 @@ const DEFAULT_VALIDATE_OPTIONS = {
   */
 export default Mixin.create({
   /**
-   *  The schema used to validate data against.
+   * The schema used to validate data against.
    *
    * @property {Schema} schema
    * @readOnly
