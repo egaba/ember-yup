@@ -8,33 +8,37 @@ import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import * as yup from 'yup';
 
-let errors;
+let errors, subject;
 
-module('validate-model', function() {
-  test('validateSync()', function (assert) {
-    let ValidateModelObject = EmberObject.extend(ValidateModelMixin, {
-      schema: Ember.computed(function() {
-        return yup.object().shape({
-          username: yup.mixed().required('username err'),
-          age: yup.number().required().min(18),
-          email: yup.string().email().required(),
-          countryCode: yup.string().oneOf(['US', 'ES', 'JP', 'SK']),
-          zipCode: yup.string().required().when('countryCode', {
-            is: 'US',
-            then: yup.string().matches(/\d{5}(-?\d{4})?/)
-          }),
-          gender: yup.mixed()
-        });
+let ValidateModelObject = EmberObject.extend(ValidateModelMixin, {
+  schema: Ember.computed(function() {
+    return yup.object().shape({
+      username: yup.mixed().required('username err'),
+      age: yup.number().required().min(18),
+      email: yup.string().email().required(),
+      countryCode: yup.string().oneOf(['US', 'ES', 'JP', 'SK']),
+      zipCode: yup.string().required().when('countryCode', {
+        is: 'US',
+        then: yup.string().matches(/\d{5}(-?\d{4})?/)
       }),
-      toJSON() {
-        return {};
-      }
+      gender: yup.mixed()
     });
+  }),
+  toJSON() {
+    return {};
+  }
+});
+
+module('ValidateModel mixin tests', function(hooks) {
+  hooks.beforeEach(function() {
     errors = DS.Errors.create();
-    let subject = ValidateModelObject.create({
+
+    subject = ValidateModelObject.create({
       errors,
     });
+  });
 
+  test('validateSync', function (assert) {
     assert.ok(subject);
     assert.equal(subject.get('isInvalid'), false, 'should not be invalid pre-validation');
 
@@ -52,6 +56,28 @@ module('validate-model', function() {
       }
 
       assert.equal(hasError, false, `validateSync() should not throw: ${errorMessage}`);
+    });
+
+    assert.equal(subject.get('isInvalid'), true, 'subject should be invalid post-validation');
+  });
+
+  test('validateSyncAt', function (assert) {
+    assert.ok(subject);
+
+    run(() => {
+      let hasError = false, errorMessage;
+      try {
+        let validations = subject.validateSyncAt('username');
+
+        assert.equal(validations.inner && validations.inner.length, 1, 'should be 1 validation error');
+        assert.ok(errors.has('username'),  'username should have an error');
+        assert.ok(!errors.has('age'), 'there should be no age errors');
+      } catch(e) {
+        errorMessage = e && e.message || e;
+        hasError = true;
+      }
+
+      assert.equal(hasError, false, `validateSyncAt() should not throw: ${errorMessage}`);
     });
 
     assert.equal(subject.get('isInvalid'), true, 'subject should be invalid post-validation');

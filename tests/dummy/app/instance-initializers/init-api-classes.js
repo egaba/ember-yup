@@ -38,6 +38,8 @@ function readData(data, componentName) {
           info.properties[tag.name] = commentData;
         } else if (tag.title === 'function') {
 
+          console.log('function for', tag.name);
+
           commentData.type = 'method';
           commentData.description = comment.description;
 
@@ -112,7 +114,7 @@ export function initialize(appInstance) {
     for (const methodName in componentData.methods) {
       const data = componentData.methods[methodName];
 
-      // console.log('create method', methodName, data);
+      console.log('create method', methodName, data);
 
       // if (data.params.length) {
       //   console.log('adding params', data);

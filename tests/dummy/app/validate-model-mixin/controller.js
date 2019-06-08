@@ -10,7 +10,8 @@ export default Controller.extend({
       name: method.get('name'),
       description: method.get('description'),
       signature: signature,
-      params: method.get('params')
+      params: method.get('params'),
+      isPrivate: method.get('isPrivate')
     };
   })
 });

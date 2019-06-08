@@ -5,48 +5,52 @@
 <div class="flex">
   <div class="w-4/5 pr-8">
     <section>
-      {{#each methods as |method|}}
-        <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{method.id}}>
-          <h4>{{method.signature}}</h4>
-
-          {{markdown-to-html method.description class="markdown"}}
-          {{#if method.params.length}}
-            <div class="">
-              <ul class="pl-8 list-reset">
-                {{#each method.params as |param|}}
-                  <li>
-                    <strong>{{param.name}}</strong> <em>{{param.type}}</em> <span>{{markdown-to-html param.description class="markdown"}}</span>
-                  </li>
-                {{/each}}
-              </ul>
-            </div>
-          {{/if}}
-        </div>
-      {{/each}}
-    </section>
-
-    <section>
       {{#each model.properties as |property|}}
         <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{property.id}}>
           <h4 class="mb-1">{{property.name}} <small class="text-sm font-normal text-grey">{{property.dataType}}</small></h4>
 
           {{markdown-to-html property.description class="markdown mb-1"}}
-
-          <ul class="list-reset">
-            <li>dataType: {{property.dataType}}</li>
-            <li>defaultValue: {{property.defaultValue}}</li>
-            <li>isPrivate: {{property.isPrivate}}</li>
-            <li>isYielded: {{property.isYielded}}</li>
-          </ul>
         </div>
+      {{/each}}
+    </section>
+
+    <section>
+      {{#each methods as |method|}}
+        {{#unless method.isPrivate}}
+          <div class="mb-2 pt-8 pb-8 border-b border-grey-light" id={{method.id}}>
+
+            <h4>{{method.signature}}</h4>
+
+            {{markdown-to-html method.description class="markdown"}}
+            {{#if method.params.length}}
+              <div class="">
+                <ul class="pl-8 list-reset">
+                  {{#each method.params as |param|}}
+                    <li>
+                      <strong>{{param.name}}</strong> <em>{{param.type}}</em> <span>{{markdown-to-html param.description class="markdown"}}</span>
+                    </li>
+                  {{/each}}
+                </ul>
+              </div>
+            {{/if}}
+          </div>
+        {{/unless}}
       {{/each}}
     </section>
   </div>
 
   {{#fixed-nav class="w-1/5 text-sm flex flex-col"}}
+    <h4 class="mb-3 mt-4 text-grey-darker">Properties</h4>
+    {{#each model.properties as |prop|}}
+      {{#unless (or prop.isPrivate prop.isYielded)}}
+        <a href="#{{prop.id}}">{{prop.name}}</a>
+      {{/unless}}
+    {{/each}}
     <h4 class="mb-3 mt-4 text-grey-darker">Methods</h4>
     {{#each model.methods as |method|}}
-      <a href="#{{method.id}}" class="inline-block mb-1">{{method.name}}</a>
+      {{#unless method.isPrivate}}
+        <a href="#{{method.id}}" class="inline-block mb-1">{{method.name}}</a>
+      {{/unless}}
     {{/each}}
   {{/fixed-nav}}
 </div>
