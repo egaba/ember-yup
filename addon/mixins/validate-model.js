@@ -264,7 +264,7 @@ export default Mixin.create({
   },
 
   /**
-   * An optional hook that is called before `validate` or `validateSync`.
+   * A hook that is called before validating (`validate` or `validateSync`)
    * @function preValidate
    * @hook
    */
@@ -278,7 +278,8 @@ export default Mixin.create({
   },
 
   /**
-   * An optional hook that is called after `validate` or `validateSync`.
+   * A hook that is called after validation has occured and `errors` is populated
+   *
    * @function postValidate
    * @hook
    * @param {Boolean} isInvalid `true` if there were validation errors
@@ -296,6 +297,7 @@ export default Mixin.create({
 
     this.setProperties({
       isInvalid,
+      isValid: !isInvalid,
       isValidating: false,
     });
 

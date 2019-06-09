@@ -59,6 +59,7 @@ module('ValidateModel mixin tests', function(hooks) {
     });
 
     assert.equal(record.get('isInvalid'), true, 'record should be invalid post-validation');
+    assert.equal(record.get('isValid'), false, 'record should not be valid post-validation');
   });
 
   test('validateSyncAt', function (assert) {
@@ -80,5 +81,6 @@ module('ValidateModel mixin tests', function(hooks) {
     });
 
     assert.equal(record.get('isInvalid'), true, 'record should be invalid post-validation');
+    assert.equal(record.get('isValid'), false, 'record should not be valid post-validation');
   });
 });
