@@ -27,3 +27,10 @@
   max-width: 300px;
   margin: auto;
 }
+
+#app-footer {
+  @media screen and (max-width: 767px) {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}

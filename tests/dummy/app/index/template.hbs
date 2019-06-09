@@ -14,14 +14,15 @@
     <section class="mb-8 flex">
       <div class="md:w-4/5 mx-auto">
         <div class="">
-          <h2 class="md:text-center mb-12">How to validate?</h2>
+          <h2 class="md:text-center mb-12">Ways to validate</h2>
           <div class="flex flex-col md:flex-row">
             <WiredCard @class="md:w-1/2 p-6 mb-6">
               <h3>
                 Validate mixin
               </h3>
-              <p>This mixin enhances models in 2 ways:</p>
+              <p>When mixed into a model:</p>
               <ul>
+                <li>{{markdown-to-html "Adds property: `schema` - a Yup Schema" class="markdown"}}</li>
                 <li>{{markdown-to-html "Adds method: `validate()`" class="markdown"}}</li>
                 <li>{{markdown-to-html "Adds save option: `save({ validate: true })`" class="markdown"}}</li>
               </ul>
