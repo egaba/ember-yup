@@ -8,7 +8,7 @@ import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import * as yup from 'yup';
 
-let errors, subject;
+let errors, record;
 
 let ValidateModelObject = EmberObject.extend(ValidateModelMixin, {
   schema: Ember.computed(function() {
@@ -33,53 +33,52 @@ module('ValidateModel mixin tests', function(hooks) {
   hooks.beforeEach(function() {
     errors = DS.Errors.create();
 
-    subject = ValidateModelObject.create({
+    record = ValidateModelObject.create({
       errors,
     });
   });
 
   test('validateSync', function (assert) {
-    assert.ok(subject);
-    assert.equal(subject.get('isInvalid'), false, 'should not be invalid pre-validation');
+    assert.ok(record);
+    assert.equal(record.get('isInvalid'), false, 'record should not be invalid before validating');
 
     run(() => {
-      let hasError = false, errorMessage;
+      let didThrow = false, errorMessage;
       try {
-        let validations = subject.validateSync();
-
-        assert.ok(validations.inner && validations.inner.length > 0, 'should return validation errors');
-        assert.equal(validations.inner && validations.inner.length, 4, 'should be 4 validation errors');
-        assert.equal(errors.get('username').length, 1, 'errors.username should have an error message');
+        assert.ok(record.validateSync() === false, 'validateSync should return false');
+        assert.ok(errors.has('username'), 'errors contains messages for username');
+        assert.equal(errors.get('username').length, 1, 'username should have 1 error message');
+        assert.ok(errors.has('age'), 'errors contains messages for age');
+        assert.equal(errors.get('age').length, 1, 'age should have 1 error message');
       } catch(e) {
         errorMessage = e && e.message || e;
-        hasError = true;
+        didThrow = true;
       }
 
-      assert.equal(hasError, false, `validateSync() should not throw: ${errorMessage}`);
+      assert.equal(didThrow, false, `validateSync() should not throw: ${errorMessage}`);
     });
 
-    assert.equal(subject.get('isInvalid'), true, 'subject should be invalid post-validation');
+    assert.equal(record.get('isInvalid'), true, 'record should be invalid post-validation');
   });
 
   test('validateSyncAt', function (assert) {
-    assert.ok(subject);
+    assert.ok(record);
+    assert.equal(record.get('isInvalid'), false, 'record should not be invalid before validating');
 
     run(() => {
-      let hasError = false, errorMessage;
+      let didThrow = false, errorMessage;
       try {
-        let validations = subject.validateSyncAt('username');
-
-        assert.equal(validations.inner && validations.inner.length, 1, 'should be 1 validation error');
-        assert.ok(errors.has('username'),  'username should have an error');
-        assert.ok(!errors.has('age'), 'there should be no age errors');
+        assert.ok(record.validateSyncAt('username') === false, 'validateSyncAt should return false');
+        assert.ok(errors.has('username'), 'errors contains messages for username');
+        assert.ok(!errors.has('age'), 'errors should not contain messages for age');
       } catch(e) {
         errorMessage = e && e.message || e;
-        hasError = true;
+        didThrow = true;
       }
 
-      assert.equal(hasError, false, `validateSyncAt() should not throw: ${errorMessage}`);
+      assert.equal(didThrow, false, `validateSyncAt() should not throw: ${errorMessage}`);
     });
 
-    assert.equal(subject.get('isInvalid'), true, 'subject should be invalid post-validation');
+    assert.equal(record.get('isInvalid'), true, 'record should be invalid post-validation');
   });
 });

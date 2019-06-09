@@ -116,6 +116,8 @@ export default Mixin.create({
    * @param {Object} values
    */
   validateSync(options = {}, values = this.toJSON()) {
+    let isInvalid = false;
+
     try {
       this._preValidate();
 
@@ -126,14 +128,14 @@ export default Mixin.create({
       } else {
         values = this.get('schema').validateSync(values, options);
       }
-
-      this._postValidate(false, values);
     } catch(validations) {
       values = validations;
-      this._postValidate(true, values);
+      isInvalid = true;
     }
 
-    return values;
+    this._postValidate(isInvalid, values);
+
+    return !this.get('isInvalid');
   },
 
   /**
