@@ -370,13 +370,7 @@ export default Component.extend({
   }),
   actions: {
     /**
-     * Called when the field's value is changed. Returns the transformed data value if valid;
-     * otherwise returns the input value.
-     *
-     * @function onChange
-     * @param {*} value
-     * @action
-     * @yielded
+     * deprecating: dont use
      */
     onChange(value) {
       let nextValue = value;

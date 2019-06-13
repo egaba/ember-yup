@@ -70,6 +70,10 @@ Router.map(function() {
   });
 
   this.route('validate-model-mixin');
+
+  this.route('guides', function() {
+    this.route('building-forms');
+  });
 });
 
 export default Router;

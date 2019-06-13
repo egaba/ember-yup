@@ -1,8 +1,9 @@
 # ember-yup
 
-Yup is a JavaScript object schema validator and object parser. This is an Ember port of the [Yup validation library](https://github.com/jquense/yup)
+Yup is a JavaScript object schema validator and object parser. This is an Ember port of the [Yup Schema library](https://github.com/jquense/yup).
 
 Docs: https://egaba.github.io/ember-yup/
+
 Yup library playground: https://runkit.com/jquense/yup
 
 ## Installation
@@ -90,13 +91,13 @@ See the [Contributing](CONTRIBUTING.md) guide for details.
 
 * `git clone <repository-url>`
 * `cd ember-yup`
-* `yarn install`
+* `npm install`
 
 ### Linting
 
-* `yarn lint:hbs`
-* `yarn lint:js`
-* `yarn lint:js --fix`
+* `npm run lint:hbs`
+* `npm run lint:js`
+* `npm run lint:js --fix`
 
 ### Running tests
 

@@ -7,9 +7,7 @@ module.exports = {
   },
   overrides: [
     {
-      excludedFiles: [
-        'tests/dummy/app/**'
-      ],
+      "files": ["addon/**/*.js"],
     }
   ]
 };

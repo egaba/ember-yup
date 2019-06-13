@@ -1,0 +1,36 @@
+<h1>Re-topic: Form basics</h1>
+
+<section>
+  <h2>Components</h2>
+  <ul>
+    <li>Form</li>
+    <li>Controls (inputs, textareas, buttons, checkboxes, etc.)</li>
+  </ul>
+  <WiredCard>
+    <form>
+      <div class="">
+        <label for="">username</label>
+        <input type="text" name="">
+      </div>
+    </form>
+  </WiredCard>
+</section>
+
+
+
+<!-- <p>Checklist:</p>
+<ol>
+  <li>A place to collect data</li>
+  <li>Need controls to set the data</li>
+  <li>Action handlers</li>
+</ol>
+
+<section>
+  <VForm as |form|>
+    <TextField @parent={{form}} @debug="true" as |state|>
+      <label for="">username</label>
+      <input type="text" name="" value={{form.data.username}} oninput={{action (mut form.data.username) value="target.value"}}>
+    </TextField>
+    <footer><button type="submit">Submit</button></footer>
+  </VForm>
+</section> -->

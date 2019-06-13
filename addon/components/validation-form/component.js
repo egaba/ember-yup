@@ -31,7 +31,18 @@ export default Component.extend({
    * @property {Array} formFields
    * @private
    */
-  formFields: A(),
+  formFields: Ember.computed(function() {
+    return A();
+  }),
+
+  /**
+   * The forms data.
+   *
+   * @property {Object} formData
+   */
+  formData: Ember.computed(function() {
+    return {};
+  }),
 
   /**
    * FormField errors are proxied to this property.
