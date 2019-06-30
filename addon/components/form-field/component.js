@@ -246,7 +246,7 @@ export default Component.extend({
     }
 
     return !this.get('hasErrors');
-  }).readOnly(),
+  }),
 
   /**
     * Computed from `isValid` && `didValueUpdate`. Useful for implementing
