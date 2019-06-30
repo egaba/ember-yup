@@ -297,7 +297,6 @@ export default Mixin.create({
 
     this.setProperties({
       isInvalid,
-      isValid: !isInvalid,
       isValidating: false,
     });
 
