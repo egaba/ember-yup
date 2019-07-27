@@ -4,6 +4,7 @@ import RSVP from 'rsvp';
 import * as yup from 'yup';
 import { assign } from '@ember/polyfills';
 import { computed } from '@ember/object';
+import DS from 'ember-data';
 
 const VALIDATION_ALIASES = {
   lt: 'lessThan',
@@ -163,7 +164,14 @@ export default Mixin.create({
         this.validateSync(options);
 
         if (this.get('isInvalid')) {
-          reject(this);
+          const error = new DS.InvalidError(this.get('errors').map(function(err) {
+            return {
+              detail: err.message,
+              source: { pointer: `/data/attributes/${err.attribute}` }
+            }
+          }));
+
+          reject(error);
         } else {
           this._super(options).then(resolve).catch(reject);
         }
@@ -287,6 +295,8 @@ export default Mixin.create({
    */
   _postValidate(isInvalid = false, data) {
     if (isInvalid) {
+      this.send('becomeDirty');
+
       const errors = this.get('errors');
       if (data && data.inner) {
         data.inner.forEach(function(validation) {

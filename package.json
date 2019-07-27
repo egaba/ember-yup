@@ -1,6 +1,6 @@
 {
   "name": "ember-yup",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Dead, simple object schema validations for Ember",
   "keywords": [
     "ember-addon",
