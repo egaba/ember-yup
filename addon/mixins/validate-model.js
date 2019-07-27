@@ -61,7 +61,9 @@ export default Mixin.create({
    * Flag to tell whether or not the record has failed validation.
    * @property isInvalid
    */
-  isInvalid: false,
+  isInvalid: Ember.computed('isValid', 'errors.[]', function() {
+    return this.get('errors.length') > 0 || !this.get('isValid');
+  }),
 
   /**
    * Validate the record's values against the schema.
@@ -306,7 +308,6 @@ export default Mixin.create({
     }
 
     this.setProperties({
-      isInvalid,
       isValidating: false,
     });
 
