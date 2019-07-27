@@ -73,16 +73,16 @@ export default Mixin.create({
    * @param {Object} values
    */
   validate(options = {}, values = this.toJSON()) {
-    this._preValidate();
-
     options = assign({}, DEFAULT_VALIDATE_OPTIONS, options);
 
     const validation = new RSVP.Promise((resolve, reject) => {
       if (options.path) {
+        this._preValidate(true);
         this.get('schema').validateAt(options.path, values, options)
           .then(resolve)
           .catch(reject);
       } else {
+        this._preValidate();
         this.get('schema').validate(values, options)
           .then(resolve)
           .catch(reject);
@@ -122,13 +122,13 @@ export default Mixin.create({
     let isInvalid = false;
 
     try {
-      this._preValidate();
-
       options = assign({}, DEFAULT_VALIDATE_OPTIONS, options);
 
       if (options.path) {
+        this._preValidate(true);
         values = this.get('schema').validateSyncAt(options.path, values, options);
       } else {
+        this._preValidate();
         values = this.get('schema').validateSync(values, options);
       }
     } catch(validations) {
@@ -276,14 +276,16 @@ export default Mixin.create({
   /**
    * A hook that is called before validating (`validate` or `validateSync`)
    * @function preValidate
-   * @hook
    */
-  _preValidate() {
+  _preValidate(isValidatingPath = false) {
     if (typeof this.preValidate === 'function') {
       this.preValidate();
     }
 
-    this.get('errors').clear();
+    if (!isValidatingPath) {
+      this.get('errors').clear();
+    }
+
     this.set('isValidating', true);
   },
 
